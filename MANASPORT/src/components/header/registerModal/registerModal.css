@@ -1,0 +1,84 @@
+/* --- Modal Register --- */
+.modal-register{
+    width: 500px;
+}
+
+.modal label{
+    margin-left: 5px;
+    margin-bottom: -30px;
+}
+
+.modal .modal-register{
+    margin: auto;
+    width: 400px;
+    background-color: #222f3e;
+    border: 2px solid #FFC107;
+    opacity: 0.95;
+}
+
+.modal .modal-register .modal-header, 
+.modal .modal-register .modal-footer{
+    border: none;
+}
+
+.modal .modal-register .modal-body input{
+    background-repeat:no-repeat;
+    background-size: contain;
+    background-position:left top;  
+    padding-left: 30px;
+    color: white;
+}
+
+.modal .modal-register .modal-body input[type="text"]{
+    background-image:url('/images/form/profile-login.png'); 
+}
+
+.modal .modal-register .modal-body input[type="password"]{
+    background-image:url('/images/form/lock.png');
+}
+
+.modal .modal-register ::placeholder {
+    color: white;
+    opacity: 1; /* Firefox */
+}
+
+.modal .modal-register .close{
+    color: white;
+}
+
+.modal img{
+    width: 100%;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+.modal .modal-register .modal-title{
+    padding-left: 20px;
+}
+
+.modal input[type="password"]{
+    width: 100%;
+}
+
+.modal input{
+    margin: 5px 0;
+}
+
+.modal-footer a{
+    color: white;
+    font-size: 0.8em;
+    text-decoration: none;
+}
+
+.modal .modal-register .form-check{
+    padding-left: 0;
+}
+
+.modal .modal-register input{
+    margin-top: 7px;
+}
+
+.modal .modal-register label{
+    font-size: 0.8em;
+    margin-left: 20px;
+}

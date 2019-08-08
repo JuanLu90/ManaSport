@@ -1,0 +1,13 @@
+.bg-editUserProfile{
+    background-color: #ffffff ;
+    box-shadow: 2px 2px 2px 2px #888888;
+}
+
+.fontstyle-editUserProfile{
+    font-family: 'Anton', sans-serif;
+}
+
+
+.border-dark {
+    border-color: #c4c3c3 !important;
+}

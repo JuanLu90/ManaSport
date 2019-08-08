@@ -1,0 +1,11 @@
+.body-card-teams{
+    background-color: rgb(35, 41, 128);
+}
+
+.listgroup-card-teams{
+    font-size: 0.8em;
+}
+
+.card-teams{
+    border: 1px solid rgb(35, 41, 128);
+}

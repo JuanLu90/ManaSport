@@ -1,0 +1,19 @@
+.bg-playoffList{
+    background-color: #ffffff ;
+    box-shadow: 2px 2px 2px 2px #888888;
+}
+
+.style-tablebody-playoffList{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #888888;
+}
+
+.style-tablehead-playoffList{
+    font-family: 'Roboto', sans-serif;
+    color: #5e5e5e;
+}
+
+.style-head-PlayoffList{
+    font-family: 'Lato', sans-serif;
+    color: #5e5e5e;
+}
