@@ -46,12 +46,6 @@
     color: white;
 }
 
-.modal img{
-    width: 100%;
-    margin: 5px 0;
-    cursor: pointer;
-}
-
 .modal .modal-register .modal-title{
     padding-left: 20px;
 }

@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
-import { Table } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Table, Modal, Button } from "react-bootstrap";
 import { IMatch } from "../../../../../../../interfaces";
 import * as action from "../../../../../../../action";
 import { IGlobalState } from "../../../../../../../reducers/reducers";
+import EditMatchdayModal from "./editMatchdayModal/editMatchdayModal";
 import { connect } from "react-redux";
 import { createBrowserHistory } from "history";
 import "./leagueDetailsGeneral.css";
@@ -21,6 +22,15 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
     const matchdaySub = () => { setCount(count > 1 ? count - 1 : count) }
 
 
+    const [showEditMatchday, setEditMatchday] = useState(false);
+    const handleCloseEditMatchday = () => setEditMatchday(false);
+    const handleShowEditMatchday = () => setEditMatchday(true);
+
+
+    function funcionEdittMatchday(DeleteLeagueId: any): any {
+        handleShowEditMatchday();
+        //   props.setMatchId(DeleteLeagueId);
+    }
 
 
     // for (let i = 0; i < props.matchs.length; i++) {
@@ -65,76 +75,90 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
     }, [count]);
 
     return (
-        <div className="container-fluid text-dark">
-            <div className="row mt-1 ">
-                <div className="col p-3 m-1 text-center bg-leagueList">
-                    <div className="row pb-3">
-                        <div className="col text-center">CALENDARIO</div>
-                    </div>
-                    <div className="row">
+        <>
+            <div className="container-fluid text-dark">
+                <div className="row mt-1 ">
+                    <div className="col p-3 m-1 text-center bg-leagueList">
+                        <div className="row pb-3">
+                            <div className="col text-center">CALENDARIO</div>
+                        </div>
+                        <div className="row">
 
-                        <Table responsive striped hover >
-                            <thead className="style-tablehead-leagueList">
-                                <tr>
-                                    <th> {count !== 1 && <button onClick={matchdaySub}>anterior</button>}</th>
-                                    <th></th>
-                                    <th>JORNADA {count}</th>
-                                    <th></th>
-                                    <th> <button onClick={matchdayAdd}>próxima</button> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {props.matchs.map(m => (
-                                    <tr key={m.MatchId} className="tbody-matchday">
-                                        <td className="p-2 text-right team">{m.localTeam}  </td>
-                                        <td className="p-2 badge"> <img src={m.localbadge} alt="" /> </td>
-                                        <td className="p-2">{m.localteam_score + "-" + m.awayteam_score}</td>
-                                        <td className="p-2 badge"> <img src={m.awaybadge} alt="" /> </td>
-                                        <td className="p-2 text-left team"> {m.awayTeam}</td>
+                            <Table responsive striped hover >
+                                <thead className="style-tablehead-leagueList">
+                                    <tr>
+                                        <th> {count !== 1 && <button onClick={matchdaySub}>anterior</button>}</th>
+                                        <th></th>
+                                        <th>JORNADA {count}</th>
+                                        <th></th>
+                                        <th> <button onClick={matchdayAdd}>próxima</button> </th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                                    <tr>
+                                        <th>
+                                            <Button
+                                                size="sm"
+                                                onClick={handleShowEditMatchday}>
+                                                Editar jornada
+                                            </Button>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {props.matchs.map(m => (
+                                        <tr key={m.MatchId} className="tbody-matchday">
+                                            <td className="p-2 text-right team">{m.localTeam}  </td>
+                                            <td className="p-2 badge"> <img src={m.localbadge} alt="" /> </td>
+                                            <td className="p-2">{m.localteam_score === null && m.awayteam_score === null ? m.date : m.localteam_score + "-" + m.awayteam_score}</td>
+                                            <td className="p-2 badge"> <img src={m.awaybadge} alt="" /> </td>
+                                            <td className="p-2 text-left team"> {m.awayTeam}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
+
+                        </div>
+                    </div>
+                    <div className="col p-3 m-1 bg-leagueList">
+                        <div className="row pb-3">
+                            <div className="col text-center">CLASIFICACIÓN</div>
+                        </div>
+                        <div className="row">
+                            <Table responsive striped hover >
+                                <thead className="style-tablehead-leagueList">
+                                    <tr>
+                                        <th></th>
+                                        <th>Equipo</th>
+                                        <th>PT</th>
+                                        <th>PJ</th>
+                                        <th>PG</th>
+                                        <th>PE</th>
+                                        <th>PP</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="p-2">1</td>
+                                        <td className="p-2">Malaga CF</td>
+                                        <td className="p-2">28</td>
+                                        <td className="p-2">8</td>
+                                        <td className="p-2">4</td>
+                                        <td className="p-2">2</td>
+                                        <td className="p-2">2</td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                        </div>
 
                     </div>
                 </div>
-                <div className="col p-3 m-1 bg-leagueList">
-                    <div className="row pb-3">
-                        <div className="col text-center">CLASIFICACIÓN</div>
-                    </div>
-                    <div className="row">
-                        <Table responsive striped hover >
-                            <thead className="style-tablehead-leagueList">
-                                <tr>
-                                    <th></th>
-                                    <th>Equipo</th>
-                                    <th>PT</th>
-                                    <th>PJ</th>
-                                    <th>PG</th>
-                                    <th>PE</th>
-                                    <th>PP</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td className="p-2">1</td>
-                                    <td className="p-2">Malaga CF</td>
-                                    <td className="p-2">28</td>
-                                    <td className="p-2">8</td>
-                                    <td className="p-2">4</td>
-                                    <td className="p-2">2</td>
-                                    <td className="p-2">2</td>
-                                </tr>
-                            </tbody>
-                        </Table>
-                    </div>
-
-                </div>
+                <div className="row justify-content-center mt-4 p-2 bg-leagueList">
+                    Estadísticas
             </div>
-            <div className="row justify-content-center mt-4 p-2 bg-leagueList">
-                Estadísticas
             </div>
-        </div>
+            <Modal size="lg" show={showEditMatchday} onHide={() => null}>
+                <EditMatchdayModal handleCloseEditMatchday={handleCloseEditMatchday} />
+            </Modal>
+        </>
     );
 }
 

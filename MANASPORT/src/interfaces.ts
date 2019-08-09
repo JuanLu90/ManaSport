@@ -7,6 +7,7 @@ export interface IUser {
     isAdmin: boolean;
     isMaster: boolean;
     birthDate: string;
+    avatar: string;
 }
 
 export interface ITournament {

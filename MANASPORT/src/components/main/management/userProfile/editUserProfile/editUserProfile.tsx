@@ -1,17 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IGlobalState } from "../../../../../reducers/reducers";
 import { connect } from "react-redux";
 import { IUser } from "../../../../../interfaces";
 import jwt from "jsonwebtoken";
 import * as action from "../../../../../action";
 import "./editUserProfile.css";
-
+import EditAvatarModal from "./editAvatarModal/editAvatarModal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createBrowserHistory } from "history";
 import { Link } from "react-router-dom";
+import { Modal } from "react-bootstrap";
 
-interface IProps {}
+interface IProps { }
 
 interface IPropsGlobal {
   token: string;
@@ -25,6 +26,7 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
   const [inputSurname, setInputSurname] = React.useState("");
   const [inputEmail, setInputEmail] = React.useState("");
   const [inputBirthDate, setInputBirthDate] = React.useState(new Date());
+  const [inputAvatar, setInputAvatar] = React.useState("");
 
   const updateUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputUsername(event.currentTarget.value);
@@ -57,11 +59,20 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
   //   }
   // };
 
+  const updateAvatar = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputAvatar(event.currentTarget.value);
+  };
+
   const token: any = localStorage.getItem("token");
   const decoded: any = jwt.decode(token);
 
   const currentUser = props.users.find(u => u.UserId === decoded.UserId);
   const history = createBrowserHistory({ forceRefresh: true });
+
+
+  const [showEditAvatar, setEditAvatar] = useState(false);
+  const handleCloseEditAvatar = () => setEditAvatar(false);
+  const handleShowEditAvatar = () => setEditAvatar(true);
 
   useEffect(() => {
     if (currentUser) {
@@ -70,6 +81,7 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
       setInputName(currentUser.name);
       setInputSurname(currentUser.surname);
       updateBirthDate(currentUser.birthDate);
+      setInputAvatar(currentUser.avatar);
     }
   }, [currentUser]);
 
@@ -77,6 +89,7 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
   if (!currentUser) {
     return null;
   }
+  
 
   const editCurrentUserById = () => {
     fetch("http://localhost:8080/api/users/edit/" + currentUser.UserId, {
@@ -92,7 +105,8 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
         name: inputName,
         surname: inputSurname,
         email: inputEmail,
-        birthDate: inputBirthDate
+        birthDate: inputBirthDate,
+        avatar: inputAvatar
       })
     })
       .then(response => {
@@ -103,7 +117,8 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
             name: inputName,
             surname: inputSurname,
             email: inputEmail,
-            birthDate: inputBirthDate
+            birthDate: inputBirthDate,
+            avatar: inputAvatar
           };
           response.json().then(u => {
             props.putUserById(currentUser.UserId, u);
@@ -117,79 +132,75 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
   };
 
   return (
-    <div className="col-10 main-userprofile h-100 text-light">
-      <div className="container w-75 bg-editUserProfile border border-light">
-        <div className="row ">
-          <div className="col text-dark border-right border-dark">
-            <div className="row text-center m-3">
-            <Link to={"/management/user/"}>
-              Volver
-            </Link>
-              <div className="col mb-4">
-                <span className="h2"> Perfil</span>
+    <>
+      <div className="col-10 main-userprofile h-100 text-light">
+        <div className="container w-75 bg-editUserProfile border border-light">
+          <div className="row ">
+            <div className="col text-dark border-right border-dark">
+              <div className="row text-center m-3">
+                <Link to={"/management/user/"}>
+                  Volver
+                </Link>
+                <div className="col mb-4">
+                  <span className="h2"> Perfil</span>
+                </div>
               </div>
-            </div>
-            <div className="row m-4">
-              <div className="col-3 text-right">
-                <span className="fontstyle-editUserProfile">
-                  Nombre de usuario:
+              <div className="row m-4">
+                <div className="col-3 text-right">
+                  <span className="fontstyle-editUserProfile">
+                    Nombre de usuario:
                 </span>
+                </div>
+                <div className="col">
+                  {currentUser.username}
+                </div>
               </div>
-              <div className="col">
-                <input
-                  className="form-control form-control-sm"
-                  type="text"
-                  value={inputUsername}
-                  onChange={updateUsername}
-                />
+              <div className="row m-4">
+                <div className="col-3 text-right">
+                  <span className="fontstyle-editUserProfile">Nombre:</span>
+                </div>
+                <div className="col">
+                  <input
+                    className="form-control form-control-sm"
+                    type="text"
+                    value={inputName}
+                    onChange={updateName}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="row m-4">
-              <div className="col-3 text-right">
-                <span className="fontstyle-editUserProfile">Nombre:</span>
+              <div className="row m-4">
+                <div className="col-3 text-right">
+                  <span className="fontstyle-editUserProfile">Apellidos:</span>
+                </div>
+                <div className="col">
+                  <input
+                    className="form-control form-control-sm"
+                    type="text"
+                    value={inputSurname}
+                    onChange={updateSurname}
+                  />
+                </div>
               </div>
-              <div className="col">
-                <input
-                  className="form-control form-control-sm"
-                  type="text"
-                  value={inputName}
-                  onChange={updateName}
-                />
+              <div className="row m-4">
+                <div className="col-3 text-right">
+                  <span className="fontstyle-editUserProfile">Email:</span>
+                </div>
+                <div className="col">
+                  <input
+                    className="form-control form-control-sm"
+                    type="text"
+                    value={inputEmail}
+                    onChange={updateEmail}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="row m-4">
-              <div className="col-3 text-right">
-                <span className="fontstyle-editUserProfile">Apellidos:</span>
-              </div>
-              <div className="col">
-                <input
-                  className="form-control form-control-sm"
-                  type="text"
-                  value={inputSurname}
-                  onChange={updateSurname}
-                />
-              </div>
-            </div>
-            <div className="row m-4">
-              <div className="col-3 text-right">
-                <span className="fontstyle-editUserProfile">Email:</span>
-              </div>
-              <div className="col">
-                <input
-                  className="form-control form-control-sm"
-                  type="text"
-                  value={inputEmail}
-                  onChange={updateEmail}
-                />
-              </div>
-            </div>
-            <div className="row m-4">
-              <div className="col-3 text-right">
-                <span className="fontstyle-editUserProfile">
-                  Fecha de nacimiento:
+              <div className="row m-4">
+                <div className="col-3 text-right">
+                  <span className="fontstyle-editUserProfile">
+                    Fecha de nacimiento:
                 </span>
-              </div>
-              {/* <div className="col">
+                </div>
+                {/* <div className="col">
                 <DatePicker
                   selected={inputBirthDate}
                   onSelect={setInputBirthDate}
@@ -197,32 +208,36 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
                   className="form-control form-control-sm"
                 />
               </div> */}
-            </div>
-          </div>
-          <div className="col-3 text-center align-self-center">
-            <div className="row">
-              <div className="col">
-                <img
-                  src="/images/profile/no-profile.png"
-                  width="110"
-                  alt=""
-                />
               </div>
             </div>
-            <div className="row text-dark mt-4">
-              <div className="col">Actualizar avatar</div>
+            <div className="col-3 text-center align-self-center">
+              <div className="row">
+                <div className="col">
+                  <img
+                    src={inputAvatar}
+                    width="110"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div className="row text-dark mt-4">
+                <div className="col"> <button onClick={handleShowEditAvatar}>Actualizar avatar</button> </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="container">
-        <div className="row justify-content-center">
-          <button className="m-2" onClick={editCurrentUserById}>
-            Enviar
+        <div className="container">
+          <div className="row justify-content-center">
+            <button className="m-2" onClick={editCurrentUserById}>
+              Enviar
           </button>
+          </div>
         </div>
       </div>
-    </div>
+      <Modal size="lg" show={showEditAvatar} onHide={() => null}>
+      <EditAvatarModal handleCloseEditAvatar={handleCloseEditAvatar} />    
+      </Modal>
+    </>
   );
 };
 

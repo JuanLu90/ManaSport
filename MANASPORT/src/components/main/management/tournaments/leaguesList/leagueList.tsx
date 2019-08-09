@@ -146,22 +146,10 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
                     <td className="p-1">
                       <div className="row">
                         <div className="col text-center">{l.NTeams}</div>
-                        {/* <div className="col p-0 text-left">
-                          <Button
-                            variant="outline-dark"
-                            className="pt-0 pb-0 pl-2 pr-2 rounded-circle"
-                            size="sm"
-                            onClick={() => funcionNewTeamLeague(l.TournamentId)}
-                          >
-                            +
-                          </Button>
-                        </div> */}
                       </div>
                     </td>
                     <td className="p-1">
                       {l.createdate}
-                      {/* {new Date(l.createdate).toLocaleDateString()} */}
-                      {/* en la BBDD 'createdate' datatype TIMESTAMP Y default/expression DEFAULT_TIMESTAMP  */}
                     </td>
                     <td className="p-1">
                       <Button

@@ -6,7 +6,7 @@ import { IGlobalState } from "../../../../reducers/reducers";
 import { createBrowserHistory } from "history";
 import { Link } from "react-router-dom";
 
-interface IProps {}
+interface IProps { }
 
 interface IPropsGlobal {
   users: IUser[];
@@ -77,11 +77,8 @@ const UserProfile: React.FC<IProps & IPropsGlobal> = props => {
           <div className="col-3 text-center align-self-center">
             <div className="row">
               <div className="col">
-                <img src="/images/profile/no-profile.png" width="110" alt="" />
+                <img src={currentUser.avatar} width="110" alt="" />
               </div>
-            </div>
-            <div className="row text-dark mt-4">
-              <div className="col">Actualizar avatar</div>
             </div>
           </div>
         </div>
