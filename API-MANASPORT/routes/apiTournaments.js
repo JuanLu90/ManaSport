@@ -95,11 +95,11 @@ router.post("/tournaments/deleteTournament/:TournamentId", (req, res) => {
 
 
 //SHOW ALL MATCHS OF A TOURNAMENT
-router.get("/tournaments/matchs/:matchday/:TournamentId", (req, res) => {
+router.get("/tournaments/matchs/:TournamentId/:matchday", (req, res) => {
     const TournamentId = req.params.TournamentId;
     const matchday = req.params.matchday;
     dbConn.query(
-        `SELECT M.Matchid, M.date, T.name AS 'localTeam', T2.name AS 'awayTeam', M.localteam_score, M.awayteam_score, M.matchday
+        `SELECT M.Matchid, M.date, T.name AS 'localTeam', T2.name AS 'awayTeam', M.localteam_score, M.awayteam_score, M.matchday, T.badge AS 'localbadge', T2.badge AS 'awaybadge'
 		FROM manasport.match AS M
 		LEFT JOIN team AS T
 		ON M.localTeamId = T.TeamId

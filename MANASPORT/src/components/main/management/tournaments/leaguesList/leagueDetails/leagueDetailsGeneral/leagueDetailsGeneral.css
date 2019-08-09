@@ -1,0 +1,11 @@
+.tbody-matchday .team {
+    width: 200px;
+}
+
+.tbody-matchday .badge {
+    width: 110px;
+}
+
+.tbody-matchday .badge img {
+    height: 28px;
+}

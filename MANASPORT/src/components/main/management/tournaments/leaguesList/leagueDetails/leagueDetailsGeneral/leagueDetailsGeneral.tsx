@@ -5,6 +5,7 @@ import * as action from "../../../../../../../action";
 import { IGlobalState } from "../../../../../../../reducers/reducers";
 import { connect } from "react-redux";
 import { createBrowserHistory } from "history";
+import "./leagueDetailsGeneral.css";
 
 interface IProps { }
 
@@ -14,34 +15,54 @@ interface IpropsGlobal {
 }
 
 const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
-    
+
     const [count, setCount] = React.useState(1);
     const matchdayAdd = () => { setCount(count + 1) }
-    const matchdaySub = () => { setCount(count > 1 ? count - 1: count) }
+    const matchdaySub = () => { setCount(count > 1 ? count - 1 : count) }
+
+
+
+
+    // for (let i = 0; i < props.matchs.length; i++) {
+    //     let localteampoints = 0;
+    //     let awayteampoints = 0;
+    //     if (props.matchs[i].localteam_score > props.matchs[i].awayteam_score) {
+    //         localteampoints = localteampoints + 3
+    //     } else if (props.matchs[i].localteam_score < props.matchs[i].awayteam_score) {
+    //         awayteampoints = awayteampoints + 3;
+    //     } else {
+    //         localteampoints = localteampoints + 1;
+    //         awayteampoints = awayteampoints + 1;
+    //     }
+    //     console.log("localteampoints: " + localteampoints + "------" + "awayteampoints: " + awayteampoints)
+    // }
+
+
+
+
+
+
 
     const history = createBrowserHistory({});
     const path: any = history.location.pathname;
     let pathTournamentId = path.split(["/"]).slice(-1)[0];
-    
+
     useEffect(() => {
-        //FETCH LEAGUE´S TEAMS TO REDUX
-        // const decoded: any = jwt.decode(token);
-        // const UserId: number = decoded.UserId;
+        //FETCH MATCHS INFO TO REDUX
         fetch(
-          "http://localhost:8080/api/tournaments/matchs/" + count + "/" +
-          pathTournamentId,
-          {
-            headers: {
-              "Content-type": "application/json",
-              Accept: "application/json"
-              // Authorization: "Bearer " + props.token
-            }
-          }).then(response => {
-          if (response.ok) {
-            response.json().then(result => props.setMatchs(result));
-          }
-        });
-      }, [count]);
+            "http://localhost:8080/api/tournaments/matchs/" +
+            pathTournamentId + "/" + count,
+            {
+                headers: {
+                    "Content-type": "application/json",
+                    Accept: "application/json"
+                }
+            }).then(response => {
+                if (response.ok) {
+                    response.json().then(result => props.setMatchs(result));
+                }
+            });
+    }, [count]);
 
     return (
         <div className="container-fluid text-dark">
@@ -52,26 +73,28 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
                     </div>
                     <div className="row">
 
-
                         <Table responsive striped hover >
                             <thead className="style-tablehead-leagueList">
                                 <tr>
-                                    <th> <button onClick={matchdaySub}>anterior</button></th>
+                                    <th> {count !== 1 && <button onClick={matchdaySub}>anterior</button>}</th>
+                                    <th></th>
                                     <th>JORNADA {count}</th>
+                                    <th></th>
                                     <th> <button onClick={matchdayAdd}>próxima</button> </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {props.matchs.map(m => (
-                                    <tr key={m.MatchId}>
-                                        <td className="p-2">{m.localTeam}</td>
+                                    <tr key={m.MatchId} className="tbody-matchday">
+                                        <td className="p-2 text-right team">{m.localTeam}  </td>
+                                        <td className="p-2 badge"> <img src={m.localbadge} alt="" /> </td>
                                         <td className="p-2">{m.localteam_score + "-" + m.awayteam_score}</td>
-                                        <td className="p-2">{m.awayTeam}</td>
+                                        <td className="p-2 badge"> <img src={m.awaybadge} alt="" /> </td>
+                                        <td className="p-2 text-left team"> {m.awayTeam}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </Table>
-
 
                     </div>
                 </div>
@@ -121,6 +144,6 @@ const MapStateToProps = (state: IGlobalState) => ({
 
 const mapDispatchToProps = {
     setMatchs: action.setMatchs
-  }
+}
 
 export default connect(MapStateToProps, mapDispatchToProps)(LeagueDetailsGeneral);

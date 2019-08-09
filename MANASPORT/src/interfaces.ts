@@ -38,6 +38,8 @@ export interface IMatch {
     awayTeam: string;
     localteam_score: number;
     awayteam_score: number;
+    localbadge: string;
+    awaybadge: string;
     matchday: number;
 }
 
