@@ -2,14 +2,18 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import * as action from "../../../../../../action";
 import { IGlobalState } from "../../../../../../reducers/reducers";
-import { ITournament } from "../../../../../../interfaces";
+import { ITournament, IUser } from "../../../../../../interfaces";
 import { createBrowserHistory } from "history";
+import jwt from "jsonwebtoken";
+import "./editAvatarModal.css"
 
 interface IProps {
   leagues: ITournament[];
   handleCloseEditAvatar: () => void;
   putLeagueById: (LeagueId: number, league: ITournament) => void;
   DeleteLeagueId: number;
+  users: IUser[];
+  putUserById: (UserId: string, user: IUser) => void;
 }
 
 interface IPropsGLobal {
@@ -17,42 +21,33 @@ interface IPropsGLobal {
   // editLeagueById: (LeagueId: number) => void;
 }
 
-const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
+const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
   const history = createBrowserHistory({ forceRefresh: true });
 
-  const [inputLeagueName, setInputLeagueName] = React.useState("");
-  const [inputLeagueSport, setInputLeagueSport] = React.useState("Futbol");
-  const [inputLeagueCategory, setInputLeagueCategory] = React.useState(
-    "Futbol 11"
-  );
+  const [inputAvatar, setInputAvatar] = React.useState("");
 
-  const updateLeagueName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputLeagueName(event.currentTarget.value);
-  };
-  const updateLeagueCategory = (event: any) => {
-    setInputLeagueCategory(event.currentTarget.value);
+  const updateAvatar = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputAvatar(event.currentTarget.value);
   };
 
-  const currentLeague = props.leagues.find(
-    u => u.TournamentId === props.DeleteLeagueId
-  );
+  const token: any = localStorage.getItem("token");
+  const decoded: any = jwt.decode(token);
+  const currentUser = props.users.find(u => u.UserId === decoded.UserId);
 
   useEffect(() => {
-    if (currentLeague) {
-      setInputLeagueName(currentLeague.name);
-      setInputLeagueCategory(currentLeague.category);
+    if (currentUser) {
+      setInputAvatar(currentUser.avatar);
     }
-  }, [currentLeague]);
+  }, [currentUser]);
 
-  const editCurrentLeague = () => {
-    //Evita que 'league' sea undefined
-    if (!currentLeague) {
-      return null;
-    }
+  //Evita que 'user' sea undefined
+  if (!currentUser) {
+    return null;
+  }
+
+  const editAvatar = () => {
     fetch(
-      "http://localhost:8080/api/tournaments/editTournament/" +
-      currentLeague.TournamentId,
-      {
+      "http://localhost:8080/api/users/edit/" + currentUser.UserId, {
         method: "PUT",
         headers: {
           "Content-type": "application/json",
@@ -60,24 +55,28 @@ const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
           // Authorization: "Bearer " + props.token
         },
         body: JSON.stringify({
-          TournamentId: currentLeague.TournamentId,
-          sport: inputLeagueSport,
-          name: inputLeagueName,
-          category: inputLeagueCategory
+          UserId: currentUser.UserId,
+          username: currentUser.username,
+          name: currentUser.name,
+          surname: currentUser.surname,
+          email: currentUser.email,
+          avatar: inputAvatar
         })
       }
     )
       .then(response => {
         if (response.ok) {
           const u: any = {
-            TournamentId: currentLeague.TournamentId,
-            sport: inputLeagueSport,
-            name: inputLeagueName,
-            category: inputLeagueCategory
+            UserId: currentUser.UserId,
+            username: currentUser.username,
+            name: currentUser.name,
+            surname: currentUser.surname,
+            email: currentUser.email,
+            avatar: inputAvatar
           };
           response.json().then(u => {
-            props.putLeagueById(currentLeague.TournamentId, u);
-            history.push("/management");
+            props.putUserById(currentUser.UserId, u);
+            history.push("/management/user");
           });
         }
       })
@@ -101,56 +100,61 @@ const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div className="modal-body">
-          <div className="row text-center m-4">
+        <div className="modal-body modal-editavatar-img">
+          <div className="row">
             <div className="col">
-              <img src="/images/profile/img-profile-1.png" width="60" alt="" />
-            </div>
-            <div className="col">
-              <img src="/images/profile/img-profile-2.png" width="60" alt="" />
-            </div>
-            <div className="col">
-              <img src="/images/profile/img-profile-3.png" width="60" alt="" />
-            </div>
-            <div className="col">
-              <img src="/images/profile/img-profile-4.png" width="60" alt="" />
-            </div>
-            <div className="col">
-              <img src="/images/profile/img-profile-5.png" width="60" alt="" />
+              <input type="text" value={inputAvatar} onChange={updateAvatar} className="w-50" hidden />
             </div>
           </div>
           <div className="row text-center m-4">
             <div className="col">
-              <img src="/images/profile/img-profile-5.png" width="60" alt="" />
+              <img src="/images/profile/img-profile-1.png" onClick={() => setInputAvatar('/images/profile/img-profile-1.png')} width="60" alt="" />
             </div>
             <div className="col">
-              <img src="/images/profile/img-profile-6.png" width="60" alt="" />
+              <img src="/images/profile/img-profile-2.png" onClick={() => setInputAvatar('/images/profile/img-profile-2.png')} width="60" alt="" />
             </div>
             <div className="col">
-              <img src="/images/profile/img-profile-7.png" width="60" alt="" />
+              <img src="/images/profile/img-profile-3.png" onClick={() => setInputAvatar('/images/profile/img-profile-3.png')} width="60" alt="" />
             </div>
             <div className="col">
-              <img src="/images/profile/img-profile-8.png" width="60" alt="" />
+              <img src="/images/profile/img-profile-4.png" onClick={() => setInputAvatar('/images/profile/img-profile-4.png')} width="60" alt="" />
             </div>
             <div className="col">
-              <img src="/images/profile/img-profile-9.png" width="60" alt="" />
+              <img src="/images/profile/img-profile-5.png" onClick={() => setInputAvatar('/images/profile/img-profile-5.png')} width="60" alt="" />
             </div>
           </div>
           <div className="row text-center m-4">
             <div className="col">
-              <img src="/images/profile/img-profile-10.png" width="60" alt="" />
+              <img src="/images/profile/img-profile-6.png"  onClick={() => setInputAvatar('/images/profile/img-profile-6.png')} width="60" alt="" />
             </div>
             <div className="col">
-              <img src="/images/profile/img-profile-11.png" width="60" alt="" />
+              <img src="/images/profile/img-profile-7.png"  onClick={() => setInputAvatar('/images/profile/img-profile-7.png')} width="60" alt="" />
             </div>
             <div className="col">
-              <img src="/images/profile/img-profile-12.png" width="60" alt="" />
+              <img src="/images/profile/img-profile-8.png"  onClick={() => setInputAvatar('/images/profile/img-profile-8.png')} width="60" alt="" />
             </div>
             <div className="col">
-              <img src="/images/profile/img-profile-13.png" width="60" alt="" />
+              <img src="/images/profile/img-profile-9.png"  onClick={() => setInputAvatar('/images/profile/img-profile-9.png')} width="60" alt="" />
             </div>
             <div className="col">
-              <img src="/images/profile/img-profile-14.png" width="60" alt="" />
+              <img src="/images/profile/img-profile-10.png"  onClick={() => setInputAvatar('/images/profile/img-profile-10.png')} width="60" alt="" />
+            </div>
+          </div>
+          <div className="row text-center m-4">
+            <div className="col">
+              <img src="/images/profile/img-profile-11.png"  onClick={() => setInputAvatar('/images/profile/img-profile-11.png')} width="60" alt="" />
+            </div>
+            <div className="col">
+              <img src="/images/profile/img-profile-12.png"  onClick={() => setInputAvatar('/images/profile/img-profile-12.png')} width="60" alt="" />
+            </div>
+            <div className="col">
+              <img src="/images/profile/img-profile-13.png"  onClick={() => setInputAvatar('/images/profile/img-profile-13.png')} width="60" alt="" />
+            </div>
+            <div className="col">
+              <img src="/images/profile/img-profile-14.png"  onClick={() => setInputAvatar('/images/profile/img-profile-14.png')} width="60" alt="" />
+            </div>
+            <div className="col">
+              <img src="/images/profile/img-profile-15.png"  onClick={() => setInputAvatar('/images/profile/img-profile-15.png')} width="60" alt="" />
             </div>
           </div>
         </div>
@@ -159,7 +163,7 @@ const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
             <button onClick={props.handleCloseEditAvatar}>Cancelar</button>
           </div>
           <div className="col">
-            <button onClick={editCurrentLeague}>Enviar</button>
+            <button onClick={editAvatar}>Aceptar</button>
           </div>
         </div>
       </div>
@@ -171,7 +175,9 @@ const mapStateToProps = (state: IGlobalState) => ({
   leagues: state.leagues,
   deleteLeagueById: action.deleteLeagueById,
   DeleteLeagueId: state.TournamentId,
-  putLeagueById: action.putLeagueById
+  putLeagueById: action.putLeagueById,
+  users: state.users,
+  putUserById: action.putUserById
 });
 
-export default connect(mapStateToProps)(EditLeagueModal);
+export default connect(mapStateToProps)(EditAvatarModal);

@@ -7,9 +7,12 @@ import jwt from "jsonwebtoken";
 import * as actions from "../../action";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { IUser } from "../../interfaces";
+import { IGlobalState } from "../../reducers/reducers";
 
 interface IPropsGLobal {
   setToken: (token: string) => void;
+  users: IUser[];
 }
 
 const Header: React.FC<IPropsGLobal> = props => {
@@ -30,7 +33,8 @@ const Header: React.FC<IPropsGLobal> = props => {
 
   const token: any = localStorage.getItem("token");
   const decoded: any = jwt.decode(token);
-  
+  const currentUser = token ? props.users.find(u => u.UserId === decoded.UserId) : null;
+
   return (
     <>
       <header className="position-fixed w-100">
@@ -83,7 +87,7 @@ const Header: React.FC<IPropsGLobal> = props => {
                       }
                       {decoded.avatar !== null &&
                         <img
-                          src="/images/profile/img-profile-1.png"
+                          src={currentUser ? currentUser.avatar : undefined}
                           width="30"
                           alt=""
                         />
@@ -121,7 +125,12 @@ const mapDispatchToProps = {
   setToken: actions.setToken
 };
 
+
+const mapStateToProps = (state: IGlobalState) => ({
+  users: state.users,
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Header);

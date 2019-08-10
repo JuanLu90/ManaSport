@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import * as action from "../../../../../action";
-import { IGlobalState } from "../../../../../reducers/reducers";
+import * as action from "../../../../action";
+import { IGlobalState } from "../../../../reducers/reducers";
 import { InputGroup, Form } from "react-bootstrap";
-import { ITournament } from "../../../../../interfaces";
+import { ITournament } from "../../../../interfaces";
 import { createBrowserHistory } from "history";
 
 interface IProps {

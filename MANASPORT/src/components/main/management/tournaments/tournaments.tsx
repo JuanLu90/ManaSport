@@ -2,13 +2,15 @@ import React from "react";
 import LeaguesList from "./leaguesList/leagueList";
 import PlayoffsList from "./playoffsList/playoffsList";
 import { Tab, Nav } from "react-bootstrap";
+import styled from "styled-components";
 
 const Tournaments: React.FC = () => {
 
-
+  // const Wrapper = styled('div')({
+  //   background: '#d1d8e0',
+  // });
 
   return (
-    <div className="col-11 main-userprofile">
         <div className="row mt-3">
           <div className="col">
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
@@ -35,7 +37,6 @@ const Tournaments: React.FC = () => {
             </Tab.Container>
           </div>
         </div>
-    </div>
   );
 };
 

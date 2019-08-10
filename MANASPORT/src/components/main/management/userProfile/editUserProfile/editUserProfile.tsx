@@ -25,7 +25,7 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
   const [inputName, setInputName] = React.useState("");
   const [inputSurname, setInputSurname] = React.useState("");
   const [inputEmail, setInputEmail] = React.useState("");
-  const [inputBirthDate, setInputBirthDate] = React.useState(new Date());
+  // const [inputBirthDate, setInputBirthDate] = React.useState(new Date());
   const [inputAvatar, setInputAvatar] = React.useState("");
 
   const updateUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,11 +41,11 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
     setInputEmail(event.currentTarget.value);
   };
 
-  const updateBirthDate = (date: any) => {
-    setInputBirthDate(date);
-    console.log("date " + date)
-    console.log("inputBirthDate " + inputBirthDate)
-  };
+  // const updateBirthDate = (date: any) => {
+  //   setInputBirthDate(date);
+  //   console.log("date " + date)
+  //   console.log("inputBirthDate " + inputBirthDate)
+  // };
 
   // const updateBirthDate = (date: any) => {
   //   if (date !== null) {
@@ -59,7 +59,7 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
   //   }
   // };
 
-  const updateAvatar = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const updateAvatar = (event: any) => {
     setInputAvatar(event.currentTarget.value);
   };
 
@@ -80,7 +80,7 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
       setInputEmail(currentUser.email);
       setInputName(currentUser.name);
       setInputSurname(currentUser.surname);
-      updateBirthDate(currentUser.birthDate);
+      // updateBirthDate(currentUser.birthDate);
       setInputAvatar(currentUser.avatar);
     }
   }, [currentUser]);
@@ -89,7 +89,7 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
   if (!currentUser) {
     return null;
   }
-  
+
 
   const editCurrentUserById = () => {
     fetch("http://localhost:8080/api/users/edit/" + currentUser.UserId, {
@@ -105,8 +105,8 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
         name: inputName,
         surname: inputSurname,
         email: inputEmail,
-        birthDate: inputBirthDate,
-        avatar: inputAvatar
+        avatar: currentUser.avatar
+        // birthDate: inputBirthDate
       })
     })
       .then(response => {
@@ -117,8 +117,8 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
             name: inputName,
             surname: inputSurname,
             email: inputEmail,
-            birthDate: inputBirthDate,
-            avatar: inputAvatar
+            avatar: currentUser.avatar
+            // birthDate: inputBirthDate
           };
           response.json().then(u => {
             props.putUserById(currentUser.UserId, u);
@@ -133,7 +133,6 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
 
   return (
     <>
-      <div className="col-10 main-userprofile h-100 text-light">
         <div className="container w-75 bg-editUserProfile border border-light">
           <div className="row ">
             <div className="col text-dark border-right border-dark">
@@ -217,6 +216,7 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
                     src={inputAvatar}
                     width="110"
                     alt=""
+                    onChange={updateAvatar}
                   />
                 </div>
               </div>
@@ -233,9 +233,8 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
           </button>
           </div>
         </div>
-      </div>
       <Modal size="lg" show={showEditAvatar} onHide={() => null}>
-      <EditAvatarModal handleCloseEditAvatar={handleCloseEditAvatar} />    
+        <EditAvatarModal handleCloseEditAvatar={handleCloseEditAvatar} />
       </Modal>
     </>
   );

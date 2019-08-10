@@ -1,41 +1,40 @@
 import React from "react";
-import "./deleteLeagueModal.css";
-import { IGlobalState } from "../../../../../reducers/reducers";
+import { IGlobalState } from "../../../../reducers/reducers";
 import { connect } from "react-redux";
-import * as action from "../../../../../action";
+import * as action from "../../../../action";
 import { createBrowserHistory } from "history";
-import { ITournament } from "../../../../../interfaces";
+import { ITournament } from "../../../../interfaces";
 
 interface IProps {
-  leagues: ITournament[];
-  handleCloseDeleteLeague: () => void;
+  playoffs: ITournament[];
+  handleCloseDeletePlayoff: () => void;
 }
 
 interface IPropsGLobal {
-  DeleteLeagueId: number;
-  deleteLeagueById: (LeagueId: number) => void;
+  DeletePlayoffId: number;
+  deletePlayoffById: (PlayoffId: number) => void;
 }
 
-const DeleteLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
+const DeletePlayoffModal: React.FC<IProps & IPropsGLobal> = props => {
   const history = createBrowserHistory({ forceRefresh: true });
 
-  const deleteLeague = (LeagueId: number) => {
-    fetch("http://localhost:8080/api/tournaments/deleteTournament/" + LeagueId, {
+  const deletePlayoff = (PlayoffId: number) => {
+    fetch("http://localhost:8080/api/tournaments/deleteTournament/" + PlayoffId, {
       method: "POST"
     }).then(response => {
       if (response.ok) {
-        props.deleteLeagueById(LeagueId);
-        props.handleCloseDeleteLeague();
+        props.deletePlayoffById(PlayoffId);
+        props.handleCloseDeletePlayoff();
         history.push("/management");
       }
     });
   };
 
-  const currentLeague = props.leagues.find(
-    u => u.TournamentId === props.DeleteLeagueId
+  const currentPlayoff = props.playoffs.find(
+    u => u.TournamentId === props.DeletePlayoffId
   );
   //Evita que 'league' sea undefined
-  if (!currentLeague) {
+  if (!currentPlayoff) {
     return null;
   }
 
@@ -44,18 +43,18 @@ const DeleteLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
       <div className="modal-content bg-light text-dark">
         <div className="modal-header">
           <h5 className="modal-title" id="exampleModalCenterTitle">
-            ¿Está seguro de eliminar esta liga?
+            ¿Está seguro de eliminar esta competición?
           </h5>
           <button
             type="button"
             className="close"
-            onClick={props.handleCloseDeleteLeague}
+            onClick={props.handleCloseDeletePlayoff}
           >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div className="modal-body">
-          La liga "<b>{currentLeague.name}</b>" y todos sus datos(equipos,
+          La liga "<b>{currentPlayoff.name}</b>" y todos sus datos(equipos,
           estadisticas...) será eliminada de manera permanente e irreversible.
           <br />
           <br />
@@ -65,10 +64,10 @@ const DeleteLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
         </div>
         <div className="modal-footer no-border">
           <div className="col text-right">
-            <button onClick={props.handleCloseDeleteLeague}>Cancelar</button>
+            <button onClick={props.handleCloseDeletePlayoff}>Cancelar</button>
           </div>
           <div className="col">
-            <button onClick={() => deleteLeague(props.DeleteLeagueId)}>
+            <button onClick={() => deletePlayoff(props.DeletePlayoffId)}>
               Eliminar
             </button>
           </div>
@@ -79,9 +78,9 @@ const DeleteLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
 };
 
 const mapStateToProps = (state: IGlobalState) => ({
-  leagues: state.leagues,
-  deleteLeagueById: action.deleteLeagueById,
-  DeleteLeagueId: state.TournamentId
+  playoffs: state.playoffs,
+  deletePlayoffById: action.deletePlayoffById,
+  DeletePlayoffId: state.TournamentId
 });
 
-export default connect(mapStateToProps)(DeleteLeagueModal);
+export default connect(mapStateToProps)(DeletePlayoffModal);

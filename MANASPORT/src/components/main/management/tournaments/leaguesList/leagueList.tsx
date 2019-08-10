@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import "./leagueList.css";
 import { Button, InputGroup, Form, Table, Modal } from "react-bootstrap";
 import { ITournament } from "../../../../../interfaces";
 import { IGlobalState } from "../../../../../reducers/reducers";
 import { connect } from "react-redux";
 import * as action from "../../../../../action";
-import DeleteLeagueModal from "../deleteLeagueModal/deleteLeagueModal";
-import EditLeagueModal from "../editLeagueModal/editLeagueModal";
+import DeleteLeagueModal from "../deleteLeagueModal";
+import EditLeagueModal from "../editLeagueModal";
 import jwt from "jsonwebtoken";
 import NewTeamLeagueModal from "../teams/newTeamLeagueModal/newTeamLeagueModal";
 import { Link } from "react-router-dom";
+import styled from 'styled-components';
 
-interface IProps {}
+interface IProps { }
 
 interface IPropsGlobal {
   leagues: ITournament[];
@@ -93,7 +93,7 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
           if (response.ok) {
             response.json().then(l => {
               props.newLeague(l);
-           
+
             });
           }
         })
@@ -108,16 +108,38 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
   const decoded: any = jwt.decode(token);
   const UserId: number = decoded.UserId;
 
+  // ****** Styles *******
+  const WrapperLeague = styled.div`
+    box-shadow: 2px 2px 2px 2px #888888;
+  `  
+  const TableHead = styled.thead`
+    font-family: 'Roboto', sans-serif;
+    color: #5e5e5e;
+  `
+  const TableTBody = styled.tbody`
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #888888;
+  `
+  const Title = styled.thead`
+    font-family: 'Lato', sans-serif;
+    color: #5e5e5e;
+  `
+  // const theme = {
+  //   background: 'mediumseagreen',
+  //   shadow: 'rgba(0, 0, 0, 0.7)',
+  // };
+
+  // *********************
   return (
     <>
       <div className="container-fluid text-dark">
         <div className="row mt-4">
-          <div className="col style-head-leagueList">Tus ligas:</div>
+          <Title className="col">Tus ligas:</Title>
         </div>
-        <div className="row mt-1 bg-leagueList">
+        <WrapperLeague className="row mt-1">
           <div className="col p-3 text-center">
             <Table responsive="md" striped hover size="lg">
-              <thead className="style-tablehead-leagueList">
+              <TableHead>
                 <tr>
                   <th />
                   <th />
@@ -128,8 +150,8 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
                   <th />
                   <th />
                 </tr>
-              </thead>
-              <tbody className="style-tablebody-leagueList">
+              </TableHead>
+              <TableTBody>
                 {props.leagues.map(l => (
                   <tr key={l.TournamentId}>
                     <td className="p-1">{l.TournamentId}</td>
@@ -173,10 +195,10 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
                     </td>
                   </tr>
                 ))}
-              </tbody>
+              </TableTBody>
             </Table>
           </div>
-        </div>
+        </WrapperLeague>
         <div className="row justify-content-center mt-4 p-2 bg-leagueList">
           <div className="col-5">
             <InputGroup size="sm">

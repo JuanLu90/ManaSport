@@ -12,7 +12,7 @@ import * as action from "./action";
 import { IUser, ITournament } from "./interfaces";
 import jwt from "jsonwebtoken";
 
-interface IProps {}
+interface IProps { }
 
 interface IPropsGlobal {
   setUsers: (users: IUser[]) => void;

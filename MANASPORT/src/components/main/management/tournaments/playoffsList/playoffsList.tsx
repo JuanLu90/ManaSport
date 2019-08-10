@@ -5,8 +5,8 @@ import { ITournament } from "../../../../../interfaces";
 import { IGlobalState } from "../../../../../reducers/reducers";
 import { connect } from "react-redux";
 import * as action from "../../../../../action";
-import DeletePlayoffModal from "../deletePlayoffModal/deletePlayoffModal";
-import EditPlayoffModal from "../editPlayoffModal/editPlayoffModal";
+import DeletePlayoffModal from "../deletePlayoffModal";
+import EditPlayoffModal from "../editPlayoffModal";
 import jwt from "jsonwebtoken";
 import { Link } from "react-router-dom";
 

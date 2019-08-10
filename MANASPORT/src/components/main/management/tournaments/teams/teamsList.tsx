@@ -1,12 +1,14 @@
 import React from "react";
 import "./teamList.css"
 import { createBrowserHistory } from "history";
+import styled from "styled-components";
 
 
 
 const TeamList2: React.FC = () => {
-
-  const history = createBrowserHistory();
+//   const Wrapper = styled('div')({
+//     background: '#d1d8e0'
+//   });
   
   return (
     <div className="col-10 main-userprofile h-100 text-light">

@@ -40,7 +40,7 @@ router.put("/users/edit/:UserId", (req, res) => {
       name = '${data.name}', 
       surname = '${data.surname}',  
       email = '${data.email}',
-      birthDate = '${data.birthDate}'
+      avatar = '${data.avatar}'
       WHERE UserId = ${data.UserId};`,
         (err, rows) => {
             if (err) throw err;

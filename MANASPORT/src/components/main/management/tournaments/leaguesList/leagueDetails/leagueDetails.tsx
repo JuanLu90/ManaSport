@@ -1,17 +1,11 @@
 import React from "react";
-import "./leagueDetails.css";
 import { Tab, Nav, DropdownButton, Dropdown } from "react-bootstrap";
 import LeagueDetailsGeneral from "./leagueDetailsGeneral/leagueDetailsGeneral";
 import LeagueDetailsManage from "./leagueDetailsManage/leagueDetailsManage";
 
-
 const LeagueDetails: React.FC = () => {
 
-
-
-
   return (
-    <div className="col-11 main-userprofile h-100 text-light">
       <div className="row mt-3">
         <div className="col">
           <Tab.Container id="left-tabs-example" defaultActiveKey="first">
@@ -25,8 +19,7 @@ const LeagueDetails: React.FC = () => {
                 size="sm"
                 title="Administrar"
                 id="dropdown-item-button"
-                className="p-0 m-0 btn btn-light"
-              >
+                className="p-0 m-0 btn btn-light">
                 <Nav.Item>
                   <Nav.Link eventKey="second" className="pt-0 pb-0">
                     Equipos
@@ -49,7 +42,6 @@ const LeagueDetails: React.FC = () => {
           </Tab.Container>
         </div>
       </div>
-    </div>
   );
 };
 

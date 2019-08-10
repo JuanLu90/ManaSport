@@ -6,7 +6,7 @@ import { IGlobalState } from "../../../../../../../reducers/reducers";
 import EditMatchdayModal from "./editMatchdayModal/editMatchdayModal";
 import { connect } from "react-redux";
 import { createBrowserHistory } from "history";
-import "./leagueDetailsGeneral.css";
+import styled from "styled-components";
 
 interface IProps { }
 
@@ -74,18 +74,30 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
             });
     }, [count]);
 
+    // ****** Styles *******
+    const Wrapper = styled.div`
+        box-shadow: 2px 2px 2px 2px #888888;
+    `
+    const TableHead = styled.thead`
+        font-family: 'Roboto', sans-serif;
+        color: #5e5e5e;
+    `
+    const ImgBadge = styled.img`
+            height: 28px;
+    `
+    // *********************
+
     return (
         <>
             <div className="container-fluid text-dark">
                 <div className="row mt-1 ">
-                    <div className="col p-3 m-1 text-center bg-leagueList">
+                    <Wrapper className="col p-3 m-1 text-center">
                         <div className="row pb-3">
                             <div className="col text-center">CALENDARIO</div>
                         </div>
                         <div className="row">
-
                             <Table responsive striped hover >
-                                <thead className="style-tablehead-leagueList">
+                                <TableHead>
                                     <tr>
                                         <th> {count !== 1 && <button onClick={matchdaySub}>anterior</button>}</th>
                                         <th></th>
@@ -102,29 +114,28 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
                                             </Button>
                                         </th>
                                     </tr>
-                                </thead>
+                                </TableHead>
                                 <tbody>
                                     {props.matchs.map(m => (
                                         <tr key={m.MatchId} className="tbody-matchday">
                                             <td className="p-2 text-right team">{m.localTeam}  </td>
-                                            <td className="p-2 badge"> <img src={m.localbadge} alt="" /> </td>
+                                            <td className="p-2 badge"> <ImgBadge src={m.localbadge} alt=""/> </td>
                                             <td className="p-2">{m.localteam_score === null && m.awayteam_score === null ? m.date : m.localteam_score + "-" + m.awayteam_score}</td>
-                                            <td className="p-2 badge"> <img src={m.awaybadge} alt="" /> </td>
+                                            <td className="p-2 badge"> <ImgBadge src={m.awaybadge} alt="" /> </td>
                                             <td className="p-2 text-left team"> {m.awayTeam}</td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </Table>
-
                         </div>
-                    </div>
-                    <div className="col p-3 m-1 bg-leagueList">
+                    </Wrapper>
+                    <Wrapper className="col p-3 m-1">
                         <div className="row pb-3">
                             <div className="col text-center">CLASIFICACIÓN</div>
                         </div>
                         <div className="row">
                             <Table responsive striped hover >
-                                <thead className="style-tablehead-leagueList">
+                                <TableHead>
                                     <tr>
                                         <th></th>
                                         <th>Equipo</th>
@@ -134,7 +145,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
                                         <th>PE</th>
                                         <th>PP</th>
                                     </tr>
-                                </thead>
+                                </TableHead>
                                 <tbody>
                                     <tr>
                                         <td className="p-2">1</td>
@@ -148,8 +159,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
                                 </tbody>
                             </Table>
                         </div>
-
-                    </div>
+                    </Wrapper>
                 </div>
                 <div className="row justify-content-center mt-4 p-2 bg-leagueList">
                     Estadísticas

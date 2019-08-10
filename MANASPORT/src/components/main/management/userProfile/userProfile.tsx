@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import { IUser } from "../../../../interfaces";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../../../reducers/reducers";
-import { createBrowserHistory } from "history";
 import { Link } from "react-router-dom";
 
 interface IProps { }
@@ -22,10 +21,8 @@ const UserProfile: React.FC<IProps & IPropsGlobal> = props => {
     return null;
   }
 
-  const history = createBrowserHistory({ forceRefresh: true });
-
   return (
-    <div className="col-10 main-userprofile h-100 text-light">
+    <>
       <div className="container w-75 bg-editUserProfile border border-light">
         <div className="row ">
           <div className="col text-dark border-right border-dark">
@@ -88,7 +85,7 @@ const UserProfile: React.FC<IProps & IPropsGlobal> = props => {
           <button className="m-2">Enviar</button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
