@@ -38,7 +38,7 @@ CREATE TABLE `match` (
   CONSTRAINT `FK_match_teamAway` FOREIGN KEY (`awayTeamId`) REFERENCES `team` (`TeamId`),
   CONSTRAINT `FK_match_teamLocal` FOREIGN KEY (`localTeamId`) REFERENCES `team` (`TeamId`),
   CONSTRAINT `FK_match_tournament` FOREIGN KEY (`TournamentId`) REFERENCES `tournament` (`TournamentId`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +47,7 @@ CREATE TABLE `match` (
 
 LOCK TABLES `match` WRITE;
 /*!40000 ALTER TABLE `match` DISABLE KEYS */;
-INSERT INTO `match` VALUES (1,'3/8/2019',1,2,2,0,1,1),(2,'3/8/2019',3,4,0,3,1,1),(3,'3/8/2019',5,6,1,1,1,1),(4,'3/8/2019',7,8,0,0,1,1),(5,'3/8/2019',9,10,1,0,1,1),(6,'3/8/2019',11,12,2,1,1,1),(7,'3/8/2019',13,14,4,2,1,1),(8,'3/8/2019',15,16,0,1,1,1),(9,'3/8/2019',17,18,1,1,1,1),(10,'3/8/2019',20,21,2,3,1,1),(27,'10/8/2019',4,1,0,0,2,1),(28,'10/8/2019',2,3,1,1,2,1),(29,'10/8/2019',8,5,2,4,2,1),(30,'10/8/2019',6,7,4,2,2,1),(31,'10/8/2019',12,9,2,3,2,1),(32,'10/8/2019',10,11,1,2,2,1),(33,'10/8/2019',16,13,0,2,2,1),(34,'10/8/2019',14,15,3,1,2,1),(35,'10/8/2019',21,17,1,0,2,1),(36,'10/8/2019',18,20,1,1,2,1);
+INSERT INTO `match` VALUES (1,'3/8/2019',1,2,2,0,1,1),(2,'3/8/2019',3,4,0,3,1,1),(3,'3/8/2019',5,6,1,1,1,1),(4,'3/8/2019',7,8,0,0,1,1),(5,'3/8/2019',9,10,1,0,1,1),(6,'3/8/2019',11,12,2,1,1,1),(7,'3/8/2019',13,14,4,2,1,1),(8,'3/8/2019',15,16,0,1,1,1),(9,'3/8/2019',17,18,1,1,1,1),(10,'3/8/2019',20,21,2,3,1,1),(27,'10/8/2019',4,1,0,0,2,1),(28,'10/8/2019',2,3,1,1,2,1),(29,'10/8/2019',8,5,2,4,2,1),(30,'10/8/2019',6,7,4,2,2,1),(31,'10/8/2019',12,9,2,3,2,1),(32,'10/8/2019',10,11,1,2,2,1),(33,'10/8/2019',16,13,0,2,2,1),(34,'10/8/2019',14,15,3,1,2,1),(35,'10/8/2019',21,17,1,0,2,1),(36,'10/8/2019',18,20,1,1,2,1),(37,'15/8/2019',1,21,NULL,NULL,3,1),(38,'15/8/2019',2,20,NULL,NULL,3,1),(39,'15/8/2019',3,18,NULL,NULL,3,1),(40,'15/8/2019',4,17,NULL,NULL,3,1),(41,'15/8/2019',5,16,NULL,NULL,3,1),(42,'15/8/2019',9,15,NULL,NULL,3,1),(43,'15/8/2019',7,14,NULL,NULL,3,1),(44,'15/8/2019',10,13,NULL,NULL,3,1),(45,'15/8/2019',6,12,NULL,NULL,3,1),(46,'15/8/2019',8,11,NULL,NULL,3,1);
 /*!40000 ALTER TABLE `match` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,7 +145,7 @@ CREATE TABLE `tournament` (
 
 LOCK TABLES `tournament` WRITE;
 /*!40000 ALTER TABLE `tournament` DISABLE KEYS */;
-INSERT INTO `tournament` VALUES (1,'Primera División','league','Futbol','Futbol 11','5/08/2019',0,1),(2,'Segunda División','league','Futbol','Fútbol 11','5/08/2019',0,1),(3,'liga_prueba3','league','Fútbol','Fútbol 11','5/08/2019',0,1),(4,'liga_prueba4','league','Fútbol','Fútbol 11','5/08/2019',0,1),(5,'liga_prueba5','league','Fútbol','Fútbol 11','5/08/2019',0,1),(6,'copa_prueba1','playoff','Futbol','Fútbol 11','5/08/2019',0,1),(7,'copa_prueba2','playoff','Fútbol','Fútbol 11','5/08/2019',0,1),(8,'copa_prueba3','playoff','Fútbol','Fútbol 11','5/08/2019',0,1),(9,'copa_prueba4','playoff','Fútbol','Fútbol 11','5/08/2019',0,1),(10,'copa_prueba5','playoff','Fútbol','Fútbol 11','5/08/2019',0,1),(15,'aaaaaaaaaaaaaaa','league','Futbol','Futbol 11','5/8/2019',0,1);
+INSERT INTO `tournament` VALUES (1,'Primera División','league','Fútbol','Fútbol 11','5/08/2019',0,1),(2,'Segunda División','league','Fútbol','Fútbol 11','5/08/2019',0,1),(3,'liga_prueba3','league','Fútbol','Fútbol 11','5/08/2019',0,1),(4,'liga_prueba4','league','Fútbol','Fútbol 11','5/08/2019',0,1),(5,'liga_prueba5','league','Fútbol','Fútbol 11','5/08/2019',0,1),(6,'copa_prueba1','playoff','Fútbol','Fútbol 11','5/08/2019',0,1),(7,'copa_prueba2','playoff','Fútbol','Fútbol 11','5/08/2019',0,1),(8,'copa_prueba3','playoff','Fútbol','Fútbol 11','5/08/2019',0,1),(9,'copa_prueba4','playoff','Fútbol','Fútbol 11','5/08/2019',0,1),(10,'copa_prueba5','playoff','Fútbol','Fútbol 11','5/08/2019',0,1);
 /*!40000 ALTER TABLE `tournament` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -179,7 +179,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'juanlu@email.com','juanlu90','Juan Luis','Moreno Calderon','0fe9e47ce4428e3c1b9f712fb18bf738',1,'/images/profile/img-profile-1.png','1',NULL),(2,'cristina@email.com','cristina92','Cristina','Nuñez Parra','0c74ac34d6652b2da30488d4f38496d8',0,'/images/profile/img-profile-2.png','0',NULL),(16,'prueba@prueba.com','pelaez martin','Prueba','prueba','c893bad68927b457dbed39460e6afd62',0,NULL,'0',NULL);
+INSERT INTO `user` VALUES (1,'juanlu@email.com','juanlu90','Juan Luis','Moreno Calderon','0fe9e47ce4428e3c1b9f712fb18bf738',1,'/images/profile/img-profile-3.png','1',NULL),(2,'cristina@email.com','cristina92','Cristina','Nuñez Parra','0c74ac34d6652b2da30488d4f38496d8',0,'/images/profile/img-profile-4.png','0',NULL),(16,'prueba@prueba.com','pelaez martin','Prueba','prueba','c893bad68927b457dbed39460e6afd62',0,NULL,'0',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -192,4 +192,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-08 20:24:06
+-- Dump completed on 2019-08-11 23:18:44
