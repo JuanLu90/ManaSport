@@ -4,6 +4,7 @@ import { IUser } from "../../../../interfaces";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../../../reducers/reducers";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 interface IProps { }
 
@@ -21,56 +22,79 @@ const UserProfile: React.FC<IProps & IPropsGlobal> = props => {
     return null;
   }
 
+
+
+
+
+  //******** STYLES *********
+  const Wrapper = styled.div`
+      box-shadow: 2px 2px 2px 2px #888888;
+      background: #ffffff;
+  `
+  const FontSpan = styled.span`
+      font-family: 'Anton', sans-serif;
+  `
+  const BorderRight = styled.span`
+      border-color: #c4c3c3 !important;
+  `
+
+    // const Wrapper = styled('div')({
+    //   background: '#ffffff',
+    //   height: '120vh !important'
+    // });
+
+  //*************************
+
   return (
     <>
-      <div className="container w-75 bg-editUserProfile border border-light">
+      <Wrapper className="container w-75 border border-light">
         <div className="row ">
-          <div className="col text-dark border-right border-dark">
+          <BorderRight className="col text-dark border-right border-dark">
             <div className="row text-center m-3">
               <div className="col mb-4">
-                <span className="h2">
+                <FontSpan className="h2">
                   Perfil
                   <Link to={"/management/user/edit"}>
                     <img src="/images/other/edit.png" width="20" alt="" />{" "}
                   </Link>
-                </span>
+                </FontSpan>
               </div>
             </div>
             <div className="row m-4">
               <div className="col-3 text-right">
-                <span className="fontstyle-editUserProfile">
+                <FontSpan className="fontstyle-editUserProfile">
                   Nombre de usuario:
-                </span>
+                </FontSpan>
               </div>
               <div className="col">{currentUser.username}</div>
             </div>
             <div className="row m-4">
               <div className="col-3 text-right">
-                <span className="fontstyle-editUserProfile">Nombre:</span>
+                <FontSpan className="fontstyle-editUserProfile">Nombre:</FontSpan>
               </div>
               <div className="col">{currentUser.name}</div>
             </div>
             <div className="row m-4">
               <div className="col-3 text-right">
-                <span className="fontstyle-editUserProfile">Apellidos:</span>
+                <FontSpan className="fontstyle-editUserProfile">Apellidos:</FontSpan>
               </div>
               <div className="col">{currentUser.surname}</div>
             </div>
             <div className="row m-4">
               <div className="col-3 text-right">
-                <span className="fontstyle-editUserProfile">Email:</span>
+                <FontSpan className="fontstyle-editUserProfile">Email:</FontSpan>
               </div>
               <div className="col">{currentUser.email}</div>
             </div>
             <div className="row m-4">
               <div className="col-3 text-right">
-                <span className="fontstyle-editUserProfile">
+                <FontSpan className="fontstyle-editUserProfile">
                   Fecha de nacimiento:
-                </span>
+                </FontSpan>
               </div>
               <div className="col">{currentUser.birthDate}</div>
             </div>
-          </div>
+          </BorderRight>
           <div className="col-3 text-center align-self-center">
             <div className="row">
               <div className="col">
@@ -79,7 +103,7 @@ const UserProfile: React.FC<IProps & IPropsGlobal> = props => {
             </div>
           </div>
         </div>
-      </div>
+      </Wrapper>
       <div className="container">
         <div className="row justify-content-center">
           <button className="m-2">Enviar</button>

@@ -15,9 +15,9 @@ import { connect } from "react-redux";
 import { createBrowserHistory } from "history";
 import { IGlobalState } from "../../../../../../../reducers/reducers";
 import EditTeamModal from "../../../teams/editTeamModal/editTeamModal";
-import "./leagueDetailsManage.css";
+import styled from "styled-components";
 
-interface IProps {}
+interface IProps { }
 
 interface IPropsGlobal {
   leagueTeams: ITeam[];
@@ -39,7 +39,7 @@ const LeagueDetailsManage: React.FC<IProps & IPropsGlobal> = props => {
     // const UserId: number = decoded.UserId;
     fetch(
       "http://localhost:8080/api/tournaments/tournamentTeams/" +
-        pathTournamentId,
+      pathTournamentId,
       {
         headers: {
           "Content-type": "application/json",
@@ -71,6 +71,24 @@ const LeagueDetailsManage: React.FC<IProps & IPropsGlobal> = props => {
   //     return null;
   //   }
 
+
+  // ****** Styles *******
+  const WrapperTeams = styled.div`
+    box-shadow: 2px 2px 2px 2px #888888;
+  `
+  const borderCard = {
+    border: '1px solid rgb(35, 41, 128)'
+  };
+
+  const WrapperCardBody = styled.div`
+    background: #232980;
+  `
+  const ListgroupCard = styled.thead`
+    font-size: 0.8em;
+  `
+
+  // *********************
+
   return (
     <>
       <div className="container-fluid text-dark">
@@ -100,7 +118,7 @@ const LeagueDetailsManage: React.FC<IProps & IPropsGlobal> = props => {
               </Nav>
               <Tab.Content>
                 <Tab.Pane eventKey="first">
-                  <div className="row">
+                  <WrapperTeams className="row">
                     <Table responsive striped hover>
                       <thead className="style-tablehead-leagueList">
                         <tr>
@@ -152,7 +170,7 @@ const LeagueDetailsManage: React.FC<IProps & IPropsGlobal> = props => {
                         ))}
                       </tbody>
                     </Table>
-                  </div>
+                  </WrapperTeams>
                 </Tab.Pane>
                 <Tab.Pane eventKey="second">
                   <div className="row justify-content-center">
@@ -162,41 +180,45 @@ const LeagueDetailsManage: React.FC<IProps & IPropsGlobal> = props => {
                         className="m-1"
                         style={{ width: "18rem" }}
                       >
-                        <Card className="card-teams">
-                          <Card.Body className="body-card-teams">
-                            <Card.Img src={l.badge} style={{ width: "4rem" }} />
-                            <Card.Title className="text-light">
-                              {l.name === null ? "-" : l.name}
-                            </Card.Title>
-                          </Card.Body>
-                          <ListGroup className="list-group-flush text-left listgroup-card-teams">
-                            <ListGroupItem className="p-2" variant="secondary">
-                              <b>Localidad: </b>
-                              {l.locality === null ? "-" : l.locality}
-                            </ListGroupItem>
-                            <ListGroupItem className="p-2">
-                              <b>Entrenador: </b>
-                              {l.coach === null ? "-" : l.coach}
-                            </ListGroupItem>
-                            <ListGroupItem className="p-2" variant="secondary">
-                              <b>2º Entrenador: </b>
-                              {l.coach2 === null ? "-" : l.coach2}
-                            </ListGroupItem>
-                            <ListGroupItem className="p-2">
-                              <b>Email: </b>
-                              {l.contactEmail === null ? "-" : l.contactEmail}
-                            </ListGroupItem>
-                            <ListGroupItem className="p-2" variant="secondary">
-                              <b>Teléfono: </b>
-                              {l.contactPhone === null ? "-" : l.contactPhone}
-                            </ListGroupItem>
-                          </ListGroup>
-                          {/* <Card.Footer>
+                          <Card style={borderCard}>
+                            <WrapperCardBody>
+                              <Card.Body>
+                                <Card.Img src={l.badge} style={{ width: "4rem" }} />
+                                <Card.Title className="text-light">
+                                  {l.name === null ? "-" : l.name}
+                                </Card.Title>
+                              </Card.Body>
+                            </WrapperCardBody>
+                            <ListgroupCard>
+                              <ListGroup className="list-group-flush text-left">
+                                <ListGroupItem className="p-2" variant="secondary">
+                                  <b>Localidad: </b>
+                                  {l.locality === null ? "-" : l.locality}
+                                </ListGroupItem>
+                                <ListGroupItem className="p-2">
+                                  <b>Entrenador: </b>
+                                  {l.coach === null ? "-" : l.coach}
+                                </ListGroupItem>
+                                <ListGroupItem className="p-2" variant="secondary">
+                                  <b>2º Entrenador: </b>
+                                  {l.coach2 === null ? "-" : l.coach2}
+                                </ListGroupItem>
+                                <ListGroupItem className="p-2">
+                                  <b>Email: </b>
+                                  {l.contactEmail === null ? "-" : l.contactEmail}
+                                </ListGroupItem>
+                                <ListGroupItem className="p-2" variant="secondary">
+                                  <b>Teléfono: </b>
+                                  {l.contactPhone === null ? "-" : l.contactPhone}
+                                </ListGroupItem>
+                              </ListGroup>
+                            </ListgroupCard>
+                            {/* <Card.Footer>
                             <small className="text-muted">
                               Last updated 3 mins ago
                             </small>
                           </Card.Footer> */}
-                        </Card>
+                          </Card>
                       </CardDeck>
                     ))}
                   </div>

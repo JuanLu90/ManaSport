@@ -1,11 +1,5 @@
 /* ------- FOOTER ------- */
 
-footer {
-  background-color: rgba(36, 36, 36, 0.99);
-  /* position: fixed;
-  bottom: 0;
-  width: 100%; */
-}
 
 /* RRSS */
 
@@ -25,11 +19,6 @@ footer {
   transform: translate(20px);
 }
 
-footer .container-fluid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
 
 .info-footer {
   margin-top: 30px;

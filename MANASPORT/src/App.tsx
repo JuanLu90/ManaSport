@@ -11,6 +11,7 @@ import UserProfile from "./components/main/management/management";
 import * as action from "./action";
 import { IUser, ITournament } from "./interfaces";
 import jwt from "jsonwebtoken";
+import styled from "styled-components";
 
 interface IProps { }
 
@@ -81,17 +82,38 @@ const App: React.FC<IProps & IPropsGlobal> = props => {
     }
   }, [token, props.leagues.length]);
 
+
+  //******** STYLES *********
+  const Wrapper = styled.div`
+      box-shadow: 2px 2px 2px 2px #888888;
+      background: #ffffff;
+  `
+  const FontSpan = styled.span`
+      font-family: 'Anton', sans-serif;
+  `
+  const BorderRight = styled.span`
+      border-color: #c4c3c3 !important;
+  `
+
+  // const Wrapper = styled('div')({
+  //   background: '#ffffff',
+  //   height: '120vh !important'
+  // });
+
+  //*************************
+
   return (
     <BrowserRouter>
       <Header />
-      {!token && <MainApp />}
-
-      {token && (
-        <Switch>
-          <Route path="/management" component={UserProfile} />
-          <Redirect to="/management" />
-        </Switch>
-      )}
+      <main>
+        {!token && <MainApp />}
+        {token && (
+          <Switch>
+            <Route path="/management" component={UserProfile} />
+            <Redirect to="/management" />
+          </Switch>
+        )}
+      </main>
       <Footer />
     </BrowserRouter>
   );

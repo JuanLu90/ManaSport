@@ -1,10 +1,34 @@
 import React from "react";
 import "./footer.css";
+import styled from "styled-components";
 
 const Footer: React.FC = () => {
+
+
+  //******** STYLES *********
+  const Footer = styled.div`
+    background: rgba(36, 36, 36, 0.99);
+  `
+  const FooterFlex = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  `
+  const BorderRight = styled.span`
+      border-color: #c4c3c3 !important;
+  `
+
+  // const Wrapper = styled('div')({
+  //   background: '#ffffff',
+  //   height: '120vh !important'
+  // });
+
+  //*************************
+
+
   return (
-    <footer className="text-light">
-      <div className="container-fluid">
+    <Footer className="text-light">
+      <FooterFlex className="container-fluid">
         <div className="info-footer" id="logo_footer">
           <img src="/images/logotipo.png" alt="logo"/>
           <ul>
@@ -56,7 +80,7 @@ const Footer: React.FC = () => {
             </a>
           </div>
         </div>
-      </div>
+      </FooterFlex>
       <div className="disclaimer">
         <hr />
         <div className="copyright">
@@ -65,7 +89,7 @@ const Footer: React.FC = () => {
           <span>info@manasport.com</span> <br />
         </div>
       </div>
-    </footer>
+    </Footer>
   );
 };
 
