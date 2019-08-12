@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, InputGroup, Form, Table, Modal } from "react-bootstrap";
+import { Button, InputGroup, Form, Table, Modal, Alert } from "react-bootstrap";
 import { ITournament } from "../../../../../interfaces";
 import { IGlobalState } from "../../../../../reducers/reducers";
 import { connect } from "react-redux";
@@ -69,6 +69,10 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
     props.setLeagueId(DeleteLeagueId);
   }
 
+  const [showAlert, setShowAlert] = useState(false);
+
+  const prueba = () => { setShowAlert(true) }
+
   const sendLeague = () => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -93,8 +97,8 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
           if (response.ok) {
             response.json().then(l => {
               props.newLeague(l);
-
             });
+            prueba();
           }
         })
         .catch(err => {
@@ -103,15 +107,13 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
     }
   };
 
-  const token: any = localStorage.getItem("token");
 
-  const decoded: any = jwt.decode(token);
-  const UserId: number = decoded.UserId;
 
   // ****** Styles *******
   const WrapperLeague = styled.div`
     box-shadow: 2px 2px 2px 2px #888888;
-  `  
+    background: white;
+  `
   const TableHead = styled.thead`
     font-family: 'Roboto', sans-serif;
     color: #5e5e5e;
@@ -130,8 +132,8 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
   // };
 
   // *********************
+
   return (
-    <>
       <div className="container-fluid text-dark">
         <div className="row mt-4">
           <Title className="col">Tus ligas:</Title>
@@ -250,22 +252,29 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
             >
               Crear
             </Button>
-            <button>aaaaaa</button>
           </div>
         </div>
+        {/* <div className="row">
+          <div className="col">
+            {showAlert && (
+              <Alert variant="success" onClose={() => setShowAlert(false)} dismissible>
+                La liga se ha creado correctamente
+            </Alert>
+            )}
+          </div>
+        </div> */}
+        <Modal show={showDeleteLeague} onHide={() => null}>
+          <DeleteLeagueModal handleCloseDeleteLeague={handleCloseDeleteLeague} />
+        </Modal>
+        <Modal size="lg" show={showEditLeague} onHide={() => null}>
+          <EditLeagueModal handleCloseEditLeague={handleCloseEditLeague} />
+        </Modal>
+        <Modal size="lg" show={showNewTeamLeague} onHide={() => null}>
+          <NewTeamLeagueModal
+            handleCloseShowNewTeamLeague={handleCloseShowNewTeamLeague}
+          />
+        </Modal>
       </div>
-      <Modal show={showDeleteLeague} onHide={() => null}>
-        <DeleteLeagueModal handleCloseDeleteLeague={handleCloseDeleteLeague} />
-      </Modal>
-      <Modal size="lg" show={showEditLeague} onHide={() => null}>
-        <EditLeagueModal handleCloseEditLeague={handleCloseEditLeague} />
-      </Modal>
-      <Modal size="lg" show={showNewTeamLeague} onHide={() => null}>
-        <NewTeamLeagueModal
-          handleCloseShowNewTeamLeague={handleCloseShowNewTeamLeague}
-        />
-      </Modal>
-    </>
   );
 };
 

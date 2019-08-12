@@ -18,8 +18,8 @@ const Management: React.FC = () => {
   })
 
   const Wrapper = styled('div')({
-    background: '#F3F3F4',
-    height: '120vh !important'
+    background: '#F3F3F4'
+    // height: '120vh !important'
   });
 
   const Sidebar = styled('div')({
@@ -30,9 +30,7 @@ const Management: React.FC = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <Tophead className="col">
-
-        </Tophead>
+        <Tophead className="col" />
       </div>
       <div className="row overflow-auto">
         <Sidebar className="col-1">

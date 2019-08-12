@@ -1,6 +1,6 @@
 import { ActionCreator } from 'redux';
 import { TAction } from './actionTypes';
-import { IUser, ITournament, ITeam } from './interfaces';
+import { IUser, ITournament, ITeam, IPlayer } from './interfaces';
 
 //TOKEN
 export const setToken: ActionCreator<TAction> = (token: string) => ({
@@ -98,6 +98,23 @@ export const putTeamById: ActionCreator<TAction> = (TeamId: number, team: ITeam)
     type: "PUT_TEAM",
     TeamId,
     team
+});
+
+//PLAYERS
+export const setTeamPlayers: ActionCreator<TAction> = (teamPlayers: []) => ({
+    type: "SET_TEAM_PLAYERS",
+    teamPlayers
+});
+
+export const setPlayerId: ActionCreator<TAction> = (PlayerId: number) => ({
+    type: "SET_PLAYERID",
+    PlayerId
+});
+
+export const putPlayerById: ActionCreator<TAction> = (PlayerId: number, player: IPlayer) => ({
+    type: "PUT_PLAYER",
+    PlayerId,
+    player
 });
 
 

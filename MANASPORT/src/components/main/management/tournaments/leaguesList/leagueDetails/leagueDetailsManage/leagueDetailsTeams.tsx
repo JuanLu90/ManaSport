@@ -27,7 +27,7 @@ interface IPropsGlobal {
   DeleteLeagueId: number;
 }
 
-const LeagueDetailsManage: React.FC<IProps & IPropsGlobal> = props => {
+const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
   const token: any = localStorage.getItem("token");
   const history = createBrowserHistory({});
   const path: any = history.location.pathname;
@@ -63,9 +63,9 @@ const LeagueDetailsManage: React.FC<IProps & IPropsGlobal> = props => {
     props.setTeamId(DeleteLeagueId);
   }
 
-  const currentTeam = props.leagueTeams.find(
-    u => u.TeamId === props.DeleteLeagueId
-  );
+  // const currentTeam = props.leagueTeams.find(
+  //   u => u.TeamId === props.DeleteLeagueId
+  // );
   //Evita que 'league' sea undefined
   //   if (!currentTeam) {
   //     return null;
@@ -86,32 +86,29 @@ const LeagueDetailsManage: React.FC<IProps & IPropsGlobal> = props => {
   const ListgroupCard = styled.thead`
     font-size: 0.8em;
   `
-
   // *********************
 
   return (
     <>
       <div className="container-fluid text-dark">
+        <div className="row">EQUIPOS</div>
         <div className="row mt-1 ">
           <div className="col p-3 m-1 text-center bg-leagueList">
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
               <Nav
                 variant="pills"
-                className="flex-fill text-right justify-content-end mb-3"
-              >
+                className="flex-fill text-right justify-content-end mb-3">
                 <Nav.Item style={{ width: "2rem" }}>
                   <Nav.Link
                     eventKey="first"
-                    className="pt-0 pl-0 pr-0 pb-1 bg-light text-center"
-                  >
+                    className="pt-0 pl-0 pr-0 pb-1 bg-light text-center">
                     <img src="/images/other/normal.png" width="20" alt="" />
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item style={{ width: "2rem" }}>
                   <Nav.Link
                     eventKey="second"
-                    className="pt-0 pl-0 pr-0 pb-1 bg-light text-center"
-                  >
+                    className="pt-0 pl-0 pr-0 pb-1 bg-light text-center">
                     <img src="/images/other/cards.png" width="20" alt="" />
                   </Nav.Link>
                 </Nav.Item>
@@ -128,6 +125,7 @@ const LeagueDetailsManage: React.FC<IProps & IPropsGlobal> = props => {
                           <th> LOCALIDAD </th>
                           <th> ENTRENADOR </th>
                           <th>2º ENTRENADOR</th>
+                          <th>Nº JUGADORES</th>
                           <th>EMAIL</th>
                           <th>TELÉFONO</th>
                           <th />
@@ -151,6 +149,9 @@ const LeagueDetailsManage: React.FC<IProps & IPropsGlobal> = props => {
                             </td>
                             <td className="p-2">
                               {l.coach2 === null ? "-" : l.coach2}
+                            </td>
+                            <td className="p-2">
+                              {l.NPlayers === null ? "-" : l.NPlayers}
                             </td>
                             <td className="p-2">
                               {l.contactEmail === null ? "-" : l.contactEmail}
@@ -178,47 +179,46 @@ const LeagueDetailsManage: React.FC<IProps & IPropsGlobal> = props => {
                       <CardDeck
                         key={l.TeamId}
                         className="m-1"
-                        style={{ width: "18rem" }}
-                      >
-                          <Card style={borderCard}>
-                            <WrapperCardBody>
-                              <Card.Body>
-                                <Card.Img src={l.badge} style={{ width: "4rem" }} />
-                                <Card.Title className="text-light">
-                                  {l.name === null ? "-" : l.name}
-                                </Card.Title>
-                              </Card.Body>
-                            </WrapperCardBody>
-                            <ListgroupCard>
-                              <ListGroup className="list-group-flush text-left">
-                                <ListGroupItem className="p-2" variant="secondary">
-                                  <b>Localidad: </b>
-                                  {l.locality === null ? "-" : l.locality}
-                                </ListGroupItem>
-                                <ListGroupItem className="p-2">
-                                  <b>Entrenador: </b>
-                                  {l.coach === null ? "-" : l.coach}
-                                </ListGroupItem>
-                                <ListGroupItem className="p-2" variant="secondary">
-                                  <b>2º Entrenador: </b>
-                                  {l.coach2 === null ? "-" : l.coach2}
-                                </ListGroupItem>
-                                <ListGroupItem className="p-2">
-                                  <b>Email: </b>
-                                  {l.contactEmail === null ? "-" : l.contactEmail}
-                                </ListGroupItem>
-                                <ListGroupItem className="p-2" variant="secondary">
-                                  <b>Teléfono: </b>
-                                  {l.contactPhone === null ? "-" : l.contactPhone}
-                                </ListGroupItem>
-                              </ListGroup>
-                            </ListgroupCard>
-                            {/* <Card.Footer>
+                        style={{ width: "18rem" }}>
+                        <Card style={borderCard}>
+                          <WrapperCardBody>
+                            <Card.Body>
+                              <Card.Img src={l.badge} style={{ width: "4rem" }} />
+                              <Card.Title className="text-light">
+                                {l.name === null ? "-" : l.name}
+                              </Card.Title>
+                            </Card.Body>
+                          </WrapperCardBody>
+                          <ListgroupCard>
+                            <ListGroup className="list-group-flush text-left">
+                              <ListGroupItem className="p-2" variant="secondary">
+                                <b>Localidad: </b>
+                                {l.locality === null ? "-" : l.locality}
+                              </ListGroupItem>
+                              <ListGroupItem className="p-2">
+                                <b>Entrenador: </b>
+                                {l.coach === null ? "-" : l.coach}
+                              </ListGroupItem>
+                              <ListGroupItem className="p-2" variant="secondary">
+                                <b>2º Entrenador: </b>
+                                {l.coach2 === null ? "-" : l.coach2}
+                              </ListGroupItem>
+                              <ListGroupItem className="p-2">
+                                <b>Email: </b>
+                                {l.contactEmail === null ? "-" : l.contactEmail}
+                              </ListGroupItem>
+                              <ListGroupItem className="p-2" variant="secondary">
+                                <b>Teléfono: </b>
+                                {l.contactPhone === null ? "-" : l.contactPhone}
+                              </ListGroupItem>
+                            </ListGroup>
+                          </ListgroupCard>
+                          {/* <Card.Footer>
                             <small className="text-muted">
                               Last updated 3 mins ago
                             </small>
                           </Card.Footer> */}
-                          </Card>
+                        </Card>
                       </CardDeck>
                     ))}
                   </div>
@@ -250,4 +250,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LeagueDetailsManage);
+)(LeagueDetailsTeams);

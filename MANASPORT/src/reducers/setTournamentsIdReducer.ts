@@ -13,5 +13,8 @@ export const SetTournamentsIdReducer = (
     if (action.type === "SET_TEAMID") {
         return action.TeamId;
     }
+    if (action.type === "SET_PLAYERID") {
+        return action.PlayerId;
+    }
     return state;
 };

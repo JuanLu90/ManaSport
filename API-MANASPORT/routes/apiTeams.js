@@ -19,6 +19,15 @@ router.get("/teams/:TeamId", (req, res) => {
   });
 });
 
+//SHOW PLAYERS OF A TEAM BY TEAMID
+router.get("/teams/teamPlayers/:TeamId", (req, res) => {
+  const TeamId = req.params.TeamId;
+  dbConn.query("SELECT * FROM player WHERE TeamId = ?", [TeamId], (err, rows) => {
+    if (err) throw err;
+    res.send(rows);
+  });
+});
+
 // CREATE A NEW TEAM
 router.post("/teams/newTeam", (req, res) => {
   const data = req.body;

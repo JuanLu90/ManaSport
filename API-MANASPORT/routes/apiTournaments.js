@@ -42,11 +42,19 @@ router.get("/tournaments/countTeams/:TournamentId", (req, res) => {
 router.get("/tournaments/tournamentTeams/:TournamentId", (req, res) => {
     const TournamentId = req.params.TournamentId;
     dbConn.query(
-        `SELECT T.TeamId, T.name, T.locality, T.badge, T.coach, T.coach2, T.contactEmail, T.contactPhone, T.TournamentId
-        FROM tournament AS TOUR INNER JOIN team AS T 
-        WHERE T.TournamentId = TOUR.TournamentId
-        AND TOUR.disabled = 0 AND TOUR.TournamentId = ${TournamentId}
-        GROUP BY T.name;`,
+        // `SELECT T.TeamId, T.name, T.locality, T.badge, T.coach, T.coach2, T.contactEmail, T.contactPhone, T.TournamentId
+        // FROM tournament AS TOUR INNER JOIN team AS T 
+        // WHERE T.TournamentId = TOUR.TournamentId
+        // AND TOUR.disabled = 0 AND TOUR.TournamentId = ${TournamentId}
+        // GROUP BY T.name;`,
+        `
+        SELECT T.TeamId, T.name, T.badge, T.locality, T.coach, T.coach2, T.contactEmail, T.contactPhone,
+        COUNT(P.PlayerId) AS 'NPlayers' 
+        FROM team T
+        LEFT JOIN player P 
+        ON P.TeamId = T.TeamId
+        WHERE T.TournamentId = ${TournamentId}
+        GROUP BY TeamId;`,
         (err, rows) => {
             if (err) throw err;
             res.send(rows);

@@ -30,6 +30,7 @@ export interface ITeam {
     contactEmail: string;
     contactPhone: string;
     TournamentId: number;
+    NPlayers: number;
 }
 
 export interface IMatch {
@@ -42,6 +43,16 @@ export interface IMatch {
     localbadge: string;
     awaybadge: string;
     matchday: number;
+}
+
+export interface IPlayer {
+    PlayerId: number;
+    name: string;
+    surname: string;
+    age: number;
+    position: string;
+    goals: number;
+    image: string;
 }
 
 // export interface IPlayoff {

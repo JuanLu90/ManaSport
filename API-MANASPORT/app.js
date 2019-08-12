@@ -9,6 +9,7 @@ var apiAuth = require("./routes/apiAuth");
 var apiUsers = require("./routes/apiUSers");
 var apiTournaments = require("./routes/apiTournaments");
 var apiTeams = require("./routes/apiTeams");
+var apiPlayers = require("./routes/apiPlayers");
 
 var app = express();
 
@@ -25,5 +26,6 @@ app.use("/api", apiAuth);
 app.use("/api", apiUsers);
 app.use("/api", apiTournaments);
 app.use("/api", apiTeams);
+app.use("/api", apiPlayers);
 
 module.exports = app;
