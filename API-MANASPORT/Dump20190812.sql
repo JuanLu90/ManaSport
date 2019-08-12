@@ -64,13 +64,13 @@ CREATE TABLE `player` (
   `surname` varchar(30) NOT NULL,
   `age` tinyint(4) DEFAULT NULL,
   `position` varchar(10) NOT NULL,
-  `goals` smallint(6) DEFAULT NULL,
+  `goals` smallint(6) NOT NULL DEFAULT '0',
   `image` varchar(300) DEFAULT NULL,
   `TeamId` int(11) NOT NULL,
   PRIMARY KEY (`PlayerId`),
   KEY `fk_player_team_idx` (`TeamId`),
   CONSTRAINT `fk_player_team` FOREIGN KEY (`TeamId`) REFERENCES `team` (`TeamId`)
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,7 +79,7 @@ CREATE TABLE `player` (
 
 LOCK TABLES `player` WRITE;
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;
-INSERT INTO `player` VALUES (1,'Juan Luis','Moreno Calderon',19,'Delantero',56,NULL,1),(11,'Manuel','Martín Rodriguez',25,'Portero',0,NULL,2),(12,'Raul','Bonachera',35,'ExtremoIzq',7,NULL,3),(22,'Ronaldinho','Gaucho',34,'ExtremoIzq',23,NULL,4),(23,'Leo','Messi',32,'Delantero',35,NULL,5),(24,'Victor','Mejia',17,'Central',4,NULL,6),(26,'Cristiano','Ronaldo',41,'ExtremoIzq',3,NULL,7),(27,'Luis','Suarez',34,'Delantero',21,NULL,8),(28,'Carles','Puyol',45,'Central',10,NULL,9),(29,'Rodrigo','Sarmiento Calderon',29,'Delantero',34,NULL,10),(39,'Victor','Valdes',41,'Portero',0,NULL,11),(40,'Fernando','Torres',23,'Delantero',32,NULL,12),(41,'Iker ','Casillas',44,'Portero',0,NULL,13),(42,'Juan ','Carlos Valerón',24,'Medio',21,NULL,14),(43,'David ','Villa',45,'Delantero',42,NULL,15),(44,'Joaquín ','Sanchez',45,'ExtremoDer',21,NULL,16),(45,'Fernando','Portillo',31,'Delantero',2,NULL,17),(57,'Cristina','Nunez Parra',27,'Delantero',23,NULL,1);
+INSERT INTO `player` VALUES (1,'Juan Luis','Moreno Calderon',19,'Delantero',56,NULL,1),(11,'Manuel','Martín Rodriguez',25,'Portero',0,NULL,2),(12,'Raul','Bonachera',35,'ExtremoIzq',7,NULL,3),(22,'Ronaldinho','Gaucho',34,'ExtremoIzq',23,NULL,4),(23,'Leo','Messi',32,'Delantero',35,NULL,5),(24,'Victor','Mejia',17,'Central',4,NULL,6),(26,'Cristiano','Ronaldo',41,'ExtremoIzq',3,NULL,7),(27,'Luis','Suarez',34,'Delantero',21,NULL,8),(28,'Carles','Puyol',45,'Central',10,NULL,9),(29,'Rodrigo','Sarmiento Calderon',29,'Delantero',34,NULL,10),(39,'Victor','Valdes',41,'Portero',0,NULL,11),(40,'Fernando','Torres',23,'Delantero',32,NULL,12),(41,'Iker ','Casillas',44,'Portero',0,NULL,13),(42,'Juan ','Carlos Valerón',24,'Medio',21,NULL,14),(43,'David ','Villa',45,'Delantero',42,NULL,15),(44,'Joaquín ','Sanchez',45,'ExtremoDer',21,NULL,16),(45,'Fernando','Portillo',31,'Delantero',2,NULL,17),(57,'Cristina','Nunez Parra',26,'Delantero',23,NULL,1),(88,'Fernando','Pacheco',26,'Portero',0,NULL,1),(139,'Antonio ','Sivera',21,'Delantero',8,NULL,1),(140,'Saúl','García',25,'ExtremoIzq',6,NULL,1),(141,'Rafa','Navarro',26,'Central',1,NULL,1),(142,'Oliver','Verdon',31,'Delantero',23,NULL,1),(143,'Tachi','García',38,'ExtremoDer',14,NULL,1),(144,'Rubén','Duarte',25,'Portero',0,NULL,1),(145,'Rodrigo','Ely',18,'ExtremoIzq',11,NULL,1),(146,'Victor','Laguardia',19,'Medio',2,NULL,1),(147,'Guillermo','Maripán',20,'Central',1,NULL,1),(148,'XImo','Navarro',25,'Delantero',0,NULL,1),(149,'Adrian','Marin',29,'Central',0,NULL,1),(150,'Martín','Aguirregabiria',30,'ExtremoDer',0,NULL,1),(151,'Nando','García',31,'LateralIzq',0,NULL,1),(152,'Aleix','Vidal',28,'Delantero',12,NULL,1),(153,'Jeando','Fuchs',35,'LateralDer',1,NULL,1),(154,'Pere','Pons',34,'Medio',2,NULL,2),(155,'Javier','Muñoz',24,'Medio',1,NULL,2),(156,'Tomás','Pina',19,'LateralDer',0,NULL,2),(157,'Burgui','Vidal',18,'Delantero',14,NULL,2),(158,'Dani','Torres',20,'Central',0,NULL,2),(159,'Mubarak','García',21,'Medio',8,NULL,2),(160,'Joselu','Wakaso',20,'Central',0,NULL,2),(161,'John','Guidetti',29,'LateralIzq',0,NULL,2),(162,'Patrick','Twusami',17,'Portero',0,NULL,2),(163,'Ermedin','Demirovic',19,'Medio',1,NULL,2);
 /*!40000 ALTER TABLE `player` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +136,7 @@ CREATE TABLE `tournament` (
   PRIMARY KEY (`TournamentId`),
   KEY `FK_tournament_user_idx` (`UserId`),
   CONSTRAINT `FK_tournament_user` FOREIGN KEY (`UserId`) REFERENCES `user` (`UserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +179,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'juanlu@email.com','juanlu90','Juan Luis','Moreno Calderon','0fe9e47ce4428e3c1b9f712fb18bf738',1,'/images/profile/img-profile-3.png','1',NULL),(2,'cristina@email.com','cristina92','Cristina','Nuñez Parra','0c74ac34d6652b2da30488d4f38496d8',0,'/images/profile/img-profile-4.png','0',NULL),(16,'prueba@prueba.com','pelaez martin','Prueba','prueba','c893bad68927b457dbed39460e6afd62',0,NULL,'0',NULL);
+INSERT INTO `user` VALUES (1,'juanlu@email.com','juanlu90','Juan Luis','Moreno Calderon','0fe9e47ce4428e3c1b9f712fb18bf738',1,'/images/profile/img-profile-8.png','1',NULL),(2,'cristina@email.com','cristina92','Cristina','Nuñez Parra','0c74ac34d6652b2da30488d4f38496d8',0,'/images/profile/img-profile-4.png','0',NULL),(16,'prueba@prueba.com','pelaez martin','Prueba','prueba','c893bad68927b457dbed39460e6afd62',0,NULL,'0',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -192,4 +192,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-11 23:18:44
+-- Dump completed on 2019-08-12 20:02:04
