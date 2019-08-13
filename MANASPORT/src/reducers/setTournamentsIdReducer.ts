@@ -7,9 +7,6 @@ export const SetTournamentsIdReducer = (
     if (action.type === "SET_LEAGUEID") {
         return action.leagueId;
     }
-    if (action.type === "SET_PLAYOFFID") {
-        return action.playoffId;
-    }
     if (action.type === "SET_TEAMID") {
         return action.TeamId;
     }

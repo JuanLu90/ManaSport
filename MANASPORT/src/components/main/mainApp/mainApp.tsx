@@ -1,5 +1,4 @@
 import React from "react";
-import Newsletter from "./newsletter/newsletter";
 import styled from "styled-components";
 
 const MainApp: React.FC = () => {
@@ -12,6 +11,7 @@ const MainApp: React.FC = () => {
     background-image: url("/images/fondo2.jpg");
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center top;
   `
   const WrapperContainer = styled.div`
     font-size: 3em;
@@ -37,8 +37,6 @@ const MainApp: React.FC = () => {
 
   //*************************
 
-
-
   return (
     <BackgroundImage>
         <WrapperContainer className="container-fluid text-light text-center p-5">
@@ -58,7 +56,6 @@ const MainApp: React.FC = () => {
             </div>
           </WrapperRow>
         </WrapperContainer>
-      <Newsletter />
       {/* <div className="flotantes">
         <img src="images/other/arrow-top.svg" className="arrow-top" id="arrow-top" />
       </div> */}

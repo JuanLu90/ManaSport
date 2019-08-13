@@ -61,33 +61,6 @@ export const setLeagueTeams: ActionCreator<TAction> = (leagueTeams: []) => ({
     leagueTeams
 });
 
-//PLAYOFFS
-export const setPlayoffs: ActionCreator<TAction> = (playoffs: []) => ({
-    type: "SET_PLAYOFFS",
-    playoffs
-});
-
-export const newPlayoff: ActionCreator<TAction> = (playoff: ITournament) => ({
-    type: "NEW_PLAYOFF",
-    playoff
-});
-
-export const deletePlayoffById: ActionCreator<TAction> = (PlayoffId: number) => ({
-    type: "DELETE_PLAYOFF",
-    PlayoffId
-});
-
-export const putPlayoffById: ActionCreator<TAction> = (PlayoffId: number, playoff: ITournament) => ({
-    type: "PUT_PLAYOFF",
-    PlayoffId,
-    playoff
-});
-
-export const setPlayoffId: ActionCreator<TAction> = (playoffId: number) => ({
-    type: "SET_PLAYOFFID",
-    playoffId
-});
-
 //TEAMS
 export const setTeamId: ActionCreator<TAction> = (TeamId: number) => ({
     type: "SET_TEAMID",

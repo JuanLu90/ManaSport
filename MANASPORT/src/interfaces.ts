@@ -55,15 +55,4 @@ export interface IPlayer {
     image: string;
 }
 
-// export interface IPlayoff {
-//     PlayoffId: number;
-//     name: string;
-//     teams: number;
-//     category: string;
-//     createdate: string;
-//     sport: string;
-//     NTeams: number;
-// }
-
-
 

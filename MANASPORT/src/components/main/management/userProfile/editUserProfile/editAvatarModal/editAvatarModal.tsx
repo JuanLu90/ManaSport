@@ -46,24 +46,22 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
   }
 
   const editAvatar = () => {
-    fetch(
-      "http://localhost:8080/api/users/edit/" + currentUser.UserId, {
-        method: "PUT",
-        headers: {
-          "Content-type": "application/json",
-          Accept: "application/json"
-          // Authorization: "Bearer " + props.token
-        },
-        body: JSON.stringify({
-          UserId: currentUser.UserId,
-          username: currentUser.username,
-          name: currentUser.name,
-          surname: currentUser.surname,
-          email: currentUser.email,
-          avatar: inputAvatar
-        })
-      }
-    )
+    fetch("http://localhost:8080/api/users/edit/" + currentUser.UserId, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json"
+        // Authorization: "Bearer " + props.token
+      },
+      body: JSON.stringify({
+        UserId: currentUser.UserId,
+        username: currentUser.username,
+        name: currentUser.name,
+        surname: currentUser.surname,
+        email: currentUser.email,
+        avatar: inputAvatar
+      })
+    })
       .then(response => {
         if (response.ok) {
           const u: any = {
@@ -84,10 +82,10 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
         console.log("Error, " + err);
       });
   };
-  
-  const ImgCursorPointer = styled('img')({
-    cursor: 'pointer'
-  })
+
+  const ImgCursorPointer = styled("img")({
+    cursor: "pointer"
+  });
 
   return (
     <div className="modal-dialog-centered" role="document">
@@ -107,58 +105,169 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
         <div className="modal-body modal-editavatar-img">
           <div className="row">
             <div className="col">
-              <input type="text" value={inputAvatar} onChange={updateAvatar} className="w-50" hidden />
+              <input
+                type="text"
+                value={inputAvatar}
+                onChange={updateAvatar}
+                className="w-50"
+                hidden
+              />
             </div>
           </div>
           <div className="row text-center m-4">
             <div className="col">
-              <ImgCursorPointer src="/images/profile/img-profile-1.png" onClick={() => setInputAvatar('/images/profile/img-profile-1.png')} width="60" alt="" />
+              <ImgCursorPointer
+                src="/images/profile/img-profile-1.png"
+                onClick={() =>
+                  setInputAvatar("/images/profile/img-profile-1.png")
+                }
+                width="60"
+                alt=""
+              />
             </div>
             <div className="col">
-              <ImgCursorPointer src="/images/profile/img-profile-2.png" onClick={() => setInputAvatar('/images/profile/img-profile-2.png')} width="60" alt="" />
+              <ImgCursorPointer
+                src="/images/profile/img-profile-2.png"
+                onClick={() =>
+                  setInputAvatar("/images/profile/img-profile-2.png")
+                }
+                width="60"
+                alt=""
+              />
             </div>
             <div className="col">
-              <ImgCursorPointer src="/images/profile/img-profile-3.png" onClick={() => setInputAvatar('/images/profile/img-profile-3.png')} width="60" alt="" />
+              <ImgCursorPointer
+                src="/images/profile/img-profile-3.png"
+                onClick={() =>
+                  setInputAvatar("/images/profile/img-profile-3.png")
+                }
+                width="60"
+                alt=""
+              />
             </div>
             <div className="col">
-              <ImgCursorPointer src="/images/profile/img-profile-4.png" onClick={() => setInputAvatar('/images/profile/img-profile-4.png')} width="60" alt="" />
+              <ImgCursorPointer
+                src="/images/profile/img-profile-4.png"
+                onClick={() =>
+                  setInputAvatar("/images/profile/img-profile-4.png")
+                }
+                width="60"
+                alt=""
+              />
             </div>
             <div className="col">
-              <ImgCursorPointer src="/images/profile/img-profile-5.png" onClick={() => setInputAvatar('/images/profile/img-profile-5.png')} width="60" alt="" />
+              <ImgCursorPointer
+                src="/images/profile/img-profile-5.png"
+                onClick={() =>
+                  setInputAvatar("/images/profile/img-profile-5.png")
+                }
+                width="60"
+                alt=""
+              />
             </div>
           </div>
           <div className="row text-center m-4">
             <div className="col">
-              <ImgCursorPointer src="/images/profile/img-profile-6.png"  onClick={() => setInputAvatar('/images/profile/img-profile-6.png')} width="60" alt="" />
+              <ImgCursorPointer
+                src="/images/profile/img-profile-6.png"
+                onClick={() =>
+                  setInputAvatar("/images/profile/img-profile-6.png")
+                }
+                width="60"
+                alt=""
+              />
             </div>
             <div className="col">
-              <ImgCursorPointer src="/images/profile/img-profile-7.png"  onClick={() => setInputAvatar('/images/profile/img-profile-7.png')} width="60" alt="" />
+              <ImgCursorPointer
+                src="/images/profile/img-profile-7.png"
+                onClick={() =>
+                  setInputAvatar("/images/profile/img-profile-7.png")
+                }
+                width="60"
+                alt=""
+              />
             </div>
             <div className="col">
-              <ImgCursorPointer src="/images/profile/img-profile-8.png"  onClick={() => setInputAvatar('/images/profile/img-profile-8.png')} width="60" alt="" />
+              <ImgCursorPointer
+                src="/images/profile/img-profile-8.png"
+                onClick={() =>
+                  setInputAvatar("/images/profile/img-profile-8.png")
+                }
+                width="60"
+                alt=""
+              />
             </div>
             <div className="col">
-              <ImgCursorPointer src="/images/profile/img-profile-9.png"  onClick={() => setInputAvatar('/images/profile/img-profile-9.png')} width="60" alt="" />
+              <ImgCursorPointer
+                src="/images/profile/img-profile-9.png"
+                onClick={() =>
+                  setInputAvatar("/images/profile/img-profile-9.png")
+                }
+                width="60"
+                alt=""
+              />
             </div>
             <div className="col">
-              <ImgCursorPointer src="/images/profile/img-profile-10.png"  onClick={() => setInputAvatar('/images/profile/img-profile-10.png')} width="60" alt="" />
+              <ImgCursorPointer
+                src="/images/profile/img-profile-10.png"
+                onClick={() =>
+                  setInputAvatar("/images/profile/img-profile-10.png")
+                }
+                width="60"
+                alt=""
+              />
             </div>
           </div>
           <div className="row text-center m-4">
             <div className="col">
-              <ImgCursorPointer src="/images/profile/img-profile-11.png"  onClick={() => setInputAvatar('/images/profile/img-profile-11.png')} width="60" alt="" />
+              <ImgCursorPointer
+                src="/images/profile/img-profile-11.png"
+                onClick={() =>
+                  setInputAvatar("/images/profile/img-profile-11.png")
+                }
+                width="60"
+                alt=""
+              />
             </div>
             <div className="col">
-              <ImgCursorPointer src="/images/profile/img-profile-12.png"  onClick={() => setInputAvatar('/images/profile/img-profile-12.png')} width="60" alt="" />
+              <ImgCursorPointer
+                src="/images/profile/img-profile-12.png"
+                onClick={() =>
+                  setInputAvatar("/images/profile/img-profile-12.png")
+                }
+                width="60"
+                alt=""
+              />
             </div>
             <div className="col">
-              <ImgCursorPointer src="/images/profile/img-profile-13.png"  onClick={() => setInputAvatar('/images/profile/img-profile-13.png')} width="60" alt="" />
+              <ImgCursorPointer
+                src="/images/profile/img-profile-13.png"
+                onClick={() =>
+                  setInputAvatar("/images/profile/img-profile-13.png")
+                }
+                width="60"
+                alt=""
+              />
             </div>
             <div className="col">
-              <ImgCursorPointer src="/images/profile/img-profile-14.png"  onClick={() => setInputAvatar('/images/profile/img-profile-14.png')} width="60" alt="" />
+              <ImgCursorPointer
+                src="/images/profile/img-profile-14.png"
+                onClick={() =>
+                  setInputAvatar("/images/profile/img-profile-14.png")
+                }
+                width="60"
+                alt=""
+              />
             </div>
             <div className="col">
-              <ImgCursorPointer src="/images/profile/img-profile-15.png"  onClick={() => setInputAvatar('/images/profile/img-profile-15.png')} width="60" alt="" />
+              <ImgCursorPointer
+                src="/images/profile/img-profile-15.png"
+                onClick={() =>
+                  setInputAvatar("/images/profile/img-profile-15.png")
+                }
+                width="60"
+                alt=""
+              />
             </div>
           </div>
         </div>

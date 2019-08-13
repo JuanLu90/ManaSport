@@ -59,7 +59,7 @@ router.get("/users/tournamentsList/leagues/:UserId", (req, res) => {
         FROM tournament TOUR
         LEFT JOIN team T 
         ON T.TournamentId = TOUR.TournamentId
-        WHERE TOUR.UserId = ${UserId} AND TOUR.disabled = 0 AND TOUR.type = "league"
+        WHERE TOUR.UserId = ${UserId} AND TOUR.disabled = 0
         GROUP BY TournamentId`,
         (err, rows) => {
             if (err) throw err;
@@ -67,77 +67,6 @@ router.get("/users/tournamentsList/leagues/:UserId", (req, res) => {
         }
     );
 });
-
-// SEND ALL INFO OF PLAYOFFS AND THE COUNT OF TEAMS BY USERID
-router.get("/users/tournamentsList/playoffs/:UserId", (req, res) => {
-    const UserId = req.params.UserId;
-    dbConn.query(
-        `SELECT TOUR.TournamentId, TOUR.name, TOUR.sport, TOUR.category, TOUR.createdate, TOUR.UserId, TOUR.disabled,
-        COUNT(T.TeamId) AS 'NTeams' 
-        FROM tournament AS TOUR INNER JOIN team AS T 
-        WHERE T.TournamentId = TOUR.TournamentId AND TOUR.UserId = ${UserId} AND TOUR.disabled = 0 AND TOUR.type = "playoff"
-        GROUP BY TournamentId`,
-        (err, rows) => {
-            if (err) throw err;
-            res.send(rows);
-        }
-    );
-});
-
-
-// SEND ALL INFO OF LEAGUE AND THE COUNT OF TEAMS BY USERID
-router.get("/users/playoffsList/:UserId", (req, res) => {
-    const UserId = req.params.UserId;
-    dbConn.query(
-        `SELECT P.PlayoffId, P.name, P.category, P.createdate, P.sport, P.UserId, P.disabled,
-      COUNT(T.TeamId) AS 'NTeams' 
-      FROM playoff AS P INNER JOIN team AS T 
-      WHERE T.PlayoffId = P.PlayoffId AND P.UserId = ${UserId} AND P.disabled = 0
-      GROUP BY PlayoffId`,
-        (err, rows) => {
-            if (err) throw err;
-            res.send(rows);
-        }
-    );
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// SEND ALL INFO OF PLAYOFF AND THE COUNT OF TEAMS BY USERID
-// router.get("/users/playoffsList/:UserId", (req, res) => {
-//     const UserId = req.params.UserId;
-//     dbConn.query(
-//         `SELECT L.PlayoffId, L.name, L.category, L.createdate, L.sport, L.UserId,
-//       COUNT(T.TeamId) AS 'NTeams' 
-//       FROM manasport.playoff AS L INNER JOIN team AS T 
-//       WHERE T.PlayoffId = L.PlayoffId AND L.UserId = ${UserId} 
-//       GROUP BY PlayoffId`,
-//         (err, rows) => {
-//             if (err) throw err;
-//             res.send(rows);
-//         }
-//     );
-// });
-
-
-
 
 //SELECT LEAGUES BY USERID
 // router.get("/users/leaguesList/:UserId", (req, res) => {

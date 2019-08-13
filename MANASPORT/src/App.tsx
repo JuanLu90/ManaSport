@@ -18,7 +18,6 @@ interface IProps { }
 interface IPropsGlobal {
   setUsers: (users: IUser[]) => void;
   setLeagues: (leagues: ITournament[]) => void;
-  setPlayoffs: (playoffs: ITournament[]) => void;
   leagues: ITournament[];
 }
 
@@ -38,27 +37,6 @@ const App: React.FC<IProps & IPropsGlobal> = props => {
         response.json().then(result => props.setUsers(result));
       }
     });
-
-    //FETCH LEAGUES TO REDUX
-    if (token) {
-      const decoded: any = jwt.decode(token);
-      const UserId: number = decoded.UserId;
-      //FETCH PLAYOFFS TO REDUX
-      fetch(
-        "http://localhost:8080/api/users/tournamentsList/playoffs/" + UserId,
-        {
-          headers: {
-            "Content-type": "application/json",
-            Accept: "application/json"
-            // Authorization: "Bearer " + props.token
-          }
-        }
-      ).then(response => {
-        if (response.ok) {
-          response.json().then(result => props.setPlayoffs(result));
-        }
-      });
-    }
   }, [token]);
 
   useEffect(() => {
@@ -125,8 +103,7 @@ const mapStateToProps = (state: IGlobalState) => ({
 
 const mapDispatchToProps = {
   setUsers: action.setUsers,
-  setLeagues: action.setLeagues,
-  setPlayoffs: action.setPlayoffs
+  setLeagues: action.setLeagues
 };
 
 export default connect(

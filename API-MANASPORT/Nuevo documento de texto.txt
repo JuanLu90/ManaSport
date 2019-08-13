@@ -1,0 +1,5 @@
+SELECT
+	*, T.PG + T2.PE AS 'PTS'
+    FROM
+		(SELECT COUNT(*) * 3 as PG FROM manasport.`match` WHERE TournamentId = 1 AND localteam_score > awayteam_score GROUP BY localteamid) AS T,
+        (SELECT COUNT(*) as PE FROM manasport.`match` WHERE TournamentId = 1 AND localteam_score = awayteam_score GROUP BY localteamid) AS T2;

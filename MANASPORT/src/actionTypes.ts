@@ -56,33 +56,6 @@ type TLeagueTeams = {
     leagueTeams: []
 }
 
-//PLAYOFF
-type TPlayoff = {
-    type: "SET_PLAYOFFS";
-    playoffs: [];
-};
-
-type TNewPlayoff = {
-    type: "NEW_PLAYOFF";
-    playoff: ITournament
-};
-
-type TDeletePlayoff = {
-    type: "DELETE_PLAYOFF";
-    PlayoffId: number
-};
-
-type TPutPlayoff = {
-    type: "PUT_PLAYOFF";
-    PlayoffId: number;
-    playoff: ITournament;
-};
-
-type TPlayoffId = {
-    type: "SET_PLAYOFFID";
-    playoffId: number
-};
-
 
 //TEAMS
 type TTeamId = {
@@ -159,10 +132,9 @@ type TMatchs = {
 
 
 export type TAction = 
-            TToken |
+/*Token*/   TToken |
 /*User*/    TUser | TPutUser | TUserById |
 /*League*/  TNewLeague | TLeague | TPutLeague | TDeleteLeague | TLeagueId | TLeagueTeams |
-/*Playoff*/ TPlayoff | TNewPlayoff | TDeletePlayoff | TPlayoffId | TPutPlayoff |
 /*Team*/    TTeamId | TPutTeam |
 /*Matchs*/  TMatchs |
 /*Players*/ TPlayer | TPutPlayer | TPlayerId
