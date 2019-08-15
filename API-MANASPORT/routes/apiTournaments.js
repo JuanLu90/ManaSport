@@ -45,13 +45,13 @@ router.get("/tournaments/tournamentTeams/:TournamentId", (req, res) => {
     // WHERE T.TournamentId = TOUR.TournamentId
     // AND TOUR.disabled = 0 AND TOUR.TournamentId = ${TournamentId}
     // GROUP BY T.name;`,
-    `
-        SELECT T.TeamId, T.name, T.badge, T.locality, T.coach, T.coach2, T.contactEmail, T.contactPhone,
+
+    `SELECT T.TeamId, T.name, T.badge, T.locality, T.coach, T.coach2, T.contactEmail, T.contactPhone,
         COUNT(P.PlayerId) AS 'NPlayers' 
         FROM team T
         LEFT JOIN player P 
         ON P.TeamId = T.TeamId
-        WHERE T.TournamentId = ${TournamentId}
+        WHERE T.TournamentId = ${TournamentId} AND T.disabled = 0
         GROUP BY TeamId;`,
     (err, rows) => {
       if (err) throw err;
@@ -103,7 +103,7 @@ router.get("/tournaments/matchs/:TournamentId/:matchday", (req, res) => {
   const TournamentId = req.params.TournamentId;
   const matchday = req.params.matchday;
   dbConn.query(
-    `SELECT M.Matchid, M.date, T.name AS 'localTeam', T2.name AS 'awayTeam', M.localteam_score, M.awayteam_score, M.matchday, T.badge AS 'localbadge', T2.badge AS 'awaybadge'
+    `SELECT M.MatchId, M.date, T.name AS 'localTeam', T2.name AS 'awayTeam', M.localteam_score, M.awayteam_score, M.matchday, T.badge AS 'localbadge', T2.badge AS 'awaybadge'
 		FROM manasport.match AS M
 		LEFT JOIN team AS T
 		ON M.localTeamId = T.TeamId
@@ -117,14 +117,72 @@ router.get("/tournaments/matchs/:TournamentId/:matchday", (req, res) => {
   );
 });
 
+//SHOW QUALIFICATION OF A TOURNAMENT
+router.get("/tournaments/qualification/:TournamentId/", (req, res) => {
+  const TournamentId = req.params.TournamentId;
+  dbConn.query(
+    `SELECT
+    a1.badge,
+    a1.TeamId as "ID",
+    a1.name as "TEAM",
+    a1.ptswin + a2.ptsdraw AS 'PTS',
+    a1.pg AS 'PG',
+    a2.ptsdraw AS 'PE',
+    ((SELECT COUNT(TeamId) from team where TournamentId = ${TournamentId}) * 2 - a1.pg - a2.ptsdraw) AS "PP"
+FROM
+    (SELECT 
+        t.badge,
+        t.TeamId,
+            name,
+            3 * COUNT(m.MatchId) AS ptswin,
+            COUNT(m.MatchId) AS pg,
+            t.TournamentId
+    FROM
+        manasport.match m
+    JOIN manasport.team t
+    WHERE
+        (m.localTeamId = t.TeamId
+            AND m.localteam_score > m.awayteam_score)
+            OR (m.awayTeamId = t.TeamId
+            AND m.awayteam_score > m.localteam_score)
+    GROUP BY t.TeamId) AS a1
+        INNER JOIN
+    (SELECT 
+        t.TeamId, COUNT(m.MatchId) AS ptsdraw, t.TournamentId
+    FROM
+        manasport.match m
+    JOIN manasport.team t
+    WHERE
+        (m.localTeamId = t.TeamId
+            AND m.localteam_score = m.awayteam_score)
+            OR (m.awayTeamId = t.TeamId
+            AND m.awayteam_score = m.localteam_score)
+    GROUP BY t.TeamId) AS a2 ON a1.TeamId = a2.TeamId
+WHERE
+    a1.TournamentId = ${TournamentId}
+        AND a2.TournamentId = ${TournamentId}
+  ORDER BY PTS DESC`,
+    (err, rows) => {
+      if (err) throw err;
+      res.send(rows);
+    }
+  );
+});
 
-
-
-
-
-
-
-
+//Edit result of a match
+router.put("/tournaments/editMatch", (req, res) => {
+  const data = req.body;
+  dbConn.query(
+    `UPDATE manasport.match set 
+      localteam_score = ${data.localteam_score}, 
+      awayteam_score = ${data.awayteam_score} 
+      WHERE MatchId = '${data.MatchId}';`,
+    (err, rows) => {
+      if (err) throw err;
+      res.send(data);
+    }
+  );
+});
 
 function bergerTable(teams, useDummy = false, dummy = {}) {
   if (!Array.isArray(teams))
@@ -180,16 +238,16 @@ router.get("/tournaments/createMatchs/:TournamentId", (req, res) => {
         matches.map(match => {
           dbConn.query(
             `INSERT INTO manasport.match (localTeamId, awayTeamId, matchday, TournamentId) VALUES('${
-              teams[match.teamA].TeamId
+            teams[match.teamA].TeamId
             }', '${teams[match.teamB].TeamId}', '${
-              match.round
+            match.round
             }', '${TournamentId}')`
           );
           dbConn.query(
             `INSERT INTO manasport.match (localTeamId, awayTeamId, matchday, TournamentId) VALUES('${
-              teams[match.teamB].TeamId
+            teams[match.teamB].TeamId
             }', '${teams[match.teamA].TeamId}', '${match.round +
-              calculation.length}', '${TournamentId}')`
+            calculation.length}', '${TournamentId}')`
           );
         });
       });
@@ -197,19 +255,6 @@ router.get("/tournaments/createMatchs/:TournamentId", (req, res) => {
     }
   );
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // TORNEOS JUNTO A LOS EQUIPOS QUE PARTICIPAN
 // SELECT TOUR.TournamentId, TOUR.name, TOUR.UserId, T.name

@@ -1,4 +1,4 @@
-import { IUser, ITournament, ITeam, IPlayer } from './interfaces';
+import { IUser, ITournament, ITeam, IPlayer, IMatch } from './interfaces';
 
 //TOKEN
 type TToken = {
@@ -63,6 +63,16 @@ type TTeamId = {
     TeamId: number
 };
 
+type TNewTeam = {
+    type: "NEW_TEAM";
+    team: ITeam
+};
+
+type TDeleteTeam = {
+    type: "DELETE_TEAM";
+    TeamId: number
+};
+
 type TPutTeam = {
     type: "PUT_TEAM";
     TeamId: number;
@@ -92,6 +102,17 @@ type TMatchs = {
     type: "SET_MATCHS";
     matchs: [];
 };
+
+type TPutMatch = {
+    type: "PUT_MATCH";
+    MatchId: number;
+    match: IMatch;
+};
+
+type TQualification = {
+    type: "SET_QUALIFICATION";
+    qualification: [];
+}
 
 
 //TOURNAMENTS
@@ -135,6 +156,7 @@ export type TAction =
 /*Token*/   TToken |
 /*User*/    TUser | TPutUser | TUserById |
 /*League*/  TNewLeague | TLeague | TPutLeague | TDeleteLeague | TLeagueId | TLeagueTeams |
-/*Team*/    TTeamId | TPutTeam |
-/*Matchs*/  TMatchs |
-/*Players*/ TPlayer | TPutPlayer | TPlayerId
+/*Team*/    TTeamId | TNewTeam | TDeleteTeam | TPutTeam |
+/*Matchs*/  TMatchs | TPutMatch |
+/*Players*/ TPlayer | TPutPlayer | TPlayerId |
+/*Qualification*/ TQualification

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Table, Modal, Button } from "react-bootstrap";
-import { IMatch, ITeam } from "../../../../../../interfaces";
+import { IMatch, ITeam, IQualification } from "../../../../../../interfaces";
 import * as action from "../../../../../../action";
 import { IGlobalState } from "../../../../../../reducers/reducers";
-import EditMatchdayModal from "./editMatchdayModal/editMatchdayModal";
+import EditMatchDay from "./editMatchday/editMatchday";
 import { connect } from "react-redux";
 import { createBrowserHistory } from "history";
 import styled from "styled-components";
@@ -14,16 +14,16 @@ interface IpropsGlobal {
   leagueTeams: ITeam[];
   setMatchs: (matchs: IMatch[]) => void;
   matchs: IMatch[];
+  setQualification: (qualification: IQualification[]) => void;
+  qualification: IQualification[];
 }
 
 const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
-
-    // const [inputLeagueName, setInputLeagueName] = useState("");
-    // const [inputLeagueSport, setInputLeagueSport] = useState("Futbol");
-    // const [inputLeagueCategory, setInputLeagueCategory] = React.useState(
-    //   "Futbol 11"
-    // );
-
+  // const [inputLeagueName, setInputLeagueName] = useState("");
+  // const [inputLeagueSport, setInputLeagueSport] = useState("Futbol");
+  // const [inputLeagueCategory, setInputLeagueCategory] = React.useState(
+  //   "Futbol 11"
+  // );
 
   const [count, setCount] = React.useState(1);
   const matchdayAdd = () => {
@@ -33,29 +33,14 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
     setCount(count > 1 ? count - 1 : count);
   };
 
-  const [showEditMatchday, setEditMatchday] = useState(false);
-  const handleCloseEditMatchday = () => setEditMatchday(false);
-  const handleShowEditMatchday = () => setEditMatchday(true);
+  // const [showEditMatchday, setEditMatchday] = useState(false);
+  // const handleCloseEditMatchday = () => setEditMatchday(false);
+  // const handleShowEditMatchday = () => setEditMatchday(true);
 
-  function funcionEdittMatchday(DeleteLeagueId: any): any {
-    handleShowEditMatchday();
-    //   props.setMatchId(DeleteLeagueId);
-  }
-
-  // for (let i = 0; i < props.matchs.length; i++) {
-  //     let localteampoints = 0;
-  //     let awayteampoints = 0;
-  //     if (props.matchs[i].localteam_score > props.matchs[i].awayteam_score) {
-  //         localteampoints = localteampoints + 3
-  //     } else if (props.matchs[i].localteam_score < props.matchs[i].awayteam_score) {
-  //         awayteampoints = awayteampoints + 3;
-  //     } else {
-  //         localteampoints = localteampoints + 1;
-  //         awayteampoints = awayteampoints + 1;
-  //     }
-  //     console.log("localteampoints: " + localteampoints + "------" + "awayteampoints: " + awayteampoints)
+  // function funcionEdittMatchday(DeleteLeagueId: any): any {
+  //   handleShowEditMatchday();
+  //   //   props.setMatchId(DeleteLeagueId);
   // }
-
 
   const history = createBrowserHistory({});
   const path: any = history.location.pathname;
@@ -81,34 +66,22 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
     });
   }, [count]);
 
-    // const createMatchs = () => {
-    //   // const token = localStorage.getItem("token");
-    //   //   const decoded: any = jwt.decode(token);
-    //   //   const UserId: number = decoded.UserId;
-
-    //     fetch("http://localhost:8080/api/tournaments/createMatchs", {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-type": "application/json"
-    //       },
-    //       body: JSON.stringify({
-    //         localTeamId: inputLeagueName,
-    //         awayTeamId: inputLeagueSport,
-    //         matchday: matchday,
-    //         TournamentId: pathTournamentId
-    //       })
-    //     })
-    //       .then(response => {
-    //         if (response.ok) {
-    //           response.json().then(m => {
-    //             props.newMatch(m);
-    //           });
-    //         }
-    //       })
-    //       .catch(err => {
-    //         console.log("Error," + err);
-    //       });
-    // };
+  useEffect(() => {
+    //FETCH MATCHS INFO TO REDUX
+    fetch(
+      "http://localhost:8080/api/tournaments/qualification/" + pathTournamentId,
+      {
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json"
+        }
+      }
+    ).then(response => {
+      if (response.ok) {
+        response.json().then(result => props.setQualification(result));
+      }
+    });
+  }, []);
 
   // ****** Styles *******
   const Wrapper = styled.div`
@@ -117,9 +90,6 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
   const TableHead = styled.thead`
     font-family: "Roboto", sans-serif;
     color: #5e5e5e;
-  `;
-  const ImgBadge = styled.img`
-    height: 28px;
   `;
   // *********************
 
@@ -148,30 +118,12 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
                     </th>
                   </tr>
                   <tr>
-                    <th>
-                      <Button size="sm" onClick={handleShowEditMatchday}>
-                        Editar jornada
-                      </Button>
-                    </th>
+                    <th />
                   </tr>
                 </TableHead>
                 <tbody>
                   {props.matchs.map(m => (
-                    <tr key={m.MatchId} className="tbody-matchday">
-                      <td className="p-2 text-right team">{m.localTeam} </td>
-                      <td className="p-2 badge">
-                        <ImgBadge src={m.localbadge} alt="" />
-                      </td>
-                      <td className="p-2">
-                        {m.localteam_score === null && m.awayteam_score === null
-                          ? m.date
-                          : m.localteam_score + "-" + m.awayteam_score}
-                      </td>
-                      <td className="p-2 badge">
-                        <ImgBadge src={m.awaybadge} alt="" />
-                      </td>
-                      <td className="p-2 text-left team"> {m.awayTeam}</td>
-                    </tr>
+                    <EditMatchDay key={m.MatchId} m={m} />
                   ))}
                 </tbody>
               </Table>
@@ -186,8 +138,9 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
                 <TableHead>
                   <tr>
                     <th />
+                    <th />
                     <th>Equipo</th>
-                    <th>PT</th>
+                    <th>PTS</th>
                     <th>PJ</th>
                     <th>PG</th>
                     <th>PE</th>
@@ -195,15 +148,18 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
                   </tr>
                 </TableHead>
                 <tbody>
-                  <tr>
-                    <td className="p-2">1</td>
-                    <td className="p-2">Malaga CF</td>
-                    <td className="p-2">28</td>
-                    <td className="p-2">8</td>
-                    <td className="p-2">4</td>
-                    <td className="p-2">2</td>
-                    <td className="p-2">2</td>
-                  </tr>
+                  {props.qualification.map((q, i) => (
+                    <tr key={q.ID}>
+                      <td className="p-2">{i + 1 + "º"}</td>
+                      <td className="p-2"> <img src={q.badge} width="20" alt=""/></td>
+                      <td className="p-2">{q.TEAM}</td>
+                      <td className="p-2"><b>{q.PTS}</b></td>
+                      <td className="p-2">PJ</td>
+                      <td className="p-2">{q.PG}</td>
+                      <td className="p-2">{q.PE}</td>
+                      <td className="p-2">{q.PP}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </Table>
             </div>
@@ -213,20 +169,22 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
           Estadísticas
         </div>
       </div>
-      <Modal size="lg" show={showEditMatchday} onHide={() => null}>
+      {/* <Modal size="lg" show={showEditMatchday} onHide={() => null}>
         <EditMatchdayModal handleCloseEditMatchday={handleCloseEditMatchday} />
-      </Modal>
+      </Modal> */}
     </>
   );
 };
 
 const MapStateToProps = (state: IGlobalState) => ({
   matchs: state.matchs,
-  leagueTeams: state.leagueTeams
+  leagueTeams: state.leagueTeams,
+  qualification: state.qualification
 });
 
 const mapDispatchToProps = {
-  setMatchs: action.setMatchs
+  setMatchs: action.setMatchs,
+  setQualification: action.setQualification
 };
 
 export default connect(

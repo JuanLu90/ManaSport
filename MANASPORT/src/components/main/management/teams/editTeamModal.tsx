@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { InputGroup } from "react-bootstrap";
-import { ITournament, ITeam } from "../../../../../interfaces";
-import { IGlobalState } from "../../../../../reducers/reducers";
+import { ITournament, ITeam } from "../../../../interfaces";
+import { IGlobalState } from "../../../../reducers/reducers";
 import { connect } from "react-redux";
 import { createBrowserHistory } from "history";
-import * as action from "../../../../../action";
+import * as action from "../../../../action";
 
 interface IProps {
   leagues: ITournament[];
@@ -18,7 +18,6 @@ interface IPropsGlobal {
 }
 
 const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
-  const history = createBrowserHistory({ forceRefresh: true });
 
   const [inputTeamName, setInputTeamName] = React.useState("");
   const [inputTeamLocality, setInputTeamLocality] = React.useState("");
@@ -49,6 +48,9 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
   const currentTeam = props.leagueTeams.find(
     u => u.TeamId === props.DeleteLeagueId
   );
+  const history = createBrowserHistory({ forceRefresh: true });
+  const path: any = history.location.pathname;
+  let pathTournamentId = path.split(["/"]).slice(-1)[0];
 
   useEffect(() => {
     if (currentTeam) {
@@ -97,7 +99,7 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
           response.json().then(u => {
             props.putTeamById(currentTeam.TeamId, u);
             history.push(
-              "/management/leagueDetails/" + currentTeam.TournamentId
+              "/management/leagueDetails/" + pathTournamentId
             );
           });
         }

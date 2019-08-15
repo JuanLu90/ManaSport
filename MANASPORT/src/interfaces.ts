@@ -55,4 +55,14 @@ export interface IPlayer {
     image: string;
 }
 
+export interface IQualification {
+    ID: number;
+    TEAM: string;
+    badge: string;
+    PTS: number;
+    PG: number;
+    PE: number;
+    PP: number;
+}
+
 

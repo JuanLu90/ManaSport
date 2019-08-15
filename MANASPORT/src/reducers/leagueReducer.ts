@@ -26,7 +26,6 @@ export const LeaguesReducer = (
         const index = state.findIndex(l => l.TournamentId === action.LeagueId);
         leagues.splice(index, 1);
         return [...leagues];
-
     }
 
     return state;
