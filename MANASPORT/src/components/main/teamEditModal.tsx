@@ -1,15 +1,12 @@
 //React´s Components
 import React, { useEffect, useState } from "react";
 import { createBrowserHistory } from "history";
-
 //React Bootstrap
 import { InputGroup } from "react-bootstrap";
-
 //Redux
 import { IGlobalState } from "../../reducers/reducers";
 import * as action from "../../action";
 import { connect } from "react-redux";
-
 //Interfaces
 import { ITournament, ITeam } from "../../interfaces";
 

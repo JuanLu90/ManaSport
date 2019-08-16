@@ -1,27 +1,18 @@
 //React´s Components
 import React from "react";
 import { Link } from "react-router-dom";
-
 //JsonWebToken
 import jwt from "jsonwebtoken";
-
 //Interfaces
 import { IUser } from "../../interfaces";
-
 //Redux
 import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers/reducers";
-
 //Styled Components - CSSINJS
 import styled from "styled-components";
 
-//Global Props
-interface IProps { }
-interface IPropsGlobal {
-  users: IUser[];
-}
 
-//******** STYLES *********
+// ********* Styles - Styled Components - CSSINJS **********
 const Wrapper = styled.div`
       box-shadow: 2px 2px 2px 2px #888888;
       background: #ffffff;
@@ -33,9 +24,20 @@ const FontSpan = styled.span`
 const BorderRight = styled.span`
       border-color: #c4c3c3 !important;
   `
-//*************************
 
-const UserProfile: React.FC<IProps & IPropsGlobal> = props => {
+
+
+//----------------------------------------------------
+
+
+
+//Global Props
+interface IProps { }
+interface IPropsGlobal {
+  users: IUser[];
+}
+
+const UserProfile: React.FC<IProps & IPropsGlobal> = props => { //Function Component
   const token: any = localStorage.getItem("token"); //Token - Get the token stored from local storage
   const decoded: any = jwt.decode(token); //Decode token to get the current user
   const currentUser = props.users.find(u => u.UserId === decoded.UserId);

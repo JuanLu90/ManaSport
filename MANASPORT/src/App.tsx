@@ -116,7 +116,7 @@ const App: React.FC<IProps & IPropsGlobal> = props => { //Function Component
   );
 };
 
-const mapStateToProps = (state: IGlobalState) => ({ //Send props to redux
+const mapStateToProps = (state: IGlobalState) => ({
   leagues: state.leagues
 });
 

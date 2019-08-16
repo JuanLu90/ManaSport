@@ -1,23 +1,33 @@
+//React´s Components
 import React from "react";
 import { IGlobalState } from "../../reducers/reducers";
+import { createBrowserHistory } from "history";
+//Redux
 import { connect } from "react-redux";
 import * as action from "../../action";
-import { createBrowserHistory } from "history";
+//Interfaces
 import { ITeam } from "../../interfaces";
 
+
+
+//----------------------------------------------------
+
+
+
+
+//Global Props
 interface IProps {
   teams: ITeam[];
   handleCloseDeleteTeam: () => void;
 }
-
 interface IPropsGLobal {
   DeleteLeagueId: number;
   deleteTeamById: (TeamId: number) => void;
 }
 
-const DeleteTeamModal: React.FC<IProps & IPropsGLobal> = props => {
-  const history = createBrowserHistory({ forceRefresh: true });
-  const path: any = history.location.pathname;
+const DeleteTeamModal: React.FC<IProps & IPropsGLobal> = props => { //Function Component
+  const history = createBrowserHistory({ forceRefresh: true }); //Refresh the page
+  const path: any = history.location.pathname; //Get the path content
   let pathTournamentId = path.split(["/"]).slice(-1)[0];
 
   const deleteTeam = (TeamId: number) => {
@@ -36,7 +46,7 @@ const DeleteTeamModal: React.FC<IProps & IPropsGLobal> = props => {
     u => u.TeamId === props.DeleteLeagueId
   );
 
-  //Evita que 'league' sea undefined
+  //Avoid that 'team' will be undefined
   if (!currentTeam) {
     return null;
   }
@@ -57,7 +67,7 @@ const DeleteTeamModal: React.FC<IProps & IPropsGLobal> = props => {
           </button>
         </div>
         <div className="modal-body">
-          El equipo "<b>{currentTeam.name}</b>" y todos sus datos serán eliminada de manera 
+          El equipo "<b>{currentTeam.name}</b>" y todos sus datos serán eliminada de manera
           permanente e irreversible.
           <br />
           <br />

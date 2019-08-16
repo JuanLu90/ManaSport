@@ -1,4 +1,10 @@
+//React´s Components
 import React, { useEffect, useState } from "react";
+import { createBrowserHistory } from "history";
+//Components made by Juanlu
+import EditTeamModal from "./teamEditModal";
+import DeleteTeamModal from "./teamDeleteModal";
+//React Bootstrap
 import {
   Table,
   Tab,
@@ -12,17 +18,39 @@ import {
   InputGroup,
   Button
 } from "react-bootstrap";
+//Interfaces
 import { ITeam } from "../../interfaces";
+//Redux
 import * as action from "../../action";
 import { connect } from "react-redux";
-import { createBrowserHistory } from "history";
 import { IGlobalState } from "../../reducers/reducers";
-import EditTeamModal from "./teamEditModal";
-import DeleteTeamModal from "./teamDeleteModal";
+//Styled Components - CSSINJS
 import styled from "styled-components";
 
-interface IProps {}
 
+
+//----------------------------------------------------
+
+
+
+// ****** Styles *******
+const WrapperTeams = styled.div`
+    box-shadow: 2px 2px 2px 2px #888888;
+  `;
+const WrapperCardBody = styled.div`
+    background: #232980;
+  `;
+const ListgroupCard = styled.thead`
+    font-size: 0.8em;
+  `;
+const borderCard = {
+  border: "1px solid rgb(35, 41, 128)"
+};
+// *********************
+
+
+//Global Props
+interface IProps { }
 interface IPropsGlobal {
   leagueTeams: ITeam[];
   newTeam: (team: ITeam) => void;
@@ -32,19 +60,16 @@ interface IPropsGlobal {
   DeleteLeagueId: number;
 }
 
-const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
-  const token: any = localStorage.getItem("token");
+const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Function Component
+  const token: any = localStorage.getItem("token"); //Token - Get the token stored from local storage
   const history = createBrowserHistory({});
-  const path: any = history.location.pathname;
+  const path: any = history.location.pathname; //Get path content
   let pathTournamentId = path.split(["/"]).slice(-1)[0];
 
-  useEffect(() => {
-    //FETCH LEAGUE´S TEAMS TO REDUX
-    // const decoded: any = jwt.decode(token);
-    // const UserId: number = decoded.UserId;
+  useEffect(() => { //Fetch league´s teams to Redux every time token changes
     fetch(
       "http://localhost:8080/api/tournaments/tournamentTeams/" +
-        pathTournamentId,
+      pathTournamentId,
       {
         headers: {
           "Content-type": "application/json",
@@ -54,28 +79,22 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
       }
     ).then(response => {
       if (response.ok) {
-        response.json().then(result => props.setLeagueTeams(result));
+        response.json().then(teams => props.setLeagueTeams(teams));
       }
     });
   }, [token]);
 
-  const [showEditTeam, setEditTeam] = useState(false);
-  const handleCloseEditTeam = () => setEditTeam(false);
-  const handleShowEditTeam = () => setEditTeam(true);
+  const [showEditTeam, setEditTeam] = useState(false); //Hook for edit team modal
+  const handleCloseEditTeam = () => setEditTeam(false); //Close edit team modal
+  const handleShowEditTeam = () => setEditTeam(true); //Open edit team modal
 
+  //This function send the selected league ID to Redux and open the edit team modal
   function funcionEditTeam(DeleteLeagueId: any): any {
     handleShowEditTeam();
     props.setTeamId(DeleteLeagueId);
   }
 
-  // const currentTeam = props.leagueTeams.find(
-  //   u => u.TeamId === props.DeleteLeagueId
-  // );
-  //Evita que 'league' sea undefined
-  //   if (!currentTeam) {
-  //     return null;
-  //   }
-
+  //Hooks to create a new team
   const [inputTeamName, setInputTeamName] = useState("");
   const [inputTeamLocality, setInputTeamLocality] = useState("Álava");
   const [inputTeamCoach, setInputTeamCoach] = React.useState("");
@@ -83,6 +102,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
   const [inputTeamEmail, setInputTeamEmail] = React.useState("");
   const [inputTeamPhone, setInputTeamPhone] = React.useState("");
 
+  //Onchanges to create a new team
   const updateTeamName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputTeamName(event.currentTarget.value);
   };
@@ -102,20 +122,21 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
     setInputTeamPhone(event.currentTarget.value);
   };
 
-  const [showDeleteTeam, setDeleteTeam] = useState(false);
-  const handleCloseDeleteTeam = () => setDeleteTeam(false);
-  const handleShowDeleteTeam = () => setDeleteTeam(true);
+  const [showDeleteTeam, setDeleteTeam] = useState(false); //Hook to delete a team
+  const handleCloseDeleteTeam = () => setDeleteTeam(false); //Close delete team modal
+  const handleShowDeleteTeam = () => setDeleteTeam(true); //Open delete team modal
 
+  //This function send the selected league to Redux and open the delete team modal
   function funcionDeleteTeam(DeleteLeagueId: any): any {
     handleShowDeleteTeam();
     props.setTeamId(DeleteLeagueId);
   }
 
-  const [fetchError, setFetchError] = useState("");
+  const [fetchError, setFetchError] = useState(""); //Hook to manage an error
 
-  const sendTeam = () => {
-    const token = localStorage.getItem("token");
-    if (token) {
+  const sendTeam = () => { //Function Component
+    const token = localStorage.getItem("token");  //Token - Get the token stored from local storage
+    if (token) { // We need that token exits to decode it but React will fall down
       fetch("http://localhost:8080/api/teams/newTeam", {
         method: "POST",
         headers: {
@@ -154,21 +175,6 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
         });
     }
   };
-
-  // ****** Styles *******
-  const WrapperTeams = styled.div`
-    box-shadow: 2px 2px 2px 2px #888888;
-  `;
-  const WrapperCardBody = styled.div`
-    background: #232980;
-  `;
-  const ListgroupCard = styled.thead`
-    font-size: 0.8em;
-  `;
-  const borderCard = {
-    border: "1px solid rgb(35, 41, 128)"
-  };
-  // *********************
 
   return (
     <>

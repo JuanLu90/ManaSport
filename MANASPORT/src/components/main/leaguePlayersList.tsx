@@ -1,4 +1,8 @@
+//React´s Components
 import React, { useEffect, useState } from "react";
+//Components made by Juanlu
+import EditPlayerModal from "./editPlayerModal";
+//React Bootstrap
 import {
   Table,
   Tab,
@@ -9,15 +13,48 @@ import {
   ListGroup,
   Modal
 } from "react-bootstrap";
+//Interfaces
 import { ITeam, IPlayer } from "../../interfaces";
+//Redux
 import * as action from "../../action";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers/reducers";
-import EditPlayerModal from "./editPlayerModal";
+//Styled Components - CSSINJS
 import styled from "styled-components";
 
-interface IProps { }
 
+
+//----------------------------------------------------
+
+
+
+
+// ****** Styles *******
+const WrapperTeams = styled.div`
+  box-shadow: 2px 2px 2px 2px #888888;
+`
+const borderCard = {
+  border: '1px solid rgb(35, 41, 128)'
+};
+const WrapperCardBody = styled.div`
+  background: #232980;
+  height: 30px;
+  &:hover {
+    background-color: #50559A;
+    color: white;
+  }
+`
+const SpanNameTeam = styled.span`
+  font-size: 0.9em;
+`
+const ListgroupCard = styled.span`
+  font-size: 0.6em;
+`
+// *********************
+
+
+//Global Props
+interface IProps { }
 interface IPropsGlobal {
   leagueTeams: ITeam[];
   setLeagueTeams: (leagueTeams: ITeam[]) => void;
@@ -29,14 +66,22 @@ interface IPropsGlobal {
   setPlayerId: (PlayerId: number) => void;
 }
 
-const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
+const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Function Component
+  const [valueTeamId, setValueTeamId] = useState(1); //Hook the team ID to show the team players
 
-  const [valueTeamId, setValueTeamId] = useState(1);
 
-  useEffect(() => {
-    //FETCH LEAGUE´S TEAMS TO REDUX
-    // const decoded: any = jwt.decode(token);
-    // const UserId: number = decoded.UserId;
+  const [showEditPlayer, setEditPlayer] = useState(false); //Hook for edit player modal
+  const handleCloseEditPlayer = () => setEditPlayer(false); // Close edit player modal
+  const handleShowEditPlayer = () => setEditPlayer(true); // Show edit player modal
+
+  //This function send the selected team ID to Redux and open the edit team modal
+  function funcionEditPlayer(DeleteLeagueId: any): any {
+    handleShowEditPlayer();
+    props.setPlayerId(DeleteLeagueId);
+  }
+
+
+  useEffect(() => { //Fetch team players to redux every time the team ID changes
     fetch(
       "http://localhost:8080/api/teams/teamPlayers/" +
       valueTeamId,
@@ -49,48 +94,13 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
       }
     ).then(response => {
       if (response.ok) {
-        response.json().then(result => props.setTeamPlayers(result));
+        response.json().then(players => props.setTeamPlayers(players));
       }
     });
   }, [valueTeamId]);
 
-  const [showEditPlayer, setEditPlayer] = useState(false);
-  const handleCloseEditPlayer = () => setEditPlayer(false);
-  const handleShowEditPlayer = () => setEditPlayer(true);
-
-  function funcionEditPlayer(DeleteLeagueId: any): any {
-    handleShowEditPlayer();
-    props.setPlayerId(DeleteLeagueId);
-    console.log(DeleteLeagueId)
-  }
-
-
-  // ****** Styles *******
-  const WrapperTeams = styled.div`
-    box-shadow: 2px 2px 2px 2px #888888;
-  `
-  const borderCard = {
-    border: '1px solid rgb(35, 41, 128)'
-  };
-  //     background: #D63A3A
-  const WrapperCardBody = styled.div`
-    background: #232980;
-    height: 30px;
-    &:hover {
-      background-color: #50559A;
-      color: white;
-    }
-  `
-  const SpanNameTeam = styled.span`
-    font-size: 0.9em;
-  `
-  const ListgroupCard = styled.span`
-  font-size: 0.6em;
-  `
-  // *********************
-
   return (
-    <>
+    <> {/* '<> ... </>' used to send an only one container */}
       <div className="container-fluid text-dark">
         <div className="row">JUGADORES</div>
         <div className="row mt-1 ">

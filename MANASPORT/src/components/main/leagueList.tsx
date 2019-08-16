@@ -1,17 +1,50 @@
+//React´s Components
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+//Components made by Juanlu
+import DeleteLeagueModal from "./deleteLeagueModal";
+import EditLeagueModal from "./editLeagueModal";
+//React Bootstrap
 import { Button, InputGroup, Form, Table, Modal, Alert } from "react-bootstrap";
+//Interfaces
 import { ITournament } from "../../interfaces";
+//Redux
 import { IGlobalState } from "../../reducers/reducers";
 import { connect } from "react-redux";
 import * as action from "../../action";
-import DeleteLeagueModal from "./deleteLeagueModal";
-import EditLeagueModal from "./editLeagueModal";
+//JsonWebToken
 import jwt from "jsonwebtoken";
-import { Link } from "react-router-dom";
+//Styled Components - CSSINJS
 import styled from "styled-components";
 
-interface IProps {}
 
+
+// ********* Styles - Styled Components - CSSINJS **********
+const WrapperLeague = styled.div`
+    box-shadow: 2px 2px 2px 2px #888888;
+    background: white;
+  `;
+const TableHead = styled.thead`
+    font-family: "Roboto", sans-serif;
+    color: #5e5e5e;
+  `;
+const TableTBody = styled.tbody`
+    font-family: "Source Sans Pro", sans-serif;
+    color: #888888;
+  `;
+const Title = styled.thead`
+    font-family: "Lato", sans-serif;
+    color: #5e5e5e;
+  `;
+
+
+  
+//----------------------------------------------------
+
+
+
+//Global Props
+interface IProps { }
 interface IPropsGlobal {
   leagues: ITournament[];
   newLeague: (league: ITournament) => void;
@@ -99,30 +132,6 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
         });
     }
   };
-
-  // ****** Styles *******
-  const WrapperLeague = styled.div`
-    box-shadow: 2px 2px 2px 2px #888888;
-    background: white;
-  `;
-  const TableHead = styled.thead`
-    font-family: "Roboto", sans-serif;
-    color: #5e5e5e;
-  `;
-  const TableTBody = styled.tbody`
-    font-family: "Source Sans Pro", sans-serif;
-    color: #888888;
-  `;
-  const Title = styled.thead`
-    font-family: "Lato", sans-serif;
-    color: #5e5e5e;
-  `;
-  // const theme = {
-  //   background: 'mediumseagreen',
-  //   shadow: 'rgba(0, 0, 0, 0.7)',
-  // };
-
-  // *********************
 
   return (
     <div className="container-fluid text-dark">

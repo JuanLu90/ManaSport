@@ -1,8 +1,8 @@
 import React from "react";
 import { Tab, Nav, DropdownButton, Dropdown } from "react-bootstrap";
 import LeagueDetailsGeneral from "./leagueDetailsGeneral";
-import LeagueDetailsTeams from "./leagueDetailsTeams";
-import LeagueDetailsPlayers from "./leagueDetailsPlayers";
+import LeagueDetailsTeams from "./leagueTeamsList";
+import LeagueDetailsPlayers from "./leaguePlayersList";
 
 const LeagueDetails: React.FC = () => {
 

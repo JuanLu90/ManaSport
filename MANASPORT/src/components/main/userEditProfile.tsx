@@ -2,28 +2,21 @@
 import React, { useEffect, useState } from "react";
 import { createBrowserHistory } from "history";
 import { Link, RouteComponentProps } from "react-router-dom";
-
 //React Bootstrap
 import DatePicker from "react-datepicker";
 import { Modal } from "react-bootstrap";
-
 //Interfaces
 import { IUser } from "../../interfaces";
-
 //Components made by Juanlu
 import EditAvatarModal from "./editAvatarModal";
-
 //Redux
 import { IGlobalState } from "../../reducers/reducers";
 import { connect } from "react-redux";
 import * as action from "../../action";
-
 //JsonWebToken
 import jwt from "jsonwebtoken";
-
 //Styled Components - CSSINJS
 import styled from "styled-components";
-
 //CSS
 import "react-datepicker/dist/react-datepicker.css";
 
