@@ -108,6 +108,11 @@ export const setMatchs: ActionCreator<TAction> = (matchs: []) => ({
     matchs
 });
 
+export const setMatchId: ActionCreator<TAction> = (MatchId: number) => ({
+    type: "SET_MATCHID",
+    MatchId
+});
+
 export const putMatchById: ActionCreator<TAction> = (MatchId: number, match: IMatch) => ({
     type: "PUT_MATCH",
     MatchId,

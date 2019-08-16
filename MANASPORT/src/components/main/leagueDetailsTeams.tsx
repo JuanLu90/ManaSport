@@ -12,16 +12,16 @@ import {
   InputGroup,
   Button
 } from "react-bootstrap";
-import { ITeam } from "../../../../../../interfaces";
-import * as action from "../../../../../../action";
+import { ITeam } from "../../interfaces";
+import * as action from "../../action";
 import { connect } from "react-redux";
 import { createBrowserHistory } from "history";
-import { IGlobalState } from "../../../../../../reducers/reducers";
-import EditTeamModal from "../../../teams/editTeamModal";
-import DeleteTeamModal from "../../../teams/deleteTeamModal";
+import { IGlobalState } from "../../reducers/reducers";
+import EditTeamModal from "./teamEditModal";
+import DeleteTeamModal from "./teamDeleteModal";
 import styled from "styled-components";
 
-interface IProps { }
+interface IProps {}
 
 interface IPropsGlobal {
   leagueTeams: ITeam[];
@@ -44,7 +44,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
     // const UserId: number = decoded.UserId;
     fetch(
       "http://localhost:8080/api/tournaments/tournamentTeams/" +
-      pathTournamentId,
+        pathTournamentId,
       {
         headers: {
           "Content-type": "application/json",
@@ -83,8 +83,6 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
   const [inputTeamEmail, setInputTeamEmail] = React.useState("");
   const [inputTeamPhone, setInputTeamPhone] = React.useState("");
 
-
-
   const updateTeamName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputTeamName(event.currentTarget.value);
   };
@@ -113,6 +111,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
     props.setTeamId(DeleteLeagueId);
   }
 
+  const [fetchError, setFetchError] = useState("");
 
   const sendTeam = () => {
     const token = localStorage.getItem("token");
@@ -136,6 +135,17 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
           if (response.ok) {
             response.json().then(t => {
               props.newTeam(t);
+              setInputTeamName("");
+              setInputTeamCoach("");
+              setInputTeamCoach2("");
+              setInputTeamEmail("");
+              setInputTeamPhone("");
+            });
+          } else {
+            response.json().then(({ e }) => {
+              if (e === 1062) {
+                setFetchError("El nombre del equipo ya existe");
+              }
             });
           }
         })
@@ -148,17 +158,16 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
   // ****** Styles *******
   const WrapperTeams = styled.div`
     box-shadow: 2px 2px 2px 2px #888888;
-  `
-  const borderCard = {
-    border: '1px solid rgb(35, 41, 128)'
-  };
-
+  `;
   const WrapperCardBody = styled.div`
     background: #232980;
-  `
+  `;
   const ListgroupCard = styled.thead`
     font-size: 0.8em;
-  `
+  `;
+  const borderCard = {
+    border: "1px solid rgb(35, 41, 128)"
+  };
   // *********************
 
   return (
@@ -170,18 +179,21 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
               <Nav
                 variant="pills"
-                className="flex-fill text-right justify-content-end mb-3">
+                className="flex-fill text-right justify-content-end mb-3"
+              >
                 <Nav.Item style={{ width: "2rem" }}>
                   <Nav.Link
                     eventKey="first"
-                    className="pt-0 pl-0 pr-0 pb-1 bg-light text-center">
+                    className="pt-0 pl-0 pr-0 pb-1 bg-light text-center"
+                  >
                     <img src="/images/other/normal.png" width="20" alt="" />
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item style={{ width: "2rem" }}>
                   <Nav.Link
                     eventKey="second"
-                    className="pt-0 pl-0 pr-0 pb-1 bg-light text-center">
+                    className="pt-0 pl-0 pr-0 pb-1 bg-light text-center"
+                  >
                     <img src="/images/other/cards.png" width="20" alt="" />
                   </Nav.Link>
                 </Nav.Item>
@@ -262,11 +274,15 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
                       <CardDeck
                         key={l.TeamId}
                         className="m-1"
-                        style={{ width: "18rem" }}>
+                        style={{ width: "18rem" }}
+                      >
                         <Card style={borderCard}>
                           <WrapperCardBody>
                             <Card.Body>
-                              <Card.Img src={l.badge} style={{ width: "4rem" }} />
+                              <Card.Img
+                                src={l.badge}
+                                style={{ width: "4rem" }}
+                              />
                               <Card.Title className="text-light">
                                 {l.name === null ? "-" : l.name}
                               </Card.Title>
@@ -274,7 +290,10 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
                           </WrapperCardBody>
                           <ListgroupCard>
                             <ListGroup className="list-group-flush text-left">
-                              <ListGroupItem className="p-2" variant="secondary">
+                              <ListGroupItem
+                                className="p-2"
+                                variant="secondary"
+                              >
                                 <b>Localidad: </b>
                                 {l.locality === null ? "-" : l.locality}
                               </ListGroupItem>
@@ -282,7 +301,10 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
                                 <b>Entrenador: </b>
                                 {l.coach === null ? "-" : l.coach}
                               </ListGroupItem>
-                              <ListGroupItem className="p-2" variant="secondary">
+                              <ListGroupItem
+                                className="p-2"
+                                variant="secondary"
+                              >
                                 <b>2º Entrenador: </b>
                                 {l.coach2 === null ? "-" : l.coach2}
                               </ListGroupItem>
@@ -290,7 +312,10 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
                                 <b>Email: </b>
                                 {l.contactEmail === null ? "-" : l.contactEmail}
                               </ListGroupItem>
-                              <ListGroupItem className="p-2" variant="secondary">
+                              <ListGroupItem
+                                className="p-2"
+                                variant="secondary"
+                              >
                                 <b>Teléfono: </b>
                                 {l.contactPhone === null ? "-" : l.contactPhone}
                               </ListGroupItem>
@@ -329,61 +354,63 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
                   <InputGroup.Prepend>
                     <InputGroup.Text id="inputGroup-sizing-sm">
                       Provincia*
-                  </InputGroup.Text>
+                    </InputGroup.Text>
                   </InputGroup.Prepend>
                   <Form.Control as="select" onChange={updateTeamLocality}>
-                    <option value='alava'>Álava</option>
-                    <option value='albacete'>Albacete</option>
-                    <option value='alicante' >Alicante</option>
-                    <option value='almeria'>Almería</option>
-                    <option value='asturias'>Asturias</option>
-                    <option value='avila'>Ávila</option>
-                    <option value='badajoz'>Badajoz</option>
-                    <option value='barcelona'>Barcelona</option>
-                    <option value='burgos'>Burgos</option>
-                    <option value='caceres'>Cáceres</option>
-                    <option value='cadiz'>Cádiz</option>
-                    <option value='cantabria'>Cantabria</option>
-                    <option value='castellon'>Castellón</option>
-                    <option value='ceuta'>Ceuta</option>
-                    <option value='ciudadreal'>Ciudad Real</option>
-                    <option value='cordoba'>Córdoba</option>
-                    <option value='cuenca'>Cuenca</option>
-                    <option value='girona'>Girona</option>
-                    <option value='laspalmas'>Las Palmas</option>
-                    <option value='granada'>Granada</option>
-                    <option value='guadalajara'>Guadalajara</option>
-                    <option value='guipuzcoa'>Guipúzcoa</option>
-                    <option value='huelva'>Huelva</option>
-                    <option value='huesca'>Huesca</option>
-                    <option value='illesbalears'>Illes Balears</option>
-                    <option value='jaen'>Jaén</option>
-                    <option value='acoruña'>A Coruña</option>
-                    <option value='larioja'>La Rioja</option>
-                    <option value='leon'>León</option>
-                    <option value='lleida'>Lleida</option>
-                    <option value='lugo'>Lugo</option>
-                    <option value='madrid'>Madrid</option>
-                    <option value='malaga'>Málaga</option>
-                    <option value='melilla'>Melilla</option>
-                    <option value='murcia'>Murcia</option>
-                    <option value='navarra'>Navarra</option>
-                    <option value='ourense'>Ourense</option>
-                    <option value='palencia'>Palencia</option>
-                    <option value='pontevedra'>Pontevedra</option>
-                    <option value='salamanca'>Salamanca</option>
-                    <option value='segovia'>Segovia</option>
-                    <option value='sevilla'>Sevilla</option>
-                    <option value='soria'>Soria</option>
-                    <option value='tarragona'>Tarragona</option>
-                    <option value='santacruztenerife'>Santa Cruz de Tenerife</option>
-                    <option value='teruel'>Teruel</option>
-                    <option value='toledo'>Toledo</option>
-                    <option value='valencia'>Valencia</option>
-                    <option value='valladolid'>Valladolid</option>
-                    <option value='vizcaya'>Vizcaya</option>
-                    <option value='zamora'>Zamora</option>
-                    <option value='zaragoza'>Zaragoza</option>
+                    <option value="alava">Álava</option>
+                    <option value="albacete">Albacete</option>
+                    <option value="alicante">Alicante</option>
+                    <option value="almeria">Almería</option>
+                    <option value="asturias">Asturias</option>
+                    <option value="avila">Ávila</option>
+                    <option value="badajoz">Badajoz</option>
+                    <option value="barcelona">Barcelona</option>
+                    <option value="burgos">Burgos</option>
+                    <option value="caceres">Cáceres</option>
+                    <option value="cadiz">Cádiz</option>
+                    <option value="cantabria">Cantabria</option>
+                    <option value="castellon">Castellón</option>
+                    <option value="ceuta">Ceuta</option>
+                    <option value="ciudadreal">Ciudad Real</option>
+                    <option value="cordoba">Córdoba</option>
+                    <option value="cuenca">Cuenca</option>
+                    <option value="girona">Girona</option>
+                    <option value="laspalmas">Las Palmas</option>
+                    <option value="granada">Granada</option>
+                    <option value="guadalajara">Guadalajara</option>
+                    <option value="guipuzcoa">Guipúzcoa</option>
+                    <option value="huelva">Huelva</option>
+                    <option value="huesca">Huesca</option>
+                    <option value="illesbalears">Illes Balears</option>
+                    <option value="jaen">Jaén</option>
+                    <option value="acoruña">A Coruña</option>
+                    <option value="larioja">La Rioja</option>
+                    <option value="leon">León</option>
+                    <option value="lleida">Lleida</option>
+                    <option value="lugo">Lugo</option>
+                    <option value="madrid">Madrid</option>
+                    <option value="malaga">Málaga</option>
+                    <option value="melilla">Melilla</option>
+                    <option value="murcia">Murcia</option>
+                    <option value="navarra">Navarra</option>
+                    <option value="ourense">Ourense</option>
+                    <option value="palencia">Palencia</option>
+                    <option value="pontevedra">Pontevedra</option>
+                    <option value="salamanca">Salamanca</option>
+                    <option value="segovia">Segovia</option>
+                    <option value="sevilla">Sevilla</option>
+                    <option value="soria">Soria</option>
+                    <option value="tarragona">Tarragona</option>
+                    <option value="santacruztenerife">
+                      Santa Cruz de Tenerife
+                    </option>
+                    <option value="teruel">Teruel</option>
+                    <option value="toledo">Toledo</option>
+                    <option value="valencia">Valencia</option>
+                    <option value="valladolid">Valladolid</option>
+                    <option value="vizcaya">Vizcaya</option>
+                    <option value="zamora">Zamora</option>
+                    <option value="zaragoza">Zaragoza</option>
                   </Form.Control>
                 </InputGroup>
               </div>
@@ -456,7 +483,8 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
                   onClick={sendTeam}
                 >
                   Crear
-               </Button>
+                </Button>
+                {fetchError && <div className="bg-danger">{fetchError}</div>}
               </div>
             </div>
           </div>

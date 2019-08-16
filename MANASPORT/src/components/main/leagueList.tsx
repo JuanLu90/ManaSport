@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Button, InputGroup, Form, Table, Modal, Alert } from "react-bootstrap";
-import { ITournament } from "../../../../interfaces";
-import { IGlobalState } from "../../../../reducers/reducers";
+import { ITournament } from "../../interfaces";
+import { IGlobalState } from "../../reducers/reducers";
 import { connect } from "react-redux";
-import * as action from "../../../../action";
-import DeleteLeagueModal from "../deleteLeagueModal";
-import EditLeagueModal from "../editLeagueModal";
+import * as action from "../../action";
+import DeleteLeagueModal from "./deleteLeagueModal";
+import EditLeagueModal from "./editLeagueModal";
 import jwt from "jsonwebtoken";
 import { Link } from "react-router-dom";
 import styled from "styled-components";

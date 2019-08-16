@@ -1,24 +1,37 @@
-import React, { useEffect } from "react";
-import { InputGroup } from "react-bootstrap";
-import { ITournament, ITeam } from "../../../../interfaces";
-import { IGlobalState } from "../../../../reducers/reducers";
-import { connect } from "react-redux";
+//React´s Components
+import React, { useEffect, useState } from "react";
 import { createBrowserHistory } from "history";
-import * as action from "../../../../action";
 
+//React Bootstrap
+import { InputGroup } from "react-bootstrap";
+
+//Redux
+import { IGlobalState } from "../../reducers/reducers";
+import * as action from "../../action";
+import { connect } from "react-redux";
+
+//Interfaces
+import { ITournament, ITeam } from "../../interfaces";
+
+
+
+//----------------------------------------------------
+
+
+
+//Global Props
 interface IProps {
   leagues: ITournament[];
   leagueTeams: ITeam[];
   handleCloseEditTeam: () => void;
   putTeamById: (TeamId: number, team: ITeam) => void;
 }
-
 interface IPropsGlobal {
   DeleteLeagueId: number;
 }
 
 const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
-
+  //Hooks update Team
   const [inputTeamName, setInputTeamName] = React.useState("");
   const [inputTeamLocality, setInputTeamLocality] = React.useState("");
   const [inputTeamCoach, setInputTeamCoach] = React.useState("");
@@ -26,6 +39,7 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
   const [inputTeamEmail, setInputTeamEmail] = React.useState("");
   const [inputTeamPhone, setInputTeamPhone] = React.useState("");
 
+  //Onchanges input teams
   const updateTeamName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputTeamName(event.currentTarget.value);
   };
@@ -45,14 +59,18 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
     setInputTeamPhone(event.currentTarget.value);
   };
 
-  const currentTeam = props.leagueTeams.find(
+  // Hook to get fetch error
+  const [fetchError, setFetchError] = useState("");
+
+  const currentTeam = props.leagueTeams.find( //Avoid that 'team' will be undefined
     u => u.TeamId === props.DeleteLeagueId
   );
+
   const history = createBrowserHistory({ forceRefresh: true });
   const path: any = history.location.pathname;
-  let pathTournamentId = path.split(["/"]).slice(-1)[0];
+  let pathTournamentId = path.split(["/"]).slice(-1)[0]; //Get the TournamentID from the path
 
-  useEffect(() => {
+  useEffect(() => { //Fetch current team every time it changes
     if (currentTeam) {
       setInputTeamName(currentTeam.name);
       setInputTeamLocality(currentTeam.locality);
@@ -64,11 +82,11 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
   }, [currentTeam]);
 
   const editCurrentTeam = () => {
-    //Evita que 'league' sea undefined
+    //Avoid that 'team' will be undefined
     if (!currentTeam) {
       return null;
     }
-    fetch("http://localhost:8080/api/teams/editTeam/" + currentTeam.TeamId, {
+    fetch("http://localhost:8080/api/teams/editTeam/" + currentTeam.TeamId, { //Fetch the current team updated
       method: "PUT",
       headers: {
         "Content-type": "application/json",
@@ -98,9 +116,13 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
           };
           response.json().then(u => {
             props.putTeamById(currentTeam.TeamId, u);
-            history.push(
-              "/management/leagueDetails/" + pathTournamentId
-            );
+            history.push("/management/leagueDetails/" + pathTournamentId);
+          });
+        } else {
+          response.json().then(({ e }) => {
+            if (e === 1048) {
+              setFetchError("El nombre del equipo no puede estar vacío");
+            }
           });
         }
       })
@@ -227,13 +249,16 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
           <div className="col">
             <button onClick={editCurrentTeam}>Enviar</button>
           </div>
+          <div className="col">
+            {fetchError && <div className="bg-danger">{fetchError}</div>}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = (state: IGlobalState) => ({
+const mapStateToProps = (state: IGlobalState) => ({ //Send Props to redux
   leagueTeams: state.leagueTeams,
   leagues: state.leagues,
   DeleteLeagueId: state.TournamentId,

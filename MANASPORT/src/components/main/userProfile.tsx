@@ -1,52 +1,50 @@
+//React´s Components
 import React from "react";
-import jwt from "jsonwebtoken";
-import { IUser } from "../../../../interfaces";
-import { connect } from "react-redux";
-import { IGlobalState } from "../../../../reducers/reducers";
 import { Link } from "react-router-dom";
+
+//JsonWebToken
+import jwt from "jsonwebtoken";
+
+//Interfaces
+import { IUser } from "../../interfaces";
+
+//Redux
+import { connect } from "react-redux";
+import { IGlobalState } from "../../reducers/reducers";
+
+//Styled Components - CSSINJS
 import styled from "styled-components";
 
+//Global Props
 interface IProps { }
-
 interface IPropsGlobal {
   users: IUser[];
 }
 
+//******** STYLES *********
+const Wrapper = styled.div`
+      box-shadow: 2px 2px 2px 2px #888888;
+      background: #ffffff;
+      margin-top: 100px;
+  `
+const FontSpan = styled.span`
+      font-family: 'Anton', sans-serif;
+  `
+const BorderRight = styled.span`
+      border-color: #c4c3c3 !important;
+  `
+//*************************
+
 const UserProfile: React.FC<IProps & IPropsGlobal> = props => {
-  const token: any = localStorage.getItem("token");
-  const decoded: any = jwt.decode(token);
+  const token: any = localStorage.getItem("token"); //Token - Get the token stored from local storage
+  const decoded: any = jwt.decode(token); //Decode token to get the current user
   const currentUser = props.users.find(u => u.UserId === decoded.UserId);
 
-  //Evita que 'user' sea undefined
-  if (!currentUser) {
+  if (!currentUser) { //Avoid that 'user' will be undefined
     return null;
   }
 
-
-
-
-
-  //******** STYLES *********
-  const Wrapper = styled.div`
-      box-shadow: 2px 2px 2px 2px #888888;
-      background: #ffffff;
-  `
-  const FontSpan = styled.span`
-      font-family: 'Anton', sans-serif;
-  `
-  const BorderRight = styled.span`
-      border-color: #c4c3c3 !important;
-  `
-
-    // const Wrapper = styled('div')({
-    //   background: '#ffffff',
-    //   height: '120vh !important'
-    // });
-
-  //*************************
-
   return (
-    <>
       <Wrapper className="container w-75 border border-light">
         <div className="row ">
           <BorderRight className="col text-dark border-right border-dark">
@@ -55,7 +53,7 @@ const UserProfile: React.FC<IProps & IPropsGlobal> = props => {
                 <FontSpan className="h2">
                   Perfil
                   <Link to={"/management/user/edit"}>
-                    <img src="/images/other/edit.png" width="20" alt="" />{" "}
+                    <img src="/images/other/edit.png" width="20" alt="" />
                   </Link>
                 </FontSpan>
               </div>
@@ -104,12 +102,6 @@ const UserProfile: React.FC<IProps & IPropsGlobal> = props => {
           </div>
         </div>
       </Wrapper>
-      <div className="container">
-        <div className="row justify-content-center">
-          <button className="m-2">Enviar</button>
-        </div>
-      </div>
-    </>
   );
 };
 

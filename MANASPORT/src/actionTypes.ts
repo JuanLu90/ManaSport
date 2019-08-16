@@ -103,6 +103,11 @@ type TMatchs = {
     matchs: [];
 };
 
+type TMatchId = {
+    type: "SET_MATCHID";
+    MatchId: number
+};
+
 type TPutMatch = {
     type: "PUT_MATCH";
     MatchId: number;
@@ -157,6 +162,6 @@ export type TAction =
 /*User*/    TUser | TPutUser | TUserById |
 /*League*/  TNewLeague | TLeague | TPutLeague | TDeleteLeague | TLeagueId | TLeagueTeams |
 /*Team*/    TTeamId | TNewTeam | TDeleteTeam | TPutTeam |
-/*Matchs*/  TMatchs | TPutMatch |
+/*Matchs*/  TMatchs | TPutMatch | TMatchId |
 /*Players*/ TPlayer | TPutPlayer | TPlayerId |
 /*Qualification*/ TQualification

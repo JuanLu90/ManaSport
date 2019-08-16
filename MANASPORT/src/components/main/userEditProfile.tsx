@@ -1,36 +1,55 @@
+//React´s Components
 import React, { useEffect, useState } from "react";
-import { IGlobalState } from "../../../../../reducers/reducers";
-import { connect } from "react-redux";
-import { IUser } from "../../../../../interfaces";
-import jwt from "jsonwebtoken";
-import * as action from "../../../../../action";
-import EditAvatarModal from "./editAvatarModal/editAvatarModal";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { createBrowserHistory } from "history";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
+
+//React Bootstrap
+import DatePicker from "react-datepicker";
 import { Modal } from "react-bootstrap";
+
+//Interfaces
+import { IUser } from "../../interfaces";
+
+//Components made by Juanlu
+import EditAvatarModal from "./editAvatarModal";
+
+//Redux
+import { IGlobalState } from "../../reducers/reducers";
+import { connect } from "react-redux";
+import * as action from "../../action";
+
+//JsonWebToken
+import jwt from "jsonwebtoken";
+
+//Styled Components - CSSINJS
 import styled from "styled-components";
 
-interface IProps { }
+//CSS
+import "react-datepicker/dist/react-datepicker.css";
 
+
+
+//----------------------------------------------------
+
+
+
+//Global Props
+interface IProps { }
 interface IPropsGlobal {
   token: string;
   users: IUser[];
   putUserById: (UserId: string, user: IUser) => void;
 }
 
-const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
-  const [inputUsername, setInputUsername] = React.useState("");
+const EditUserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props => { //Function Component
+  //Hooks to edit user
   const [inputName, setInputName] = React.useState("");
   const [inputSurname, setInputSurname] = React.useState("");
   const [inputEmail, setInputEmail] = React.useState("");
   // const [inputBirthDate, setInputBirthDate] = React.useState(new Date());
   const [inputAvatar, setInputAvatar] = React.useState("");
 
-  const updateUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputUsername(event.currentTarget.value);
-  };
+  //Onchanges for inputs
   const updateName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputName(event.currentTarget.value);
   };
@@ -63,20 +82,18 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
     setInputAvatar(event.currentTarget.value);
   };
 
-  const token: any = localStorage.getItem("token");
+  const token: any = localStorage.getItem("token"); // Get the token stored from local storage to get the UserId
   const decoded: any = jwt.decode(token);
-
   const currentUser = props.users.find(u => u.UserId === decoded.UserId);
   const history = createBrowserHistory({ forceRefresh: true });
 
 
-  const [showEditAvatar, setEditAvatar] = useState(false);
+  const [showEditAvatar, setEditAvatar] = useState(false); //Hook for edit avatar modal
   const handleCloseEditAvatar = () => setEditAvatar(false);
   const handleShowEditAvatar = () => setEditAvatar(true);
 
-  useEffect(() => {
+  useEffect(() => { //Update inputs with information about current user
     if (currentUser) {
-      setInputUsername(currentUser.username);
       setInputEmail(currentUser.email);
       setInputName(currentUser.name);
       setInputSurname(currentUser.surname);
@@ -85,23 +102,22 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
     }
   }, [currentUser]);
 
-  //Evita que 'user' sea undefined
+  //Avoid that 'user' will be undefined
   if (!currentUser) {
     return null;
   }
 
-
-  const editCurrentUserById = () => {
-    fetch("http://localhost:8080/api/users/edit/" + currentUser.UserId, {
+  const editCurrentUserById = () => { //Function Component
+    fetch("http://localhost:8080/api/users/edit/" + currentUser.UserId, { //Fetch current user updated to redux
       method: "PUT",
       headers: {
         "Content-type": "application/json",
         Accept: "application/json"
         // Authorization: "Bearer " + props.token
       },
-      body: JSON.stringify({
+      body: JSON.stringify({ //New info about user
         UserId: currentUser.UserId,
-        username: inputUsername,
+        username: currentUser.username,
         name: inputName,
         surname: inputSurname,
         email: inputEmail,
@@ -113,10 +129,10 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
         if (response.ok) {
           const u: any = {
             UserId: currentUser.UserId,
-            username: inputUsername,
-            name: inputName,
-            surname: inputSurname,
-            email: inputEmail,
+            username: currentUser.username,
+            name: currentUser.name,
+            surname: currentUser.surname,
+            email: currentUser.email,
             avatar: currentUser.avatar
             // birthDate: inputBirthDate
           };
@@ -132,7 +148,7 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
   };
 
   //******** STYLES *********
-  
+
   const Wrapper = styled.div`
       box-shadow: 2px 2px 2px 2px #888888;
       background: #ffffff;
@@ -241,9 +257,16 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
       </Wrapper>
       <div className="container">
         <div className="row justify-content-center">
-          <button className="m-2" onClick={editCurrentUserById}>
-            Enviar
+          <div className="col">
+            <button className="m-2" onClick={() => props.history.push("/management/user")}>
+              Volver
           </button>
+          </div>
+          <div className="col">
+            <button className="m-2" onClick={editCurrentUserById}>
+              Enviar
+          </button>
+          </div>
         </div>
       </div>
       <Modal size="lg" show={showEditAvatar} onHide={() => null}>
@@ -253,7 +276,7 @@ const EditUserProfile: React.FC<IProps & IPropsGlobal> = props => {
   );
 };
 
-const mapStateToProps = (state: IGlobalState) => ({
+const mapStateToProps = (state: IGlobalState) => ({ //Send props to redux
   token: state.token,
   users: state.users,
   putUserById: action.putUserById

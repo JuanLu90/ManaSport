@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Table, Modal, Button } from "react-bootstrap";
-import { IMatch, ITeam, IQualification } from "../../../../../../interfaces";
-import * as action from "../../../../../../action";
-import { IGlobalState } from "../../../../../../reducers/reducers";
-import EditMatchDay from "./editMatchday/editMatchday";
+import { IMatch, ITeam, IQualification } from "../../interfaces";
+import * as action from "../../action";
+import { IGlobalState } from "../../reducers/reducers";
+import EditMatchDay from "./editMatchday";
 import { connect } from "react-redux";
 import { createBrowserHistory } from "history";
 import styled from "styled-components";
@@ -83,6 +83,20 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
     });
   }, []);
 
+  const createMatchs = () => {
+    fetch("http://localhost:8080/api/tournaments/createMatchs/" + pathTournamentId, {
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json"
+        // Authorization: "Bearer " + props.token
+      }
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(result => props.setMatchs(result));
+      }
+    });
+  }
+
   // ****** Styles *******
   const Wrapper = styled.div`
     box-shadow: 2px 2px 2px 2px #888888;
@@ -100,6 +114,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
           <Wrapper className="col p-3 m-1 text-center">
             <div className="row pb-3">
               <div className="col text-center">CALENDARIO</div>
+              <div className="col"><button onClick={createMatchs}>Crear Calendario</button></div>
             </div>
             <div className="row">
               <Table responsive striped hover>

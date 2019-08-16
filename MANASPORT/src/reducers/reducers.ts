@@ -16,6 +16,7 @@ export interface IGlobalState {
   teams: ITeam[];
   TournamentId: number;
   TeamId: number;
+  MatchId: number;
   leagueTeams: ITeam[];
   matchs: IMatch[];
   teamPlayers: IPlayer[];
@@ -32,5 +33,6 @@ export const reducers = combineReducers<IGlobalState>({
   matchs: MatchsReducer,
   teamPlayers: PlayerReducer,
   qualification: QualificationReducer,
-  teams: TournamentTeamsReducer
+  teams: TournamentTeamsReducer,
+  MatchId: SetTournamentsIdReducer
 });

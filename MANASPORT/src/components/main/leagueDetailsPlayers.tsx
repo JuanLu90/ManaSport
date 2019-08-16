@@ -9,11 +9,11 @@ import {
   ListGroup,
   Modal
 } from "react-bootstrap";
-import { ITeam, IPlayer } from "../../../../../../interfaces";
-import * as action from "../../../../../../action";
+import { ITeam, IPlayer } from "../../interfaces";
+import * as action from "../../action";
 import { connect } from "react-redux";
-import { IGlobalState } from "../../../../../../reducers/reducers";
-import EditPlayerModal from "../../../players/editPlayerModal/editPlayerModal";
+import { IGlobalState } from "../../reducers/reducers";
+import EditPlayerModal from "./editPlayerModal";
 import styled from "styled-components";
 
 interface IProps { }

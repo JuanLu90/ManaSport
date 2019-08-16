@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { InputGroup } from "react-bootstrap";
-import { ITournament, ITeam, IPlayer } from "../../../../../interfaces";
-import { IGlobalState } from "../../../../../reducers/reducers";
+import { ITournament, ITeam, IPlayer } from "../../interfaces";
+import { IGlobalState } from "../../reducers/reducers";
 import { connect } from "react-redux";
 import { createBrowserHistory } from "history";
-import * as action from "../../../../../action";
+import * as action from "../../action";
 
 interface IProps {
   leagues: ITournament[];

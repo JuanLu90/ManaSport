@@ -1,9 +1,9 @@
 import React from "react";
-import { IGlobalState } from "../../../reducers/reducers";
+import { IGlobalState } from "../../reducers/reducers";
 import { connect } from "react-redux";
-import * as action from "../../../action";
+import * as action from "../../action";
 import { createBrowserHistory } from "history";
-import { ITournament } from "../../../interfaces";
+import { ITournament } from "../../interfaces";
 
 interface IProps {
   leagues: ITournament[];

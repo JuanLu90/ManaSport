@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import * as action from "../../../../../../../action";
-import { IGlobalState } from "../../../../../../../reducers/reducers";
+import * as action from "../../action";
+import { IGlobalState } from "../../reducers/reducers";
 import styled from "styled-components";
-import { IMatch } from "../../../../../../../interfaces";
+import { IMatch } from "../../interfaces";
 
 interface IProps {
   m: IMatch;
@@ -36,7 +36,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
     []
   );
 
-  const save = () => {
+  const sendMatchResult = () => {
     fetch("http://localhost:8080/api/tournaments/editMatch", {
       method: "PUT",
       headers: {
@@ -46,8 +46,8 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
       },
       body: JSON.stringify({
         MatchId: props.m.MatchId,
-        localteam_score: inputLocalScore,
-        awayteam_score: inputAwayScore
+        localteam_score: +inputLocalScore,
+        awayteam_score: +inputAwayScore
       })
     })
       .then(response => {
@@ -111,7 +111,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
               value={inputAwayScore}
               onChange={updateAwayScore}
             />
-            <button onClick={save}>Guardar</button>
+            <button onClick={sendMatchResult}>Guardar</button>
           </>
         )}
       </td>
@@ -124,7 +124,8 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
 };
 
 const mapStateToProps = (state: IGlobalState) => ({
-  putMatchById: action.putMatchById
+  putMatchById: action.putMatchById,
+  qualification: state.qualification
 });
 
 export default connect(mapStateToProps)(EditMatchResult);
