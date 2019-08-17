@@ -15,12 +15,12 @@ import styled from "styled-components";
 
 //******** STYLES *********
 const Wrapper = styled('div')({
-  background: '#F3F3F4'
-  // height: '120vh !important'
+  background: '#F3F3F4',
+  marginTop: '70px'
 });
 
 const Sidebar = styled('div')({
-  background: '#b5d0f0',
+  background: '#b5d0f0'
 });
 //*************************
 

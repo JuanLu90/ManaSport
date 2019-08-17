@@ -8,9 +8,12 @@ import { IMatch } from "../../interfaces";
 interface IProps {
   m: IMatch;
   putMatchById: (MatchId: number, match: IMatch) => void;
+  updatedResults: (count: number) => void;
 }
 
-interface IPropsGLobal {}
+interface IPropsGLobal {
+  setLeagueId: (DeleteLeagueId: number) => void;
+}
 
 const ImgBadge = styled.img`
   height: 28px;
@@ -36,6 +39,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
     []
   );
 
+
   const sendMatchResult = () => {
     fetch("http://localhost:8080/api/tournaments/editMatch", {
       method: "PUT",
@@ -60,6 +64,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
           response.json().then(m => {
             props.putMatchById(props.m.MatchId, m);
             toggleEditMode();
+            props.updatedResults(+1)
             // props.history.push("/management");
           });
         }
@@ -80,7 +85,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
           <>
             <span>
               {props.m.localteam_score === null &&
-              props.m.awayteam_score === null
+                props.m.awayteam_score === null
                 ? props.m.date
                 : props.m.localteam_score + "-" + props.m.awayteam_score}
             </span>
@@ -128,4 +133,8 @@ const mapStateToProps = (state: IGlobalState) => ({
   qualification: state.qualification
 });
 
-export default connect(mapStateToProps)(EditMatchResult);
+const mapDispatchToProps = {
+  setLeagueId: action.setLeagueId
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditMatchResult);

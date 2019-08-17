@@ -1,15 +1,41 @@
-import React, { useEffect, useState } from "react";
-import { Table, Modal, Button } from "react-bootstrap";
+//React´s Components
+import React, { useEffect } from "react";
+import { createBrowserHistory } from "history";
+//Components made by Juanlu
+import EditMatchDay from "./editMatchday";
+//React Bootstrap
+import { Table } from "react-bootstrap";
+//Interfaces
 import { IMatch, ITeam, IQualification } from "../../interfaces";
+//Redux
 import * as action from "../../action";
 import { IGlobalState } from "../../reducers/reducers";
-import EditMatchDay from "./editMatchday";
 import { connect } from "react-redux";
-import { createBrowserHistory } from "history";
+//Styled Components - CSSINJS
 import styled from "styled-components";
 
-interface IProps {}
 
+
+
+// ********* Styles - Styled Components - CSSINJS **********
+const Wrapper = styled.div`
+    box-shadow: 2px 2px 2px 2px #888888;
+  `;
+const TableHead = styled.thead`
+    font-family: "Roboto", sans-serif;
+    color: #5e5e5e;
+  `;
+
+
+
+
+//----------------------------------------------------
+
+
+
+
+//Global Props
+interface IProps { }
 interface IpropsGlobal {
   leagueTeams: ITeam[];
   setMatchs: (matchs: IMatch[]) => void;
@@ -18,41 +44,29 @@ interface IpropsGlobal {
   qualification: IQualification[];
 }
 
-const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
-  // const [inputLeagueName, setInputLeagueName] = useState("");
-  // const [inputLeagueSport, setInputLeagueSport] = useState("Futbol");
-  // const [inputLeagueCategory, setInputLeagueCategory] = React.useState(
-  //   "Futbol 11"
-  // );
-
+const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Function Component
+  //Hook to change the matchday´s number
   const [count, setCount] = React.useState(1);
-  const matchdayAdd = () => {
+  const matchdayAdd = () => { //Set +1 to matchday
     setCount(count + 1);
   };
-  const matchdaySub = () => {
-    setCount(count > 1 ? count - 1 : count);
+  const matchdaySub = () => { //set -1 to matchday
+    setCount(count > 1 ? count - 1 : count); // matchday cant be less than 1
   };
 
-  // const [showEditMatchday, setEditMatchday] = useState(false);
-  // const handleCloseEditMatchday = () => setEditMatchday(false);
-  // const handleShowEditMatchday = () => setEditMatchday(true);
-
-  // function funcionEdittMatchday(DeleteLeagueId: any): any {
-  //   handleShowEditMatchday();
-  //   //   props.setMatchId(DeleteLeagueId);
-  // }
+  //Hook to update de matchday list when a match is edited
+  const [matchResult, setMatchResult] = React.useState(-1);
+  const updatedResults = () => { //Set + 1 to activate the 'useEffect'
+    setMatchResult(matchResult + 1);
+  };
 
   const history = createBrowserHistory({});
   const path: any = history.location.pathname;
   let pathTournamentId = path.split(["/"]).slice(-1)[0];
 
-  useEffect(() => {
-    //FETCH MATCHS INFO TO REDUX
-    fetch(
-      "http://localhost:8080/api/tournaments/matchs/" +
-        pathTournamentId +
-        "/" +
-        count,
+  useEffect(() => { //Fetch matchs to Redux
+    fetch("http://localhost:8080/api/tournaments/matchs/" +
+      pathTournamentId + "/" + count,
       {
         headers: {
           "Content-type": "application/json",
@@ -61,15 +75,12 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
       }
     ).then(response => {
       if (response.ok) {
-        response.json().then(result => props.setMatchs(result));
+        response.json().then(matchs => props.setMatchs(matchs));
       }
     });
-  }, [count]);
-
-  useEffect(() => {
-    //FETCH MATCHS INFO TO REDUX
-    fetch(
-      "http://localhost:8080/api/tournaments/qualification/" + pathTournamentId,
+  }, [count, matchResult]); //When a hook value changes, the matchs on Redux are updated
+  useEffect(() => { //Fetch qualification to Redux
+    fetch("http://localhost:8080/api/tournaments/qualification/" + pathTournamentId,
       {
         headers: {
           "Content-type": "application/json",
@@ -78,12 +89,12 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
       }
     ).then(response => {
       if (response.ok) {
-        response.json().then(result => props.setQualification(result));
+        response.json().then(qualification => props.setQualification(qualification));
       }
     });
-  }, []);
+  }, [matchResult]); //When the value changes, the qualification on Redux is updated
 
-  const createMatchs = () => {
+  const createMatchs = () => { //Create the matchs of the seasson for a league
     fetch("http://localhost:8080/api/tournaments/createMatchs/" + pathTournamentId, {
       headers: {
         "Content-type": "application/json",
@@ -92,20 +103,12 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
       }
     }).then(response => {
       if (response.ok) {
-        response.json().then(result => props.setMatchs(result));
+        response.json().then(matchs => props.setMatchs(matchs));
       }
     });
   }
 
-  // ****** Styles *******
-  const Wrapper = styled.div`
-    box-shadow: 2px 2px 2px 2px #888888;
-  `;
-  const TableHead = styled.thead`
-    font-family: "Roboto", sans-serif;
-    color: #5e5e5e;
-  `;
-  // *********************
+
 
   return (
     <>
@@ -138,7 +141,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
                 </TableHead>
                 <tbody>
                   {props.matchs.map(m => (
-                    <EditMatchDay key={m.MatchId} m={m} />
+                    <EditMatchDay key={m.MatchId} m={m} updatedResults={updatedResults} />
                   ))}
                 </tbody>
               </Table>
@@ -166,7 +169,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
                   {props.qualification.map((q, i) => (
                     <tr key={q.ID}>
                       <td className="p-2">{i + 1 + "º"}</td>
-                      <td className="p-2"> <img src={q.badge} width="20" alt=""/></td>
+                      <td className="p-2"> <img src={q.badge} width="20" alt="" /></td>
                       <td className="p-2">{q.TEAM}</td>
                       <td className="p-2"><b>{q.PTS}</b></td>
                       <td className="p-2">PJ</td>

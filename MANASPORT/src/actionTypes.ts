@@ -114,6 +114,7 @@ type TPutMatch = {
     match: IMatch;
 };
 
+//QUALIFICATION
 type TQualification = {
     type: "SET_QUALIFICATION";
     qualification: [];
