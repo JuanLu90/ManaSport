@@ -20,7 +20,10 @@ import styled from "styled-components";
 
 
 // ********* Styles - Styled Components - CSSINJS **********
-const WrapperLeague = styled.div`
+const Wrapper = styled.div`
+    
+  `;
+const LeagueList = styled.div`
     box-shadow: 2px 2px 2px 2px #888888;
     background: white;
   `;
@@ -134,11 +137,11 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
   };
 
   return (
-    <div className="container-fluid text-dark">
+    <Wrapper className="container-fluid text-dark">
       <div className="row mt-4">
         <Title className="col">Tus ligas:</Title>
       </div>
-      <WrapperLeague className="row mt-1">
+      <LeagueList className="row mt-1">
         <div className="col p-3 text-center">
           <Table responsive="md" striped hover size="lg">
             <TableHead>
@@ -198,7 +201,7 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
             </TableTBody>
           </Table>
         </div>
-      </WrapperLeague>
+      </LeagueList>
       <div className="row justify-content-center mt-4 p-2 bg-leagueList">
         <div className="col-5">
           <InputGroup size="sm">
@@ -267,7 +270,7 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
       <Modal size="lg" show={showEditLeague} onHide={() => null}>
         <EditLeagueModal handleCloseEditLeague={handleCloseEditLeague} />
       </Modal>
-    </div>
+    </Wrapper>
   );
 };
 

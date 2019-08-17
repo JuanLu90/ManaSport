@@ -20,6 +20,8 @@ import styled from "styled-components";
 // ********* Styles - Styled Components - CSSINJS **********
 const Wrapper = styled.div`
     box-shadow: 2px 2px 2px 2px #888888;
+    background: white;
+    margin-top: '100px'
   `;
 const TableHead = styled.thead`
     font-family: "Roboto", sans-serif;
@@ -54,7 +56,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
     setCount(count > 1 ? count - 1 : count); // matchday cant be less than 1
   };
 
-  //Hook to update de matchday list when a match is edited
+  //Hook to update the matchday list when a match is edited
   const [matchResult, setMatchResult] = React.useState(-1);
   const updatedResults = () => { //Set + 1 to activate the 'useEffect'
     setMatchResult(matchResult + 1);

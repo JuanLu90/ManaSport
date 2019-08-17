@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./header.css";
 import { Modal, Navbar, Nav } from "react-bootstrap";
 import LoginModal from "./loginModal/loginModal";
 import RegisterModal from "./registerModal/registerModal";
@@ -9,6 +8,16 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { IUser } from "../../interfaces";
 import { IGlobalState } from "../../reducers/reducers";
+import styled from "styled-components";
+
+// ********* Styles - Styled Components - CSSINJS **********
+const HeaderDiv = styled.header`
+  background-color: rgba(36, 36, 36, 0.2);
+  z-index: 1000;
+  &:hover{
+    background-color: #0B0B0C;
+  }
+`
 
 interface IPropsGLobal {
   setToken: (token: string) => void;
@@ -37,11 +46,11 @@ const Header: React.FC<IPropsGLobal> = props => {
 
   return (
     <>
-      <header className="position-fixed w-100">
-        <Navbar collapseOnSelect expand="lg">
+      <HeaderDiv className="position-fixed w-100">
+        <Navbar collapseOnSelect expand="lg" className="p-0">
           <Navbar.Brand className="col header-logo">
             <a href="/">
-              <img src="/images/logotipo.png" alt="logo" />
+              <img src="/images/logotipo.png" alt="logo" width="280px"/>
             </a>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -53,7 +62,7 @@ const Header: React.FC<IPropsGLobal> = props => {
               <Nav>
                 <div className="col">
                   <button
-                    className="btn btn-outline-light"
+                    className="btn btn-outline-light pt-1 pb-1 pl-4 pr-4"
                     onClick={handleShowLogin}
                   >
                     Login
@@ -61,7 +70,7 @@ const Header: React.FC<IPropsGLobal> = props => {
                 </div>
                 <div className="col">
                   <button
-                    className="btn btn-outline-light mr-5"
+                    className="btn btn-outline-light mr-5 pt-1 pb-1 pl-4 pr-4"
                     onClick={handleShowRegister}
                   >
                     Register
@@ -110,7 +119,7 @@ const Header: React.FC<IPropsGLobal> = props => {
             )}
           </Navbar.Collapse>
         </Navbar>
-      </header>
+      </HeaderDiv>
       <Modal show={showLogin} onHide={handleCloseLogin}>
         <LoginModal handleCloseLogin={handleCloseLogin} />
       </Modal>

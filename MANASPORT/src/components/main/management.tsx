@@ -1,50 +1,101 @@
 //React´s Components
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
-
 //Components made by Juanlu
 import EditUserProfile from "./userEditProfile";
 import UserProfile from "./userProfile";
 import LeagueDetails from "./leagueDetails";
 import leagueList from "./leagueList";
-
+//Interfaces
+import { IUser } from "../../interfaces";
+//Redux
+import * as action from "../../action";
+import { connect } from "react-redux";
 //Styled Components - CSSINJS
 import styled from "styled-components";
+import { createBrowserHistory } from "history";
 
 
 
-//******** STYLES *********
-const Wrapper = styled('div')({
-  background: '#F3F3F4',
-  marginTop: '70px'
-});
 
-const Sidebar = styled('div')({
-  background: '#b5d0f0'
-});
+
 //*************************
 
 
 
 //----------------------------------------------------
 
+//Global Props
+interface IProps { }
+interface IPropsGlobal {
+  setUsers: (users: IUser[]) => void;
+}
+
+const Management: React.FC<IProps & IPropsGlobal> = props => { //Function Component
+  const token = localStorage.getItem("token");   //Token - Get the token stored from local storage
+
+  //Hook to update the profile list when it changes
+  const [profileUpdated, setProfileUpdated] = React.useState(false);
+  const updatedProfile = () => { //Set true to activate the 'useEffect'
+    setProfileUpdated(true);
+  };
 
 
-const Management: React.FC = () => { //Function Component
+  useEffect(() => { //Fetch users to redux every time the token changes
+    fetch("http://localhost:8080/api/users/", {
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json"
+        // Authorization: "Bearer " + props.token
+      }
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(users => props.setUsers(users));
+      }
+    });
+  }, [token, profileUpdated]);
+
+  const history = createBrowserHistory({});
+  const path = history.location.pathname;
+  // let pathTournamentId = path.split(["/"]).slice(-1)[0];
+  //******** STYLES *********
+  let Wrapper: any = styled('div')({});
+
+  if (path === '/management') {
+    Wrapper = styled('div')({
+      background: '#20242A',
+      padding: '150px'
+    });
+  } else {
+    Wrapper = styled('div')({
+      background: '#20242A',
+      paddingTop: '120px'
+    });
+  }
+
+
   return (
-    <div className="container-fluid">
-      <div className="row overflow-auto">
-        <Wrapper className="col">
+    <Wrapper className="container-fluid ">
+      <div className="row">
+        <div className="col">
           <Switch>
             <Route path="/management" exact component={leagueList} />
             <Route path="/management/user" exact component={UserProfile} />
             <Route path="/management/user/edit" exact component={EditUserProfile} />
             <Route path="/management/leagueDetails" component={LeagueDetails} />
           </Switch>
-        </Wrapper>
+        </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 
-export default Management;
+
+const mapDispatchToProps = {
+  setUsers: action.setUsers
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Management);

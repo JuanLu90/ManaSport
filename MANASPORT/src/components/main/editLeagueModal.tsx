@@ -45,13 +45,13 @@ const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
     }
   }, [currentLeague]);
 
+      //Evita que 'league' sea undefined
+      if (!currentLeague) {
+        return null;
+      }
+
   const editCurrentLeague = () => {
-    //Evita que 'league' sea undefined
-    if (!currentLeague) {
-      return null;
-    }
-    fetch(
-      "http://localhost:8080/api/tournaments/editTournament/" +
+    fetch("http://localhost:8080/api/tournaments/editTournament/" +
         currentLeague.TournamentId,
       {
         method: "PUT",

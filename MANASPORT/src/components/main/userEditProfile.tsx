@@ -1,6 +1,5 @@
 //React´s Components
 import React, { useEffect, useState } from "react";
-import { createBrowserHistory } from "history";
 import { Link, RouteComponentProps } from "react-router-dom";
 //React Bootstrap
 import DatePicker from "react-datepicker";
@@ -34,7 +33,15 @@ interface IPropsGlobal {
   putUserById: (UserId: string, user: IUser) => void;
 }
 
+
 const EditUserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props => { //Function Component
+  
+
+
+  
+  
+  
+  
   //Hooks to edit user
   const [inputName, setInputName] = React.useState("");
   const [inputSurname, setInputSurname] = React.useState("");
@@ -78,8 +85,6 @@ const EditUserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = p
   const token: any = localStorage.getItem("token"); // Get the token stored from local storage to get the UserId
   const decoded: any = jwt.decode(token);
   const currentUser = props.users.find(u => u.UserId === decoded.UserId);
-  const history = createBrowserHistory({ forceRefresh: true });
-
 
   const [showEditAvatar, setEditAvatar] = useState(false); //Hook for edit avatar modal
   const handleCloseEditAvatar = () => setEditAvatar(false);
@@ -131,7 +136,7 @@ const EditUserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = p
           };
           response.json().then(u => {
             props.putUserById(currentUser.UserId, u);
-            history.push("/management/user/");
+            props.history.push("/management/user/");
           });
         }
       })
@@ -250,11 +255,6 @@ const EditUserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = p
       </Wrapper>
       <div className="container">
         <div className="row justify-content-center">
-          <div className="col">
-            <button className="m-2" onClick={() => props.history.push("/management/user")}>
-              Volver
-          </button>
-          </div>
           <div className="col">
             <button className="m-2" onClick={editCurrentUserById}>
               Enviar
