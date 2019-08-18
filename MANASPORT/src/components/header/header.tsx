@@ -12,10 +12,15 @@ import styled from "styled-components";
 
 // ********* Styles - Styled Components - CSSINJS **********
 const HeaderDiv = styled.header`
-  background-color: rgba(36, 36, 36, 0.2);
+  background-color: rgba(36, 36, 36, 0);
   z-index: 1000;
-  &:hover{
-    background-color: #0B0B0C;
+`
+const ButtonRegister = styled.button`
+  background-color: #ecf0f1;
+  font-size: 0.85em;
+  font-weight: bolder;
+  &:hover {
+    background-color: #bdc3c7;
   }
 `
 
@@ -50,7 +55,7 @@ const Header: React.FC<IPropsGLobal> = props => {
         <Navbar collapseOnSelect expand="lg" className="p-0">
           <Navbar.Brand className="col header-logo">
             <a href="/">
-              <img src="/images/logotipo.png" alt="logo" width="280px"/>
+              <img src="/images/logotipo.png" alt="logo" width="280px" />
             </a>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -59,22 +64,23 @@ const Header: React.FC<IPropsGLobal> = props => {
             className="justify-content-end"
           >
             {!token && (
-              <Nav>
-                <div className="col">
-                  <button
-                    className="btn btn-outline-light pt-1 pb-1 pl-4 pr-4"
+              <Nav className="w-50 justify-content-end">
+                <div className="col-4 text-right">
+                  <a
+                    className="text-light"
+                    href="/#"
                     onClick={handleShowLogin}
                   >
-                    Login
-                  </button>
+                    Iniciar sesión
+                  </a>
                 </div>
-                <div className="col">
-                  <button
-                    className="btn btn-outline-light mr-5 pt-1 pb-1 pl-4 pr-4"
+                <div className="col-4">
+                  <ButtonRegister
+                    className="btn text-dark pt-0 pb-0 pl-3 pr-3 text-uppercase"
                     onClick={handleShowRegister}
                   >
-                    Register
-                  </button>
+                    Regístrarse
+                  </ButtonRegister>
                 </div>
               </Nav>
             )}

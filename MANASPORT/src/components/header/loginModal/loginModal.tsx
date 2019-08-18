@@ -4,6 +4,21 @@ import { connect } from "react-redux";
 import { IGlobalState } from "../../../reducers/reducers";
 import * as actions from "../../../action";
 import { createBrowserHistory } from "history";
+import { InputGroup, FormControl } from "react-bootstrap";
+import styled from "styled-components";
+
+// ********* Styles - Styled Components - CSSINJS **********
+const ALink = styled.a`
+  font-size: 0.85em;
+  text-decoration: none;
+`
+const Modal = styled.div`
+  margin: auto;
+  width: 400px;
+  background-color: #222f3e;
+  border: 1px solid #FFC107;
+  opacity: 0.95;
+`
 
 interface IProps {
   handleCloseLogin: () => void;
@@ -18,10 +33,10 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
   const [emailValue, setInputEmail] = React.useState("");
   const [passwordValue, setInputPassword] = React.useState("");
 
-  const updateInputEmail = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const updateInputEmail = (event: any) =>
     setInputEmail(event.currentTarget.value);
 
-  const updateInputPassword = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const updateInputPassword = (event: any) =>
     setInputPassword(event.currentTarget.value);
 
   const getToken = () => {
@@ -45,10 +60,10 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
   };
 
   return (
-    <div className="modal-dialog-centered" role="document">
-      <div className="modal-content modal-login text-light">
-        <div className="modal-header ">
-          <h5 className="modal-title" id="exampleModalCenterTitle">
+    <div className="modal-dialog-centered bg-transparent" role="document">
+      <Modal className="modal-content text-light">
+        <div className="modal-header border-0">
+          <h5 className="modal-title pl-2" id="exampleModalCenterTitle">
             Login
           </h5>
           <button
@@ -56,38 +71,52 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
             className="close"
             onClick={props.handleCloseLogin}
           >
-            <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true" className="text-light">&times;</span>
           </button>
         </div>
-        <div className="modal-body">
+        <div className="modal-body pb-0">
           <form>
             <div className="row">
               <div className="col">
-                <input
-                  type="text"
-                  className="form-control bg-warning border border-warning"
-                  name="emaillogin"
-                  id="emaillogin"
-                  placeholder="Email"
-                  onChange={updateInputEmail}
-                />
+                <InputGroup className="mb-3">
+                  <InputGroup.Prepend>
+                    <InputGroup.Text id="basic-addon1" className="pt-0 pb-0">
+                      <img src="/images/form/email.png" width="15" alt="" />
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <FormControl
+                    type="text"
+                    className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
+                    name="emaillogin"
+                    id="emaillogin"
+                    placeholder="Email"
+                    onChange={updateInputEmail}
+                  />
+                </InputGroup>
               </div>
             </div>
             <div className="row">
               <div className="col">
-                <input
-                  type="password"
-                  className="form-control bg-warning border border-warning"
-                  name="passwordlogin"
-                  id="passwordlogin"
-                  placeholder="***********"
-                  onChange={updateInputPassword}
-                />
+                <InputGroup className="mb-3">
+                  <InputGroup.Prepend>
+                    <InputGroup.Text id="basic-addon1" className="pt-0 pb-0">
+                      <img src="/images/form/lock.png" width="15" alt="" />
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <FormControl
+                    type="password"
+                    className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
+                    placeholder="Contraseña"
+                    name="passwordlogin"
+                    id="passwordlogin"
+                    onChange={updateInputPassword}
+                  />
+                </InputGroup>
               </div>
             </div>
           </form>
         </div>
-        <div className="modal-footer no-border">
+        <div className="modal-footer border-0">
           <div className="col-6">
             <button
               type="button"
@@ -98,10 +127,10 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
             </button>
           </div>
           <div className="col-6">
-            <a href="/#">¿Olvidaste la contraseña?</a>
+            <ALink href="/#" className="text-light">¿Olvidaste la contraseña?</ALink>
           </div>
         </div>
-      </div>
+      </Modal>
     </div>
   );
 };

@@ -1,7 +1,19 @@
 import React from "react";
-import "./registerModal.css";
-
+import { InputGroup, FormControl } from "react-bootstrap";
+import styled from "styled-components";
 var md5 = require('md5');
+
+// ********* Styles - Styled Components - CSSINJS **********
+const Label = styled.label`
+  font-size: 0.85em;
+`
+const Modal = styled.div`
+  margin: auto;
+  width: 500px;
+  background-color: #222f3e;
+  border: 1px solid #FFC107;
+  opacity: 0.95;
+`
 
 interface IProps {
   handleCloseRegister: () => void;
@@ -14,19 +26,19 @@ const RegisterModal: React.FC<IProps> = props => {
   const [emailValue, setInputEmail] = React.useState("");
   const [passwordValue, setInputPassword] = React.useState("");
 
-  const updateInputName = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const updateInputName = (event: any) =>
     setInputName(event.currentTarget.value);
 
-  const updateInputSurname = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const updateInputSurname = (event: any) =>
     setInputSurname(event.currentTarget.value);
 
-  const updateInputUsername = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const updateInputUsername = (event: any) =>
     setInputUsername(event.currentTarget.value);
 
-  const updateInputEmail = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const updateInputEmail = (event: any) =>
     setInputEmail(event.currentTarget.value);
 
-  const updateInputPassword = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const updateInputPassword = (event: any) =>
     setInputPassword(md5(event.currentTarget.value));
 
 
@@ -47,7 +59,7 @@ const RegisterModal: React.FC<IProps> = props => {
     }).then(response => {
       if (response.ok) {
         response.text().then(token => {
-          
+
         });
       }
     });
@@ -56,9 +68,9 @@ const RegisterModal: React.FC<IProps> = props => {
 
   return (
     <div className="modal-dialog-centered" role="document">
-      <div className="modal-content modal-register text-light">
-        <div className="modal-header ">
-          <h5 className="modal-title" id="exampleModalCenterTitle">
+      <Modal className="modal-content text-light">
+        <div className="modal-header border-0">
+          <h5 className="modal-title pl-2" id="exampleModalCenterTitle">
             Registro
           </h5>
           <button
@@ -66,95 +78,120 @@ const RegisterModal: React.FC<IProps> = props => {
             className="close"
             onClick={props.handleCloseRegister}
           >
-            <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true" className="text-light">&times;</span>
           </button>
         </div>
         <div className="modal-body">
           <form>
             <div className="row">
               <div className="col">
-                <input
-                  type="text"
-                  className="form-control bg-warning border border-warning"
-                  placeholder="Nombre"
-                  name="name"
-                  onChange={updateInputName}
-                />
+                <InputGroup className="mb-3">
+                  <InputGroup.Prepend>
+                    <InputGroup.Text id="basic-addon1" className="pt-0 pb-0"><img src="/images/form/profile-login.png" width="15" alt="" /></InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <FormControl
+                    type="text"
+                    className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
+                    placeholder="Nombre"
+                    name="name"
+                    onChange={updateInputName}
+                  />
+                </InputGroup>
               </div>
             </div>
             <div className="row">
               <div className="col">
-                <input
-                  type="text"
-                  className="form-control bg-warning border border-warning"
-                  placeholder="Apellidos"
-                  name="surname"
-                  onChange={updateInputSurname}
-                />
+                <InputGroup className="mb-3">
+                  <InputGroup.Prepend>
+                    <InputGroup.Text id="basic-addon1" className="pt-0 pb-0"><img src="/images/form/profile-login.png" width="15" alt="" /></InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <FormControl
+                    type="text"
+                    className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
+                    placeholder="Apellidos"
+                    name="surname"
+                    onChange={updateInputSurname}
+                  />
+                </InputGroup>
               </div>
             </div>
             <div className="row">
               <div className="col">
-                <input
-                  type="text"
-                  className="form-control bg-warning border border-warning"
-                  placeholder="Nombre de usuario"
-                  name="username"
-                  onChange={updateInputUsername}
-                />
+                <InputGroup className="mb-3">
+                  <InputGroup.Prepend>
+                    <InputGroup.Text id="basic-addon1" className="pt-0 pb-0"><img src="/images/form/username.png" width="15" alt="" /></InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <FormControl
+                    type="text"
+                    className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
+                    placeholder="Nombre de usuario"
+                    name="username"
+                    onChange={updateInputUsername}
+                  />
+                </InputGroup>
               </div>
             </div>
             <div className="row">
               <div className="col">
-                <input
-                  type="text"
-                  className="form-control bg-warning border border-warning"
-                  placeholder="Email"
-                  name="email"
-                  onChange={updateInputEmail}
-                />
+                <InputGroup className="mb-3">
+                  <InputGroup.Prepend>
+                    <InputGroup.Text id="basic-addon1" className="pt-0 pb-0"><img src="/images/form/email.png" width="15" alt="" /></InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <FormControl
+                    type="text"
+                    className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
+                    placeholder="Email"
+                    name="email"
+                    onChange={updateInputEmail}
+                  />
+                </InputGroup>
               </div>
             </div>
             <div className="row">
               <div className="col">
-                <input
-                  type="password"
-                  className="form-control bg-warning border border-warning"
-                  placeholder="***********"
-                  name="password"
-                  onChange={updateInputPassword}
-                />
+                <InputGroup className="mb-3">
+                  <InputGroup.Prepend>
+                    <InputGroup.Text id="basic-addon1" className="pt-0 pb-0"><img src="/images/form/lock.png" width="15" alt="" /></InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <FormControl
+                    type="password"
+                    className="form-control pt-0 pb-0 pl-2 pr-2 mt-0 w-75"
+                    placeholder="***********"
+                    name="password"
+                    onChange={updateInputPassword}
+                  />
+                </InputGroup>
               </div>
             </div>
             <div className="row">
               <div className="col">
                 <div className="form-check">
                   <input
-                    className="form-check-input"
+                    className="form-check-input align-items-center mt-2"
                     type="checkbox"
                     value=""
                     id="defaultCheck1"
                   />
-                  <label className="form-check-label">
+                  <Label className="form-check-label pl-1">
                     Estoy de acuerdo con los términos y condiciones
-                  </label>
+                  </Label>
                 </div>
               </div>
             </div>
           </form>
         </div>
-        <div className="modal-footer no-border">
-          <div className="col">
+        <div className="modal-footer border-0">
+          <div className="col p-0">
             <button
               type="button"
-              className="btn btn-outline-success w-100"
+              className="btn btn-warning w-100"
               onClick={newUser}
             >
               Regístrate
             </button>
           </div>
         </div>
-      </div>
+      </Modal>
     </div>
   );
 };

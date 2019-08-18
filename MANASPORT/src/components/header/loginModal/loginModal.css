@@ -1,63 +1,8 @@
 /* --- Modal Login --- */
 
-.modal .modal-login{
-    margin: auto;
-    width: 400px;
-    background-color: #222f3e;
-    border: 2px solid #FFC107;
-    opacity: 0.95;
-}
-
 .modal-content {
     background-color: transparent;
     border: none;
 }
 
-.modal-login .modal-header, 
-.modal-login .modal-footer{
-    border: none;
-}
-
-.modal-login .modal-body input{
-    background-repeat:no-repeat;
-    background-size: contain;
-    background-position:left top;  
-    padding-left: 30px;
-    color: white;
-}
-
-.modal-login .modal-body input[type="text"]{
-    background-image:url('/images/form/profile-login.png'); 
-}
-
-.modal-login .modal-body input[type="password"]{
-    background-image:url('/images/form/lock.png');
-}
-
-.modal-login ::placeholder {
-    color: white;
-    opacity: 1; 
-}
-
-.modal-login .close{
-    color: white;
-}
-
-.modal-login .modal-title{
-    padding-left: 20px;
-}
-
-.modal input[type="password"]{
-    width: 100%;
-}
-
-.modal input{
-    margin: 5px 0;
-}
-
-.modal-footer a{
-    color: white;
-    font-size: 0.8em;
-    text-decoration: none;
-}
 
