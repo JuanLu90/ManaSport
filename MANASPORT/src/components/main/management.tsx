@@ -21,7 +21,27 @@ import { createBrowserHistory } from "history";
 
 //*************************
 
+const history = createBrowserHistory({});
+const path = history.location.pathname;
+// let pathTournamentId = path.split(["/"]).slice(-1)[0];
+//******** STYLES *********
+let Wrapper: any = styled('div')({});
 
+if (path === '/management') {
+  Wrapper = styled('div')({
+    background: '#20242A',
+    padding: '190px'
+  });
+} else {
+  Wrapper = styled.div`
+    background-image: url('/images/fondo4.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+    padding-top: 120px;
+  `
+}
+//background-color: #20242A;
 
 //----------------------------------------------------
 
@@ -55,27 +75,11 @@ const Management: React.FC<IProps & IPropsGlobal> = props => { //Function Compon
     });
   }, [token, profileUpdated]);
 
-  const history = createBrowserHistory({});
-  const path = history.location.pathname;
-  // let pathTournamentId = path.split(["/"]).slice(-1)[0];
-  //******** STYLES *********
-  let Wrapper: any = styled('div')({});
 
-  if (path === '/management') {
-    Wrapper = styled('div')({
-      background: '#20242A',
-      padding: '150px'
-    });
-  } else {
-    Wrapper = styled('div')({
-      background: '#20242A',
-      paddingTop: '120px'
-    });
-  }
 
 
   return (
-    <Wrapper className="container-fluid ">
+    <Wrapper className="container-fluid">
       <div className="row">
         <div className="col">
           <Switch>

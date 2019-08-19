@@ -19,14 +19,26 @@ import styled from "styled-components";
 
 // ********* Styles - Styled Components - CSSINJS **********
 const Wrapper = styled.div`
-    box-shadow: 2px 2px 2px 2px #888888;
-    background: white;
-    margin-top: '100px'
-  `;
+    
+`
 const TableHead = styled.thead`
-    font-family: "Roboto", sans-serif;
-    color: #5e5e5e;
-  `;
+  font-family: "Roboto", sans-serif;
+  color: #5e5e5e;
+`
+const SpanMatchday = styled.span`
+  font-size: 0.87em;
+`
+const ImgBadge = styled.img`
+  height: 28px;
+`;
+const DivCursor = styled.div`
+  cursor: pointer;
+`;
+const TrMatchday = styled.th`
+  &:hover {
+    filter: opacity(50%);
+  }
+`;
 
 
 
@@ -94,7 +106,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
         response.json().then(qualification => props.setQualification(qualification));
       }
     });
-  }, [matchResult]); //When the value changes, the qualification on Redux is updated
+  }, [matchResult]); //When the value changes, the qualification is updated
 
   const createMatchs = () => { //Create the matchs of the seasson for a league
     fetch("http://localhost:8080/api/tournaments/createMatchs/" + pathTournamentId, {
@@ -116,72 +128,81 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
     <>
       <div className="container-fluid text-dark">
         <div className="row mt-1 ">
-          <Wrapper className="col p-3 m-1 text-center">
+          <Wrapper className="col p-3 m-3 text-center align-self-center">
             <div className="row pb-3">
-              <div className="col text-center">CALENDARIO</div>
-              <div className="col"><button onClick={createMatchs}>Crear Calendario</button></div>
+              <div className="col text-center text-light h3">CALENDARIO</div>
+              {/* <div className="col"><button onClick={createMatchs}>Crear Calendario</button></div> */}
             </div>
-            <div className="row">
-              <Table responsive striped hover>
-                <TableHead>
-                  <tr>
-                    <th>
-                      {count !== 1 && (
-                        <button onClick={matchdaySub}>anterior</button>
-                      )}
-                    </th>
-                    <th />
-                    <th>JORNADA {count}</th>
-                    <th />
-                    <th>
-                      <button onClick={matchdayAdd}>próxima</button>
-                    </th>
-                  </tr>
-                  <tr>
-                    <th />
-                  </tr>
-                </TableHead>
-                <tbody>
-                  {props.matchs.map(m => (
-                    <EditMatchDay key={m.MatchId} m={m} updatedResults={updatedResults} />
-                  ))}
-                </tbody>
-              </Table>
+            <div className="row justify-content-center">
+              <div className="col-10">
+                <Table responsive striped hover variant="dark" className="border border-secondary">
+                  <TableHead>
+                    <tr>
+                      <TrMatchday className="text-white font-weight-light">
+                        {count !== 1 && (
+                          <DivCursor onClick={matchdaySub}>
+                            <img src="/images/other/arrow-left.png" width="20" /> <SpanMatchday>jornada {count - 1}</SpanMatchday>
+                          </DivCursor>
+                        )}
+                      </TrMatchday>
+                      <th />
+                      <th className="text-light h5">JORNADA {count}</th>
+                      <th />
+                      <TrMatchday className="text-white font-weight-light">
+                        <DivCursor onClick={matchdayAdd}>
+                          <SpanMatchday  >jornada {count + 1}</SpanMatchday> <img src="/images/other/arrow-right.png" width="20" />
+                        </DivCursor>
+                      </TrMatchday>
+                    </tr>
+                  </TableHead>
+                  <tbody>
+                    {props.matchs.map(m => (
+                      <EditMatchDay key={m.MatchId} m={m} updatedResults={updatedResults} />
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+
             </div>
           </Wrapper>
-          <Wrapper className="col p-3 m-1">
+          <Wrapper className="col p-3 m-3">
             <div className="row pb-3">
-              <div className="col text-center">CLASIFICACIÓN</div>
+              <div className="col text-center text-light h3">CLASIFICACIÓN</div>
             </div>
-            <div className="row">
-              <Table responsive striped hover>
-                <TableHead>
-                  <tr>
-                    <th />
-                    <th />
-                    <th>Equipo</th>
-                    <th>PTS</th>
-                    <th>PJ</th>
-                    <th>PG</th>
-                    <th>PE</th>
-                    <th>PP</th>
-                  </tr>
-                </TableHead>
-                <tbody>
-                  {props.qualification.map((q, i) => (
-                    <tr key={q.ID}>
-                      <td className="p-2">{i + 1 + "º"}</td>
-                      <td className="p-2"> <img src={q.badge} width="20" alt="" /></td>
-                      <td className="p-2">{q.TEAM}</td>
-                      <td className="p-2"><b>{q.PTS}</b></td>
-                      <td className="p-2">PJ</td>
-                      <td className="p-2">{q.PG}</td>
-                      <td className="p-2">{q.PE}</td>
-                      <td className="p-2">{q.PP}</td>
+            <div className="row justify-content-center">
+              <div className="col-10">
+                <Table striped hover variant="dark" className="border border-secondary">
+                  <TableHead>
+                    <tr>
+                      <th />
+                      <th />
+                      <th />
+                      <th className="p-2 text-center text-light">PTS</th>
+                      <th className="p-2 text-center text-light font-weight-light">PJ</th>
+                      <th className="p-2 text-center text-light font-weight-light">PG</th>
+                      <th className="p-2 text-center text-light font-weight-light">PE</th>
+                      <th className="p-2 text-center text-light font-weight-light">PP</th>
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
+                  </TableHead>
+                  <tbody>
+                    {props.qualification.map((q, i) => (
+                      <tr key={q.ID}>
+                        {i === 0 ?
+                          <td className="p-1 text-center bg-success rounded-right">{1}</td> :
+                          <td className="p-1 text-center">{i + 1}</td>
+                        }
+                        <td className="p-1 text-center"> <ImgBadge src={q.badge} alt="" /></td>
+                        <td className="p-1">{q.TEAM}</td>
+                        <td className="p-1 text-center"><b>{q.PTS}</b></td>
+                        <td className="p-1 text-center">PJ</td>
+                        <td className="p-1 text-center">{q.PG}</td>
+                        <td className="p-1 text-center">{q.PE}</td>
+                        <td className="p-1 text-center">{q.PP}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
             </div>
           </Wrapper>
         </div>

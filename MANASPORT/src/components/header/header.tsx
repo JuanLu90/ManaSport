@@ -14,6 +14,10 @@ import styled from "styled-components";
 const HeaderDiv = styled.header`
   background-color: rgba(36, 36, 36, 0);
   z-index: 1000;
+  transition: 0.3s;
+  &:hover {
+    background-color: rgba(36, 36, 36, 0.3);
+  }
 `
 const ButtonRegister = styled.button`
   background-color: #ecf0f1;

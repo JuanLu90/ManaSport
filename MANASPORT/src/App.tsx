@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 //Components made by Juanlu
 import Header from "./components/header/header";
-import Footer from "./components/footer/footer";
+import Footer from "./components/footer";
 import MainApp from "./components/main/mainApp";
 import management from "./components/main/management";
 //Redux

@@ -18,6 +18,18 @@ interface IPropsGLobal {
 const ImgBadge = styled.img`
   height: 28px;
 `;
+const TdMatchdayTeam = styled.td`
+  width: 30%;
+`;
+const TdMatchdayBadge = styled.td`
+  width: 10%;
+`;
+const TdMatchdayResult = styled.td`
+width: 25%;
+`;
+const ImgArrow = styled.img`
+  cursor: pointer;
+`;
 
 const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
   const [inputLocalScore, setInputLocalScore] = React.useState(
@@ -75,12 +87,12 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
   };
 
   return (
-    <tr className="tbody-matchday">
-      <td className="p-2 text-right team">{props.m.localTeam} </td>
-      <td className="p-2 badge">
+    <tr>
+      <TdMatchdayTeam className="p-1 text-right">{props.m.localTeam} </TdMatchdayTeam>
+      <TdMatchdayBadge className="p-1">
         <ImgBadge src={props.m.localbadge} alt="" />
-      </td>
-      <td className="p-2">
+      </TdMatchdayBadge>
+      <TdMatchdayResult className="p-1">
         {!editMode && (
           <>
             <span>
@@ -94,12 +106,14 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
               className="ml-3"
               width={13}
               alt=""
+              title="Editar resultado"
               onClick={toggleEditMode}
             />
           </>
         )}
         {editMode && (
           <>
+            <ImgArrow src="/images/other/back.png" width="15" className="mr-2 mb-1" onClick={toggleEditMode} title="Atrás" />
             <input
               type="text"
               name=""
@@ -116,14 +130,14 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
               value={inputAwayScore}
               onChange={updateAwayScore}
             />
-            <button onClick={sendMatchResult}>Guardar</button>
+            <ImgArrow src="/images/other/send.png" width="15" className="ml-2 mb-1" onClick={sendMatchResult} title="Enviar" />
           </>
         )}
-      </td>
-      <td className="p-2 badge">
+      </TdMatchdayResult>
+      <TdMatchdayBadge className="p-1">
         <ImgBadge src={props.m.awaybadge} alt="" />
-      </td>
-      <td className="p-2 text-left team"> {props.m.awayTeam}</td>
+      </TdMatchdayBadge>
+      <TdMatchdayTeam className="p-1 text-left"> {props.m.awayTeam}</TdMatchdayTeam>
     </tr>
   );
 };
