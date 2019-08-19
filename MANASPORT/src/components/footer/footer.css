@@ -1,35 +1,17 @@
 /* ------- FOOTER ------- */
 
 
-/* RRSS */
-
-.rrss {
-  position: fixed;
-  top: 40%;
-  width: 30px;
-}
-
-.rrss img {
-  width: 40px;
-  cursor: pointer;
-  transition: all 500ms;
-}
-
-.rrss img:hover {
-  transform: translate(20px);
-}
-
-
 .info-footer {
-  margin-top: 30px;
-  width: 15%;
   font-family: "Noto Serif", serif;
-  font-size: 1em;
+}
+
+.info-footer li{
+  list-style: none;
 }
 
 #logo_footer {
   width: 18%;
-  margin-top: 60px;
+  margin-top: 30px;
   font-family: "Noto Serif", serif;
   font-size: 13px;
   text-align: left;
@@ -44,12 +26,7 @@
 .info-footer h4 {
   font-size: 16px;
   font-weight: bolder;
-  text-align: left;
-  margin-bottom: 15px;
-}
-
-.info-footer li {
-  margin: 10px 0;
+  text-transform: uppercase;
 }
 
 .disclaimer {
@@ -58,12 +35,6 @@
   font-family: "Noto Serif", serif;
   font-size: 0.75em;
   color: #9d9d9d;
-}
-
-.disclaimer hr {
-  margin: 2em 0;
-  padding: 0.5px;
-  background-color: #5e5b5b;
 }
 
 .copyright {
@@ -86,12 +57,4 @@
 
 .rrss_footer img {
   width: 26px;
-}
-
-/* Media Queries */
-
-@media (max-width: 576px) {
-  footer {
-    font-size: 3em;
-  }
 }

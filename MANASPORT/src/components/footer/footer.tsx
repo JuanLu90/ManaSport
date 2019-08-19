@@ -6,14 +6,6 @@ const Footer: React.FC = () => {
 
 
   //******** STYLES *********
-  const Footer = styled.div`
-    background: rgba(36, 36, 36, 0.99);
-  `
-  const FooterFlex = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  `
   const BorderRight = styled.span`
       border-color: #c4c3c3 !important;
   `
@@ -27,43 +19,43 @@ const Footer: React.FC = () => {
 
 
   return (
-    <Footer className="text-light">
-      <FooterFlex className="container-fluid">
-        <div className="info-footer" id="logo_footer">
-          <img src="/images/logotipo.png" alt="logo"/>
+    <div className="container-fluid text-light bg-dark pt-4">
+      <div className="row justify-content-center">
+        <div className="col-2 info-footer" id="logo_footer">
+          <img src="/images/logotipo.png" alt="logo" />
           <ul>
-            <li>ejemplo@manasport.com</li>
+            <li>info@manasport.com</li>
             <li>+34 627 11 23 91</li>
           </ul>
         </div>
-        <div className="info-footer">
+        <div className="col-2 info-footer">
           <h4>Compañia</h4>
-          <ul>
+          <ul className="p-0 text-secondary">
             <li>Sobre nosotros</li>
             <li>Equipo</li>
             <li>Promotores</li>
             <li>Trabaja con nosotros</li>
           </ul>
         </div>
-        <div className="info-footer">
+        <div className="col-2 info-footer">
           <h4>Empezar</h4>
-          <ul>
+          <ul className="p-0 text-secondary">
             <li>Participa</li>
             <li>Conócenos</li>
             <li>Centro de ayuda</li>
             <li>Blog</li>
           </ul>
         </div>
-        <div className="info-footer">
+        <div className="col-2 info-footer">
           <h4>Información</h4>
-          <ul>
+          <ul className="p-0 text-secondary">
             <li>Información sobre competicion</li>
             <li>Términos y Condiciones</li>
             <li>Política de privacidad</li>
             <li>Política de cookies</li>
           </ul>
         </div>
-        <div className="info-footer">
+        <div className="col-2 info-footer">
           <h4>RRSS</h4>
           <div className="rrss_footer">
             <a href="/#">
@@ -80,16 +72,16 @@ const Footer: React.FC = () => {
             </a>
           </div>
         </div>
-      </FooterFlex>
+      </div>
       <div className="disclaimer">
-        <hr />
+        <hr className="bg-warning" />
         <div className="copyright">
           <span>MANASPORT 2019 © - Todos los derechos reservados</span> <br />
           <span>Aviso legal - Política de cookies</span> <br />
           <span>info@manasport.com</span> <br />
         </div>
       </div>
-    </Footer>
+    </div>
     // <div className="footer footer-public">
     //   <div className="container-fluid">
     //     <div className="footer-column">

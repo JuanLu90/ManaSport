@@ -1,5 +1,5 @@
 import React from "react";
-import "./loginModal.css";
+import "../transparentBgModal.css";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../../reducers/reducers";
 import * as actions from "../../../action";
@@ -60,78 +60,79 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
   };
 
   return (
-    <div className="modal-dialog-centered bg-transparent" role="document">
-      <Modal className="modal-content text-light">
-        <div className="modal-header border-0">
-          <h5 className="modal-title pl-2" id="exampleModalCenterTitle">
-            Login
+    <div className="modal-dialog-centered" role="document">
+        <Modal className="modal-content text-light">
+          <div className="modal-header border-0">
+            <h5 className="modal-title pl-2" id="exampleModalCenterTitle">
+              Iniciar en ManaSport
           </h5>
-          <button
-            type="button"
-            className="close"
-            onClick={props.handleCloseLogin}
-          >
-            <span aria-hidden="true" className="text-light">&times;</span>
-          </button>
-        </div>
-        <div className="modal-body pb-0">
-          <form>
-            <div className="row">
-              <div className="col">
-                <InputGroup className="mb-3">
-                  <InputGroup.Prepend>
-                    <InputGroup.Text id="basic-addon1" className="pt-0 pb-0">
-                      <img src="/images/form/email.png" width="15" alt="" />
-                    </InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <FormControl
-                    type="text"
-                    className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
-                    name="emaillogin"
-                    id="emaillogin"
-                    placeholder="Email"
-                    onChange={updateInputEmail}
-                  />
-                </InputGroup>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <InputGroup className="mb-3">
-                  <InputGroup.Prepend>
-                    <InputGroup.Text id="basic-addon1" className="pt-0 pb-0">
-                      <img src="/images/form/lock.png" width="15" alt="" />
-                    </InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <FormControl
-                    type="password"
-                    className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
-                    placeholder="Contraseña"
-                    name="passwordlogin"
-                    id="passwordlogin"
-                    onChange={updateInputPassword}
-                  />
-                </InputGroup>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div className="modal-footer border-0">
-          <div className="col-6">
             <button
               type="button"
-              className="btn btn-outline-info w-100"
-              onClick={getToken}
+              className="close"
+              onClick={props.handleCloseLogin}
             >
-              Iniciar sesión
+              <span aria-hidden="true" className="text-light">&times;</span>
             </button>
           </div>
-          <div className="col-6">
-            <ALink href="/#" className="text-light">¿Olvidaste la contraseña?</ALink>
+          <div className="modal-body pb-0">
+            <form>
+              <div className="row">
+                <div className="col">
+                  <InputGroup className="mb-3">
+                    <InputGroup.Prepend>
+                      <InputGroup.Text id="basic-addon1" className="pt-0 pb-0">
+                        <img src="/images/form/email.png" width="15" alt="" />
+                      </InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <FormControl
+                      type="text"
+                      className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
+                      name="emaillogin"
+                      id="emaillogin"
+                      placeholder="Email"
+                      onChange={updateInputEmail}
+                    />
+                  </InputGroup>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <InputGroup className="mb-3">
+                    <InputGroup.Prepend>
+                      <InputGroup.Text id="basic-addon1" className="pt-0 pb-0">
+                        <img src="/images/form/lock.png" width="15" alt="" />
+                      </InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <FormControl
+                      type="password"
+                      className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
+                      placeholder="Contraseña"
+                      name="passwordlogin"
+                      id="passwordlogin"
+                      onChange={updateInputPassword}
+                    />
+                  </InputGroup>
+                </div>
+              </div>
+            </form>
           </div>
-        </div>
-      </Modal>
+          <div className="modal-footer border-0">
+            <div className="col-6">
+              <button
+                type="button"
+                className="btn btn-outline-info w-100"
+                onClick={getToken}
+              >
+                Iniciar sesión
+            </button>
+            </div>
+            <div className="col-6">
+              <ALink href="/#" className="text-light">¿Olvidaste la contraseña?</ALink>
+            </div>
+          </div>
+        </Modal>
     </div>
+
   );
 };
 

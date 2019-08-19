@@ -108,7 +108,7 @@ const MainApp: React.FC = () => { // Function Component
         <img src="images/other/arrow-top.svg" className="arrow-top" id="arrow-top" />
       </div> */}
       </BackgroundImage>
-      <Modal show={modalVideo} onHide={() => null}>
+      <Modal show={modalVideo} onHide={handleCloseModalVideo} size="xl">
         <div className="modal-dialog-centered" role="document">
           <div className="modal-content bg-light text-dark">
             <div className="modal-body pt-0">
