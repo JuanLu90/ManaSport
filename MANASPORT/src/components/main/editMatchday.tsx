@@ -113,7 +113,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
         )}
         {editMode && (
           <>
-            <ImgArrow src="/images/other/back.png" width="15" className="mr-2 mb-1" onClick={toggleEditMode} title="Atrás" />
+            <ImgArrow src="/images/other/cancel.png" width="15" className="mr-2 mb-1" onClick={toggleEditMode} title="Atrás" />
             <input
               type="text"
               name=""

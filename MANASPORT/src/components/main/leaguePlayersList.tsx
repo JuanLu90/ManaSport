@@ -183,7 +183,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                           
                       </div>
                       <div className="row border border-secondary">
-                        <Table responsive striped hover variant="dark">
+                        <Table responsive striped hover variant="dark" className="m-0">
                           <thead>
                             <tr>
                               <th> </th>

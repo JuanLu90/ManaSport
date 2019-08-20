@@ -78,11 +78,12 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
     }
   }, [currentTeam]);
 
+  if (!currentTeam) {
+    return null;
+  }
   const editCurrentTeam = () => {
     //Avoid that 'team' will be undefined
-    if (!currentTeam) {
-      return null;
-    }
+   
     fetch("http://localhost:8080/api/teams/editTeam/" + currentTeam.TeamId, { //Fetch the current team updated
       method: "PUT",
       headers: {
@@ -131,8 +132,8 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
   return (
     <div className="modal-dialog-centered" role="document">
       <div className="modal-content bg-light text-dark">
-        <div className="modal-header">
-          <h5 className="modal-title" id="exampleModalCenterTitle" />
+        <div className="modal-header bg-warning">
+          <h5 className="modal-title" id="exampleModalCenterTitle"> Está editando a {currentTeam.name} </h5>
           <button
             type="button"
             className="close"

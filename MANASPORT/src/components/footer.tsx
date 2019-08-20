@@ -7,6 +7,7 @@ const Footer: React.FC = () => {
   //******** STYLES *********
   const Wrapper = styled.span`
     font-family: "Noto Serif", serif;
+    z-index: 9999;
   `
   const Copyright = styled.div`
     font-size: 1rem;

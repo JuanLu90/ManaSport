@@ -15,10 +15,10 @@ const BackgroundImage = styled.div`
   background-position: center top;
 `
 const WrapperContainer = styled.div`
-font-family: "Russo One", sans-serif;
+  font-family: "Russo One", sans-serif;
   font-size: 3em;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
 `
 const Row1 = styled.div`
   position: absolute;
@@ -30,8 +30,11 @@ const Row2 = styled.div`
 `
 const Row3 = styled.div`
   position: absolute;
-  bottom: 50px;
+  height: 30%;
+  bottom: 0px;
   font-size: 0.6em;
+  background: rgba(20, 20, 20, 0.6);
+  transform: skewY(-4deg);
 `
 const FontSpan1 = styled.span`
   font-family: 'PT Serif', serif;
@@ -53,6 +56,7 @@ const FontSpan = styled.span`
 `
 const Col = styled.div`
   line-height: 0.7em;
+  transform: skewY(4deg);
 `
 //*************************
 
@@ -80,27 +84,57 @@ const MainApp: React.FC = () => { // Function Component
               <button className="btn btn-warning pt-3 pb-3 pl-5 pr-5 text-uppercase font-weight-bold" onClick={handleShowModalVideo}>Cómo funciona</button>
             </div>
           </Row2>
-          <Row3 className="row text-light text-center align-self-center w-50">
-            <Col className="col">
-              <img src="/images/other/cup.png" width="50" alt="" />
-              <br />
-              <span className="m-5">LIGAS</span>
-              <br />
-              <Span>Crea tús ligas y gestionalas de manera fácil e intuitiva</Span>
+          <Row3 className="row text-light text-center justify-content-center w-100">
+            <Col className="col-2 m-3">
+              <div className="row">
+                <div className="col">
+                  <img src="/images/other/cup.png" width="50" className="m-2" alt="" />
+                </div>
+              </div>
+              <div className="row mt-2">
+                <div className="col">
+                  <span>LIGAS</span>
+                </div>
+              </div>
+              <div className="row mt-2">
+                <div className="col">
+                  <Span>Crea tús ligas y gestionalas de manera fácil e intuitiva</Span>
+                </div>
+              </div>
             </Col>
-            <Col className="col">
-              <img src="/images/other/shield.png" width="50" alt="" />
-              <br />
-              EQUIPOS
-              <br />
-              <Span>Añade nuevos equipos a tus competiciónes, controlando horarios, resultados y clasificaciónes</Span>
+            <Col className="col-2 m-3">
+              <div className="row">
+                <div className="col">
+                  <img src="/images/other/shield.png" width="50" className="m-2" alt="" />
+                </div>
+              </div>
+              <div className="row mt-2">
+                <div className="col">
+                  <span>EQUIPOS</span>
+                </div>
+              </div>
+              <div className="row mt-2">
+                <div className="col">
+                  <Span>Controla horarios, resultados y clasificaciónes de tus equipos</Span>
+                </div>
+              </div>
             </Col>
-            <Col className="col">
-              <img src="/images/other/players.png" width="50" alt="" />
-              <br />
-              JUGADORES
-              <br />
-              <Span>Lleva el control de las estádisticas de cada uno de los jugadores</Span>
+            <Col className="col-2 m-3">
+              <div className="row">
+                <div className="col">
+                  <img src="/images/other/players.png" width="50" className="m-2" alt="" />
+                </div>
+              </div>
+              <div className="row mt-2">
+                <div className="col">
+                  <span>JUGADORES</span>
+                </div>
+              </div>
+              <div className="row mt-2">
+                <div className="col">
+                  <Span>Lleva el control de las estádisticas de cada uno de los jugadores</Span>
+                </div>
+              </div>
             </Col>
           </Row3>
         </WrapperContainer>

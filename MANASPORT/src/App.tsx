@@ -14,27 +14,9 @@ import * as action from "./action";
 import { IUser, ITournament } from "./interfaces";
 //JsonWebToken
 import jwt from "jsonwebtoken";
-//Styled Components - CSSINJS
-import styled from "styled-components";
 //Css
 import "./reset.css";
 import "./App.css";
-
-
-
-// ********* Styles - Styled Components - CSSINJS **********
-
-const Wrapper = styled.div`
-      box-shadow: 2px 2px 2px 2px #888888;
-      background: #ffffff;
-  `
-const FontSpan = styled.span`
-      font-family: 'Anton', sans-serif;
-  `
-const BorderRight = styled.span`
-      border-color: #c4c3c3 !important;
-  `
-
 
 
 //----------------------------------------------------

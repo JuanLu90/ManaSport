@@ -13,34 +13,20 @@ import * as action from "../../action";
 import { connect } from "react-redux";
 //Styled Components - CSSINJS
 import styled from "styled-components";
-import { createBrowserHistory } from "history";
 
 
 
-
-
-//*************************
-
-const history = createBrowserHistory({});
-const path = history.location.pathname;
 //******** STYLES *********
-let Wrapper: any = styled('div')({});
 
-if (path === '/management') {
-  Wrapper = styled.div`
-  background-image: url('/images/fondo4.png');
-    background: #20242A;
-    padding: 190px;
+  let Wrapper = styled.div`
+    background-image: url('/images/fondo4.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+    padding-top: 100px;
   `
-} else {
-  Wrapper = styled.div`
-  background-image: url('/images/fondo4.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center top;
-  padding-top: 100px;
-`
-}
+  
+
 
 //background-color: #20242A;
 
@@ -53,16 +39,10 @@ interface IPropsGlobal {
 }
 
 const Management: React.FC<IProps & IPropsGlobal> = props => { //Function Component
-
-    
-
   const token = localStorage.getItem("token");   //Token - Get the token stored from local storage
 
   //Hook to update the profile list when it changes
   const [profileUpdated, setProfileUpdated] = React.useState(false);
-  const updatedProfile = () => { //Set true to activate the 'useEffect'
-    setProfileUpdated(true);
-  };
 
 
   useEffect(() => { //Fetch users to redux every time the token changes
@@ -80,8 +60,6 @@ const Management: React.FC<IProps & IPropsGlobal> = props => { //Function Compon
   }, [token, profileUpdated]);
 
 
-
-
   return (
     <Wrapper className="container-fluid">
       <div className="row">
@@ -97,7 +75,6 @@ const Management: React.FC<IProps & IPropsGlobal> = props => { //Function Compon
     </Wrapper>
   );
 };
-
 
 const mapDispatchToProps = {
   setUsers: action.setUsers
