@@ -142,8 +142,8 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                       ))}
                     </div>
                     <WrapperTeams className="row w-100">
-                      <Table responsive striped hover>
-                        <thead className="style-tablehead-leagueList">
+                      <Table responsive striped hover variant="dark">
+                        <thead>
                           <tr>
                             <th> </th>
                             <th> NOMBRE </th>

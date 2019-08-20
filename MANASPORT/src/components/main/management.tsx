@@ -23,24 +23,25 @@ import { createBrowserHistory } from "history";
 
 const history = createBrowserHistory({});
 const path = history.location.pathname;
-// let pathTournamentId = path.split(["/"]).slice(-1)[0];
 //******** STYLES *********
 let Wrapper: any = styled('div')({});
 
 if (path === '/management') {
-  Wrapper = styled('div')({
-    background: '#20242A',
-    padding: '190px'
-  });
+  Wrapper = styled.div`
+  background-image: url('/images/fondo4.png');
+    background: #20242A;
+    padding: 190px;
+  `
 } else {
   Wrapper = styled.div`
-    background-image: url('/images/fondo4.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center top;
-    padding-top: 120px;
-  `
+  background-image: url('/images/fondo4.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
+  padding-top: 100px;
+`
 }
+
 //background-color: #20242A;
 
 //----------------------------------------------------
@@ -52,6 +53,9 @@ interface IPropsGlobal {
 }
 
 const Management: React.FC<IProps & IPropsGlobal> = props => { //Function Component
+
+    
+
   const token = localStorage.getItem("token");   //Token - Get the token stored from local storage
 
   //Hook to update the profile list when it changes

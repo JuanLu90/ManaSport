@@ -27,6 +27,10 @@ const ButtonRegister = styled.button`
     background-color: #bdc3c7;
   }
 `
+const SpanUsername = styled.span`
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 0.95em;
+`
 
 interface IPropsGLobal {
   setToken: (token: string) => void;
@@ -89,13 +93,14 @@ const Header: React.FC<IPropsGLobal> = props => {
               </Nav>
             )}
             {token && (
-              <Nav className="w-50">
+              <Nav className="w-50 justify-content-center">
                 <div className="row align-items-center">
-                  <div className="col-7 text-right">
-                    <span className="text-light">Hola, {decoded.username}</span>
+                  <div className="col-7 pr-0 text-right">
+                  <Link to={'/management/user'} >
+                    <SpanUsername className="text-light">{decoded.username}</SpanUsername>
+                  </Link>
                   </div>
                   <div className="col-3">
-
                     <Link to={'/management/user'} >
                       {decoded.avatar === null &&
                         <img
@@ -112,7 +117,6 @@ const Header: React.FC<IPropsGLobal> = props => {
                         />
                       }
                     </Link>
-
                   </div>
                   <div className="col-2">
                     <a href="/#">
@@ -121,6 +125,7 @@ const Header: React.FC<IPropsGLobal> = props => {
                         onClick={logout}
                         width="20"
                         alt=""
+                        title="Cerrar sesión"
                       />
                     </a>
                   </div>

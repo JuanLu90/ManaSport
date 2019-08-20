@@ -1,37 +1,63 @@
 import React from "react";
-import { Tab, Nav, DropdownButton, Dropdown } from "react-bootstrap";
+import { Tab, Nav } from "react-bootstrap";
 import LeagueDetailsGeneral from "./leagueDetailsGeneral";
 import LeagueDetailsTeams from "./leagueTeamsList";
 import LeagueDetailsPlayers from "./leaguePlayersList";
+import { ITournament } from "../../interfaces";
+import { createBrowserHistory } from "history";
+import { IGlobalState } from "../../reducers/reducers";
+import { connect } from "react-redux";
+import styled from "styled-components";
 
-const LeagueDetails: React.FC = () => {
+
+
+const SpanNameLeague = styled.span`
+  margin-top: -20px;
+  font-size: 2em;
+`
+const Span = styled.span`
+  font-family: "Source Sans Pro", sans-serif;
+`
+
+
+
+
+interface IProps {
+  leagues: ITournament[];
+}
+
+const LeagueDetails: React.FC<IProps> = props => {
+
+  const history = createBrowserHistory({});
+  const path: any = history.location.pathname;
+  let pathTournamentId = path.split(["/"]).slice(-1)[0];
+
+  const currentLeague = props.leagues.find(
+    u => u.TournamentId === +pathTournamentId
+  );
+
+  if (!currentLeague) {
+    return null;
+  }
 
   return (
     <>
       <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-        <Nav variant="tabs" className="flex-fill">
+        <Nav variant="tabs" className="flex-fill justify-content-between">
           <Nav.Item>
-            <Nav.Link eventKey="first" className="pt-0 pb-0">
-              General
-                </Nav.Link>
+            <Nav.Link eventKey="first" className="pt-0 pb-0 bg-secondary border border-dark">
+              <Span className="text-light">General</Span>
+            </Nav.Link>
           </Nav.Item>
-          <DropdownButton
-            size="sm"
-            title="Administrar"
-            id="dropdown-item-button"
-            className="p-0 m-0 btn btn-light">
-            <Nav.Item>
-              <Nav.Link eventKey="second" className="pt-0 pb-0">
-                Equipos
-                  </Nav.Link>
-            </Nav.Item>
-            <Dropdown.Divider />
-            <Nav.Item>
-              <Nav.Link eventKey="third" className="pt-0 pb-0">
-                Jugadores
-              </Nav.Link>
-            </Nav.Item>
-          </DropdownButton>
+          <SpanNameLeague className="text-light">{currentLeague.name}</SpanNameLeague>
+          <div>
+            <Nav.Link eventKey="second" className="pt-0 pb-1 d-inline bg-secondary border border-dark">
+              <Span className="text-light">Equipos</Span>
+            </Nav.Link>
+            <Nav.Link eventKey="third" className="pt-0 pb-1 d-inline bg-secondary border border-dark">
+              <Span className="text-light">Jugadores</Span>
+            </Nav.Link>
+          </div>
         </Nav>
         <Tab.Content>
           <Tab.Pane eventKey="first">
@@ -50,7 +76,9 @@ const LeagueDetails: React.FC = () => {
 };
 
 
+const mapStateToProps = (state: IGlobalState) => ({
+  leagues: state.leagues
+});
 
 
-
-export default LeagueDetails;
+export default connect(mapStateToProps)(LeagueDetails);

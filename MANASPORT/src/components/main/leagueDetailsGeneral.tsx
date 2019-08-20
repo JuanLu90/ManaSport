@@ -18,16 +18,13 @@ import styled from "styled-components";
 
 
 // ********* Styles - Styled Components - CSSINJS **********
-const Wrapper = styled.div`
-    
-`
 const TableHead = styled.thead`
   font-family: "Roboto", sans-serif;
   color: #5e5e5e;
-`
+`;
 const SpanMatchday = styled.span`
   font-size: 0.87em;
-`
+`;
 const ImgBadge = styled.img`
   height: 28px;
 `;
@@ -39,12 +36,13 @@ const TrMatchday = styled.th`
     filter: opacity(50%);
   }
 `;
-
+const Tbody = styled.tbody`
+  font-family: "Source Sans Pro", sans-serif;
+`;
 
 
 
 //----------------------------------------------------
-
 
 
 
@@ -128,9 +126,9 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
     <>
       <div className="container-fluid text-dark">
         <div className="row mt-1 ">
-          <Wrapper className="col p-3 m-3 text-center align-self-center">
+          <div className="col p-3 m-3 text-center align-self-center">
             <div className="row pb-3">
-              <div className="col text-center text-light h3">CALENDARIO</div>
+              <div className="col text-center text-light h3">Resultados</div>
               {/* <div className="col"><button onClick={createMatchs}>Crear Calendario</button></div> */}
             </div>
             <div className="row justify-content-center">
@@ -141,7 +139,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
                       <TrMatchday className="text-white font-weight-light">
                         {count !== 1 && (
                           <DivCursor onClick={matchdaySub}>
-                            <img src="/images/other/arrow-left.png" width="20" /> <SpanMatchday>jornada {count - 1}</SpanMatchday>
+                            <img src="/images/other/arrow-left.png" width="17" /> <SpanMatchday>jornada {count - 1}</SpanMatchday>
                           </DivCursor>
                         )}
                       </TrMatchday>
@@ -150,24 +148,26 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
                       <th />
                       <TrMatchday className="text-white font-weight-light">
                         <DivCursor onClick={matchdayAdd}>
-                          <SpanMatchday  >jornada {count + 1}</SpanMatchday> <img src="/images/other/arrow-right.png" width="20" />
+                          <SpanMatchday  >jornada {count + 1}</SpanMatchday> <img src="/images/other/arrow-right.png" width="17" />
                         </DivCursor>
                       </TrMatchday>
                     </tr>
                   </TableHead>
-                  <tbody>
+                  <Tbody>
                     {props.matchs.map(m => (
                       <EditMatchDay key={m.MatchId} m={m} updatedResults={updatedResults} />
                     ))}
-                  </tbody>
+                  </Tbody>
                 </Table>
               </div>
-
             </div>
-          </Wrapper>
-          <Wrapper className="col p-3 m-3">
+            <div className="row justify-content-center mt-4 p-2 bg-leagueList text-white h2">
+              Estadísticas
+            </div>
+          </div>
+          <div className="col p-3 m-3">
             <div className="row pb-3">
-              <div className="col text-center text-light h3">CLASIFICACIÓN</div>
+              <div className="col text-center text-light h3">Clasificación</div>
             </div>
             <div className="row justify-content-center">
               <div className="col-10">
@@ -184,7 +184,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
                       <th className="p-2 text-center text-light font-weight-light">PP</th>
                     </tr>
                   </TableHead>
-                  <tbody>
+                  <Tbody>
                     {props.qualification.map((q, i) => (
                       <tr key={q.ID}>
                         {i === 0 ?
@@ -200,19 +200,13 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
                         <td className="p-1 text-center">{q.PP}</td>
                       </tr>
                     ))}
-                  </tbody>
+                  </Tbody>
                 </Table>
               </div>
             </div>
-          </Wrapper>
-        </div>
-        <div className="row justify-content-center mt-4 p-2 bg-leagueList">
-          Estadísticas
+          </div>
         </div>
       </div>
-      {/* <Modal size="lg" show={showEditMatchday} onHide={() => null}>
-        <EditMatchdayModal handleCloseEditMatchday={handleCloseEditMatchday} />
-      </Modal> */}
     </>
   );
 };
