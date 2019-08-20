@@ -38,7 +38,10 @@ const Wrapper = styled.div`
   font-family: "Source Sans Pro", sans-serif;
 `;
 const WrapperCardBody = styled.div`
-  background: #232980;
+  background: rgba(35,41,128, 0.5);
+`;
+const WrapperFormAddTeam = styled.div`
+  background: rgba(223, 228, 234, 0.6);
 `;
 const ListgroupCard = styled.thead`
   font-size: 0.8em;
@@ -48,6 +51,9 @@ const borderCard = {
 };
 const ImgBadge = styled.img`
   height: 28px;
+`;
+const ImgBadgeCard = styled.img`
+  height: 80px;
 `;
 const Tbody = styled.tbody`
   font-family: "Source Sans Pro", sans-serif;
@@ -62,6 +68,9 @@ const SpanFieldTeam = styled.span`
 const SpanFieldRequired = styled.span`
   font-size: 0.8em;
   font-family: "Source Sans Pro", sans-serif;
+`;
+const DivDegraded = styled.div`
+background: linear-gradient(50deg, rgba(255,193,7,0.9), rgba(255,193,7,0.5), rgba(43,47,56,0.7), rgba(43,47,56,0.4));
 `;
 // *********************
 
@@ -201,8 +210,8 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
   return (
     <>
       <Wrapper className="container-fluid text-dark">
-        <div className="row mt-1 ">
-          <div className="col p-3 m-1 text-center bg-leagueList">
+        <div className="row mt-1">
+          <div className="col p-3 m-1 text-center ">
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
               <Nav
                 variant="pills"
@@ -211,7 +220,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                 <Nav.Item style={{ width: "2rem" }}>
                   <Nav.Link
                     eventKey="first"
-                    className="pt-0 pl-0 pr-0 pb-1 bg-light text-center"
+                    className="pt-0 pl-0 pr-0 pb-1 bg-light border border-dark text-center"
                   >
                     <img src="/images/other/normal.png" width="20" alt="" />
                   </Nav.Link>
@@ -219,7 +228,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                 <Nav.Item style={{ width: "2rem" }}>
                   <Nav.Link
                     eventKey="second"
-                    className="pt-0 pl-0 pr-0 pb-1 bg-light text-center"
+                    className="pt-0 pl-0 pr-0 pb-1 bg-light border border-dark text-center"
                   >
                     <img src="/images/other/cards.png" width="20" alt="" />
                   </Nav.Link>
@@ -227,6 +236,11 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
               </Nav>
               <Tab.Content>
                 <Tab.Pane eventKey="first">
+                  <div className="row justify-content-center pl-3 pr-3">
+                    <DivDegraded className="col-10 p-2 h2 font-weight-bold text-left">
+                      Equipos
+                    </DivDegraded>
+                  </div>
                   <div className="row justify-content-center">
                     <div className="col-10">
                       <Table responsive striped hover variant="dark" className="border border-secondary">
@@ -234,7 +248,6 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                           <tr>
                             <th />
                             <th> NOMBRE </th>
-                            {/* <th> JUGADORES </th> */}
                             <th> PROVINCIA </th>
                             <th> ENTRENADOR </th>
                             <th>2º ENTRENADOR</th>
@@ -254,7 +267,6 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                               <td className="p-2">
                                 {l.name === null ? "-" : l.name}
                               </td>
-                              {/* <td className="p-2"> 21 </td> */}
                               <td className="p-2">
                                 {l.locality === null ? "-" : l.locality}
                               </td>
@@ -306,13 +318,10 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                         className="m-1"
                         style={{ width: "18rem" }}
                       >
-                        <Card style={borderCard}>
+                        <Card style={borderCard} className="bg-transparent">
                           <WrapperCardBody>
                             <Card.Body>
-                              <Card.Img
-                                src={l.badge}
-                                style={{ width: "4rem" }}
-                              />
+                              <ImgBadgeCard src={l.badge} />
                               <Card.Title className="text-light">
                                 {l.name === null ? "-" : l.name}
                               </Card.Title>
@@ -363,18 +372,24 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                 </Tab.Pane>
               </Tab.Content>
             </Tab.Container>
-            <div className="row justify-content-center mt-4">
-              <div className="col-10 text-left">
-                <SpanAddTeam className="text-light">Añade un nuevo equipo:</SpanAddTeam>
+          </div>
+        </div>
+      </Wrapper>
+      <Wrapper className="container text-dark p-3 mb-4">
+        <div className="row justify-content-center">
+          <WrapperFormAddTeam className="col-6 pt-1 pl-4 pr-4 pb-1 rounded">
+            <div className="row mt-2 mb-4">
+              <div className="col text-left">
+                <SpanAddTeam>Añade un nuevo equipo:</SpanAddTeam>
               </div>
             </div>
-            <div className="row justify-content-center">
-              <div className="col-4 text-left text-white">
+            <div className="row">
+              <div className="col text-left">
                 <SpanFieldTeam>*Nombre del equipo:</SpanFieldTeam>
               </div>
             </div>
-            <div className="row justify-content-center">
-              <div className="col-4">
+            <div className="row">
+              <div className="col">
                 <input
                   type="text"
                   className="form-control form-control-sm"
@@ -383,13 +398,13 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                 />
               </div>
             </div>
-            <div className="row justify-content-center mt-3">
-              <div className="col-4 text-left text-white">
+            <div className="row mt-3">
+              <div className="col text-left">
                 *Provincia:
               </div>
             </div>
-            <div className="row justify-content-center">
-              <div className="col-4">
+            <div className="row">
+              <div className="col">
                 <Form.Control as="select" onChange={updateTeamLocality} className="pt-0 pb-0">
                   <option value="alava">Álava</option>
                   <option value="albacete">Albacete</option>
@@ -448,13 +463,13 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                 </Form.Control>
               </div>
             </div>
-            <div className="row justify-content-center mt-3">
-              <div className="col-4 text-left text-white">
+            <div className="row mt-3">
+              <div className="col text-left">
                 Entrenador:
               </div>
             </div>
-            <div className="row justify-content-center">
-              <div className="col-4">
+            <div className="row">
+              <div className="col">
                 <input
                   type="text"
                   className="form-control form-control-sm"
@@ -463,13 +478,13 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                 />
               </div>
             </div>
-            <div className="row justify-content-center mt-3">
-              <div className="col-4 text-left text-white">
+            <div className="row mt-3">
+              <div className="col text-left">
                 2º Entrenador:
               </div>
             </div>
-            <div className="row justify-content-center">
-              <div className="col-4">
+            <div className="row">
+              <div className="col">
                 <input
                   type="text"
                   className="form-control form-control-sm"
@@ -478,13 +493,13 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                 />
               </div>
             </div>
-            <div className="row justify-content-center mt-3">
-              <div className="col-4 text-left text-white">
+            <div className="row mt-3">
+              <div className="col text-left">
                 Email:
               </div>
             </div>
-            <div className="row justify-content-center">
-              <div className="col-4">
+            <div className="row">
+              <div className="col">
                 <input
                   type="text"
                   className="form-control form-control-sm"
@@ -493,13 +508,13 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                 />
               </div>
             </div>
-            <div className="row justify-content-center mt-3">
-              <div className="col-4 text-left text-white">
+            <div className="row mt-3">
+              <div className="col text-left">
                 Teléfono:
               </div>
             </div>
-            <div className="row justify-content-center">
-              <div className="col-4">
+            <div className="row">
+              <div className="col">
                 <input
                   type="text"
                   className="form-control form-control-sm"
@@ -508,23 +523,23 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                 />
               </div>
             </div>
-            <div className="row justify-content-center">
-              <div className="col-4 text-white text-left mt-1">
+            <div className="row">
+              <div className="col-4 text-left mt-1">
                 <SpanFieldRequired>* Campos obligatorios </SpanFieldRequired>
               </div>
             </div>
-            <div className="row justify-content-center mt-2 mb-2">
-              <div className="col">
+            <div className="row mt-4 mb-2">
+              <div className="col text-center">
                 <Button
-                  variant="success"
-                  className="pt-0 pb-0 pl-3 pr-3"
+                  variant="dark"
+                  className="pt-1 pb-1 pl-4 pr-4"
                   onClick={sendTeam}
                 >
                   Añadir equipo
                 </Button>
               </div>
             </div>
-            <div className="row justify-content-center mt-4">
+            <div className="row mt-4">
               <div className="col">
                 {(fetchError && inputAlert) &&
                   <Alert variant="danger">
@@ -536,7 +551,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                   </Alert>}
               </div>
             </div>
-          </div>
+          </WrapperFormAddTeam>
         </div>
       </Wrapper>
       <Modal size="lg" show={showEditTeam} onHide={handleCloseEditTeam}>

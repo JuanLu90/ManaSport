@@ -30,26 +30,45 @@ import styled from "styled-components";
 
 
 // ****** Styles *******
-const WrapperTeams = styled.div`
-  box-shadow: 2px 2px 2px 2px #888888;
-`
+const Wrapper = styled.div`
+font-family: "Source Sans Pro", sans-serif;
+`;
 const borderCard = {
   border: '1px solid rgb(35, 41, 128)'
 };
-const WrapperCardBody = styled.div`
+const WrapperListTeams = styled.div`
   background: #232980;
   height: 30px;
   &:hover {
     background-color: #50559A;
     color: white;
   }
-`
+  cursor: pointer;
+`;
+const WrapperCardBody = styled.div`
+  background: rgba(35,41,128, 0.5);
+`;
 const SpanNameTeam = styled.span`
   font-size: 0.9em;
-`
+`;
 const ListgroupCard = styled.span`
-  font-size: 0.6em;
-`
+  font-size: 0.7em;
+`;
+const TdMatchdayBig = styled.td`
+  width: 20%;
+`;
+const TdMatchdaySmall = styled.td`
+  width: 10%;
+`;
+const DivDegraded = styled.div`
+  background: linear-gradient(50deg, rgba(255,193,7,0.9), rgba(255,193,7,0.5), rgba(43,47,56,0.7), rgba(43,47,56,0.4));
+`;
+const ImgBadge = styled.img`
+  height: 40px;
+`;
+const ImgBadgeCard = styled.img`
+  height: 80px;
+`;
 // *********************
 
 
@@ -67,7 +86,7 @@ interface IPropsGlobal {
 }
 
 const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Function Component
-  const [valueTeamId, setValueTeamId] = useState(1); //Hook the team ID to show the team players
+  const [valueTeamId, setValueTeamId] = useState(-1); //Hook the team ID to show the team players
 
 
   const [showEditPlayer, setEditPlayer] = useState(false); //Hook for edit player modal
@@ -80,6 +99,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
     props.setPlayerId(DeleteLeagueId);
   }
 
+ 
 
   useEffect(() => { //Fetch team players to redux every time the team ID changes
     fetch(
@@ -99,10 +119,14 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
     });
   }, [valueTeamId]);
 
+  const currentTeam = props.leagueTeams.find(
+    u => u.TeamId === valueTeamId
+  );
+
+
   return (
     <> {/* '<> ... </>' used to send an only one container */}
-      <div className="container-fluid text-dark">
-        <div className="row">JUGADORES</div>
+      <Wrapper className="container-fluid text-dark">
         <div className="row mt-1 ">
           <div className="col p-3 m-1 text-center bg-leagueList">
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
@@ -112,95 +136,114 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                 <Nav.Item style={{ width: "2rem" }}>
                   <Nav.Link
                     eventKey="first"
-                    className="pt-0 pl-0 pr-0 pb-1 bg-light text-center">
+                    className="pt-0 pl-0 pr-0 pb-1 bg-light border border-dark text-center">
                     <img src="/images/other/normal.png" width="20" alt="" />
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item style={{ width: "2rem" }}>
                   <Nav.Link
                     eventKey="second"
-                    className="pt-0 pl-0 pr-0 pb-1 bg-light text-center">
+                    className="pt-0 pl-0 pr-0 pb-1 bg-light border border-dark text-center">
                     <img src="/images/other/cards.png" width="20" alt="" />
                   </Nav.Link>
                 </Nav.Item>
               </Nav>
               <Tab.Content>
                 <Tab.Pane eventKey="first">
-                  <div className="row justify-content-center">
-                    <div className="row w-75 justify-content-center mb-4">
+                  <div className="row justify-content-center pl-3 pr-3">
+                    <DivDegraded className="col-10 p-2 h2 font-weight-bold text-left">
+                      Jugadores
+                    </DivDegraded>
+                  </div>
+                  <div className="row justify-content-center mb-4">
+                    <div className="col-2 pl-2 pr-0">
                       {props.leagueTeams.map(l => (
-                        <Card style={borderCard} className="m-1" onClick={() => setValueTeamId(l.TeamId)} key={l.TeamId}>
-                          <WrapperCardBody className="pl-2 pr-2">
+                        <Card style={borderCard} className="mb-1 ml-1 mr-1" onClick={() => setValueTeamId(l.TeamId)} key={l.TeamId}>
+                          <WrapperListTeams className="pl-3 pr-3">
                             <tr>
                               <td> <Card.Img src={l.badge} style={{ width: "1rem", marginRight: "7px" }} /></td>
                               <td className="text-light">
                                 <SpanNameTeam>{l.name === null ? "-" : l.name}</SpanNameTeam>
                               </td>
                             </tr>
-                          </WrapperCardBody>
+                          </WrapperListTeams>
                         </Card>
                       ))}
                     </div>
-                    <WrapperTeams className="row w-100">
-                      <Table responsive striped hover variant="dark">
-                        <thead>
-                          <tr>
-                            <th> </th>
-                            <th> NOMBRE </th>
-                            <th> APELLIDOS </th>
-                            <th> EDAD </th>
-                            <th> POSICIÓN</th>
-                            <th> GOLES </th>
-                            <th />
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {props.teamPlayers.map(p => (
-                            <tr key={p.PlayerId}>
-                              <td className="p-0 align-middle">
-                                <img src={p.image} width="24" />
-                              </td>
-                              <td className="p-2">
-                                {p.name === null ? "-" : p.name}
-                              </td>
-                              <td className="p-2">
-                                {p.surname === null ? "-" : p.surname}
-                              </td>
-                              <td className="p-2">
-                                {p.age === null ? "-" : p.age}
-                              </td>
-                              <td className="p-2">
-                                {p.position === null ? "-" : p.position}
-                              </td>
-                              <td className="p-2">
-                                {p.goals === null ? "-" : p.goals}
-                              </td>
-                              <td className="p-2">
-                                <img
-                                  src="/images/other/edit.png"
-                                  width="15"
-                                  alt=""
-                                  onClick={() => funcionEditPlayer(p.PlayerId)}
-                                />
-                              </td>
+                    <div className="col-8 justify-content-center">
+                      <div className="row bg-secondary p-2">
+                        <div className="col">
+                          { currentTeam ? (
+                              <div className="col text-center text-light h3 p-0 m-0">
+                                <ImgBadge src={currentTeam.badge} alt=""/>
+                                <span className="ml-3 align-middle">{currentTeam.name}</span> 
+                              </div>
+                            ) : "Selecciona un equipo"}
+                        </div>
+                          
+                      </div>
+                      <div className="row border border-secondary">
+                        <Table responsive striped hover variant="dark">
+                          <thead>
+                            <tr>
+                              <th> </th>
+                              <th> NOMBRE </th>
+                              <th> APELLIDOS </th>
+                              <th> EDAD </th>
+                              <th> POSICIÓN</th>
+                              <th> GOLES </th>
+                              <th />
                             </tr>
-                          ))}
-                        </tbody>
-                      </Table>
-                    </WrapperTeams>
+                          </thead>
+                          <tbody>
+                            {props.teamPlayers.map(p => (
+                              <tr key={p.PlayerId}>
+                                <TdMatchdaySmall className="p-0 align-middle">
+                                  <img src={p.image} width="24" />
+                                </TdMatchdaySmall>
+                                <TdMatchdayBig className="p-2">
+                                  {p.name === null ? "-" : p.name}
+                                </TdMatchdayBig>
+                                <TdMatchdayBig className="p-2">
+                                  {p.surname === null ? "-" : p.surname}
+                                </TdMatchdayBig>
+                                <TdMatchdaySmall className="p-2">
+                                  {p.age === null ? "-" : p.age}
+                                </TdMatchdaySmall>
+                                <TdMatchdayBig className="p-2">
+                                  {p.position === null ? "-" : p.position}
+                                </TdMatchdayBig>
+                                <TdMatchdaySmall className="p-2">
+                                  {p.goals === null ? "-" : p.goals}
+                                </TdMatchdaySmall>
+                                <TdMatchdaySmall className="p-2">
+                                  <img
+                                    src="/images/other/edit.png"
+                                    width="15"
+                                    alt=""
+                                    onClick={() => funcionEditPlayer(p.PlayerId)}
+                                  />
+                                </TdMatchdaySmall>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </Table>
+                      </div>
+                    </div>
                   </div>
                 </Tab.Pane>
                 <Tab.Pane eventKey="second">
-                  <div className="row justify-content-center">
+                <div className="row justify-content-center">
                     {props.leagueTeams.map(l => (
                       <CardDeck
                         key={l.TeamId}
                         className="m-1"
-                        style={{ width: "18rem" }}>
-                        <Card style={borderCard}>
+                        style={{ width: "18rem" }}
+                      >
+                        <Card style={borderCard} className="bg-transparent">
                           <WrapperCardBody>
                             <Card.Body>
-                              <Card.Img src={l.badge} style={{ width: "4rem" }} />
+                              <ImgBadgeCard src={l.badge} />
                               <Card.Title className="text-light">
                                 {l.name === null ? "-" : l.name}
                               </Card.Title>
@@ -208,7 +251,10 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                           </WrapperCardBody>
                           <ListgroupCard>
                             <ListGroup className="list-group-flush text-left">
-                              <ListGroupItem className="p-2" variant="secondary">
+                              <ListGroupItem
+                                className="p-2"
+                                variant="secondary"
+                              >
                                 <b>Localidad: </b>
                                 {l.locality === null ? "-" : l.locality}
                               </ListGroupItem>
@@ -216,7 +262,10 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                                 <b>Entrenador: </b>
                                 {l.coach === null ? "-" : l.coach}
                               </ListGroupItem>
-                              <ListGroupItem className="p-2" variant="secondary">
+                              <ListGroupItem
+                                className="p-2"
+                                variant="secondary"
+                              >
                                 <b>2º Entrenador: </b>
                                 {l.coach2 === null ? "-" : l.coach2}
                               </ListGroupItem>
@@ -224,17 +273,20 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                                 <b>Email: </b>
                                 {l.contactEmail === null ? "-" : l.contactEmail}
                               </ListGroupItem>
-                              <ListGroupItem className="p-2" variant="secondary">
+                              <ListGroupItem
+                                className="p-2"
+                                variant="secondary"
+                              >
                                 <b>Teléfono: </b>
                                 {l.contactPhone === null ? "-" : l.contactPhone}
                               </ListGroupItem>
                             </ListGroup>
                           </ListgroupCard>
-                          <Card.Footer>
+                          {/* <Card.Footer>
                             <small className="text-muted">
                               Last updated 3 mins ago
                             </small>
-                          </Card.Footer>
+                          </Card.Footer> */}
                         </Card>
                       </CardDeck>
                     ))}
@@ -244,7 +296,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
             </Tab.Container>
           </div>
         </div>
-      </div>
+      </Wrapper>
       <Modal size="lg" show={showEditPlayer} onHide={handleCloseEditPlayer}>
         <EditPlayerModal handleCloseEditPlayer={handleCloseEditPlayer} />
       </Modal>
