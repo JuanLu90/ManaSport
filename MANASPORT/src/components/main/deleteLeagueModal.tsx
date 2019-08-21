@@ -62,7 +62,7 @@ const DeleteLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
           en un futuro(como hacer historial de equipos participantes, o algún
           otro tipo de estadística), mantenla.
         </div>
-        <div className="modal-footer no-border">
+        <div className="modal-footer">
           <div className="col text-right">
             <button onClick={props.handleCloseDeleteLeague}>Cancelar</button>
           </div>

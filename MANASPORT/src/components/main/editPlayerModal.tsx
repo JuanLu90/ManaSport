@@ -196,7 +196,7 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
             </div>
           </div>
         </div>
-        <div className="modal-footer no-border">
+        <div className="modal-footer">
           <div className="col text-right">
             <button onClick={props.handleCloseEditPlayer}>Cancelar</button>
           </div>

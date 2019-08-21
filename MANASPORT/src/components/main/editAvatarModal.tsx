@@ -102,7 +102,7 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div className="modal-body modal-editavatar-img">
+        <div className="modal-body">
           <div className="row">
             <div className="col">
               <input
@@ -271,7 +271,7 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
             </div>
           </div>
         </div>
-        <div className="modal-footer no-border">
+        <div className="modal-footer">
           <div className="col text-right">
             <button onClick={props.handleCloseEditAvatar}>Cancelar</button>
           </div>

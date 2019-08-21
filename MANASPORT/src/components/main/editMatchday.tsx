@@ -29,6 +29,7 @@ width: 25%;
 `;
 const ImgArrow = styled.img`
   cursor: pointer;
+  height: 16px;
 `;
 
 const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
@@ -113,7 +114,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
         )}
         {editMode && (
           <>
-            <ImgArrow src="/images/other/cancel.png" width="15" className="mr-2 mb-1" onClick={toggleEditMode} title="Atrás" />
+            <ImgArrow src="/images/other/cancel.png" className="mr-2 mb-1" onClick={toggleEditMode} title="Atrás" />
             <input
               type="text"
               name=""
@@ -130,7 +131,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
               value={inputAwayScore}
               onChange={updateAwayScore}
             />
-            <ImgArrow src="/images/other/send.png" width="15" className="ml-2 mb-1" onClick={sendMatchResult} title="Enviar" />
+            <ImgArrow src="/images/other/send.png" className="ml-2 mb-1" onClick={sendMatchResult} title="Enviar" />
           </>
         )}
       </TdMatchdayResult>

@@ -105,6 +105,14 @@ router.put("/teams/editTeam/:TeamId", (req, res) => {
           ? `'${data.contactPhone}'`
           : "NULL"
       }
+      , 
+      badge = ${
+        data.badge === null
+          ? null
+          : data.badge.length > 0
+          ? `'${data.badge}'`
+          : "NULL"
+      }
       WHERE TeamId = ${data.TeamId};`,
     (err, rows) => {
       if (err) {

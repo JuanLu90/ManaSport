@@ -140,7 +140,7 @@ const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
             </div>
           </div>
         </div>
-        <div className="modal-footer no-border">
+        <div className="modal-footer">
           <div className="col text-right">
             <button onClick={props.handleCloseEditLeague}>Cancelar</button>
           </div>
