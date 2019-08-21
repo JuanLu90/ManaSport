@@ -33,8 +33,6 @@ const Row3 = styled.div`
   height: 30%;
   bottom: 0px;
   font-size: 0.6em;
-  background: rgba(20, 20, 20, 0.6);
-  transform: skewY(-4deg);
 `
 const FontSpan1 = styled.span`
   font-family: 'PT Serif', serif;
@@ -56,7 +54,7 @@ const FontSpan = styled.span`
 `
 const Col = styled.div`
   line-height: 0.7em;
-  transform: skewY(4deg);
+
 `
 //*************************
 

@@ -2,15 +2,21 @@
 import React, { useEffect, useState } from "react";
 import { createBrowserHistory } from "history";
 //React Bootstrap
-import { InputGroup } from "react-bootstrap";
+import { InputGroup, Form } from "react-bootstrap";
 //Redux
 import { IGlobalState } from "../../reducers/reducers";
 import * as action from "../../action";
 import { connect } from "react-redux";
 //Interfaces
 import { ITournament, ITeam } from "../../interfaces";
+import styled from "styled-components";
 
-
+const Wrapper = styled.div`
+  font-family: "Source Sans Pro", sans-serif;
+`
+const FontLocality = styled.div`
+  font-size: 1em;
+`
 
 //----------------------------------------------------
 
@@ -35,6 +41,7 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
   const [inputTeamCoach2, setInputTeamCoach2] = React.useState("");
   const [inputTeamEmail, setInputTeamEmail] = React.useState("");
   const [inputTeamPhone, setInputTeamPhone] = React.useState("");
+  const [inputTeamBadge, setInputTeamBadge] = React.useState("");
 
   //Onchanges input teams
   const updateTeamName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +61,9 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
   };
   const updateTeamPhone = (event: any) => {
     setInputTeamPhone(event.currentTarget.value);
+  };
+  const updateTeamBadge = (event: any) => {
+    setInputTeamBadge(event.currentTarget.value);
   };
 
   // Hook to get fetch error
@@ -75,6 +85,7 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
       setInputTeamCoach2(currentTeam.coach2);
       setInputTeamEmail(currentTeam.contactEmail);
       setInputTeamPhone(currentTeam.contactPhone);
+      setInputTeamBadge(currentTeam.badge);
     }
   }, [currentTeam]);
 
@@ -83,7 +94,7 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
   }
   const editCurrentTeam = () => {
     //Avoid that 'team' will be undefined
-   
+
     fetch("http://localhost:8080/api/teams/editTeam/" + currentTeam.TeamId, { //Fetch the current team updated
       method: "PUT",
       headers: {
@@ -98,7 +109,8 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
         coach: inputTeamCoach,
         coach2: inputTeamCoach2,
         contactEmail: inputTeamEmail,
-        contactPhone: inputTeamPhone
+        contactPhone: inputTeamPhone,
+        badge: inputTeamBadge
       })
     })
       .then(response => {
@@ -110,7 +122,8 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
             coach: inputTeamCoach,
             coach2: inputTeamCoach2,
             contactEmail: inputTeamEmail,
-            contactPhone: inputTeamPhone
+            contactPhone: inputTeamPhone,
+            badge: inputTeamBadge
           };
           response.json().then(u => {
             props.putTeamById(currentTeam.TeamId, u);
@@ -130,10 +143,10 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
   };
 
   return (
-    <div className="modal-dialog-centered" role="document">
+    <Wrapper className="modal-dialog-centered" role="document">
       <div className="modal-content bg-light text-dark">
         <div className="modal-header bg-warning">
-          <h5 className="modal-title" id="exampleModalCenterTitle"> Está editando a {currentTeam.name} </h5>
+          <h5 className="modal-title" id="exampleModalCenterTitle"> Está editando: <b>{currentTeam.name}</b> </h5>
           <button
             type="button"
             className="close"
@@ -144,115 +157,218 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
         </div>
         <div className="modal-body">
           <div className="row">
-            <div className="col">
-              <InputGroup size="sm">
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroup-sizing-sm">
-                    Nombre del equipo*
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <input
-                  type="text"
-                  className="form-control form-control-sm mt-0"
-                  value={inputTeamName}
-                  onChange={updateTeamName}
-                />
-              </InputGroup>
+            <div className="col text-center">
+              <div className="row">
+                <div className="col">
+                  <img src={inputTeamBadge} width="100" alt="" />
+                  
+                </div>
+              </div>
+              <div className="row m-3">
+                <div className="col">
+                  <button> Actualizar escudo </button>
+                  <hr />
+                </div>
+              </div>
+              <div className="row justify-content-between">
+                <div className="col m-2">
+                  <img src={inputTeamBadge} width="35" alt="" />
+                </div>
+                <div className="col m-2">
+                  <img src={inputTeamBadge} width="35" alt="" />
+                </div>
+                <div className="col m-2">
+                  <img src={inputTeamBadge} width="35" alt="" />
+                </div>
+                <div className="col m-2">
+                  <img src={inputTeamBadge} width="35" alt="" />
+                </div>
+                <div className="col m-2">
+                  <img src={inputTeamBadge} width="35" alt="" />
+                </div>
+                <div className="col m-2">
+                  <img src={inputTeamBadge} width="35" alt="" />
+                </div>
+                <div className="col m-2">
+                  <img src={inputTeamBadge} width="35" alt="" />
+                </div>
+                <div className="col m-2">
+                  <img src={inputTeamBadge} width="35" alt="" />
+                </div>
+                <div className="col m-2">
+                  <img src={inputTeamBadge} width="35" alt="" />
+                </div>
+                <div className="col m-2">
+                  <img src={inputTeamBadge} width="35" alt="" />
+                </div>
+                <div className="col m-2">
+                  <img src={inputTeamBadge} width="35" alt="" />
+                </div>
+                <div className="col m-2">
+                  <img src={inputTeamBadge} width="35" alt="" />
+                </div>
+              </div>
             </div>
-            <div className="col">
-              <InputGroup size="sm">
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroup-sizing-sm">
-                    Localidad*
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <input
-                  type="text"
-                  className="form-control form-control-sm mt-0"
-                  value={inputTeamLocality}
-                  onChange={updateTeamLocality}
-                />
-              </InputGroup>
+            <div className="col-8">
+              <div className="row">
+                <div className="col">
+                  Nombre del equipo*
+                </div>
+              </div>
+              <div className="row mb-3">
+                <div className="col">
+                  <input
+                    type="text"
+                    className="form-control form-control-sm mt-0"
+                    value={inputTeamName}
+                    onChange={updateTeamName}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  Localidad*
+                </div>
+              </div>
+              <div className="row mb-2">
+                <div className="col h1">
+                  <Form.Control as="select" onChange={updateTeamLocality} theme={FontLocality} className="pt-0 pb-0">
+                    <option value="Álava">Álava</option>
+                    <option value="Albacete">Albacete</option>
+                    <option value="Alicante">Alicante</option>
+                    <option value="Almeria">Almería</option>
+                    <option value="Asturias">Asturias</option>
+                    <option value="Ávila">Ávila</option>
+                    <option value="Badajoz">Badajoz</option>
+                    <option value="Barcelona">Barcelona</option>
+                    <option value="Burgos">Burgos</option>
+                    <option value="Cáceres">Cáceres</option>
+                    <option value="Cádiz">Cádiz</option>
+                    <option value="Cantabria">Cantabria</option>
+                    <option value="Castellón">Castellón</option>
+                    <option value="Ceuta">Ceuta</option>
+                    <option value="Ciudad Real">Ciudad Real</option>
+                    <option value="Córdoba">Córdoba</option>
+                    <option value="Cuenca">Cuenca</option>
+                    <option value="Girona">Girona</option>
+                    <option value="Las Palmas">Las Palmas</option>
+                    <option value="Granada">Granada</option>
+                    <option value="Guadalajara">Guadalajara</option>
+                    <option value="Guipúzcoa">Guipúzcoa</option>
+                    <option value="Huelva">Huelva</option>
+                    <option value="Huesca">Huesca</option>
+                    <option value="illesbalIlles Balearsears">Illes Balears</option>
+                    <option value="Jaén">Jaén</option>
+                    <option value="A Coruña">A Coruña</option>
+                    <option value="La Rioja">La Rioja</option>
+                    <option value="León">León</option>
+                    <option value="Lleida">Lleida</option>
+                    <option value="lugo">Lugo</option>
+                    <option value="Madrid">Madrid</option>
+                    <option value="Málaga">Málaga</option>
+                    <option value="Melilla">Melilla</option>
+                    <option value="Murcia">Murcia</option>
+                    <option value="Navarra">Navarra</option>
+                    <option value="Ourense">Ourense</option>
+                    <option value="Palencia">Palencia</option>
+                    <option value="Pontevedra">Pontevedra</option>
+                    <option value="Salamanca">Salamanca</option>
+                    <option value="Segovia">Segovia</option>
+                    <option value="Sevilla">Sevilla</option>
+                    <option value="Soria">Soria</option>
+                    <option value="Tarragona">Tarragona</option>
+                    <option value="Santa Cruz de Tenerife">
+                      Santa Cruz de Tenerife
+                    </option>
+                    <option value="Teruel">Teruel</option>
+                    <option value="Toledo">Toledo</option>
+                    <option value="Valencia">Valencia</option>
+                    <option value="Valladolid">Valladolid</option>
+                    <option value="vizcVizcayaaya">Vizcaya</option>
+                    <option value="Zamora">Zamora</option>
+                    <option value="Zaragoza">Zaragoza</option>
+                  </Form.Control>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  Entrenador
             </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <InputGroup size="sm">
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroup-sizing-sm">
-                    Entrenador*
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <input
-                  type="text"
-                  className="form-control form-control-sm mt-0"
-                  value={inputTeamCoach}
-                  onChange={updateTeamCoach}
-                />
-              </InputGroup>
+              </div>
+              <div className="row mb-3">
+                <div className="col">
+                  <input
+                    type="text"
+                    className="form-control form-control-sm mt-0"
+                    value={inputTeamCoach}
+                    onChange={updateTeamCoach}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  2º Entrenador
             </div>
-            <div className="col">
-              <InputGroup size="sm">
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroup-sizing-sm">
-                    2º Entrenador*
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <input
-                  type="text"
-                  className="form-control form-control-sm mt-0"
-                  value={inputTeamCoach2}
-                  onChange={updateTeamCoach2}
-                />
-              </InputGroup>
+              </div>
+              <div className="row mb-3">
+                <div className="col">
+                  <input
+                    type="text"
+                    className="form-control form-control-sm mt-0"
+                    value={inputTeamCoach2}
+                    onChange={updateTeamCoach2}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  Email
             </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <InputGroup size="sm">
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroup-sizing-sm">
-                    Email*
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <input
-                  type="text"
-                  className="form-control form-control-sm mt-0"
-                  value={inputTeamEmail}
-                  onChange={updateTeamEmail}
-                />
-              </InputGroup>
+              </div>
+              <div className="row mb-3">
+                <div className="col">
+                  <input
+                    type="text"
+                    className="form-control form-control-sm mt-0"
+                    value={inputTeamEmail}
+                    onChange={updateTeamEmail}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  Teléfono
             </div>
-            <div className="col">
-              <InputGroup size="sm">
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroup-sizing-sm">
-                    Teléfono*
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <input
-                  type="text"
-                  className="form-control form-control-sm mt-0"
-                  value={inputTeamPhone}
-                  onChange={updateTeamPhone}
-                />
-              </InputGroup>
+              </div>
+              <div className="row mb-3">
+                <div className="col">
+                  <input
+                    type="text"
+                    className="form-control form-control-sm mt-0"
+                    value={inputTeamPhone}
+                    onChange={updateTeamPhone}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div className="modal-footer no-border">
           <div className="col text-right">
-            <button onClick={props.handleCloseEditTeam}>Cancelar</button>
+            <button className="btn btn-light" onClick={props.handleCloseEditTeam}>Cancelar</button>
           </div>
           <div className="col">
-            <button onClick={editCurrentTeam}>Enviar</button>
+            <button className="btn btn-success" onClick={editCurrentTeam}>Guardar</button>
           </div>
-          <div className="col">
-            {fetchError && <div className="bg-danger">{fetchError}</div>}
-          </div>
+          {fetchError &&
+            <div className="col">
+              <div className="bg-danger">{fetchError}</div>
+            </div>
+          }
+
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 
