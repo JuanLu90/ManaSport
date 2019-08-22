@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Modal, Navbar, Nav } from "react-bootstrap";
 import LoginModal from "./loginModal/loginModal";
 import RegisterModal from "./registerModal/registerModal";
@@ -11,14 +11,9 @@ import { IGlobalState } from "../../reducers/reducers";
 import styled from "styled-components";
 
 // ********* Styles - Styled Components - CSSINJS **********
-const HeaderDiv = styled.header`
-  background-color: rgba(36, 36, 36, 0);
-  z-index: 1000;
-  transition: 0.3s;
-  &:hover {
-    background-color: rgba(36, 36, 36, 0.3);
-  }
-`
+
+
+
 const ButtonRegister = styled.button`
   background-color: #ecf0f1;
   font-size: 0.85em;
@@ -38,6 +33,43 @@ interface IPropsGLobal {
 }
 
 const Header: React.FC<IPropsGLobal> = props => {
+
+  const [navBackground, setNavBackground] = useState(false)
+
+  const navRef: any = useRef()
+  navRef.current = navBackground
+  useEffect(() => {
+    const handleScroll = () => {
+      const show = window.scrollY > 40
+      if (navRef.current !== show) {
+        setNavBackground(show)
+      }
+    }
+    document.addEventListener('scroll', handleScroll)
+    return () => {
+      document.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
+  let HeaderDiv = styled.header``
+  if(navBackground === false){
+    HeaderDiv = styled.header`
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 1000;
+    transition: 0.3s;
+    &:hover {
+      background-color: rgba(36, 36, 36, 0.4);
+    }
+  `
+  }else{
+    HeaderDiv = styled.header`
+    background-color: rgba(36, 36, 36, 0.95);
+    z-index: 1000;
+    transition: 0.3s;
+  `
+  }
+ 
+
   //Modals Login and Register
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -56,6 +88,9 @@ const Header: React.FC<IPropsGLobal> = props => {
   const token: any = localStorage.getItem("token");
   const decoded: any = jwt.decode(token);
   const currentUser = token ? props.users.find(u => u.UserId === decoded.UserId) : null;
+
+  
+
 
   return (
     <>
