@@ -211,7 +211,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
     <>
       <Wrapper className="container-fluid text-dark">
         <div className="row mt-1">
-          <div className="col p-3 m-1 text-center ">
+          <div className="col p-3 m-1 text-center">
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
               <Nav
                 variant="pills"
@@ -235,12 +235,13 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                 </Nav.Item>
               </Nav>
               <Tab.Content>
-                <Tab.Pane eventKey="first">
-                  <div className="row justify-content-center pl-3 pr-3">
-                    <DivDegraded className="col-10 p-2 h2 font-weight-bold text-left">
-                      Equipos
+
+                <div className="row justify-content-center pl-3 pr-3">
+                  <DivDegraded className="col-10 p-2 h2 font-weight-bold text-left">
+                    Equipos
                     </DivDegraded>
-                  </div>
+                </div>
+                <Tab.Pane eventKey="first">
                   <div className="row justify-content-center">
                     <div className="col-10">
                       <Table responsive striped hover variant="dark" className="border border-secondary">
@@ -264,28 +265,28 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                               <td className="p-0 align-middle">
                                 <ImgBadge src={l.badge} />
                               </td>
-                              <td className="p-2">
+                              <td className="p-2 align-middle">
                                 {l.name === null ? "-" : l.name}
                               </td>
-                              <td className="p-2">
+                              <td className="p-2 align-middle">
                                 {l.locality === null ? "-" : l.locality}
                               </td>
-                              <td className="p-2">
+                              <td className="p-2 align-middle">
                                 {l.coach === null ? "-" : l.coach}
                               </td>
-                              <td className="p-2">
+                              <td className="p-2 align-middle">
                                 {l.coach2 === null ? "-" : l.coach2}
                               </td>
-                              <td className="p-2">
+                              <td className="p-2 align-middle">
                                 {l.NPlayers === null ? "-" : l.NPlayers}
                               </td>
-                              <td className="p-2">
+                              <td className="p-2 align-middle">
                                 {l.contactEmail === null ? "-" : l.contactEmail}
                               </td>
-                              <td className="p-2">
+                              <td className="p-2 align-middle">
                                 {l.contactPhone === null ? "-" : l.contactPhone}
                               </td>
-                              <td className="p-2">
+                              <td className="p-2 align-middle">
                                 <img
                                   src="/images/other/edit.png"
                                   width="15"
@@ -311,18 +312,18 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                   </div>
                 </Tab.Pane>
                 <Tab.Pane eventKey="second">
-                  <div className="row justify-content-center">
+                  <div className="row mx-auto pl-2 pr-2" style={{ width: "86%" }}>
                     {props.leagueTeams.map(l => (
                       <CardDeck
                         key={l.TeamId}
-                        className="m-1"
-                        style={{ width: "18rem" }}
+                        className="ml-0 mt-2 mb-2"
+                        style={{ width: "17rem" }}
                       >
                         <Card style={borderCard} className="bg-transparent">
                           <WrapperCardBody>
                             <Card.Body>
                               <ImgBadgeCard src={l.badge} />
-                              <Card.Title className="text-light">
+                              <Card.Title className="text-light mt-2">
                                 {l.name === null ? "-" : l.name}
                               </Card.Title>
                             </Card.Body>

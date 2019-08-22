@@ -19,6 +19,8 @@ interface IPropsGlobal {
 
 const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
   const history = createBrowserHistory({ forceRefresh: true });
+  const path: any = history.location.pathname;
+  let pathTournamentId = path.split(["/"]).slice(-1)[0]; //Get the TournamentID from the path
 
   const [inputPlayerName, setInputPlayerName] = React.useState("");
   const [inputPlayerSurname, setInputPlayerSurname] = React.useState("");
@@ -89,9 +91,9 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
           };
           response.json().then(u => {
             props.putPlayerById(currentPlayer.PlayerId, u);
-            // history.push(
-            //   "/management/leagueDetails/" + currentPlayer.TournamentId
-            // );
+            history.push(
+              "/management/leagueDetails/" + pathTournamentId
+            );
           });
         }
       })

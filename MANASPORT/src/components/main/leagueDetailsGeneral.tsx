@@ -171,7 +171,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
             </div>
             <div className="row justify-content-center">
               <div className="col-10">
-                <Table striped hover variant="dark" className="border border-secondary">
+                <Table striped variant="dark" className="border border-secondary">
                   <TableHead>
                     <tr>
                       <th />
