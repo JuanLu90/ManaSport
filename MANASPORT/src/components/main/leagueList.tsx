@@ -23,10 +23,6 @@ import styled from "styled-components";
 const Wrapper = styled.div`
     
   `;
-const LeagueList = styled.div`
-    box-shadow: 2px 2px 2px 2px #888888;
-    background: white;
-  `;
 const TableHead = styled.thead`
     font-family: "Roboto", sans-serif;
     color: #5e5e5e;
@@ -41,7 +37,7 @@ const Title = styled.thead`
   `;
 
 
-  
+
 //----------------------------------------------------
 
 
@@ -137,13 +133,13 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
   };
 
   return (
-    <Wrapper className="container-fluid text-dark">
-      <div className="row mt-4">
-        <Title className="col">Tus ligas:</Title>
+    <Wrapper className="container-fluid">
+      <div className="row mt-4 justify-content-center">
+        <Title className="col-10">Tus ligas:</Title>
       </div>
-      <LeagueList className="row mt-1">
-        <div className="col p-3 text-center">
-          <Table responsive="md" striped hover size="lg">
+      <div className="row mt-1 justify-content-center">
+        <div className="col-10 p-3 text-center">
+          <Table responsive="md" variant="dark" striped hover className=" border border-secondary">
             <TableHead>
               <tr>
                 <th />
@@ -201,7 +197,7 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
             </TableTBody>
           </Table>
         </div>
-      </LeagueList>
+      </div>
       <div className="row justify-content-center mt-4 p-2 bg-leagueList">
         <div className="col-5">
           <InputGroup size="sm">

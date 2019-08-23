@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Modal, Navbar, Nav } from "react-bootstrap";
+import { Modal, Navbar, Nav, Form, Button, FormControl, InputGroup } from "react-bootstrap";
 import LoginModal from "./loginModal/loginModal";
 import RegisterModal from "./registerModal/registerModal";
 import jwt from "jsonwebtoken";
@@ -25,6 +25,21 @@ const ButtonRegister = styled.button`
 const SpanUsername = styled.span`
   font-family: "Source Sans Pro", sans-serif;
   font-size: 0.95em;
+`
+const ButtonHeader = styled.button`
+  background-color: transparent;
+  border: none;
+  border-bottom: 4px solid rgba(255,193,7, 0.2);
+  padding: 10px;
+  font-size: 0.9em;
+  color: white;
+  transition: 0.3s;
+  &:hover{
+    border-bottom: 4px solid #ffc107;
+  }
+`
+const ImgSearch = styled.img`
+  cursor: pointer;
 `
 
 interface IPropsGLobal {
@@ -52,23 +67,19 @@ const Header: React.FC<IPropsGLobal> = props => {
   }, [])
 
   let HeaderDiv = styled.header``
-  if(navBackground === false){
+  if (navBackground === false) {
     HeaderDiv = styled.header`
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    transition: 0.3s;
-    &:hover {
-      background-color: rgba(36, 36, 36, 0.4);
-    }
   `
-  }else{
+  } else {
     HeaderDiv = styled.header`
-    background-color: rgba(36, 36, 36, 0.95);
+    background-color: rgba(39, 42, 51, 0.95);
     z-index: 1000;
     transition: 0.3s;
   `
   }
- 
+
 
   //Modals Login and Register
   const [showLogin, setShowLogin] = useState(false);
@@ -89,26 +100,37 @@ const Header: React.FC<IPropsGLobal> = props => {
   const decoded: any = jwt.decode(token);
   const currentUser = token ? props.users.find(u => u.UserId === decoded.UserId) : null;
 
-  
+
 
 
   return (
     <>
       <HeaderDiv className="position-fixed w-100">
         <Navbar collapseOnSelect expand="lg" className="p-0">
-          <Navbar.Brand className="col header-logo">
+          <Navbar.Brand>
             <a href="/">
-              <img src="/images/logotipo.png" alt="logo" width="280px" />
+              <img src="/images/logotipo.png" alt="logo" width="230px" />
             </a>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse
             id="responsive-navbar-nav"
-            className="justify-content-end"
+            className="justify-content-between"
           >
+            <Form inline style={{ width: '50%' }} className="ml-2">
+              <ButtonHeader>Tus Ligas</ButtonHeader>
+              <InputGroup size="sm" className="w-50">
+                <FormControl className="bg-dark border border-dark text-light ml-sm-4" />
+                <InputGroup.Append>
+                  <InputGroup.Text className="bg-dark border border-dark text-light"> <ImgSearch src="/images/other/search.png" width="14" alt=""/></InputGroup.Text>
+                </InputGroup.Append>
+              </InputGroup>
+
+            </Form>
+
             {!token && (
-              <Nav className="w-50 justify-content-end">
-                <div className="col-4 text-right">
+              <Nav className="w-50 justify-content-around">
+                <div className="col text-right">
                   <a
                     className="text-light"
                     href="/#"
@@ -128,12 +150,12 @@ const Header: React.FC<IPropsGLobal> = props => {
               </Nav>
             )}
             {token && (
-              <Nav className="w-50 justify-content-center">
+              <Nav className="w-25 justify-content-center">
                 <div className="row align-items-center">
                   <div className="col-7 pr-0 text-right">
-                  <Link to={'/management/user'} >
-                    <SpanUsername className="text-light">{decoded.username}</SpanUsername>
-                  </Link>
+                    <Link to={'/management/user'} >
+                      <SpanUsername className="text-light">{decoded.username}</SpanUsername>
+                    </Link>
                   </div>
                   <div className="col-3">
                     <Link to={'/management/user'} >
@@ -167,6 +189,7 @@ const Header: React.FC<IPropsGLobal> = props => {
                 </div>
               </Nav>
             )}
+
           </Navbar.Collapse>
         </Navbar>
       </HeaderDiv>

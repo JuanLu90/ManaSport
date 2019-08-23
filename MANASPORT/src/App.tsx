@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { IGlobalState } from "./reducers/reducers";
 import * as action from "./action";
 //Interfaces
-import { IUser, ITournament } from "./interfaces";
+import { ITournament } from "./interfaces";
 //JsonWebToken
 import jwt from "jsonwebtoken";
 //Css

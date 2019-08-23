@@ -16,7 +16,7 @@ import styled from "styled-components";
 
 
 
-//******** STYLES *********
+//******** STYLES - STYLED-COMPONENTS - CCSSINJS *********
 
   let Wrapper = styled.div`
     background-image: url('/images/fondo4.png');
@@ -24,11 +24,9 @@ import styled from "styled-components";
     background-size: cover;
     background-position: center top;
     padding-top: 100px;
+    min-height: 100vh;
   `
-  
 
-
-//background-color: #20242A;
 
 //----------------------------------------------------
 
