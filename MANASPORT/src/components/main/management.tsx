@@ -22,9 +22,10 @@ import styled from "styled-components";
     background-image: url('/images/fondo4.png');
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
     background-position: center top;
     padding-top: 100px;
-    min-height: 100vh;
+    min-height: 72.3vh;
   `
 
 
@@ -59,8 +60,8 @@ const Management: React.FC<IProps & IPropsGlobal> = props => { //Function Compon
 
 
   return (
-    <Wrapper className="container-fluid">
-      <div className="row">
+    <Wrapper className="container-fluid ">
+      <div className="row mt-4">
         <div className="col">
           <Switch>
             <Route path="/management" exact component={leagueList} />

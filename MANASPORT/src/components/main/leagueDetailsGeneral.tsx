@@ -161,7 +161,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
                 </Table>
               </div>
             </div>
-            <div className="row justify-content-center mt-4 p-2 bg-leagueList text-white h2">
+            <div className="row justify-content-center mt-4 p-2 text-white h2">
               Estadísticas
             </div>
           </div>

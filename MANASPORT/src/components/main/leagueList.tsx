@@ -21,21 +21,17 @@ import styled from "styled-components";
 
 // ********* Styles - Styled Components - CSSINJS **********
 const Wrapper = styled.div`
-    
-  `;
+    font-family: "Source Sans Pro", sans-serif;
+`;
 const TableHead = styled.thead`
     font-family: "Roboto", sans-serif;
-    color: #5e5e5e;
-  `;
-const TableTBody = styled.tbody`
+`;
+const Title = styled.span`
+    font-size: 2.3em;
     font-family: "Source Sans Pro", sans-serif;
-    color: #888888;
-  `;
-const Title = styled.thead`
-    font-family: "Lato", sans-serif;
-    color: #5e5e5e;
-  `;
-
+        color: #BDBDBD;
+    text-transform: uppercase;
+`;
 
 
 //----------------------------------------------------
@@ -91,16 +87,6 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
     props.setLeagueId(DeleteLeagueId);
   }
 
-  const [showNewTeamLeague, setShowNewTeamLeague] = useState(false);
-  const handleCloseShowNewTeamLeague = () => setShowNewTeamLeague(false);
-  const handleShowNewTeam = () => setShowNewTeamLeague(true);
-
-  function funcionNewTeamLeague(DeleteLeagueId: any): any {
-    handleShowNewTeam();
-    props.setLeagueId(DeleteLeagueId);
-  }
-
-
   const sendLeague = () => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -133,125 +119,129 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
   };
 
   return (
-    <Wrapper className="container-fluid">
-      <div className="row mt-4 justify-content-center">
-        <Title className="col-10">Tus ligas:</Title>
-      </div>
-      <div className="row mt-1 justify-content-center">
-        <div className="col-10 p-3 text-center">
-          <Table responsive="md" variant="dark" striped hover className=" border border-secondary">
-            <TableHead>
-              <tr>
-                <th />
-                <th />
-                <th>DEPORTE</th>
-                <th>MODALIDAD</th>
-                <th>Nº EQUIPOS</th>
-                <th>FECHA CREACIÓN</th>
-                <th />
-                <th />
-              </tr>
-            </TableHead>
-            <TableTBody>
-              {props.leagues.map(l => (
-                <tr key={l.TournamentId}>
-                  <td className="p-1">{l.TournamentId}</td>
-                  <td className="p-1">
-                    <Link
-                      to={"/management/leagueDetails/" + l.TournamentId}
-                      className="nounderline"
-                    >
-                      {l.name}
-                    </Link>
-                  </td>
-                  <td className="p-1">{l.sport}</td>
-                  <td className="p-1">{l.category}</td>
-                  <td className="p-1">
-                    <div className="row">
-                      <div className="col text-center">{l.NTeams}</div>
-                    </div>
-                  </td>
-                  <td className="p-1">{l.createdate}</td>
-                  <td className="p-1">
-                    <Button
-                      variant="outline-info"
-                      className="pt-0 pb-0 pl-3 pr-3"
-                      size="sm"
-                      onClick={() => funcionEditLeague(l.TournamentId)}
-                    >
-                      Editar
-                    </Button>
-                  </td>
-                  <td className="p-1 cursor-pointer">
-                    <Button
-                      variant="outline-danger"
-                      className="pt-0 pb-0 pl-3 pr-3"
-                      size="sm"
-                      onClick={() => funcionDeleteLeague(l.TournamentId)}
-                    >
-                      Desactivar
-                    </Button>
-                  </td>
+    <>
+      <Wrapper className="container-fluid">
+        <div className="row mt-4 justify-content-center">
+          <div className="col-10">
+            <Title>Tus ligas:</Title> 
+          </div>
+        </div>
+        <div className="row mt-1 justify-content-center">
+          <div className="col-10 p-3 text-center">
+            <Table responsive="md" variant="dark" striped hover className=" border border-secondary">
+              <TableHead>
+                <tr>
+                  <th />
+                  <th />
+                  <th>DEPORTE</th>
+                  <th>MODALIDAD</th>
+                  <th>Nº EQUIPOS</th>
+                  <th>FECHA CREACIÓN</th>
+                  <th />
+                  <th />
                 </tr>
-              ))}
-            </TableTBody>
-          </Table>
+              </TableHead>
+              <tbody>
+                {props.leagues.map(l => (
+                  <tr key={l.TournamentId}>
+                    <td className="p-1 align-middle">{l.TournamentId}</td>
+                    <td className="p-1  align-middle">
+                      <Link
+                        to={"/management/leagueDetails/" + l.TournamentId}
+                        className="btn text-warning p-0"
+                      >
+                        {l.name}
+                      </Link>
+                    </td>
+                    <td className="p-1  align-middle">{l.sport}</td>
+                    <td className="p-1  align-middle">{l.category}</td>
+                    <td className="p-1  align-middle">
+                      <div className="row">
+                        <div className="col text-center">{l.NTeams}</div>
+                      </div>
+                    </td>
+                    <td className="p-1  align-middle">{l.createdate}</td>
+                    <td className="p-1  align-middle">
+                      <Button
+                        variant="outline-info"
+                        className="pt-0 pb-0 pl-3 pr-3"
+                        size="sm"
+                        onClick={() => funcionEditLeague(l.TournamentId)}
+                      >
+                        Editar
+                    </Button>
+                    </td>
+                    <td className="p-1 cursor-pointer  align-middle">
+                      <Button
+                        variant="danger"
+                        className="pt-0 pb-0 pl-3 pr-3"
+                        size="sm"
+                        onClick={() => funcionDeleteLeague(l.TournamentId)}
+                      >
+                        Desactivar
+                    </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
         </div>
-      </div>
-      <div className="row justify-content-center mt-4 p-2 bg-leagueList">
-        <div className="col-5">
-          <InputGroup size="sm">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="inputGroup-sizing-sm">
-                Nombre de la liga*
+        <div className="row justify-content-center">
+          <div className="col-4">
+            <InputGroup size="sm">
+              <InputGroup.Prepend>
+                <InputGroup.Text id="inputGroup-sizing-sm">
+                  Nombre de la liga*
               </InputGroup.Text>
-            </InputGroup.Prepend>
-            <input
-              type="text"
-              className="form-control form-control-sm"
-              value={inputLeagueName}
-              onChange={updateLeagueName}
-            />
-          </InputGroup>
-        </div>
-        <div className="col-3">
-          <InputGroup size="sm">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="inputGroup-sizing-sm">
-                Deporte*
+              </InputGroup.Prepend>
+              <input
+                type="text"
+                className="form-control form-control-sm"
+                value={inputLeagueName}
+                onChange={updateLeagueName}
+              />
+            </InputGroup>
+          </div>
+          <div className="col-2">
+            <InputGroup size="sm">
+              <InputGroup.Prepend>
+                <InputGroup.Text id="inputGroup-sizing-sm">
+                  Deporte*
               </InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control as="select" onChange={updateLeagueSport}>
-              <option>Futbol</option>
-            </Form.Control>
-          </InputGroup>
-        </div>
-        <div className="col-3">
-          <InputGroup size="sm">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="inputGroup-sizing-sm">
-                Categoría*
+              </InputGroup.Prepend>
+              <Form.Control as="select" onChange={updateLeagueSport}>
+                <option>Futbol</option>
+              </Form.Control>
+            </InputGroup>
+          </div>
+          <div className="col-2">
+            <InputGroup size="sm">
+              <InputGroup.Prepend>
+                <InputGroup.Text id="inputGroup-sizing-sm">
+                  Categoría*
               </InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control as="select" onChange={updateLeagueCategory}>
-              <option>Futbol 11</option>
-              <option>Futbol 7</option>
-              <option>Futbol Sala</option>
-              <option>Futbol(otros)</option>
-            </Form.Control>
-          </InputGroup>
-        </div>
-        <div className="col-1 text-center align-self-center">
-          <Button
-            variant="outline-success"
-            onClick={sendLeague}
-            className="pt-0 pb-0 pl-3 pr-3"
-          >
-            Crear
+              </InputGroup.Prepend>
+              <Form.Control as="select" onChange={updateLeagueCategory}>
+                <option>Futbol 11</option>
+                <option>Futbol 7</option>
+                <option>Futbol Sala</option>
+                <option>Futbol(otros)</option>
+              </Form.Control>
+            </InputGroup>
+          </div>
+          <div className="col-2 text-center align-self-center">
+            <Button
+              variant="success"
+              onClick={sendLeague}
+              className="font-weight-bold text-light pt-1 pb-1 pl-3 pr-3 btn-sm"
+            >
+              <img src="/images/other/plus.png" className="mr-2 mb-1" width="16" alt="" />
+              CREAR LIGA
           </Button>
+          </div>
         </div>
-      </div>
-      {/* <div className="row">
+        {/* <div className="row">
           <div className="col">
             {showAlert && (
               <Alert variant="success" onClose={() => setShowAlert(false)} dismissible>
@@ -260,13 +250,14 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
             )}
           </div>
         </div> */}
+      </Wrapper>
       <Modal show={showDeleteLeague} onHide={() => null}>
         <DeleteLeagueModal handleCloseDeleteLeague={handleCloseDeleteLeague} />
       </Modal>
       <Modal size="lg" show={showEditLeague} onHide={() => null}>
         <EditLeagueModal handleCloseEditLeague={handleCloseEditLeague} />
       </Modal>
-    </Wrapper>
+    </>
   );
 };
 

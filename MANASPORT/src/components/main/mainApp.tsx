@@ -30,7 +30,7 @@ const Row2 = styled.div`
 `
 const Row3 = styled.div`
   position: absolute;
-  height: 30%;
+  height: 25%;
   bottom: 0px;
   font-size: 0.6em;
 `
@@ -98,7 +98,7 @@ const MainApp: React.FC = () => { // Function Component
               </div>
               <div className="row mt-2">
                 <div className="col">
-                  <Span>Crea tús ligas y gestionalas de manera fácil e intuitiva</Span>
+                  <Span>Crea tús ligas y administralas de manera fácil e intuitiva</Span>
                 </div>
               </div>
             </Col>
@@ -115,7 +115,7 @@ const MainApp: React.FC = () => { // Function Component
               </div>
               <div className="row mt-2">
                 <div className="col">
-                  <Span>Controla horarios, resultados y clasificaciónes de tus equipos</Span>
+                  <Span>Gestiona horarios, resultados y clasificaciónes de tus equipos</Span>
                 </div>
               </div>
             </Col>

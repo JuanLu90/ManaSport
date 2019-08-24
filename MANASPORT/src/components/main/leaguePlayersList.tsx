@@ -132,7 +132,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
     <> {/* '<> ... </>' used to send an only one container */}
       <Wrapper className="container-fluid text-dark">
         <div className="row mt-1 ">
-          <div className="col p-3 m-1 text-center bg-leagueList">
+          <div className="col p-3 m-1 text-center">
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
               <Nav
                 variant="pills"

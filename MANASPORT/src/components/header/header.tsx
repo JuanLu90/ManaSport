@@ -29,13 +29,14 @@ const SpanUsername = styled.span`
 const ButtonHeader = styled.button`
   background-color: transparent;
   border: none;
-  border-bottom: 4px solid rgba(255,193,7, 0.2);
+  box-shadow: inset 0 -4px rgba(255,193,7,0.2);
+  height: 55px;
   padding: 10px;
   font-size: 0.9em;
   color: white;
   transition: 0.3s;
   &:hover{
-    border-bottom: 4px solid #ffc107;
+    box-shadow: inset 0 -4px rgba(255,193,7,0.8);
   }
 `
 const ImgSearch = styled.img`
