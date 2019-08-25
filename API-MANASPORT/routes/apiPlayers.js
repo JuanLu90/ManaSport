@@ -37,4 +37,17 @@ router.put("/players/editPlayer/:PlayerId", (req, res) => {
   );
 });
 
+//DELETE A PLAYER
+router.delete("/players/deletePlayer/:PlayerId", (req, res) => {
+  const PlayerId = req.params.PlayerId;
+  dbConn.query(
+    "DELETE FROM player WHERE PlayerId = ?",
+    [PlayerId],
+    (err, result) => {
+      if (err) throw err;
+      res.send("tournament deleted");
+    }
+  );
+});
+
 module.exports = router;

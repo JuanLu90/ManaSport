@@ -74,11 +74,13 @@ const Header: React.FC<IPropsGLobal> = props => {
   if (navBackground === false) {
     HeaderDiv = styled.header`
     background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid #343A40;
     z-index: 1000;
   `
   } else {
     HeaderDiv = styled.header`
     background-color: rgba(39, 42, 51, 0.95);
+    border-bottom: 1px solid #343A40;
     z-index: 1000;
     transition: 0.3s;
   `

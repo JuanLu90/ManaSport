@@ -101,6 +101,11 @@ export const putPlayerById: ActionCreator<TAction> = (PlayerId: number, player: 
     player
 });
 
+export const deletePlayerById: ActionCreator<TAction> = (PlayerId: number) => ({
+    type: "DELETE_PLAYER",
+    PlayerId
+});
+
 
 //MATCHS
 export const setMatchs: ActionCreator<TAction> = (matchs: []) => ({

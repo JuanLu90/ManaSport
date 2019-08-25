@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 //Components made by Juanlu
 import EditPlayerModal from "./playerEditModal";
+import DeletePlayerModal from "./playerDeleteModal";
 //React Bootstrap
 import {
   Table,
@@ -13,7 +14,9 @@ import {
   ListGroup,
   Modal,
   Button,
-  Badge
+  Badge,
+  Accordion,
+  Form
 } from "react-bootstrap";
 //Interfaces
 import { ITeam, IPlayer } from "../../interfaces";
@@ -49,6 +52,9 @@ const WrapperListTeams = styled.div`
 const WrapperCardBody = styled.div`
   background: rgba(35,41,128, 0.5);
 `;
+const WrapperFormAddTeam = styled.div`
+  background: rgba(223, 228, 234, 0.6);
+`;
 const SpanNameTeam = styled.span`
   font-size: 0.9em;
 `;
@@ -75,6 +81,13 @@ const ImgBadgeCard = styled.img`
 `;
 const ImgBadgeCardTitle = styled.img`
   height: 28px;
+`;
+const SpanFieldRequired = styled.span`
+  font-size: 0.8em;
+  font-family: "Source Sans Pro", sans-serif;
+`;
+const SpanFieldTeam = styled.span`
+  font-family: "Source Sans Pro", sans-serif;
 `;
 // *********************
 
@@ -105,6 +118,13 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
     props.setPlayerId(DeleteLeagueId);
   }
 
+  const [showDeletePlayer, setDeletePlayer] = useState(false); //Hook to delete a team
+  const toggleEditPlayer = React.useCallback(() => setDeletePlayer(s => !s), []); //Open and close delete team modal
+
+  function funcionDeletePlayer(DeleteLeagueId: any): any {
+    toggleEditPlayer();
+    props.setPlayerId(DeleteLeagueId);
+  }
 
   useEffect(() => { //Fetch team players to redux every time the team ID changes
     fetch(
@@ -132,7 +152,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
     <> {/* '<> ... </>' used to send an only one container */}
       <Wrapper className="container-fluid text-dark">
         <div className="row mt-1 ">
-          <div className="col p-3 m-1 text-center">
+          <div className="col pt-3 pl-3 pr-3 m-1 text-center">
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
               <Nav
                 variant="pills"
@@ -172,97 +192,100 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                     </Card>
                   ))}
                 </div>
-               
                 <div className="col-8 justify-content-center">
-                <Scrollbars autoHide>
-                  <div className="row bg-secondary p-2">
-                    <div className="col">
-                      {currentTeam ? (
-                        <div className="col text-center text-light h3 p-0 m-0">
-                          <ImgBadge src={currentTeam.badge} alt="" />
-                          <span className="ml-3 align-middle">{currentTeam.name}</span>
-                        </div>
-                      ) : "Selecciona un equipo"}
+                  <Scrollbars autoHide>
+                    <div className="row bg-secondary p-2">
+                      <div className="col">
+                        {currentTeam ? (
+                          <div className="col text-center text-light h3 p-0 m-0">
+                            <ImgBadge src={currentTeam.badge} alt="" />
+                            <span className="ml-3 align-middle">{currentTeam.name}</span>
+                          </div>
+                        ) :
+                          <div className="col text-center text-light h5 p-0 m-0">
+                            <span className="ml-3 align-middle">Selecciona un equipo</span>
+                          </div>
+                        }
+                      </div>
                     </div>
-                  </div>
-                  <Tab.Content>
-                    <Tab.Pane eventKey="first">
-                      <div className="row border border-secondary">
-                        <Table responsive striped hover variant="dark" className="m-0">
-                          <thead>
-                            <tr>
-                              <th> </th>
-                              <th> NOMBRE </th>
-                              <th> APELLIDOS </th>
-                              <th> EDAD </th>
-                              <th> POSICIÓN</th>
-                              <th> GOLES </th>
-                              <th />
-                              <th />
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {props.teamPlayers.map(p => (
-                              <tr key={p.PlayerId}>
-                                <TdMatchdaySmall className="p-0 align-middle">
-                                  <ImgBadgeCardTitle src="https://icon-library.net/images/avatar-icon-images/avatar-icon-images-4.jpg" />
-                                </TdMatchdaySmall>
-                                <TdMatchdayBig className="p-2">
-                                  {p.name === null ? "-" : p.name}
-                                </TdMatchdayBig>
-                                <TdMatchdayBig className="p-2">
-                                  {p.surname === null ? "-" : p.surname}
-                                </TdMatchdayBig>
-                                <TdMatchdaySmall className="p-2">
-                                  {p.age === null ? "-" : p.age}
-                                </TdMatchdaySmall>
-                                <TdMatchdayBig className="p-2">
-                                  {p.position === null ? "-" : (
-                                    p.position === "Delantero" ? <Badge variant="danger"> <SpanBadge>DEL</SpanBadge> </Badge> : (
-                                      p.position === "ExtremoIzq" ? <Badge variant="danger"><SpanBadge>EI</SpanBadge></Badge> : (
-                                        p.position === "ExtremoDer" ? <Badge variant="danger"><SpanBadge>ED</SpanBadge></Badge> : (
-                                          p.position === "Medio" ? <Badge variant="success"><SpanBadge>MD</SpanBadge></Badge> : (
-                                            p.position === "LateralIzq" ? <Badge variant="info"><SpanBadge>LI</SpanBadge></Badge> : (
-                                              p.position === "LateralDer" ? <Badge variant="info"><SpanBadge>LD</SpanBadge></Badge> : (
-                                                p.position === "Central" ? <Badge variant="info"><SpanBadge>CT</SpanBadge></Badge> : (
-                                                  p.position === "Portero" ? <Badge variant="warning"><SpanBadge>PT</SpanBadge></Badge> : null
+                    <Tab.Content>
+                      <Tab.Pane eventKey="first">
+                        <div className="row border border-secondary">
+                          <Table responsive striped hover variant="dark" className="m-0">
+                            <thead>
+                              <tr>
+                                <th> </th>
+                                <th> NOMBRE </th>
+                                <th> APELLIDOS </th>
+                                <th> EDAD </th>
+                                <th> POSICIÓN</th>
+                                <th> GOLES </th>
+                                <th />
+                                <th />
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {props.teamPlayers.map(p => (
+                                <tr key={p.PlayerId}>
+                                  <TdMatchdaySmall className="p-0 align-middle">
+                                    <ImgBadgeCardTitle src="https://icon-library.net/images/avatar-icon-images/avatar-icon-images-4.jpg" />
+                                  </TdMatchdaySmall>
+                                  <TdMatchdayBig className="p-2">
+                                    {p.name === null ? "-" : p.name}
+                                  </TdMatchdayBig>
+                                  <TdMatchdayBig className="p-2">
+                                    {p.surname === null ? "-" : p.surname}
+                                  </TdMatchdayBig>
+                                  <TdMatchdaySmall className="p-2">
+                                    {p.age === null ? "-" : p.age}
+                                  </TdMatchdaySmall>
+                                  <TdMatchdayBig className="p-2">
+                                    {p.position === null ? "-" : (
+                                      p.position === "Delantero" ? <Badge variant="danger"> <SpanBadge>DEL</SpanBadge> </Badge> : (
+                                        p.position === "ExtremoIzq" ? <Badge variant="danger"><SpanBadge>EI</SpanBadge></Badge> : (
+                                          p.position === "ExtremoDer" ? <Badge variant="danger"><SpanBadge>ED</SpanBadge></Badge> : (
+                                            p.position === "Medio" ? <Badge variant="success"><SpanBadge>MD</SpanBadge></Badge> : (
+                                              p.position === "LateralIzq" ? <Badge variant="info"><SpanBadge>LI</SpanBadge></Badge> : (
+                                                p.position === "LateralDer" ? <Badge variant="info"><SpanBadge>LD</SpanBadge></Badge> : (
+                                                  p.position === "Central" ? <Badge variant="info"><SpanBadge>CT</SpanBadge></Badge> : (
+                                                    p.position === "Portero" ? <Badge variant="warning"><SpanBadge>PT</SpanBadge></Badge> : null
+                                                  )
                                                 )
                                               )
                                             )
                                           )
                                         )
                                       )
-                                    )
-                                  )}
-                                </TdMatchdayBig>
-                                <TdMatchdaySmall className="p-2">
-                                  {p.goals === null ? "-" : p.goals}
-                                </TdMatchdaySmall>
-                                <TdMatchdaySmall className="p-2">
-                                  <img
-                                    src="/images/other/edit.png"
-                                    width="15"
-                                    alt=""
-                                    onClick={() => funcionEditPlayer(p.PlayerId)}
-                                  />
-                                </TdMatchdaySmall>
-                                <TdMatchdayBig className="p-1">
-                                  <Button
-                                    variant="danger"
-                                    className="pt-0 pb-0 pl-3 pr-3"
-                                    size="sm"
-                                    onClick={() => null}
-                                  >
-                                    Eliminar
+                                    )}
+                                  </TdMatchdayBig>
+                                  <TdMatchdaySmall className="p-2">
+                                    {p.goals === null ? "-" : p.goals}
+                                  </TdMatchdaySmall>
+                                  <TdMatchdaySmall className="p-2">
+                                    <img
+                                      src="/images/other/edit.png"
+                                      width="15"
+                                      alt=""
+                                      onClick={() => funcionEditPlayer(p.PlayerId)}
+                                    />
+                                  </TdMatchdaySmall>
+                                  <TdMatchdayBig className="p-1">
+                                    <Button
+                                      variant="danger"
+                                      className="pt-0 pb-0 pl-3 pr-3"
+                                      size="sm"
+                                      onClick={() => funcionDeletePlayer(p.PlayerId)}
+                                    >
+                                      Eliminar
                                   </Button>
-                                </TdMatchdayBig>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </Table>
-                      </div>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="second">
+                                  </TdMatchdayBig>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </Table>
+                        </div>
+                      </Tab.Pane>
+                      <Tab.Pane eventKey="second">
                         <div className="row justify-content-center mt-3 overflow-auto">
                           {props.teamPlayers.map(l => (
                             <CardDeck
@@ -304,19 +327,146 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                             </CardDeck>
                           ))}
                         </div>
-                    </Tab.Pane>
-                  </Tab.Content>
+                      </Tab.Pane>
+                    </Tab.Content>
                   </Scrollbars>
                 </div>
-              
               </div>
-
             </Tab.Container>
           </div>
         </div>
       </Wrapper>
+      <Accordion defaultActiveKey="0" className="bg-transparent border-0">
+        <Card className="bg-transparent border-0">
+          <div className="row">
+            <div className="col text-center text-light">
+              <Card.Header className="bg-transparent border-0">
+                <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                  <Button
+                    variant="warning"
+                    // onClick={sendLeague}
+                    className="font-weight-bold text-dark pl-3 pr-3 btn-sm"
+                  >
+                    <img src="/images/other/plus.png" className="mr-2 align-middle" width="17" alt="" />
+                    <span className="align-middle">AÑADIR JUGADOR</span>
+                  </Button>
+                </Accordion.Toggle>
+              </Card.Header>
+            </div>
+          </div>
+          <Accordion.Collapse eventKey="1">
+            <Card.Body className="p-0">
+              <Wrapper className="container text-dark p-3 mb-1">
+                <div className="row justify-content-center">
+                  <WrapperFormAddTeam className="col-5 pt-1 pl-4 pr-4 pb-1 rounded">
+                    <div className="row mt-2">
+                      <div className="col text-left font-weight-bold">
+                        <SpanFieldTeam>*Nombre del jugador:</SpanFieldTeam>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col">
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                        // value={inputTeamName}
+                        // onChange={updateTeamName}
+                        />
+                      </div>
+                    </div>
+                    <div className="row mt-3">
+                      <div className="col text-left font-weight-bold">
+                        Apellidos:
+                                </div>
+                    </div>
+                    <div className="row">
+                      <div className="col">
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                        // value={inputTeamCoach}
+                        // onChange={updateTeamCoach}
+                        />
+                      </div>
+                    </div>
+                    <div className="row mt-3">
+                      <div className="col text-left font-weight-bold">
+                        Edad:
+                                </div>
+                    </div>
+                    <div className="row">
+                      <div className="col">
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                        // value={inputTeamCoach}
+                        // onChange={updateTeamCoach}
+                        />
+                      </div>
+                    </div>
+                    <div className="row mt-3">
+                      <div className="col text-left font-weight-bold">
+                        *Posicion:
+                                  </div>
+                    </div>
+                    <div className="row">
+                      <div className="col">
+                        <Form.Control as="select" className="pt-0 pb-0">
+                          <option value="Portero">Portero</option>
+                          <option value="Central">Central</option>
+                          <option value="LateralIzq">Lateral Izquierdo</option>
+                          <option value="LateralDer">Lateral Derecho</option>
+                          <option value="Medio">Medio</option>
+                          <option value="ExtremoIzq">Extremo Izquierdo</option>
+                          <option value="ExtremoDer">Extremo Derecho</option>
+                          <option value="Delantero">Delantero</option>
+                        </Form.Control>
+                      </div>
+                    </div>
+                    <div className="row mt-3">
+                      <div className="col text-left font-weight-bold">
+                        Goles:
+                                </div>
+                    </div>
+                    <div className="row">
+                      <div className="col">
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                        // value={inputTeamCoach2}
+                        // onChange={updateTeamCoach2}
+                        />
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-4 text-left mt-1">
+                        <SpanFieldRequired>* Campos obligatorios </SpanFieldRequired>
+                      </div>
+                    </div>
+                    <div className="row mt-4 mb-2">
+                      <div className="col text-center">
+                        <Button
+                          variant="warning"
+                          className="pt-1 pb-1 pl-4 pr-4 font-weight-bold"
+                        // onClick={sendTeam}
+                        >
+                          Enviar
+                                      {/* <img src="/images/other/send2.png" className="ml-2 align-middle" width="17" alt="" /> */}
+                        </Button>
+                      </div>
+                    </div>
+                  </WrapperFormAddTeam>
+                </div>
+              </Wrapper>
+            </Card.Body>
+          </Accordion.Collapse>
+        </Card>
+      </Accordion>
       <Modal show={showEditPlayer} onHide={handleCloseEditPlayer}>
         <EditPlayerModal handleCloseEditPlayer={handleCloseEditPlayer} />
+      </Modal>
+      <Modal show={showDeletePlayer} onHide={() => null}>
+        <DeletePlayerModal handleCloseDeletePlayer={toggleEditPlayer} />
       </Modal>
     </>
   );

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { InputGroup } from "react-bootstrap";
 import { ITournament, ITeam, IPlayer } from "../../interfaces";
 import { IGlobalState } from "../../reducers/reducers";
 import { connect } from "react-redux";
@@ -10,6 +9,9 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   font-family: "Source Sans Pro", sans-serif;
+`
+const Wrapper2 = styled.div`
+background-color: #2B2F38;
 `
 
 interface IProps {
@@ -114,9 +116,11 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
 
   return (
     <Wrapper className="modal-dialog-centered" role="document">
-      <div className="modal-content bg-light text-dark">
-        <div className="modal-header bg-warning text-light">
-          Está editando a: <b> {currentPlayer.name} </b>
+      <Wrapper2 className="modal-content text-light border border-secondary">
+        <div className="modal-header bg-warning text-dark">
+          <h5 className="modal-title" id="exampleModalCenterTitle">
+            Está editando a: <b> {currentPlayer.name} </b>
+          </h5>
           <button
             type="button"
             className="close"
@@ -128,10 +132,10 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
         <div className="modal-body">
           <div className="row">
             <div className="col">
-              Nombre del jugador*
+              Nombre del jugador
             </div>
           </div>
-          <div className="row">
+          <div className="row mb-3">
             <div className="col">
               <input
                 type="text"
@@ -143,10 +147,10 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
           </div>
           <div className="row">
             <div className="col">
-              Apellidos*
+              Apellidos
             </div>
           </div>
-          <div className="row">
+          <div className="row mb-3">
             <div className="col">
               <input
                 type="text"
@@ -158,10 +162,10 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
           </div>
           <div className="row">
             <div className="col">
-              Edad*
+              Edad
             </div>
           </div>
-          <div className="row">
+          <div className="row mb-3">
             <div className="col">
               <input
                 type="text"
@@ -173,32 +177,32 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
           </div>
           <div className="row">
             <div className="col">
-              Posición*
+              Posición
             </div>
           </div>
-            <div className="row">
-              <div className="col">
-                <input
-                  type="text"
-                  className="form-control form-control-sm mt-0"
-                  value={inputPlayerPosition}
-                  onChange={updatePlayerPosition}
-                />
-              </div>
-            </div>
-          <div className="row">
+          <div className="row mb-3">
             <div className="col">
-                    Goles*
+              <input
+                type="text"
+                className="form-control form-control-sm mt-0"
+                value={inputPlayerPosition}
+                onChange={updatePlayerPosition}
+              />
             </div>
           </div>
           <div className="row">
             <div className="col">
-                <input
-                  type="text"
-                  className="form-control form-control-sm mt-0"
-                  value={inputPlayerGoals}
-                  onChange={updatePlayerGoals}
-                />
+              Goles
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col">
+              <input
+                type="text"
+                className="form-control form-control-sm mt-0"
+                value={inputPlayerGoals}
+                onChange={updatePlayerGoals}
+              />
             </div>
           </div>
         </div>
@@ -207,10 +211,10 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
             <button className="btn btn-light" onClick={props.handleCloseEditPlayer}>Cancelar</button>
           </div>
           <div className="col">
-            <button  className="btn btn-success" onClick={editCurrentPlayer}>Enviar</button>
+            <button className="btn btn-warning" onClick={editCurrentPlayer}>Guardar</button>
           </div>
         </div>
-      </div>
+      </Wrapper2>
     </Wrapper>
   );
 };

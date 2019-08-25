@@ -15,5 +15,11 @@ export const PlayerReducer = (
         player[index] = action.player;
         return [...player];
     }
+    if (action.type === "DELETE_PLAYER") {
+        const players = state;
+        const index = state.findIndex(l => l.PlayerId === action.PlayerId);
+        players.splice(index, 1);
+        return [...players];
+    }
     return state;
 };

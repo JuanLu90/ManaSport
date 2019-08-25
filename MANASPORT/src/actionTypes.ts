@@ -96,6 +96,10 @@ type TPutPlayer = {
     player: IPlayer;
 };
 
+type TDeletePlayer = {
+    type: "DELETE_PLAYER";
+    PlayerId: number
+};
 
 //MATCHS
 type TMatchs = {
@@ -164,5 +168,5 @@ export type TAction =
 /*League*/  TNewLeague | TLeague | TPutLeague | TDeleteLeague | TLeagueId | TLeagueTeams |
 /*Team*/    TTeamId | TNewTeam | TDeleteTeam | TPutTeam |
 /*Matchs*/  TMatchs | TPutMatch | TMatchId |
-/*Players*/ TPlayer | TPutPlayer | TPlayerId |
+/*Players*/ TPlayer | TPutPlayer | TPlayerId | TDeletePlayer |
 /*Qualification*/ TQualification

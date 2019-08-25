@@ -192,13 +192,13 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
           <div className="col-4">
             <InputGroup size="sm">
               <InputGroup.Prepend>
-                <InputGroup.Text id="inputGroup-sizing-sm">
+                <InputGroup.Text id="inputGroup-sizing-sm" className="bg-secondary border border-secondary text-light">
                   Nombre de la liga*
               </InputGroup.Text>
               </InputGroup.Prepend>
               <input
                 type="text"
-                className="form-control form-control-sm"
+                className="form-control form-control-sm bg-dark border border-secondary text-light"
                 value={inputLeagueName}
                 onChange={updateLeagueName}
               />
@@ -207,11 +207,11 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
           <div className="col-2">
             <InputGroup size="sm">
               <InputGroup.Prepend>
-                <InputGroup.Text id="inputGroup-sizing-sm">
+                <InputGroup.Text id="inputGroup-sizing-sm" className="bg-secondary border border-secondary text-light">
                   Deporte*
               </InputGroup.Text>
               </InputGroup.Prepend>
-              <Form.Control as="select" onChange={updateLeagueSport}>
+              <Form.Control as="select" onChange={updateLeagueSport} className="bg-dark border border-secondary text-light">
                 <option>Futbol</option>
               </Form.Control>
             </InputGroup>
@@ -219,11 +219,11 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
           <div className="col-2">
             <InputGroup size="sm">
               <InputGroup.Prepend>
-                <InputGroup.Text id="inputGroup-sizing-sm">
+                <InputGroup.Text id="inputGroup-sizing-sm" className="bg-secondary border border-secondary text-light">
                   Categoría*
               </InputGroup.Text>
               </InputGroup.Prepend>
-              <Form.Control as="select" onChange={updateLeagueCategory}>
+              <Form.Control as="select" onChange={updateLeagueCategory} className="bg-dark border border-secondary text-light">
                 <option>Futbol 11</option>
                 <option>Futbol 7</option>
                 <option>Futbol Sala</option>
@@ -233,12 +233,12 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
           </div>
           <div className="col-2 text-center align-self-center">
             <Button
-              variant="success"
+              variant="warning"
               onClick={sendLeague}
-              className="font-weight-bold text-light pt-1 pb-1 pl-3 pr-3 btn-sm"
-            >
-              <img src="/images/other/plus.png" className="mr-2 mb-1" width="16" alt="" />
-              CREAR LIGA
+              className="font-weight-bold text-dark pl-3 pr-3 btn-sm"
+            > 
+              <img src="/images/other/plus.png" className="mr-2 align-middle" width="17" alt="" />
+              <span className="align-middle">CREAR LIGA</span> 
           </Button>
           </div>
         </div>

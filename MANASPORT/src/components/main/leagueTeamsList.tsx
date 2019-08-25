@@ -16,7 +16,8 @@ import {
   Modal,
   Form,
   Button,
-  Alert
+  Alert,
+  Accordion
 } from "react-bootstrap";
 //Interfaces
 import { ITeam } from "../../interfaces";
@@ -56,10 +57,6 @@ const ImgBadgeCard = styled.img`
   height: 80px;
 `;
 const Tbody = styled.tbody`
-  font-family: "Source Sans Pro", sans-serif;
-`;
-const SpanAddTeam = styled.span`
-  font-size: 1.4em;
   font-family: "Source Sans Pro", sans-serif;
 `;
 const SpanFieldTeam = styled.span`
@@ -149,12 +146,11 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
   };
 
   const [showDeleteTeam, setDeleteTeam] = useState(false); //Hook to delete a team
-  const handleCloseDeleteTeam = () => setDeleteTeam(false); //Close delete team modal
-  const handleShowDeleteTeam = () => setDeleteTeam(true); //Open delete team modal
+  const toggleEditTeam = React.useCallback(() => setDeleteTeam(s => !s), []); //Open and close delete team modal
 
   //This function send the selected league to Redux and open the delete team modal
   function funcionDeleteTeam(DeleteLeagueId: any): any {
-    handleShowDeleteTeam();
+    toggleEditTeam();
     props.setTeamId(DeleteLeagueId);
   }
 
@@ -310,6 +306,205 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                       </Table>
                     </div>
                   </div>
+                  <Accordion defaultActiveKey="0" className="bg-transparent border-0">
+                    <Card className="bg-transparent border-0">
+                      <div className="row">
+                        <div className="col text-light">
+                          <Card.Header className="bg-transparent border-0">
+                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                              <Button
+                                variant="warning"
+                                // onClick={sendLeague}
+                                className="font-weight-bold text-dark pl-3 pr-3 btn-sm"
+                              >
+                                <img src="/images/other/plus.png" className="mr-2 align-middle" width="17" alt="" />
+                                <span className="align-middle">AÑADIR EQUIPO</span>
+                              </Button>
+                            </Accordion.Toggle>
+                          </Card.Header>
+                        </div>
+                      </div>
+                      <Accordion.Collapse eventKey="1">
+                        <Card.Body className="p-0">
+                          <Wrapper className="container text-dark p-3 mb-4">
+                            <div className="row justify-content-center">
+                              <WrapperFormAddTeam className="col-5 pt-1 pl-4 pr-4 pb-1 rounded">
+                                <div className="row mt-2">
+                                  <div className="col text-left font-weight-bold">
+                                    <SpanFieldTeam>*Nombre del equipo:</SpanFieldTeam>
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col">
+                                    <input
+                                      type="text"
+                                      className="form-control form-control-sm"
+                                      value={inputTeamName}
+                                      onChange={updateTeamName}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="row mt-3">
+                                  <div className="col text-left font-weight-bold">
+                                    *Provincia:
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col">
+                                    <Form.Control as="select" onChange={updateTeamLocality} className="pt-0 pb-0">
+                                      <option value="Álava">Álava</option>
+                                      <option value="Albacete">Albacete</option>
+                                      <option value="Alicante">Alicante</option>
+                                      <option value="Almeria">Almería</option>
+                                      <option value="Asturias">Asturias</option>
+                                      <option value="Ávila">Ávila</option>
+                                      <option value="Badajoz">Badajoz</option>
+                                      <option value="Barcelona">Barcelona</option>
+                                      <option value="Burgos">Burgos</option>
+                                      <option value="Cáceres">Cáceres</option>
+                                      <option value="Cádiz">Cádiz</option>
+                                      <option value="Cantabria">Cantabria</option>
+                                      <option value="Castellón">Castellón</option>
+                                      <option value="Ceuta">Ceuta</option>
+                                      <option value="Ciudad Real">Ciudad Real</option>
+                                      <option value="Córdoba">Córdoba</option>
+                                      <option value="Cuenca">Cuenca</option>
+                                      <option value="Girona">Girona</option>
+                                      <option value="Las Palmas">Las Palmas</option>
+                                      <option value="Granada">Granada</option>
+                                      <option value="Guadalajara">Guadalajara</option>
+                                      <option value="Guipúzcoa">Guipúzcoa</option>
+                                      <option value="Huelva">Huelva</option>
+                                      <option value="Huesca">Huesca</option>
+                                      <option value="illesbalIlles Balearsears">Illes Balears</option>
+                                      <option value="Jaén">Jaén</option>
+                                      <option value="A Coruña">A Coruña</option>
+                                      <option value="La Rioja">La Rioja</option>
+                                      <option value="León">León</option>
+                                      <option value="Lleida">Lleida</option>
+                                      <option value="lugo">Lugo</option>
+                                      <option value="Madrid">Madrid</option>
+                                      <option value="Málaga">Málaga</option>
+                                      <option value="Melilla">Melilla</option>
+                                      <option value="Murcia">Murcia</option>
+                                      <option value="Navarra">Navarra</option>
+                                      <option value="Ourense">Ourense</option>
+                                      <option value="Palencia">Palencia</option>
+                                      <option value="Pontevedra">Pontevedra</option>
+                                      <option value="Salamanca">Salamanca</option>
+                                      <option value="Segovia">Segovia</option>
+                                      <option value="Sevilla">Sevilla</option>
+                                      <option value="Soria">Soria</option>
+                                      <option value="Tarragona">Tarragona</option>
+                                      <option value="Santa Cruz de Tenerife">
+                                        Santa Cruz de Tenerife
+                                      </option>
+                                      <option value="Teruel">Teruel</option>
+                                      <option value="Toledo">Toledo</option>
+                                      <option value="Valencia">Valencia</option>
+                                      <option value="Valladolid">Valladolid</option>
+                                      <option value="vizcVizcayaaya">Vizcaya</option>
+                                      <option value="Zamora">Zamora</option>
+                                      <option value="Zaragoza">Zaragoza</option>
+                                    </Form.Control>
+                                  </div>
+                                </div>
+                                <div className="row mt-3">
+                                  <div className="col text-left font-weight-bold">
+                                    Entrenador:
+                                </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col">
+                                    <input
+                                      type="text"
+                                      className="form-control form-control-sm"
+                                      value={inputTeamCoach}
+                                      onChange={updateTeamCoach}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="row mt-3">
+                                  <div className="col text-left font-weight-bold">
+                                    2º Entrenador:
+                                </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col">
+                                    <input
+                                      type="text"
+                                      className="form-control form-control-sm"
+                                      value={inputTeamCoach2}
+                                      onChange={updateTeamCoach2}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="row mt-3">
+                                  <div className="col text-left font-weight-bold">
+                                    Email:
+                                </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col">
+                                    <input
+                                      type="text"
+                                      className="form-control form-control-sm"
+                                      value={inputTeamEmail}
+                                      onChange={updateTeamEmail}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="row mt-3">
+                                  <div className="col text-left font-weight-bold">
+                                    Teléfono:
+                                </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col">
+                                    <input
+                                      type="text"
+                                      className="form-control form-control-sm"
+                                      value={inputTeamPhone}
+                                      onChange={updateTeamPhone}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-4 text-left mt-1">
+                                    <SpanFieldRequired>* Campos obligatorios </SpanFieldRequired>
+                                  </div>
+                                </div>
+                                <div className="row mt-4 mb-2">
+                                  <div className="col text-center">
+                                    <Button
+                                      variant="warning"
+                                      className="pt-1 pb-1 pl-4 pr-4 font-weight-bold"
+                                      onClick={sendTeam}
+                                    >
+                                      Enviar
+                                      {/* <img src="/images/other/send2.png" className="ml-2 align-middle" width="17" alt="" /> */}
+                                    </Button>
+                                  </div>
+                                </div>
+                                <div className="row mt-4">
+                                  <div className="col">
+                                    {(fetchError && inputAlert) &&
+                                      <Alert variant="danger">
+                                        {fetchError}
+                                      </Alert>}
+                                    {(inputAddedTeam && inputAlert) &&
+                                      <Alert variant="success">
+                                        Se ha añadido correctamente
+                                      </Alert>}
+                                  </div>
+                                </div>
+                              </WrapperFormAddTeam>
+                            </div>
+                          </Wrapper>
+                        </Card.Body>
+                      </Accordion.Collapse>
+                    </Card>
+                  </Accordion>
                 </Tab.Pane>
                 <Tab.Pane eventKey="second">
                   <div className="row mx-auto pl-2 pr-2" style={{ width: "86%" }}>
@@ -376,190 +571,11 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
           </div>
         </div>
       </Wrapper>
-      <Wrapper className="container text-dark p-3 mb-4">
-        <div className="row justify-content-center">
-          <WrapperFormAddTeam className="col-6 pt-1 pl-4 pr-4 pb-1 rounded">
-            <div className="row mt-2 mb-4">
-              <div className="col text-left">
-                <SpanAddTeam>Añade un nuevo equipo:</SpanAddTeam>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col text-left">
-                <SpanFieldTeam>*Nombre del equipo:</SpanFieldTeam>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <input
-                  type="text"
-                  className="form-control form-control-sm"
-                  value={inputTeamName}
-                  onChange={updateTeamName}
-                />
-              </div>
-            </div>
-            <div className="row mt-3">
-              <div className="col text-left">
-                *Provincia:
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <Form.Control as="select" onChange={updateTeamLocality} className="pt-0 pb-0">
-                  <option value="Álava">Álava</option>
-                  <option value="Albacete">Albacete</option>
-                  <option value="Alicante">Alicante</option>
-                  <option value="Almeria">Almería</option>
-                  <option value="Asturias">Asturias</option>
-                  <option value="Ávila">Ávila</option>
-                  <option value="Badajoz">Badajoz</option>
-                  <option value="Barcelona">Barcelona</option>
-                  <option value="Burgos">Burgos</option>
-                  <option value="Cáceres">Cáceres</option>
-                  <option value="Cádiz">Cádiz</option>
-                  <option value="Cantabria">Cantabria</option>
-                  <option value="Castellón">Castellón</option>
-                  <option value="Ceuta">Ceuta</option>
-                  <option value="Ciudad Real">Ciudad Real</option>
-                  <option value="Córdoba">Córdoba</option>
-                  <option value="Cuenca">Cuenca</option>
-                  <option value="Girona">Girona</option>
-                  <option value="Las Palmas">Las Palmas</option>
-                  <option value="Granada">Granada</option>
-                  <option value="Guadalajara">Guadalajara</option>
-                  <option value="Guipúzcoa">Guipúzcoa</option>
-                  <option value="Huelva">Huelva</option>
-                  <option value="Huesca">Huesca</option>
-                  <option value="illesbalIlles Balearsears">Illes Balears</option>
-                  <option value="Jaén">Jaén</option>
-                  <option value="A Coruña">A Coruña</option>
-                  <option value="La Rioja">La Rioja</option>
-                  <option value="León">León</option>
-                  <option value="Lleida">Lleida</option>
-                  <option value="lugo">Lugo</option>
-                  <option value="Madrid">Madrid</option>
-                  <option value="Málaga">Málaga</option>
-                  <option value="Melilla">Melilla</option>
-                  <option value="Murcia">Murcia</option>
-                  <option value="Navarra">Navarra</option>
-                  <option value="Ourense">Ourense</option>
-                  <option value="Palencia">Palencia</option>
-                  <option value="Pontevedra">Pontevedra</option>
-                  <option value="Salamanca">Salamanca</option>
-                  <option value="Segovia">Segovia</option>
-                  <option value="Sevilla">Sevilla</option>
-                  <option value="Soria">Soria</option>
-                  <option value="Tarragona">Tarragona</option>
-                  <option value="Santa Cruz de Tenerife">
-                    Santa Cruz de Tenerife
-                    </option>
-                  <option value="Teruel">Teruel</option>
-                  <option value="Toledo">Toledo</option>
-                  <option value="Valencia">Valencia</option>
-                  <option value="Valladolid">Valladolid</option>
-                  <option value="vizcVizcayaaya">Vizcaya</option>
-                  <option value="Zamora">Zamora</option>
-                  <option value="Zaragoza">Zaragoza</option>
-                </Form.Control>
-              </div>
-            </div>
-            <div className="row mt-3">
-              <div className="col text-left">
-                Entrenador:
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <input
-                  type="text"
-                  className="form-control form-control-sm"
-                  value={inputTeamCoach}
-                  onChange={updateTeamCoach}
-                />
-              </div>
-            </div>
-            <div className="row mt-3">
-              <div className="col text-left">
-                2º Entrenador:
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <input
-                  type="text"
-                  className="form-control form-control-sm"
-                  value={inputTeamCoach2}
-                  onChange={updateTeamCoach2}
-                />
-              </div>
-            </div>
-            <div className="row mt-3">
-              <div className="col text-left">
-                Email:
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <input
-                  type="text"
-                  className="form-control form-control-sm"
-                  value={inputTeamEmail}
-                  onChange={updateTeamEmail}
-                />
-              </div>
-            </div>
-            <div className="row mt-3">
-              <div className="col text-left">
-                Teléfono:
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <input
-                  type="text"
-                  className="form-control form-control-sm"
-                  value={inputTeamPhone}
-                  onChange={updateTeamPhone}
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-4 text-left mt-1">
-                <SpanFieldRequired>* Campos obligatorios </SpanFieldRequired>
-              </div>
-            </div>
-            <div className="row mt-4 mb-2">
-              <div className="col text-center">
-                <Button
-                  variant="dark"
-                  className="pt-1 pb-1 pl-4 pr-4"
-                  onClick={sendTeam}
-                >
-                  Añadir equipo
-                </Button>
-              </div>
-            </div>
-            <div className="row mt-4">
-              <div className="col">
-                {(fetchError && inputAlert) &&
-                  <Alert variant="danger">
-                    {fetchError}
-                  </Alert>}
-                {(inputAddedTeam && inputAlert) &&
-                  <Alert variant="success">
-                    Se ha añadido correctamente
-                  </Alert>}
-              </div>
-            </div>
-          </WrapperFormAddTeam>
-        </div>
-      </Wrapper>
       <Modal size="lg" show={showEditTeam} onHide={handleCloseEditTeam}>
         <EditTeamModal handleCloseEditTeam={handleCloseEditTeam} />
       </Modal>
       <Modal show={showDeleteTeam} onHide={() => null}>
-        <DeleteTeamModal handleCloseDeleteTeam={handleCloseDeleteTeam} />
+        <DeleteTeamModal handleCloseDeleteTeam={toggleEditTeam} />
       </Modal>
     </>
   );

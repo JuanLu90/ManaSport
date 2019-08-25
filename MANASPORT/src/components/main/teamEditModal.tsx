@@ -15,6 +15,9 @@ import styled from "styled-components";
 const Wrapper = styled.div`
   font-family: "Source Sans Pro", sans-serif;
 `
+const Wrapper2 = styled.div`
+  background-color: #2B2F38;
+`
 const FontLocality = styled.div`
   font-size: 1em;
 `
@@ -151,8 +154,8 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
 
   return (
     <Wrapper className="modal-dialog-centered" role="document">
-      <div className="modal-content bg-light text-dark">
-        <div className="modal-header bg-warning">
+      <Wrapper2 className="modal-content text-light border border-secondary">
+        <div className="modal-header bg-warning text-dark">
           <h5 className="modal-title" id="exampleModalCenterTitle">
             Está editando: <b>{currentTeam.name}</b>
           </h5>
@@ -186,7 +189,7 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
                 </div>
                 <Card className="border-0">
                   <Accordion.Collapse eventKey="1">
-                    <Card.Body className="p-0 bg-light border-0">
+                    <Card.Body className="p-0 border-0" style={{backgroundColor: '#2B2F38'}}>
                       <div className="row justify-content-between">
                         <div className="col m-2">
                           <ImgCursorPointer
@@ -290,7 +293,7 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
                 <Accordion.Toggle as={"a"} variant="link" eventKey="1" className="align-self-center">
                   <div className="row m-3 align-self-end">
                     <div className="col align-self-end">
-                      <button className="pt-0 pb-0 btn btn-outline-dark">Elegir escudo</button>
+                      <button className="pt-0 pb-0 btn btn-outline-light">Elegir escudo</button>
                     </div>
                   </div>
                 </Accordion.Toggle>
@@ -299,7 +302,7 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
             <div className="col-8">
               <div className="row">
                 <div className="col">
-                  Nombre del equipo*
+                  Nombre del equipo
                 </div>
               </div>
               <div className="row mb-3">
@@ -314,7 +317,7 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
               </div>
               <div className="row">
                 <div className="col">
-                  Localidad*
+                  Localidad
                 </div>
               </div>
               <div className="row mb-2">
@@ -446,7 +449,7 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
             <button className="btn btn-light" onClick={props.handleCloseEditTeam}>Cancelar</button>
           </div>
           <div className="col">
-            <button className="btn btn-success" onClick={editCurrentTeam}>Guardar</button>
+            <button className="btn btn-warning" onClick={editCurrentTeam}>Guardar</button>
           </div>
           {fetchError &&
             <div className="col">
@@ -455,7 +458,7 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
           }
 
         </div>
-      </div>
+      </Wrapper2>
     </Wrapper>
   );
 };
