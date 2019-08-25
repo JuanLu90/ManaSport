@@ -76,7 +76,7 @@ const DeleteTeamModal: React.FC<IProps & IPropsGLobal> = props => { //Function C
           <br />
           <br />
           <b>Recomendación:</b> Si tiene información importante que podría hacerle falta
-          en un futuro(como hacer historial de jugadores participantes, o algún
+          en un futuro(como historial de jugadores participantes, o algún
           otro tipo de estadística), mantenla.
         </div>
         <div className="modal-footer p-2">

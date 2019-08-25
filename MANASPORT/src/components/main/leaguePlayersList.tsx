@@ -315,7 +315,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
           </div>
         </div>
       </Wrapper>
-      <Modal size="lg" show={showEditPlayer} onHide={handleCloseEditPlayer}>
+      <Modal show={showEditPlayer} onHide={handleCloseEditPlayer}>
         <EditPlayerModal handleCloseEditPlayer={handleCloseEditPlayer} />
       </Modal>
     </>

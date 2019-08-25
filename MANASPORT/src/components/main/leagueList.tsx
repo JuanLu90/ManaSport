@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 //Components made by Juanlu
-import DeleteLeagueModal from "./deleteLeagueModal";
-import EditLeagueModal from "./editLeagueModal";
+import DeleteLeagueModal from "./leagueDeleteModal";
+import EditLeagueModal from "./leagueEditModal";
 //React Bootstrap
 import { Button, InputGroup, Form, Table, Modal, Alert } from "react-bootstrap";
 //Interfaces
@@ -109,6 +109,7 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
           if (response.ok) {
             response.json().then(l => {
               props.newLeague(l);
+              setInputLeagueName("");
             });
           }
         })
@@ -163,7 +164,7 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
                     <td className="p-1  align-middle">{l.createdate}</td>
                     <td className="p-1  align-middle">
                       <Button
-                        variant="outline-info"
+                        variant="info"
                         className="pt-0 pb-0 pl-3 pr-3"
                         size="sm"
                         onClick={() => funcionEditLeague(l.TournamentId)}
@@ -178,7 +179,7 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
                         size="sm"
                         onClick={() => funcionDeleteLeague(l.TournamentId)}
                       >
-                        Desactivar
+                        Eliminar
                     </Button>
                     </td>
                   </tr>
@@ -254,7 +255,7 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
       <Modal show={showDeleteLeague} onHide={() => null}>
         <DeleteLeagueModal handleCloseDeleteLeague={handleCloseDeleteLeague} />
       </Modal>
-      <Modal size="lg" show={showEditLeague} onHide={() => null}>
+      <Modal show={showEditLeague} onHide={() => null}>
         <EditLeagueModal handleCloseEditLeague={handleCloseEditLeague} />
       </Modal>
     </>

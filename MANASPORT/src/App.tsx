@@ -34,7 +34,6 @@ interface IPropsGlobal {
 const App: React.FC<IProps & IPropsGlobal> = props => { //Function Component
   const token = localStorage.getItem("token");   //Token - Get the token stored from local storage
 
-
   useEffect(() => { //Fetch leagues of the current user to redux
     if (token) { // We need that token exits to decode it but React will fall down
       const decoded: any = jwt.decode(token); //Decode token to get the UserId

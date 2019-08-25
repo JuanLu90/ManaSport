@@ -5,6 +5,12 @@ import { IGlobalState } from "../../reducers/reducers";
 import { connect } from "react-redux";
 import { createBrowserHistory } from "history";
 import * as action from "../../action";
+import styled from "styled-components";
+
+
+const Wrapper = styled.div`
+  font-family: "Source Sans Pro", sans-serif;
+`
 
 interface IProps {
   leagues: ITournament[];
@@ -58,6 +64,10 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
     }
   }, [currentPlayer]);
 
+  if (!currentPlayer) {
+    return null;
+  }
+
   const editCurrentPlayer = () => {
     //Evita que 'league' sea undefined
     if (!currentPlayer) {
@@ -103,10 +113,10 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
   };
 
   return (
-    <div className="modal-dialog-centered" role="document">
+    <Wrapper className="modal-dialog-centered" role="document">
       <div className="modal-content bg-light text-dark">
-        <div className="modal-header">
-          <h5 className="modal-title" id="exampleModalCenterTitle" />
+        <div className="modal-header bg-warning text-light">
+          Está editando a: <b> {currentPlayer.name} </b>
           <button
             type="button"
             className="close"
@@ -118,96 +128,90 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
         <div className="modal-body">
           <div className="row">
             <div className="col">
-              <InputGroup size="sm">
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroup-sizing-sm">
-                    Nombre del jugador*
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <input
-                  type="text"
-                  className="form-control form-control-sm mt-0"
-                  value={inputPlayerName}
-                  onChange={updatePlayerName}
-                />
-              </InputGroup>
-            </div>
-            <div className="col">
-              <InputGroup size="sm">
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroup-sizing-sm">
-                    Apellidos*
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <input
-                  type="text"
-                  className="form-control form-control-sm mt-0"
-                  value={inputPlayerSurname}
-                  onChange={updatePlayerSurname}
-                />
-              </InputGroup>
+              Nombre del jugador*
             </div>
           </div>
           <div className="row">
             <div className="col">
-              <InputGroup size="sm">
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroup-sizing-sm">
-                    Edad*
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <input
-                  type="text"
-                  className="form-control form-control-sm mt-0"
-                  value={inputPlayerAge}
-                  onChange={updatePlayerAge}
-                />
-              </InputGroup>
+              <input
+                type="text"
+                className="form-control form-control-sm mt-0"
+                value={inputPlayerName}
+                onChange={updatePlayerName}
+              />
             </div>
+          </div>
+          <div className="row">
             <div className="col">
-              <InputGroup size="sm">
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroup-sizing-sm">
-                    Posición*
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
+              Apellidos*
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <input
+                type="text"
+                className="form-control form-control-sm mt-0"
+                value={inputPlayerSurname}
+                onChange={updatePlayerSurname}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              Edad*
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <input
+                type="text"
+                className="form-control form-control-sm mt-0"
+                value={inputPlayerAge}
+                onChange={updatePlayerAge}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              Posición*
+            </div>
+          </div>
+            <div className="row">
+              <div className="col">
                 <input
                   type="text"
                   className="form-control form-control-sm mt-0"
                   value={inputPlayerPosition}
                   onChange={updatePlayerPosition}
                 />
-              </InputGroup>
+              </div>
+            </div>
+          <div className="row">
+            <div className="col">
+                    Goles*
             </div>
           </div>
           <div className="row">
             <div className="col">
-              <InputGroup size="sm">
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroup-sizing-sm">
-                    Goles*
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
                 <input
                   type="text"
                   className="form-control form-control-sm mt-0"
                   value={inputPlayerGoals}
                   onChange={updatePlayerGoals}
                 />
-              </InputGroup>
             </div>
           </div>
         </div>
         <div className="modal-footer">
           <div className="col text-right">
-            <button onClick={props.handleCloseEditPlayer}>Cancelar</button>
+            <button className="btn btn-light" onClick={props.handleCloseEditPlayer}>Cancelar</button>
           </div>
           <div className="col">
-            <button onClick={editCurrentPlayer}>Enviar</button>
+            <button  className="btn btn-success" onClick={editCurrentPlayer}>Enviar</button>
           </div>
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import * as action from "../../action";
 import { IGlobalState } from "../../reducers/reducers";
@@ -41,8 +41,8 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
   );
 
   const [editMode, setEditMode] = React.useState(false);
-
   const toggleEditMode = React.useCallback(() => setEditMode(s => !s), []);
+  
   const updateLocalScore = React.useCallback(
     v => setInputLocalScore(v.target.value),
     []

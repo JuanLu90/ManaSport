@@ -4,6 +4,13 @@ import { connect } from "react-redux";
 import * as action from "../../action";
 import { createBrowserHistory } from "history";
 import { ITournament } from "../../interfaces";
+import styled from "styled-components";
+
+//----------------------------------------------------
+
+const Wrapper = styled.div`
+  font-family: "Source Sans Pro", sans-serif;
+`
 
 interface IProps {
   leagues: ITournament[];
@@ -39,10 +46,10 @@ const DeleteLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
   }
 
   return (
-    <div className="modal-dialog-centered" role="document">
+    <Wrapper className="modal-dialog-centered" role="document">
       <div className="modal-content bg-light text-dark">
-        <div className="modal-header">
-          <h5 className="modal-title" id="exampleModalCenterTitle">
+        <div className="modal-header bg-danger">
+          <h5 className="modal-title text-light" id="exampleModalCenterTitle">
             ¿Está seguro de eliminar esta liga?
           </h5>
           <button
@@ -50,7 +57,7 @@ const DeleteLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
             className="close"
             onClick={props.handleCloseDeleteLeague}
           >
-            <span aria-hidden="true">&times;</span>
+            <span className="text-light" aria-hidden="true">&times;</span>
           </button>
         </div>
         <div className="modal-body">
@@ -58,22 +65,24 @@ const DeleteLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
           estadisticas...) será eliminada de manera permanente e irreversible.
           <br />
           <br />
-          <b>Recomendación:</b> Si tiene información importante que podría falta
-          en un futuro(como hacer historial de equipos participantes, o algún
+          <b>Recomendación:</b> Si tiene información importante que podría hacerle falta
+          en un futuro(como historial de equipos participantes, o algún
           otro tipo de estadística), mantenla.
         </div>
         <div className="modal-footer">
-          <div className="col text-right">
-            <button onClick={props.handleCloseDeleteLeague}>Cancelar</button>
-          </div>
-          <div className="col">
-            <button onClick={() => deleteLeague(props.DeleteLeagueId)}>
-              Eliminar
+          <div className="row">
+            <div className="col text-right">
+              <button className="btn btn-light" onClick={props.handleCloseDeleteLeague}>Cancelar</button>
+            </div>
+            <div className="col">
+              <button className="btn btn-danger" onClick={() => deleteLeague(props.DeleteLeagueId)}>
+                Eliminar
             </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

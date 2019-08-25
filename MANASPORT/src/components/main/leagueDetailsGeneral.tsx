@@ -67,11 +67,9 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
   };
 
   //Hook to update the matchday list when a match is edited
-  const [matchResult, setMatchResult] = React.useState(-1);
-  const updatedResults = () => { //Set + 1 to activate the 'useEffect'
-    setMatchResult(matchResult + 1);
-  };
-
+  const [matchResult, setMatchResult] = React.useState(false);
+  const updatedResults = React.useCallback(() => setMatchResult(s => !s), []);
+  
   const history = createBrowserHistory({});
   const path: any = history.location.pathname;
   let pathTournamentId = path.split(["/"]).slice(-1)[0];
@@ -91,6 +89,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
       }
     });
   }, [count, matchResult]); //When a hook value changes, the matchs on Redux are updated
+
   useEffect(() => { //Fetch qualification to Redux
     fetch("http://localhost:8080/api/tournaments/qualification/" + pathTournamentId,
       {

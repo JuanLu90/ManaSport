@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { createBrowserHistory } from "history";
 //React Bootstrap
-import { InputGroup, Form, Accordion, Card } from "react-bootstrap";
+import { Form, Accordion, Card } from "react-bootstrap";
 //Redux
 import { IGlobalState } from "../../reducers/reducers";
 import * as action from "../../action";
@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { ITournament, ITeam } from "../../interfaces";
 import styled from "styled-components";
 
+// STYLES ----- STYLED COMPONENTS ----- CSSINJS
 const Wrapper = styled.div`
   font-family: "Source Sans Pro", sans-serif;
 `
@@ -26,7 +27,6 @@ const ImgCursorPointer = styled("img")({
 });
 
 //----------------------------------------------------
-
 
 
 //Global Props
@@ -319,7 +319,7 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
               </div>
               <div className="row mb-2">
                 <div className="col h1">
-                  <Form.Control as="select" onChange={updateTeamLocality} theme={FontLocality} className="pt-0 pb-0">
+                  <Form.Control as="select" size="sm" onChange={updateTeamLocality} theme={FontLocality} className="pt-0 pb-0">
                     <option value="Álava">Álava</option>
                     <option value="Albacete">Albacete</option>
                     <option value="Alicante">Alicante</option>

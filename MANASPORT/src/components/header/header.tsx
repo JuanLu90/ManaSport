@@ -25,6 +25,9 @@ const ButtonRegister = styled.button`
 const SpanUsername = styled.span`
   font-family: "Source Sans Pro", sans-serif;
   font-size: 0.95em;
+  &:hover{
+    text-decoration: underline;
+  }
 `
 const ButtonHeader = styled.button`
   background-color: transparent;
@@ -118,76 +121,66 @@ const Header: React.FC<IPropsGLobal> = props => {
             id="responsive-navbar-nav"
             className="justify-content-between"
           >
-            <Form inline style={{ width: '50%' }} className="ml-2">
+            <Form inline style={{ width: '500px' }} className="ml-2">
               <ButtonHeader>Tus Ligas</ButtonHeader>
-              <InputGroup size="sm" className="w-50">
+              <InputGroup size="sm" className="w-75">
                 <FormControl className="bg-dark border border-dark text-light ml-sm-4" />
                 <InputGroup.Append>
-                  <InputGroup.Text className="bg-dark border border-dark text-light"> <ImgSearch src="/images/other/search.png" width="14" alt=""/></InputGroup.Text>
+                  <InputGroup.Text className="bg-dark border border-dark text-light"> <ImgSearch src="/images/other/search.png" width="14" alt="" /></InputGroup.Text>
                 </InputGroup.Append>
               </InputGroup>
 
             </Form>
 
             {!token && (
-              <Nav className="w-50 justify-content-around">
-                <div className="col text-right">
-                  <a
-                    className="text-light"
-                    href="/#"
-                    onClick={handleShowLogin}
-                  >
-                    Iniciar sesión
+              <Nav className="w-50 justify-content-end mr-3">
+                <a
+                  className="text-light mr-4"
+                  href="/#"
+                  onClick={handleShowLogin}
+                >
+                  Iniciar sesión
                   </a>
-                </div>
-                <div className="col-4">
-                  <ButtonRegister
-                    className="btn text-dark pt-0 pb-0 pl-3 pr-3 text-uppercase"
-                    onClick={handleShowRegister}
-                  >
-                    Regístrarse
+                <ButtonRegister
+                  className="btn text-dark pt-0 pb-0 pl-3 pr-3 text-uppercase"
+                  onClick={handleShowRegister}
+                >
+                  Regístrarse
                   </ButtonRegister>
-                </div>
               </Nav>
             )}
             {token && (
-              <Nav className="w-25 justify-content-center">
-                <div className="row align-items-center">
-                  <div className="col-7 pr-0 text-right">
-                    <Link to={'/management/user'} >
-                      <SpanUsername className="text-light">{decoded.username}</SpanUsername>
-                    </Link>
-                  </div>
-                  <div className="col-3">
-                    <Link to={'/management/user'} >
-                      {decoded.avatar === null &&
-                        <img
-                          src="/images/profile/no-profile.png"
-                          width="30"
-                          alt=""
-                        />
-                      }
-                      {decoded.avatar !== null &&
-                        <img
-                          src={currentUser ? currentUser.avatar : undefined}
-                          width="30"
-                          alt=""
-                        />
-                      }
-                    </Link>
-                  </div>
-                  <div className="col-2">
-                    <a href="/#">
-                      <img
-                        src="/images/other/logout.png"
-                        onClick={logout}
-                        width="20"
-                        alt=""
-                        title="Cerrar sesión"
-                      />
-                    </a>
-                  </div>
-                </div>
+              <Nav className="w-50 justify-content-end mr-4 align-middle">
+                <Link to={'/management/user'} >
+                  <SpanUsername className="text-light align-middle">{decoded.username}</SpanUsername>
+                </Link>
+                <Link to={'/management/user'} >
+                  {decoded.avatar === null &&
+                    <img
+                      src="/images/profile/no-profile.png"
+                      width="30"
+                      alt=""
+                    />
+                  }
+                  {decoded.avatar !== null &&
+                    <img
+                      src={currentUser ? currentUser.avatar : undefined}
+                      width="30"
+                      alt=""
+                      className="ml-3"
+                    />
+                  }
+                </Link>
+                <a href="/#">
+                  <img
+                    src="/images/other/logout.png"
+                    onClick={logout}
+                    width="20"
+                    alt=""
+                    title="Cerrar sesión"
+                    className="ml-3"
+                  />
+                </a>
               </Nav>
             )}
 
