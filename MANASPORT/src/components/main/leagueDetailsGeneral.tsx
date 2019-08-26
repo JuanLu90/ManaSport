@@ -125,7 +125,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
     <>
       <div className="container-fluid text-dark">
         <div className="row mt-1 ">
-          <div className="col p-3 m-3 text-center align-self-center">
+          <div className="col p-3 m-3 text-center">
             <div className="row pb-3">
               <div className="col text-center text-light h3">Resultados</div>
               {/* <div className="col"><button onClick={createMatchs}>Crear Calendario</button></div> */}
@@ -159,9 +159,6 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
                   </Tbody>
                 </Table>
               </div>
-            </div>
-            <div className="row justify-content-center mt-4 p-2 text-white h2">
-              Estadísticas
             </div>
           </div>
           <div className="col p-3 m-3">

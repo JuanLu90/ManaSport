@@ -19,6 +19,18 @@ router.get("/players/:PlayerId", (req, res) => {
   });
 });
 
+// CREATE A NEW PLAYER
+router.post("/players/newPlayer", (req, res) => {
+  const data = req.body;
+  dbConn.query("INSERT INTO player set ?", [data], (err, rows) => {
+    if (err) {
+      res.status(400).send({ e: err.errno });
+    } else {
+      res.send(data);
+    }
+  });
+});
+
 // EDIT PLAYER BY ID
 router.put("/players/editPlayer/:PlayerId", (req, res) => {
   const data = req.body;

@@ -57,17 +57,19 @@ const App: React.FC<IProps & IPropsGlobal> = props => { //Function Component
 
   return (
     <BrowserRouter>
-      <Header /> {/* Header Component */}
-      <main>
-        {!token && <MainApp />} {/* Index */}
-        {token && (
-          <Switch>
-            <Route path="/management" component={management} />
-            <Redirect to="/management" />
-          </Switch>
-        )}
-      </main>
-      <Footer /> {/* Footer Component */}
+      <div className="bg-dark">
+        <Header /> {/* Header Component */}
+        <main>
+          {!token && <MainApp />} {/* Index */}
+          {token && (
+            <Switch>
+              <Route path="/management" component={management} />
+              <Redirect to="/management" />
+            </Switch>
+          )}
+        </main>
+        <Footer /> {/* Footer Component */}
+      </div>
     </BrowserRouter>
   );
 };

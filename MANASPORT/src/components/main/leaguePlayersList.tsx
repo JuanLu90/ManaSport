@@ -35,13 +35,16 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 // ****** Styles *******
 const Wrapper = styled.div`
-font-family: "Source Sans Pro", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
+`;
+const Wrapper2 = styled.div`
+  min-height: 400px;
 `;
 const borderCard = {
   border: '1px solid rgb(35, 41, 128)'
 };
 const WrapperListTeams = styled.div`
-  background: #232980;
+  background: rgb(35,41,128);
   height: 30px;
   &:hover {
     background-color: #50559A;
@@ -53,7 +56,7 @@ const WrapperCardBody = styled.div`
   background: rgba(35,41,128, 0.5);
 `;
 const WrapperFormAddTeam = styled.div`
-  background: rgba(223, 228, 234, 0.6);
+  background: rgba(83, 92, 104, 0.8);
 `;
 const SpanNameTeam = styled.span`
   font-size: 0.9em;
@@ -103,6 +106,7 @@ interface IPropsGlobal {
   setLeagueId: (DeleteLeagueId: number) => void;
   DeleteLeagueId: number;
   setPlayerId: (PlayerId: number) => void;
+  newPlayer: (player: IPlayer) => void;
 }
 
 const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Function Component
@@ -126,6 +130,38 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
     props.setPlayerId(DeleteLeagueId);
   }
 
+  
+  const [fetchError, setFetchError] = useState(""); //Hook to manage an error
+  const [inputAlert, setInputAlert] = useState(true); //Hook to manage the error alert
+
+  //Hooks to create a new player
+  const [inputPlayerName, setInputPlayerName] = useState("");
+  const [inputPlayerSurname, setInputPlayerSurname] = useState("");
+  const [inputPlayerAge, setInputPlayerAge] = React.useState("");
+  const [inputPlayerPosition, setInputPlayerPosition] = React.useState("Portero");
+  const [inputPlayerGoals, setInputPlayerGoals] = React.useState("");
+  const [inputPlayerTeam, setInputPlayerTeam] = React.useState("");
+  // console.log(props.teamPlayers)
+  //Onchanges to create a new player
+  const updatePlayerName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputPlayerName(event.currentTarget.value);
+  };
+  const updatePlayerSurname = (event: any) => {
+    setInputPlayerSurname(event.currentTarget.value);
+  };
+  const updatePlayerAge = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputPlayerAge(event.currentTarget.value);
+  };
+  const updatePlayerPosition = (event: any) => {
+    setInputPlayerPosition(event.currentTarget.value);
+  };
+  const updatePlayerGoals = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputPlayerGoals(event.currentTarget.value);
+  };
+  const updatePlayerTeam = (event: any) => {
+    setInputPlayerTeam(event.currentTarget.value);
+  };
+
   useEffect(() => { //Fetch team players to redux every time the team ID changes
     fetch(
       "http://localhost:8080/api/teams/teamPlayers/" +
@@ -147,6 +183,49 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
   const currentTeam = props.leagueTeams.find(
     u => u.TeamId === valueTeamId
   );
+
+  const sendPlayer = () => { //Function Component
+    const token = localStorage.getItem("token");  //Token - Get the token stored from local storage
+    if (token) { // We need that token exits to decode it but React will fall down
+      fetch("http://localhost:8080/api/players/newPlayer", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+          name: inputPlayerName === "" ? null : inputPlayerName,
+          surname: inputPlayerSurname === "" ? null : inputPlayerSurname,
+          age: inputPlayerAge === "" ? null : inputPlayerAge,
+          position: inputPlayerPosition === "" ? null : inputPlayerPosition,
+          goals: inputPlayerGoals === "" ? null : inputPlayerGoals,
+          TeamId: inputPlayerTeam
+        })
+      })
+        .then(response => {
+          if (response.ok) {
+            response.json().then(p => {
+              props.newPlayer(p);
+              setInputPlayerName("");
+              setInputPlayerSurname("");
+              setInputPlayerAge("");
+              setInputPlayerPosition("");
+              setInputPlayerGoals("");
+            });
+          } else {
+            response.json().then(({ e }) => {
+              if (e === 1062) {
+                setFetchError("El nombre del equipo ya existe");
+                setInputAlert(true)
+                setTimeout(() => setInputAlert(false), 3000)
+              }
+            });
+          }
+        })
+        .catch(err => {
+          console.log("Error," + err);
+        });
+    }
+  };
 
   return (
     <> {/* '<> ... </>' used to send an only one container */}
@@ -185,7 +264,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                         <tr>
                           <td> <Card.Img src={l.badge} style={{ width: "1rem", marginRight: "7px" }} /></td>
                           <td className="text-light">
-                            <SpanNameTeam>{l.name === null ? "-" : l.name}</SpanNameTeam>
+                            <SpanNameTeam className="align-middle">{l.name === null ? "-" : l.name}</SpanNameTeam>
                           </td>
                         </tr>
                       </WrapperListTeams>
@@ -210,7 +289,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                     </div>
                     <Tab.Content>
                       <Tab.Pane eventKey="first">
-                        <div className="row border border-secondary">
+                        <Wrapper2 className="row border border-secondary">
                           <Table responsive striped hover variant="dark" className="m-0">
                             <thead>
                               <tr>
@@ -283,7 +362,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                               ))}
                             </tbody>
                           </Table>
-                        </div>
+                        </Wrapper2>
                       </Tab.Pane>
                       <Tab.Pane eventKey="second">
                         <div className="row justify-content-center mt-3 overflow-auto">
@@ -340,7 +419,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
         <Card className="bg-transparent border-0">
           <div className="row">
             <div className="col text-center text-light">
-              <Card.Header className="bg-transparent border-0">
+              <Card.Header className="bg-transparent border-0 mb-4">
                 <Accordion.Toggle as={Button} variant="link" eventKey="1">
                   <Button
                     variant="warning"
@@ -356,11 +435,35 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
           </div>
           <Accordion.Collapse eventKey="1">
             <Card.Body className="p-0">
-              <Wrapper className="container text-dark p-3 mb-1">
+              <Wrapper className="container text-light p-3 mb-1">
                 <div className="row justify-content-center">
                   <WrapperFormAddTeam className="col-5 pt-1 pl-4 pr-4 pb-1 rounded">
+                    <div className="row mt-4 mb-4">
+                      <div className="col-3 text-right">
+                        <img src="/images/football-player.png" width="50" alt="" />
+                      </div>
+                      <div className="col-9 align-self-center">
+                        <SpanFieldTeam className="h4">
+                          Formulario añadir jugador:
+                         </SpanFieldTeam>
+                      </div>
+                    </div>
+                    <hr className="bg-light" />
                     <div className="row mt-2">
-                      <div className="col text-left font-weight-bold">
+                      <div className="col-3 text-left">
+                        <SpanFieldTeam className="align-middle">*Equipo:</SpanFieldTeam>
+                      </div>
+                      <div className="col-9">
+                        <Form.Control as="select" size="sm" className="pt-0 pb-0 bg-dark border border-secondary text-light" onChange={updatePlayerTeam}>
+                          {props.leagueTeams.map(l =>
+                            <option value={l.TeamId} key={l.TeamId}>{l.name}</option>
+                          )}
+                        </Form.Control>
+                      </div>
+                    </div>
+                    <hr className="bg-secondary" />
+                    <div className="row mt-3">
+                      <div className="col text-left">
                         <SpanFieldTeam>*Nombre del jugador:</SpanFieldTeam>
                       </div>
                     </div>
@@ -368,14 +471,14 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                       <div className="col">
                         <input
                           type="text"
-                          className="form-control form-control-sm"
-                        // value={inputTeamName}
-                        // onChange={updateTeamName}
+                          className="form-control form-control-sm bg-dark border border-secondary text-light"
+                        value={inputPlayerName}
+                        onChange={updatePlayerName}
                         />
                       </div>
                     </div>
                     <div className="row mt-3">
-                      <div className="col text-left font-weight-bold">
+                      <div className="col text-left">
                         Apellidos:
                                 </div>
                     </div>
@@ -383,35 +486,35 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                       <div className="col">
                         <input
                           type="text"
-                          className="form-control form-control-sm"
-                        // value={inputTeamCoach}
-                        // onChange={updateTeamCoach}
+                          className="form-control form-control-sm bg-dark border border-secondary text-light"
+                        value={inputPlayerSurname}
+                        onChange={updatePlayerSurname}
                         />
                       </div>
                     </div>
                     <div className="row mt-3">
-                      <div className="col text-left font-weight-bold">
+                      <div className="col text-left">
                         Edad:
-                                </div>
+                      </div>
                     </div>
                     <div className="row">
                       <div className="col">
                         <input
                           type="text"
-                          className="form-control form-control-sm"
-                        // value={inputTeamCoach}
-                        // onChange={updateTeamCoach}
+                          className="form-control form-control-sm bg-dark border border-secondary text-light"
+                        value={inputPlayerAge}
+                        onChange={updatePlayerAge}
                         />
                       </div>
                     </div>
                     <div className="row mt-3">
-                      <div className="col text-left font-weight-bold">
+                      <div className="col text-left">
                         *Posicion:
-                                  </div>
+                      </div>
                     </div>
                     <div className="row">
                       <div className="col">
-                        <Form.Control as="select" className="pt-0 pb-0">
+                        <Form.Control as="select" size="sm" className="pt-0 pb-0 bg-dark border border-secondary text-light" onChange={updatePlayerPosition}>
                           <option value="Portero">Portero</option>
                           <option value="Central">Central</option>
                           <option value="LateralIzq">Lateral Izquierdo</option>
@@ -424,17 +527,17 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                       </div>
                     </div>
                     <div className="row mt-3">
-                      <div className="col text-left font-weight-bold">
+                      <div className="col text-left">
                         Goles:
-                                </div>
+                      </div>
                     </div>
                     <div className="row">
                       <div className="col">
                         <input
                           type="text"
-                          className="form-control form-control-sm"
-                        // value={inputTeamCoach2}
-                        // onChange={updateTeamCoach2}
+                          className="form-control form-control-sm bg-dark border border-secondary text-light"
+                          value={inputPlayerGoals}
+                          onChange={updatePlayerGoals}
                         />
                       </div>
                     </div>
@@ -448,10 +551,9 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                         <Button
                           variant="warning"
                           className="pt-1 pb-1 pl-4 pr-4 font-weight-bold"
-                        // onClick={sendTeam}
+                          onClick={sendPlayer}
                         >
                           Enviar
-                                      {/* <img src="/images/other/send2.png" className="ml-2 align-middle" width="17" alt="" /> */}
                         </Button>
                       </div>
                     </div>
@@ -484,7 +586,8 @@ const mapDispatchToProps = {
   setTeamPlayers: action.setTeamPlayers,
   setLeagueId: action.setLeagueId,
   setTeamId: action.setTeamId,
-  setPlayerId: action.setPlayerId
+  setPlayerId: action.setPlayerId,
+  newPlayer: action.newPlayer
 };
 
 export default connect(

@@ -15,6 +15,7 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   font-family: "Source Sans Pro", sans-serif;
+  z-index: 9999;
 `
 
 
@@ -36,7 +37,7 @@ const DeleteTeamModal: React.FC<IProps & IPropsGLobal> = props => { //Function C
 
   const deleteTeam = (TeamId: number) => {
     fetch("http://localhost:8080/api/teams/deleteTeam/" + TeamId, {
-      method: "POST"
+      method: "DELETE"
     }).then(response => {
       if (response.ok) {
         props.deleteTeamById(TeamId);

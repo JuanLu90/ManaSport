@@ -15,6 +15,7 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   font-family: "Source Sans Pro", sans-serif;
+  z-index: 9999;
 `
 
 

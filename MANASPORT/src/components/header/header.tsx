@@ -124,14 +124,15 @@ const Header: React.FC<IPropsGLobal> = props => {
             className="justify-content-between"
           >
             <Form inline style={{ width: '500px' }} className="ml-2">
-              <ButtonHeader>Tus Ligas</ButtonHeader>
-              <InputGroup size="sm" className="w-75">
-                <FormControl className="bg-dark border border-dark text-light ml-sm-4" />
-                <InputGroup.Append>
-                  <InputGroup.Text className="bg-dark border border-dark text-light"> <ImgSearch src="/images/other/search.png" width="14" alt="" /></InputGroup.Text>
-                </InputGroup.Append>
-              </InputGroup>
-
+              {token ? <ButtonHeader>Tus Ligas</ButtonHeader> : <ButtonHeader>Info Ligas</ButtonHeader>}
+              {!token && (
+                <InputGroup size="sm" className="w-75">
+                  <FormControl className="bg-dark border border-dark text-light ml-sm-4" />
+                  <InputGroup.Append>
+                    <InputGroup.Text className="bg-dark border border-dark text-light"> <ImgSearch src="/images/other/search.png" width="14" alt="" /></InputGroup.Text>
+                  </InputGroup.Append>
+                </InputGroup>
+              )}
             </Form>
 
             {!token && (

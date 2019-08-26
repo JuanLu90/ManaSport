@@ -61,7 +61,7 @@ const Management: React.FC<IProps & IPropsGlobal> = props => { //Function Compon
 
   return (
     <Wrapper className="container-fluid ">
-      <div className="row mt-5">
+      <div className="row">
         <div className="col">
           <Switch>
             <Route path="/management" exact component={leagueList} />

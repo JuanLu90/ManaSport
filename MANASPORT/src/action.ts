@@ -95,6 +95,11 @@ export const setPlayerId: ActionCreator<TAction> = (PlayerId: number) => ({
     PlayerId
 });
 
+export const newPlayer: ActionCreator<TAction> = (player: IPlayer) => ({
+    type: "NEW_PLAYER",
+    player
+});
+
 export const putPlayerById: ActionCreator<TAction> = (PlayerId: number, player: IPlayer) => ({
     type: "PUT_PLAYER",
     PlayerId,

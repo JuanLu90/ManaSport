@@ -9,9 +9,10 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   font-family: "Source Sans Pro", sans-serif;
+  z-index: 9999;
 `
 const Wrapper2 = styled.div`
-background-color: #2B2F38;
+  background-color: #2B2F38;
 `
 
 interface IProps {

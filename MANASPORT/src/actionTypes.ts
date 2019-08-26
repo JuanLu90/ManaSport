@@ -90,6 +90,11 @@ type TPlayerId = {
     PlayerId: number
 };
 
+type TNewPlayer = {
+    type: "NEW_PLAYER";
+    player: IPlayer
+};
+
 type TPutPlayer = {
     type: "PUT_PLAYER";
     PlayerId: number;
@@ -168,5 +173,5 @@ export type TAction =
 /*League*/  TNewLeague | TLeague | TPutLeague | TDeleteLeague | TLeagueId | TLeagueTeams |
 /*Team*/    TTeamId | TNewTeam | TDeleteTeam | TPutTeam |
 /*Matchs*/  TMatchs | TPutMatch | TMatchId |
-/*Players*/ TPlayer | TPutPlayer | TPlayerId | TDeletePlayer |
+/*Players*/ TPlayer | TNewPlayer | TPutPlayer | TPlayerId | TDeletePlayer |
 /*Qualification*/ TQualification

@@ -11,6 +11,9 @@ import styled from "styled-components";
 const Wrapper = styled.div`
   font-family: "Source Sans Pro", sans-serif;
 `
+const Wrapper2 = styled.div`
+  background-color: #2B2F38;
+`
 
 //----------------------------------------------------
 
@@ -98,8 +101,8 @@ const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
 
   return (
     <Wrapper className="modal-dialog-centered" role="document">
-      <div className="modal-content bg-light text-dark">
-        <div className="modal-header bg-warning">
+      <Wrapper2 className="modal-content text-light border border-secondary">
+        <div className="modal-header bg-warning text-dark">
           <h5 className="modal-title" id="exampleModalCenterTitle">
             Está editando: <b>{currentLeague.name}</b>
           </h5>
@@ -114,7 +117,7 @@ const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
         <div className="modal-body">
           <div className="row">
             <div className="col">
-              Nombre de la liga:*
+              Nombre de la liga:
             </div>
           </div>
           <div className="row  mb-3">
@@ -129,7 +132,7 @@ const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
           </div>
           <div className="row">
             <div className="col">
-              Modalidad:*
+              Modalidad:
             </div>
           </div>
           <div className="row">
@@ -153,10 +156,10 @@ const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
             <button className="btn btn-light" onClick={props.handleCloseEditLeague}>Cancelar</button>
           </div>
           <div className="col">
-            <button className="btn btn-success" onClick={editCurrentLeague}>Guardar</button>
+            <button className="btn btn-warning" onClick={editCurrentLeague}>Guardar</button>
           </div>
         </div>
-      </div>
+      </Wrapper2>
     </Wrapper>
   );
 };

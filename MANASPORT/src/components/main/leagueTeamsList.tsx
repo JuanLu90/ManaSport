@@ -42,7 +42,7 @@ const WrapperCardBody = styled.div`
   background: rgba(35,41,128, 0.5);
 `;
 const WrapperFormAddTeam = styled.div`
-  background: rgba(223, 228, 234, 0.6);
+  background: rgba(83, 92, 104, 0.8);
 `;
 const ListgroupCard = styled.thead`
   font-size: 0.8em;
@@ -105,7 +105,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
         response.json().then(teams => props.setLeagueTeams(teams));
       }
     });
-  }, [token]);
+  }, [token, props.leagueTeams.length]);
 
   const [showEditTeam, setEditTeam] = useState(false); //Hook for edit team modal
   const handleCloseEditTeam = () => setEditTeam(false); //Close edit team modal
@@ -259,7 +259,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                           {props.leagueTeams.map(l => (
                             <tr key={l.TeamId}>
                               <td className="p-0 align-middle">
-                                <ImgBadge src={l.badge} />
+                              {l.badge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" /> : <ImgBadge src={l.badge} />}
                               </td>
                               <td className="p-2 align-middle">
                                 {l.name === null ? "-" : l.name}
@@ -326,11 +326,22 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                       </div>
                       <Accordion.Collapse eventKey="1">
                         <Card.Body className="p-0">
-                          <Wrapper className="container text-dark p-3 mb-4">
+                          <Wrapper className="container text-light p-3 mb-4">
                             <div className="row justify-content-center">
                               <WrapperFormAddTeam className="col-5 pt-1 pl-4 pr-4 pb-1 rounded">
-                                <div className="row mt-2">
-                                  <div className="col text-left font-weight-bold">
+                                <div className="row mt-4 mb-4">
+                                  <div className="col-3 text-right">
+                                    <img src="/images/football-badge.png" width="50" alt="" />
+                                  </div>
+                                  <div className="col-9 text-left align-self-center">
+                                    <SpanFieldTeam className="h4">
+                                      Formulario añadir equipo:
+                                      </SpanFieldTeam>
+                                  </div>
+                                </div>
+                                <hr className="bg-light" />
+                                <div className="row mt-4">
+                                  <div className="col text-left">
                                     <SpanFieldTeam>*Nombre del equipo:</SpanFieldTeam>
                                   </div>
                                 </div>
@@ -338,20 +349,20 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                   <div className="col">
                                     <input
                                       type="text"
-                                      className="form-control form-control-sm"
+                                      className="form-control form-control-sm bg-dark border border-secondary text-light"
                                       value={inputTeamName}
                                       onChange={updateTeamName}
                                     />
                                   </div>
                                 </div>
                                 <div className="row mt-3">
-                                  <div className="col text-left font-weight-bold">
+                                  <div className="col text-left">
                                     *Provincia:
                                   </div>
                                 </div>
                                 <div className="row">
                                   <div className="col">
-                                    <Form.Control as="select" onChange={updateTeamLocality} className="pt-0 pb-0">
+                                    <Form.Control as="select" size="sm" onChange={updateTeamLocality} className="pt-0 pb-0 bg-dark border border-secondary text-light">
                                       <option value="Álava">Álava</option>
                                       <option value="Albacete">Albacete</option>
                                       <option value="Alicante">Alicante</option>
@@ -410,7 +421,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                   </div>
                                 </div>
                                 <div className="row mt-3">
-                                  <div className="col text-left font-weight-bold">
+                                  <div className="col text-left">
                                     Entrenador:
                                 </div>
                                 </div>
@@ -418,14 +429,14 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                   <div className="col">
                                     <input
                                       type="text"
-                                      className="form-control form-control-sm"
+                                      className="form-control form-control-sm bg-dark border border-secondary text-light"
                                       value={inputTeamCoach}
                                       onChange={updateTeamCoach}
                                     />
                                   </div>
                                 </div>
                                 <div className="row mt-3">
-                                  <div className="col text-left font-weight-bold">
+                                  <div className="col text-left">
                                     2º Entrenador:
                                 </div>
                                 </div>
@@ -433,14 +444,14 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                   <div className="col">
                                     <input
                                       type="text"
-                                      className="form-control form-control-sm"
+                                      className="form-control form-control-sm bg-dark border border-secondary text-light"
                                       value={inputTeamCoach2}
                                       onChange={updateTeamCoach2}
                                     />
                                   </div>
                                 </div>
                                 <div className="row mt-3">
-                                  <div className="col text-left font-weight-bold">
+                                  <div className="col text-left">
                                     Email:
                                 </div>
                                 </div>
@@ -448,14 +459,14 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                   <div className="col">
                                     <input
                                       type="text"
-                                      className="form-control form-control-sm"
+                                      className="form-control form-control-sm bg-dark border border-secondary text-light"
                                       value={inputTeamEmail}
                                       onChange={updateTeamEmail}
                                     />
                                   </div>
                                 </div>
                                 <div className="row mt-3">
-                                  <div className="col text-left font-weight-bold">
+                                  <div className="col text-left">
                                     Teléfono:
                                 </div>
                                 </div>
@@ -463,7 +474,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                   <div className="col">
                                     <input
                                       type="text"
-                                      className="form-control form-control-sm"
+                                      className="form-control form-control-sm bg-dark border border-secondary text-light"
                                       value={inputTeamPhone}
                                       onChange={updateTeamPhone}
                                     />
@@ -556,11 +567,6 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                               </ListGroupItem>
                             </ListGroup>
                           </ListgroupCard>
-                          {/* <Card.Footer>
-                            <small className="text-muted">
-                              Last updated 3 mins ago
-                            </small>
-                          </Card.Footer> */}
                         </Card>
                       </CardDeck>
                     ))}

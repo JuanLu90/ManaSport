@@ -14,6 +14,7 @@ import styled from "styled-components";
 // STYLES ----- STYLED COMPONENTS ----- CSSINJS
 const Wrapper = styled.div`
   font-family: "Source Sans Pro", sans-serif;
+  z-index: 9999;
 `
 const Wrapper2 = styled.div`
   background-color: #2B2F38;
@@ -184,7 +185,8 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
               <Accordion defaultActiveKey="0">
                 <div className="row m-3">
                   <div className="col">
-                    <ImgBadge src={inputTeamBadge} alt="" />
+                    
+                    {inputTeamBadge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" /> : <ImgBadge src={inputTeamBadge} alt="" />}
                   </div>
                 </div>
                 <Card className="border-0">
@@ -442,7 +444,6 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
               </div>
             </div>
           </div>
-
         </div>
         <div className="modal-footer">
           <div className="col text-right">

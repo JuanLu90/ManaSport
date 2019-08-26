@@ -44,18 +44,39 @@ router.post("/teams/newTeam", (req, res) => {
   });
 });
 
-// DISABLE A TEAM
-router.post("/teams/deleteTeam/:TeamId", (req, res) => {
-  // const data = req.body;
+// // DISABLE A TEAM
+// router.post("/teams/deleteTeam/:TeamId", (req, res) => {
+//   // const data = req.body;
+//   const TeamId = req.params.TeamId;
+//   dbConn.query(
+//     `UPDATE team SET disabled = 1 WHERE TeamId = ?;`,
+//     [TeamId],
+//     (err, rows) => {
+//       if (err) throw err;
+//       res.send("team deleted");
+//     }
+//   );
+// });
+
+
+//DELETE A TEAM WITH PLAYERS
+router.delete("/teams/deleteTeam/:TeamId", (req, res) => {
   const TeamId = req.params.TeamId;
   dbConn.query(
-    `UPDATE team SET disabled = 1 WHERE TeamId = ?;`,
+    "DELETE FROM player WHERE TeamId = ?",
     [TeamId],
-    (err, rows) => {
+    err => {
       if (err) throw err;
-      res.send("team deleted");
     }
   );
+  dbConn.query(
+    "DELETE FROM team WHERE TeamId = ?",
+    [TeamId],
+    err => {
+      if (err) throw err;
+    }
+  );
+  res.sendStatus(200);
 });
 
 // EDIT TEAM BY ID

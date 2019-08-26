@@ -9,6 +9,12 @@ export const PlayerReducer = (
     if (action.type === "SET_TEAM_PLAYERS") {
         return action.teamPlayers;
     }
+    if (action.type === "NEW_PLAYER") {
+        const players = state;
+        players.push(action.player)
+        
+        return [...players];
+    }
     if (action.type === "PUT_PLAYER") {
         const player = state;
         const index = state.findIndex(u => u.PlayerId === action.PlayerId);
