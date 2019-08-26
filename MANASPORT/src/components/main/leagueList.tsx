@@ -87,44 +87,57 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
     props.setLeagueId(DeleteLeagueId);
   }
 
-  const sendLeague = () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decoded: any = jwt.decode(token);
-      const UserId: number = decoded.UserId;
-      fetch("http://localhost:8080/api/tournaments/newTournament", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-          name: inputLeagueName,
-          sport: inputLeagueSport,
-          category: inputLeagueCategory,
-          createdate: inputLeagueCreateDate,
-          UserId: UserId
-        })
-      })
-        .then(response => {
-          if (response.ok) {
-            response.json().then(l => {
-              props.newLeague(l);
-              setInputLeagueName("");
-            });
-          }
-        })
-        .catch(err => {
-          console.log("Error," + err);
-        });
-    }
-  };
+  const [alertWrongLeagueName, setAlertWrongLeagueName] = useState(false);
+  const toggleWrongLeagueName = React.useCallback(() => setAlertWrongLeagueName(s => !s), []); //Open and close alert league name invalid
 
+  const [alertRightLeagueName, setAlertRightLeagueName] = useState(false);
+  const toggleRightLeagueName = React.useCallback(() => setAlertRightLeagueName(s => !s), []); //Open and close alert league name valid
+
+  const sendLeague = () => {
+    if (inputLeagueName.length > 3 && inputLeagueName.length < 41) {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decoded: any = jwt.decode(token);
+        const UserId: number = decoded.UserId;
+        fetch("http://localhost:8080/api/tournaments/newTournament", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify({
+            name: inputLeagueName,
+            sport: inputLeagueSport,
+            category: inputLeagueCategory,
+            createdate: inputLeagueCreateDate,
+            UserId: UserId
+          })
+        })
+          .then(response => {
+            if (response.ok) {
+              response.json().then(l => {
+                props.newLeague(l);
+                setInputLeagueName("");
+                toggleRightLeagueName();
+                setTimeout(() => toggleRightLeagueName(), 4000)
+              });
+            }
+          })
+          .catch(err => {
+            console.log("Error," + err);
+          });
+      }
+    } else {
+      toggleWrongLeagueName();
+      setInputLeagueName("");
+      setTimeout(() => toggleWrongLeagueName(), 4000)
+    }
+  }
   return (
     <>
       <Wrapper className="container-fluid">
         <div className="row mt-4 justify-content-center">
           <div className="col-10">
-            <Title>Tus ligas:</Title> 
+            <Title>Tus ligas:</Title>
           </div>
         </div>
         <div className="row mt-1 justify-content-center">
@@ -236,12 +249,33 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
               variant="warning"
               onClick={sendLeague}
               className="font-weight-bold text-dark pl-3 pr-3 btn-sm"
-            > 
+            >
               <img src="/images/other/plus.png" className="mr-2 align-middle" width="17" alt="" />
-              <span className="align-middle">CREAR LIGA</span> 
-          </Button>
+              <span className="align-middle">CREAR LIGA</span>
+            </Button>
           </div>
         </div>
+        {alertWrongLeagueName && (
+          <div className="row justify-content-center mt-4">
+            <div className="col-10 text-center">
+              <Alert variant="danger" className="p-2">
+                <img src="/images/other/cancel.png" width="35" alt="" className="mr-3" />
+                <span> <b> Nombre de liga inválido.</b> El nombre de una liga debe de contener entre 4 y 40 caracteres.</span>
+              </Alert>
+            </div>
+          </div>
+        )}
+        {alertRightLeagueName && (
+          <div className="row justify-content-center mt-4">
+            <div className="col-10 text-center">
+              <Alert variant="success" className="p-2">
+                <img src="/images/other/send.png" width="35" alt="" className="mr-3" />
+                <span> <b> Liga creada satisfactoriamente</b> </span>
+              </Alert>
+            </div>
+          </div>
+        )}
+
         {/* <div className="row">
           <div className="col">
             {showAlert && (

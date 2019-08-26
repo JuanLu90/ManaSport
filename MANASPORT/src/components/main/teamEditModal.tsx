@@ -185,13 +185,13 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
               <Accordion defaultActiveKey="0">
                 <div className="row m-3">
                   <div className="col">
-                    
+
                     {inputTeamBadge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" /> : <ImgBadge src={inputTeamBadge} alt="" />}
                   </div>
                 </div>
                 <Card className="border-0">
                   <Accordion.Collapse eventKey="1">
-                    <Card.Body className="p-0 border-0" style={{backgroundColor: '#2B2F38'}}>
+                    <Card.Body className="p-0 border-0" style={{ backgroundColor: '#2B2F38' }}>
                       <div className="row justify-content-between">
                         <div className="col m-2">
                           <ImgCursorPointer
@@ -457,7 +457,6 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
               <div className="bg-danger">{fetchError}</div>
             </div>
           }
-
         </div>
       </Wrapper2>
     </Wrapper>

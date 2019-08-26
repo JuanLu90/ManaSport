@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import * as action from "../../action";
 import { IGlobalState } from "../../reducers/reducers";
-import { InputGroup, Form } from "react-bootstrap";
+import { InputGroup, Form, Alert } from "react-bootstrap";
 import { ITournament } from "../../interfaces";
 import { createBrowserHistory } from "history";
 import styled from "styled-components";
@@ -13,6 +13,9 @@ const Wrapper = styled.div`
 `
 const Wrapper2 = styled.div`
   background-color: #2B2F38;
+`
+const SpanAlert = styled.span`
+  font-size: 0.85em;
 `
 
 //----------------------------------------------------
@@ -50,6 +53,9 @@ const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
     u => u.TournamentId === props.DeleteLeagueId
   );
 
+  const [alertWrongLeagueName, setAlertWrongLeagueName] = useState(false);
+  const toggleWrongLeagueName = React.useCallback(() => setAlertWrongLeagueName(s => !s), []); //Open and close alert league name invalid
+
   useEffect(() => {
     if (currentLeague) {
       setInputLeagueName(currentLeague.name);
@@ -63,6 +69,7 @@ const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
   }
 
   const editCurrentLeague = () => {
+    if (inputLeagueName.length > 3 && inputLeagueName.length < 41) {
     fetch("http://localhost:8080/api/tournaments/editTournament/" +
       currentLeague.TournamentId,
       {
@@ -97,6 +104,11 @@ const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
       .catch(err => {
         console.log("Error, " + err);
       });
+    } else {
+      toggleWrongLeagueName();
+      setInputLeagueName(currentLeague.name);
+      setTimeout(() => toggleWrongLeagueName(), 4000)
+    }
   };
 
   return (
@@ -150,6 +162,20 @@ const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
                 </Form.Control>
             </div>
           </div>
+          {alertWrongLeagueName && (
+          <div className="row justify-content-center mt-4">
+            <div className="col text-center">
+              <Alert variant="danger" className="p-2">
+                <img src="/images/other/cancel.png" width="25" alt="" className="mr-1" />
+                <SpanAlert> 
+                  <b> Nombre de liga inválido.</b> 
+                  <br/>
+                  El nombre de una liga debe de contener entre 4 y 40 caracteres.
+                </SpanAlert>
+              </Alert>
+            </div>
+          </div>
+        )}
         </div>
         <div className="modal-footer">
           <div className="col text-right">
