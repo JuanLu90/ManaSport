@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Modal, Navbar, Nav, Form, Button, FormControl, InputGroup } from "react-bootstrap";
-import LoginModal from "./loginModal/loginModal";
-import RegisterModal from "./registerModal/registerModal";
+import LoginModal from "./loginModal";
+import RegisterModal from "./registerModal";
 import jwt from "jsonwebtoken";
 import * as actions from "../../action";
 import { connect } from "react-redux";

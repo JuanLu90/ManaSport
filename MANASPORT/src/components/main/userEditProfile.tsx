@@ -160,7 +160,7 @@ const EditUserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = p
   //*************************
   return (
     <>
-      <Wrapper className="container w-75 bg-editUserProfile border border-light">
+      <Wrapper className="container w-75 border border-light">
         <div className="row ">
           <BorderRight className="col text-dark border-right border-dark">
             <div className="row text-center m-3">

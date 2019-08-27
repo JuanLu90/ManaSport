@@ -8,10 +8,7 @@ const Label = styled.label`
   font-size: 0.85em;
 `
 const Modal = styled.div`
-  margin: auto;
   width: 500px;
-  background-color: #222f3e;
-  border: 1px solid #FFC107;
   opacity: 0.95;
 `
 
@@ -68,7 +65,7 @@ const RegisterModal: React.FC<IProps> = props => {
 
   return (
     <div className="modal-dialog-centered" role="document">
-      <Modal className="modal-content text-light">
+      <Modal className="modal-content bg-dark border border-secondary text-light rounded-0">
         <div className="modal-header border-0">
           <h5 className="modal-title pl-2" id="exampleModalCenterTitle">
             Registro
@@ -156,7 +153,7 @@ const RegisterModal: React.FC<IProps> = props => {
                   <FormControl
                     type="password"
                     className="form-control pt-0 pb-0 pl-2 pr-2 mt-0 w-75"
-                    placeholder="***********"
+                    placeholder="Contraseña"
                     name="password"
                     onChange={updateInputPassword}
                   />
@@ -184,7 +181,7 @@ const RegisterModal: React.FC<IProps> = props => {
           <div className="col p-0">
             <button
               type="button"
-              className="btn btn-warning w-100"
+              className="btn btn-warning w-100 font-weight-bold text-uppercase"
               onClick={newUser}
             >
               Regístrate

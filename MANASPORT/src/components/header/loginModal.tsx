@@ -1,8 +1,8 @@
 import React from "react";
-import "../transparentBgModal.css";
+import "./transparentBgModal.css";
 import { connect } from "react-redux";
-import { IGlobalState } from "../../../reducers/reducers";
-import * as actions from "../../../action";
+import { IGlobalState } from "../../reducers/reducers";
+import * as actions from "../../action";
 import { createBrowserHistory } from "history";
 import { InputGroup, FormControl } from "react-bootstrap";
 import styled from "styled-components";
@@ -12,7 +12,6 @@ const Col = styled.div`
   font-size: 0.85em;
 `
 const Modal = styled.div`
-  margin: auto;
   width: 400px;
   opacity: 0.95;
 `
@@ -58,7 +57,7 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
 
   return (
     <div className="modal-dialog-centered" role="document">
-      <Modal className="modal-content bg-dark border border-secondary text-light">
+      <Modal className="modal-content bg-dark border border-secondary text-light rounded-0">
         <div className="modal-header border-0">
           <h5 className="modal-title pl-2" id="exampleModalCenterTitle">
             Iniciar en ManaSport
