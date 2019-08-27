@@ -10,6 +10,7 @@
 ::-webkit-scrollbar {
   background-color: #fff;
   width: 16px;
+  z-index: 999999;
 }
 
 /* background of the scrollbar except button or resizer */

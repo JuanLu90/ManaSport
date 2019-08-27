@@ -151,7 +151,7 @@ const MainApp: React.FC = () => { // Function Component
                 <span aria-hidden="true">&times;</span>
               </button>
               <div className="embed-responsive embed-responsive-16by9">
-                <iframe title="Embeds Page" className="embed-responsive-item" src="/videos/prueba.mp4" width="800px" />
+                <iframe title="Embeds Page" className="embed-responsive-item" src="/videos/mivideo.mp4" width="800px" />
               </div>
             </div>
           </div>
