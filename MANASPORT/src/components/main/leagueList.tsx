@@ -270,7 +270,7 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
             <div className="col-10 text-center">
               <Alert variant="success" className="p-2">
                 <img src="/images/other/send.png" width="35" alt="" className="mr-3" />
-                <span> <b> Liga creada satisfactoriamente</b> </span>
+                <span> <b> Liga creada correctamente</b> </span>
               </Alert>
             </div>
           </div>

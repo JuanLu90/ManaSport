@@ -16,7 +16,8 @@ import {
   Button,
   Badge,
   Accordion,
-  Form
+  Form,
+  Alert
 } from "react-bootstrap";
 //Interfaces
 import { ITeam, IPlayer } from "../../interfaces";
@@ -92,6 +93,9 @@ const SpanFieldRequired = styled.span`
 const SpanFieldTeam = styled.span`
   font-family: "Source Sans Pro", sans-serif;
 `;
+const Row = styled.div`
+  min-height: 40vh;
+`;
 // *********************
 
 
@@ -130,7 +134,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
     props.setPlayerId(DeleteLeagueId);
   }
 
-  
+
   const [fetchError, setFetchError] = useState(""); //Hook to manage an error
   const [inputAlert, setInputAlert] = useState(true); //Hook to manage the error alert
 
@@ -141,6 +145,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
   const [inputPlayerPosition, setInputPlayerPosition] = React.useState("Portero");
   const [inputPlayerGoals, setInputPlayerGoals] = React.useState("");
   const [inputPlayerTeam, setInputPlayerTeam] = React.useState("");
+
   // console.log(props.teamPlayers)
   //Onchanges to create a new player
   const updatePlayerName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -184,46 +189,58 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
     u => u.TeamId === valueTeamId
   );
 
+  const [alertWrongPlayer, setAlertWrongPlayer] = useState(false);
+  const toggleWrongPlayer = React.useCallback(() => setAlertWrongPlayer(s => !s), []); //Open and close alert player name invalid
+
+  const [alertRightPlayer, setAlertRightPlayer] = useState(false);
+  const toggleRightPlayer = React.useCallback(() => setAlertRightPlayer(s => !s), []); //Open and close alert right player name 
+
   const sendPlayer = () => { //Function Component
-    const token = localStorage.getItem("token");  //Token - Get the token stored from local storage
-    if (token) { // We need that token exits to decode it but React will fall down
-      fetch("http://localhost:8080/api/players/newPlayer", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-          name: inputPlayerName === "" ? null : inputPlayerName,
-          surname: inputPlayerSurname === "" ? null : inputPlayerSurname,
-          age: inputPlayerAge === "" ? null : inputPlayerAge,
-          position: inputPlayerPosition === "" ? null : inputPlayerPosition,
-          goals: inputPlayerGoals === "" ? null : inputPlayerGoals,
-          TeamId: inputPlayerTeam
+    if (inputPlayerTeam === "" || (inputPlayerName.length < 3 || inputPlayerName.length > 25)) {
+      toggleWrongPlayer();
+      setTimeout(() => toggleWrongPlayer(), 5000)
+    } else {
+      const token = localStorage.getItem("token");  //Token - Get the token stored from local storage
+      if (token) { // We need that token exits to decode it but React will fall down
+        fetch("http://localhost:8080/api/players/newPlayer", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify({
+            name: inputPlayerName === "" ? null : inputPlayerName,
+            surname: inputPlayerSurname === "" ? null : inputPlayerSurname,
+            age: inputPlayerAge === "" ? null : inputPlayerAge,
+            position: inputPlayerPosition === "" ? null : inputPlayerPosition,
+            goals: inputPlayerGoals === "" ? null : inputPlayerGoals,
+            TeamId: inputPlayerTeam
+          })
         })
-      })
-        .then(response => {
-          if (response.ok) {
-            response.json().then(p => {
-              props.newPlayer(p);
-              setInputPlayerName("");
-              setInputPlayerSurname("");
-              setInputPlayerAge("");
-              setInputPlayerPosition("");
-              setInputPlayerGoals("");
-            });
-          } else {
-            response.json().then(({ e }) => {
-              if (e === 1062) {
-                setFetchError("El nombre del equipo ya existe");
-                setInputAlert(true)
-                setTimeout(() => setInputAlert(false), 3000)
-              }
-            });
-          }
-        })
-        .catch(err => {
-          console.log("Error," + err);
-        });
+          .then(response => {
+            if (response.ok) {
+              response.json().then(p => {
+                props.newPlayer(p);
+                toggleRightPlayer()
+                setTimeout(() => toggleRightPlayer(), 5000)
+                setInputPlayerName("");
+                setInputPlayerSurname("");
+                setInputPlayerAge("");
+                setInputPlayerGoals("");
+              });
+            } else {
+              response.json().then(({ e }) => {
+                if (e === 1062) {
+                  setFetchError("El nombre del equipo ya existe");
+                  setInputAlert(true)
+                  setTimeout(() => setInputAlert(false), 3000)
+                }
+              });
+            }
+          })
+          .catch(err => {
+            console.log("Error," + err);
+          });
+      }
     }
   };
 
@@ -256,7 +273,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                   Jugadores
                 </DivDegraded>
               </div>
-              <div className="row justify-content-center mb-4">
+              <Row className="row justify-content-center mb-4">
                 <div className="col-2 pl-2 pr-0 overflow-auto">
                   {props.leagueTeams.map(l => (
                     <Card style={borderCard} className="mb-1 ml-1 mr-1" onClick={() => setValueTeamId(l.TeamId)} key={l.TeamId}>
@@ -289,8 +306,8 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                     </div>
                     <Tab.Content>
                       <Tab.Pane eventKey="first">
-                        <Wrapper2 className="row border border-secondary">
-                          <Table responsive striped hover variant="dark" className="m-0">
+                        <Wrapper2 className="row ">
+                          <Table responsive striped hover variant="dark" className="m-0 border-0">
                             <thead>
                               <tr>
                                 <th> </th>
@@ -410,7 +427,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                     </Tab.Content>
                   </Scrollbars>
                 </div>
-              </div>
+              </Row>
             </Tab.Container>
           </div>
         </div>
@@ -455,6 +472,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                       </div>
                       <div className="col-9">
                         <Form.Control as="select" size="sm" className="pt-0 pb-0 bg-dark border border-secondary text-light" onChange={updatePlayerTeam}>
+                          <option value=""> Selecciona un equipo </option>
                           {props.leagueTeams.map(l =>
                             <option value={l.TeamId} key={l.TeamId}>{l.name}</option>
                           )}
@@ -472,8 +490,8 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                         <input
                           type="text"
                           className="form-control form-control-sm bg-dark border border-secondary text-light"
-                        value={inputPlayerName}
-                        onChange={updatePlayerName}
+                          value={inputPlayerName}
+                          onChange={updatePlayerName}
                         />
                       </div>
                     </div>
@@ -487,8 +505,8 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                         <input
                           type="text"
                           className="form-control form-control-sm bg-dark border border-secondary text-light"
-                        value={inputPlayerSurname}
-                        onChange={updatePlayerSurname}
+                          value={inputPlayerSurname}
+                          onChange={updatePlayerSurname}
                         />
                       </div>
                     </div>
@@ -502,8 +520,8 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                         <input
                           type="text"
                           className="form-control form-control-sm bg-dark border border-secondary text-light"
-                        value={inputPlayerAge}
-                        onChange={updatePlayerAge}
+                          value={inputPlayerAge}
+                          onChange={updatePlayerAge}
                         />
                       </div>
                     </div>
@@ -546,6 +564,30 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                         <SpanFieldRequired>* Campos obligatorios </SpanFieldRequired>
                       </div>
                     </div>
+                    {alertWrongPlayer && (
+                      <div className="row justify-content-center mt-4">
+                        <div className="col text-center">
+                          <Alert variant="danger" className="p-2">
+                            <img src="/images/other/cancel.png" width="35" alt="" className="mr-3" />
+                            <span> <b> Error, comprueba que el jugador cumple los siguientes requisitos:</b> </span>
+                            <ul className="text-left">
+                              <li>Debe de seleccionar un equipo.</li>
+                              <li>El nombre del jugador debe contener entre 4 y 25 caracteres.</li>
+                            </ul>
+                          </Alert>
+                        </div>
+                      </div>
+                    )}
+                    {alertRightPlayer && (
+                      <div className="row justify-content-center mt-4">
+                        <div className="col text-center">
+                          <Alert variant="success" className="p-2">
+                            <img src="/images/other/send.png" width="35" alt="" className="mr-3" />
+                            <span> <b> Jugador añadido correctamente</b> </span>
+                          </Alert>
+                        </div>
+                      </div>
+                    )}
                     <div className="row mt-4 mb-2">
                       <div className="col text-center">
                         <Button
