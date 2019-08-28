@@ -22,6 +22,9 @@ const RegisterModal: React.FC<IProps> = props => {
   const [usernameValue, setInputUsername] = React.useState("");
   const [emailValue, setInputEmail] = React.useState("");
   const [passwordValue, setInputPassword] = React.useState("");
+  const [createDateValue, setInputCreateDateValue] = React.useState(
+    new Date().toLocaleDateString()
+  );
 
   const updateInputName = (event: any) =>
     setInputName(event.currentTarget.value);
@@ -51,7 +54,8 @@ const RegisterModal: React.FC<IProps> = props => {
         surname: surnameValue,
         username: usernameValue,
         email: emailValue,
-        password: passwordValue
+        password: passwordValue,
+        createDate: createDateValue
       })
     }).then(response => {
       if (response.ok) {

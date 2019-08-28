@@ -16,10 +16,17 @@ router.get("/users", (req, res) => {
 // SHOW USER BY ID
 router.get("/users/:UserId", (req, res) => {
     const UserId = req.params.UserId;
-    dbConn.query("SELECT * FROM user WHERE UserId = ?", [UserId], (err, rows) => {
-        if (err) throw err;
-        res.send(rows);
-    });
+    dbConn.query(`SELECT U.UserID, U.email, U.Username, U.name, U.surname, U.avatar, U.createdate,
+    COUNT(TOUR.TournamentId) AS 'NTournaments'
+    FROM user u
+    LEFT JOIN Tournament TOUR
+    ON U.UserId = TOUR.UserId
+    WHERE U.UserId = ${UserId} AND TOUR.disabled = 0
+    GROUP BY UserId;`
+        , (err, rows) => {
+            if (err) throw err;
+            res.send(rows);
+        });
 });
 
 // CREATE A NEW USER

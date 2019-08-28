@@ -60,7 +60,7 @@ const Management: React.FC<IProps & IPropsGlobal> = props => { //Function Compon
 
 
   return (
-    <Wrapper className="container-fluid ">
+    <Wrapper className="container-fluid">
       <div className="row">
         <div className="col">
           <Switch>

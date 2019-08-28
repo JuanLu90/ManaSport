@@ -15,11 +15,11 @@ import styled from "styled-components";
 
 
 // ********* Styles - Styled Components - CSSINJS **********
-const FontSpan = styled.span`
-      font-family: 'Anton', sans-serif;
-  `
 
-
+const Wrapper = styled.div`
+  font-family: "Source Sans Pro", sans-serif;
+  margin-top: 60px;
+`
 
 //----------------------------------------------------
 
@@ -41,46 +41,61 @@ const UserProfile: React.FC<IProps & IPropsGlobal> = props => { //Function Compo
   }
 
   return (
-    <div className="container w-75">
+    <Wrapper className="container w-50">
       <div className="row">
         <div className="col text-light mb-4">
-          <FontSpan className="h2">
+          <span className="h2">
             Perfil
-            <Link to={"/management/user/edit"}>
-              <img src="/images/other/edit.png" width="20" alt="" />
-            </Link>
-          </FontSpan>
+          </span>
         </div>
       </div>
-      <div className="row bg-dark text-light ">
+      <div className="row bg-dark text-light rounded">
         <div className="col-2 text-center align-self-center pt-4 pb-4">
           <img src={currentUser.avatar} width="110" alt="" />
         </div>
         <div className="col align-self-center h3">
-        {currentUser.name} {currentUser.surname} <br/>  {currentUser.username}
+          {currentUser.name}  <br /> {currentUser.surname ? currentUser.surname : null}
+        </div>
+        <div className="col text-center align-self-center">
+          <span>Ligas creadas: </span>
+          {currentUser.NTournaments}
         </div>
       </div>
-      <div className="row bg-secondary text-light">
-        <div className="col border-left border-dark">
-          <div className="row text-center m-3">
-          </div>
-          <div className="row m-4">
-            <div className="col-3 text-right">
-              <FontSpan className="fontstyle-editUserProfile">Email:</FontSpan>
+      <div className="row bg-secondary rounded">
+        <div className="col">
+          <div className="row text-light p-3">
+            <div className="col-4 text-right">
+              <img src="/images/other/mail.png" width="30" alt="" title="Email" />
             </div>
-            <div className="col">{currentUser.email}</div>
-          </div>
-          <div className="row m-4">
-            <div className="col-3 text-right">
-              <FontSpan className="fontstyle-editUserProfile">
-                Fecha de nacimiento:
-                </FontSpan>
+            <div className="col">
+              {currentUser.email}
             </div>
-            <div className="col">{currentUser.birthDate}</div>
+          </div>
+          <div className="row text-light p-3">
+            <div className="col-4 text-right">
+              <img src="/images/other/profile.png" width="30" alt="" title="Nombre de usuario" />
+            </div>
+            <div className="col">
+              {currentUser.username}
+            </div>
+          </div>
+          <div className="row text-light p-3">
+            <div className="col-4 text-right">
+              <img src="/images/other/date.png" width="30" alt="" title="Fecha de registro" />
+            </div>
+            <div className="col">
+              {currentUser.createdate}
+            </div>
           </div>
         </div>
+        <div className="col align-self-center text-light text-center">
+          EDITAR PERFIL
+          <Link to={"/management/user/edit"}>
+            <img src="/images/other/edit.png" width="20" alt="" />
+          </Link>
+        </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

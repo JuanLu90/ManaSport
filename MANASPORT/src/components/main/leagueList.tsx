@@ -50,9 +50,9 @@ interface IPropsGlobal {
 
 const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
   const [inputLeagueName, setInputLeagueName] = useState("");
-  const [inputLeagueSport, setInputLeagueSport] = useState("Futbol");
+  const [inputLeagueSport, setInputLeagueSport] = useState("Fútbol");
   const [inputLeagueCategory, setInputLeagueCategory] = React.useState(
-    "Futbol 11"
+    "Fútbol 11"
   );
 
   const [inputLeagueCreateDate, setInputLeagueCreateDate] = useState(
@@ -225,7 +225,7 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
               </InputGroup.Text>
               </InputGroup.Prepend>
               <Form.Control as="select" onChange={updateLeagueSport} className="bg-dark border border-secondary text-light">
-                <option>Futbol</option>
+                <option>Fútbol</option>
               </Form.Control>
             </InputGroup>
           </div>
@@ -237,10 +237,10 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
               </InputGroup.Text>
               </InputGroup.Prepend>
               <Form.Control as="select" onChange={updateLeagueCategory} className="bg-dark border border-secondary text-light">
-                <option>Futbol 11</option>
-                <option>Futbol 7</option>
-                <option>Futbol Sala</option>
-                <option>Futbol(otros)</option>
+                <option>Fútbol 11</option>
+                <option>Fútbol 7</option>
+                <option>Fútbol Sala</option>
+                <option>Fútbol(otros)</option>
               </Form.Control>
             </InputGroup>
           </div>
