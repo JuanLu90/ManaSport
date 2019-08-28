@@ -9,6 +9,9 @@ export const LeaguesReducer = (
     if (action.type === "SET_LEAGUES") {
         return action.leagues;
     }
+    // if (action.type === "SET_ALLLEAGUES") {
+    //     return action.allleagues;
+    // }
     if (action.type === "NEW_LEAGUE") {
         const leagues = state;
         leagues.push(action.league)

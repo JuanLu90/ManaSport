@@ -19,6 +19,7 @@ export interface ITournament {
     createdate: string;
     sport: string;
     NTeams: number;
+    NameAdmin: string;
 }
 
 export interface ITeam {

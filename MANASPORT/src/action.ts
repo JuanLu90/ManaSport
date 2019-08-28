@@ -34,6 +34,11 @@ export const setLeagues: ActionCreator<TAction> = (leagues: []) => ({
     leagues
 });
 
+export const setAllLeagues: ActionCreator<TAction> = (allleagues: []) => ({
+    type: "SET_ALLLEAGUES",
+    allleagues
+});
+
 
 export const newLeague: ActionCreator<TAction> = (league: ITournament) => ({
     type: "NEW_LEAGUE",

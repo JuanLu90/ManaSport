@@ -1,6 +1,6 @@
 //React´s Components
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 //JsonWebToken
 import jwt from "jsonwebtoken";
 //Interfaces
@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers/reducers";
 //Styled Components - CSSINJS
 import styled from "styled-components";
+import { createBrowserHistory } from "history";
 
 
 
@@ -31,7 +32,7 @@ interface IPropsGlobal {
   users: IUser[];
 }
 
-const UserProfile: React.FC<IProps & IPropsGlobal> = props => { //Function Component
+const UserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props => { //Function Component
   const token: any = localStorage.getItem("token"); //Token - Get the token stored from local storage
   const decoded: any = jwt.decode(token); //Decode token to get the current user
   const currentUser = props.users.find(u => u.UserId === decoded.UserId);
@@ -40,11 +41,14 @@ const UserProfile: React.FC<IProps & IPropsGlobal> = props => { //Function Compo
     return null;
   }
 
+  const history = createBrowserHistory({ forceRefresh: true });
+
+
   return (
     <Wrapper className="container w-50">
       <div className="row">
-        <div className="col text-light mb-4">
-          <span className="h2">
+        <div className="col h1 text-light text-center mb-2">
+          <span>
             Perfil
           </span>
         </div>
@@ -57,8 +61,8 @@ const UserProfile: React.FC<IProps & IPropsGlobal> = props => { //Function Compo
           {currentUser.name}  <br /> {currentUser.surname ? currentUser.surname : null}
         </div>
         <div className="col text-center align-self-center">
-          <span>Ligas creadas: </span>
-          {currentUser.NTournaments}
+        <img src="/images/other/hand.png" width="40" alt="" title="Ligas creadas" />
+          <span className="h4 ml-2">5</span> {currentUser.NTournaments}
         </div>
       </div>
       <div className="row bg-secondary rounded">
@@ -89,10 +93,9 @@ const UserProfile: React.FC<IProps & IPropsGlobal> = props => { //Function Compo
           </div>
         </div>
         <div className="col align-self-center text-light text-center">
-          EDITAR PERFIL
-          <Link to={"/management/user/edit"}>
-            <img src="/images/other/edit.png" width="20" alt="" />
-          </Link>
+          <button className="btn btn-outline-light" onClick={() => props.history.push("/management/user/edit")}>
+            Editar Perfil <img src="/images/other/edit2.png" className="ml-2 mb-1" width="18" alt=""/>
+          </button>
         </div>
       </div>
     </Wrapper>

@@ -7,6 +7,12 @@ import { createBrowserHistory } from "history";
 import jwt from "jsonwebtoken";
 import styled from "styled-components";
 
+
+const Wrapper = styled.div`
+
+  height: 80vh;
+`
+
 interface IProps {
   leagues: ITournament[];
   handleCloseEditAvatar: () => void;
@@ -88,10 +94,10 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
   });
 
   return (
-    <div className="modal-dialog-centered" role="document">
-      <div className="modal-content bg-light text-dark">
+    <Wrapper className="modal-dialog-centered" role="document">
+      <div className="modal-content bg-dark border border-secondary text-dark">
         <div className="modal-header">
-          <h5 className="modal-title" id="exampleModalCenterTitle">
+          <h5 className="modal-title text-light" id="exampleModalCenterTitle">
             Elige tu avatar:
           </h5>
           <button
@@ -99,7 +105,7 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
             className="close"
             onClick={props.handleCloseEditAvatar}
           >
-            <span aria-hidden="true">&times;</span>
+            <span className="text-light" aria-hidden="true">&times;</span>
           </button>
         </div>
         <div className="modal-body">
@@ -273,14 +279,14 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
         </div>
         <div className="modal-footer">
           <div className="col text-right">
-            <button onClick={props.handleCloseEditAvatar}>Cancelar</button>
+            <button className="btn btn-light text-uppercase font-weight-bold" onClick={props.handleCloseEditAvatar}>Cancelar</button>
           </div>
           <div className="col">
-            <button onClick={editAvatar}>Aceptar</button>
+            <button className="btn btn-warning text-uppercase font-weight-bold" onClick={editAvatar}>Aceptar</button>
           </div>
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

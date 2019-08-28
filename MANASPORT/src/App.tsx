@@ -4,7 +4,6 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 //Components made by Juanlu
 import Header from "./components/header/header";
 import Footer from "./components/footer";
-import MainApp from "./components/main/mainApp";
 import management from "./components/main/management";
 //Redux
 import { connect } from "react-redux";
@@ -17,6 +16,8 @@ import jwt from "jsonwebtoken";
 //Css
 import "./reset.css";
 import "./App.css";
+import mainApp from "./components/main/mainApp";
+import AllleagueList from "./components/main/allLeaguesList";
 
 
 //----------------------------------------------------
@@ -28,6 +29,8 @@ interface IProps { }
 interface IPropsGlobal {
   setLeagues: (leagues: ITournament[]) => void;
   leagues: ITournament[];
+  setAllLeagues: (allleagues: ITournament[]) => void;
+  allleagues: ITournament[];
 }
 
 
@@ -55,12 +58,37 @@ const App: React.FC<IProps & IPropsGlobal> = props => { //Function Component
     }
   }, [token, props.leagues.length]); //When a new League is add, Redux will be update.
 
+
+  useEffect(() => { //Fetch leagues of the current user to redux
+    fetch(
+      "http://localhost:8080/api/tournaments",
+      {
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json"
+          // Authorization: "Bearer " + props.token
+        }
+      }
+    ).then(response => {
+      if (response.ok) {
+        response.json().then(allleagues => props.setAllLeagues(allleagues));
+      }
+    });
+
+  }, []); //When a new League is add, Redux will be update.
+
+
   return (
     <BrowserRouter>
       <div className="bg-dark">
         <Header /> {/* Header Component */}
-        <main>
-          {!token && <MainApp />} {/* Index */}
+        <main> {/* Index */}
+          {!token && (
+            <Switch>
+              <Route path="/" exact component={mainApp} />
+              <Route path="/leagues" exact component={AllleagueList} />
+            </Switch>
+          )}
           {token && (
             <Switch>
               <Route path="/management" component={management} />
@@ -75,12 +103,14 @@ const App: React.FC<IProps & IPropsGlobal> = props => { //Function Component
 };
 
 const mapStateToProps = (state: IGlobalState) => ({
-  leagues: state.leagues
+  leagues: state.leagues,
+  allleagues: state.allleagues
 });
 
 const mapDispatchToProps = {
   setUsers: action.setUsers,
-  setLeagues: action.setLeagues
+  setLeagues: action.setLeagues,
+  setAllLeagues: action.setAllLeagues
 };
 
 export default connect(

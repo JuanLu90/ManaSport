@@ -161,37 +161,49 @@ const EditUserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = p
     <>
       <Wrapper className="container w-50 ">
         <div className="row">
-          <div className="col text-light mb-4">
-            <span className="h2">
+          <div className="col h1 text-light mb-4">
+            <span>
               Perfil
             </span>
-            <Link to={"/management/user/"}>
-              Volver
-            </Link>
           </div>
         </div>
         <div className="row bg-secondary text-light rounded">
-          <div className="col-5 text-center align-self-center pt-4 pb-4">
+          <div className="col-4 text-center align-self-center pt-4 pb-4">
             <img src={currentUser.avatar} width="110" alt="" /> <br />
-            <button onClick={handleShowEditAvatar}>Actualizar avatar</button>
+            <button className="btn btn-outline-light mt-3 pt-0 pb-0 pl-3 pr-3" onClick={handleShowEditAvatar}>Actualizar avatar</button>
           </div>
-          <div className="col align-self-center h3">
-            <input
-              className="form-control form-control-sm"
-              type="text"
-              value={inputName}
-              onChange={updateName}
-            />  <br />
-            <input
-              className="form-control form-control-sm"
-              type="text"
-              value={inputSurname}
-              onChange={updateSurname}
-            />
+          <div className="col align-self-center">
+            <div className="row mt-4 mb-4">
+              <div className="col-3">Nombre</div>
+              <div className="col">
+                <input
+                  className="form-control form-control-sm"
+                  type="text"
+                  value={inputName}
+                  onChange={updateName}
+                />
+              </div>
+            </div>
+            <div className="row mt-4 mb-4">
+              <div className="col-3"> Apellidos:</div>
+              <div className="col">
+                <input
+                  className="form-control form-control-sm"
+                  type="text"
+                  value={inputSurname}
+                  onChange={updateSurname}
+                />
+              </div>
+            </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col text-center">
+        <div className="row justify-content-center mt-3">
+          <div className="col-2 text-center">
+            <button className="btn btn-light m-2 pt-1 pb-1 pl-3 pr-3 text-uppercase font-weight-bold" onClick={() => props.history.push("/management/user/")}>
+              Volver
+          </button>
+          </div>
+          <div className="col-2 text-center">
             <button className="btn btn-warning m-2 pt-1 pb-1 pl-3 pr-3 text-uppercase font-weight-bold" onClick={editCurrentUserById}>
               Enviar
           </button>
@@ -223,7 +235,6 @@ const EditUserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = p
     </>
   );
 };
-
 const mapStateToProps = (state: IGlobalState) => ({ //Send props to redux
   token: state.token,
   users: state.users,

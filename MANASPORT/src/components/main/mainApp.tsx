@@ -1,9 +1,12 @@
 //React´s Components
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 //Styled Components - CSSINJS
 import styled from "styled-components";
 import { Modal } from "react-bootstrap";
-
+import { ITournament } from "../../interfaces";
+import { IGlobalState } from "../../reducers/reducers";
+import * as action from "../../action";
+import { connect } from "react-redux";
 
 
 // ********* Styles - Styled Components - CSSINJS **********
@@ -58,10 +61,12 @@ const Col = styled.div`
 `
 //*************************
 
-const MainApp: React.FC = () => { // Function Component
+const MainApp: React.FC = props => { // Function Component
   const [modalVideo, setModalVideo] = useState(false);
   const handleCloseModalVideo = () => setModalVideo(false);
   const handleShowModalVideo = () => setModalVideo(true);
+
+
 
 
   return (
@@ -156,10 +161,9 @@ const MainApp: React.FC = () => { // Function Component
             </div>
           </div>
         </div>
-
       </Modal>
     </>
   );
 };
 
-export default MainApp;
+export default (MainApp);

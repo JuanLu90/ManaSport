@@ -4,10 +4,18 @@ const dbConn = require("../config/db");
 
 // SHOW ALL TOURNAMENTS
 router.get("/tournaments", (req, res) => {
-  dbConn.query("SELECT * FROM tournament", (err, rows) => {
-    if (err) throw err;
-    res.send(rows);
-  });
+  dbConn.query(`SELECT TOUR.TournamentId, TOUR.name, TOUR.sport, TOUR.category, TOUR.createdate, TOUR.UserId, TOUR.disabled,
+  COUNT(T.TeamId) AS 'NTeams', U.name AS 'NameAdmin'  
+  FROM tournament TOUR
+  LEFT JOIN team T 
+  ON T.TournamentId = TOUR.TournamentId
+  LEFT JOIN user U 
+  ON U.UserId = TOUR.UserId
+  WHERE TOUR.disabled = 0
+  GROUP BY TournamentId;`, (err, rows) => {
+      if (err) throw err;
+      res.send(rows);
+    });
 });
 
 // SHOW TOURNAMENT BY ID

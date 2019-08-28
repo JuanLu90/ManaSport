@@ -8,11 +8,13 @@ import { TournamentTeamsReducer } from "./tournamentTeamsReducer";
 import { MatchsReducer } from "./matchReducer";
 import { PlayerReducer } from "./playerReducer";
 import { QualificationReducer } from "./qualificationReducer";
+import { AllLeaguesReducer } from "./allLeaguesReducer";
 
 export interface IGlobalState {
   token: string;
   users: IUser[];
   leagues: ITournament[];
+  allleagues: ITournament[];
   teams: ITeam[];
   TournamentId: number;
   TeamId: number;
@@ -27,6 +29,7 @@ export const reducers = combineReducers<IGlobalState>({
   token: tokenReducer,
   users: UsersReducer,
   leagues: LeaguesReducer,
+  allleagues: AllLeaguesReducer,
   TournamentId: SetTournamentsIdReducer,
   TeamId: SetTournamentsIdReducer,
   leagueTeams: TournamentTeamsReducer,
@@ -34,5 +37,5 @@ export const reducers = combineReducers<IGlobalState>({
   teamPlayers: PlayerReducer,
   qualification: QualificationReducer,
   teams: TournamentTeamsReducer,
-  MatchId: SetTournamentsIdReducer
+  MatchId: SetTournamentsIdReducer,
 });

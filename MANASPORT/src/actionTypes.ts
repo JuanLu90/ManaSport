@@ -30,6 +30,11 @@ type TLeague = {
     leagues: [];
 };
 
+type TAllLeagues = {
+    type: "SET_ALLLEAGUES";
+    allleagues: [];
+};
+
 type TNewLeague = {
     type: "NEW_LEAGUE";
     league: ITournament
@@ -170,7 +175,7 @@ type TQualification = {
 export type TAction = 
 /*Token*/   TToken |
 /*User*/    TUser | TPutUser | TUserById |
-/*League*/  TNewLeague | TLeague | TPutLeague | TDeleteLeague | TLeagueId | TLeagueTeams |
+/*League*/  TNewLeague | TAllLeagues | TLeague | TPutLeague | TDeleteLeague | TLeagueId | TLeagueTeams |
 /*Team*/    TTeamId | TNewTeam | TDeleteTeam | TPutTeam |
 /*Matchs*/  TMatchs | TPutMatch | TMatchId |
 /*Players*/ TPlayer | TNewPlayer | TPutPlayer | TPlayerId | TDeletePlayer |

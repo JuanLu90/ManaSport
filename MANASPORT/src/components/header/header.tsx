@@ -5,7 +5,7 @@ import RegisterModal from "./registerModal";
 import jwt from "jsonwebtoken";
 import * as actions from "../../action";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { IUser } from "../../interfaces";
 import { IGlobalState } from "../../reducers/reducers";
 import styled from "styled-components";
@@ -45,13 +45,13 @@ const ButtonHeader = styled.button`
 const ImgSearch = styled.img`
   cursor: pointer;
 `
-
+interface IProps { }
 interface IPropsGLobal {
   setToken: (token: string) => void;
   users: IUser[];
 }
 
-const Header: React.FC<IPropsGLobal> = props => {
+const Header: React.FC<IProps & IPropsGLobal> = props => {
 
   const [navBackground, setNavBackground] = useState(false)
 
@@ -124,7 +124,7 @@ const Header: React.FC<IPropsGLobal> = props => {
             className="justify-content-between"
           >
             <Form inline style={{ width: '500px' }} className="ml-2">
-              {token ? <ButtonHeader>Tus Ligas</ButtonHeader> : <ButtonHeader>Info Ligas</ButtonHeader>}
+              {token ? <ButtonHeader>Tus Ligas</ButtonHeader> : <Link to={'/leagues'}><ButtonHeader>Info Ligas</ButtonHeader> </Link> }
               {!token && (
                 <InputGroup size="sm" className="w-75">
                   <FormControl className="bg-dark border border-dark text-light ml-sm-4" />
