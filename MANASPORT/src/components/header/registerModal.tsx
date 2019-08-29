@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { InputGroup, FormControl, Alert } from "react-bootstrap";
+import { InputGroup, FormControl, Alert, Form } from "react-bootstrap";
 import styled from "styled-components";
 var md5 = require('md5');
 
@@ -47,39 +47,47 @@ const RegisterModal: React.FC<IProps> = props => {
   const [alertWrongValue, setAlertWrongValue] = useState(false);
   const toggleWrongValue = React.useCallback(() => setAlertWrongValue(s => !s), []); //Open and close alert league name invalid
 
+  const [alertWrongPassword, setAlertWrongPassword] = useState(false);
+  const toggleWrongPassword = React.useCallback(() => setAlertWrongPassword(s => !s), []); //Open and close alert league name invalid
+
   const [alertRightValue, setAlertRightValue] = useState(false);
   const toggleRightValue = React.useCallback(() => setAlertRightValue(s => !s), []); //Open and close alert league name valid
 
 
   const newUser = () => {
-    fetch("http://localhost:8080/api/users/newUser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-        // Authorization: "Bearer " + token
-      },
-      body: JSON.stringify({
-        name: nameValue,
-        surname: surnameValue,
-        username: usernameValue,
-        email: emailValue,
-        password: passwordValue,
-        createDate: createDateValue
-      })
-    }).then(response => {
-      if (response.ok) {
-        //   response.text().then(token => {});
-        console.log(response)
-      }
-      else {
-        response.json().then(({ e }) => {
-          if (e === 1062) {
-            toggleWrongValue();
-            setTimeout(() => toggleWrongValue(), 5000)
-          }
-        });
-      }
-    });
+    if (updateInputPassword.length === 2) {
+      toggleWrongPassword()
+      setTimeout(() => toggleWrongPassword(), 5000)
+    } else {
+      fetch("http://localhost:8080/api/users/newUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+          // Authorization: "Bearer " + token
+        },
+        body: JSON.stringify({
+          name: nameValue,
+          surname: surnameValue,
+          username: usernameValue,
+          email: emailValue,
+          password: passwordValue,
+          createDate: createDateValue
+        })
+      }).then(response => {
+        if (response.ok) {
+          //   response.text().then(token => {});
+          console.log(response)
+        }
+        else {
+          response.json().then(({ e }) => {
+            if (e === 1062) {
+              toggleWrongValue();
+              setTimeout(() => toggleWrongValue(), 5000)
+            }
+          });
+        }
+      });
+    }
   };
 
 
@@ -180,23 +188,33 @@ const RegisterModal: React.FC<IProps> = props => {
                 </InputGroup>
               </div>
             </div>
-            {!alertWrongValue && (
-              <div className="row justify-content-center mt-2 pl-4 pr-4">
-                  <div className="col">
-                    <Alert variant="danger">
-                      <img src="/images/other/cancel.png" width="35" alt="" className="mr-3" />
-                      <Span> <b> Nombre de usuario o email actualmente en uso.</b> Si ya está registrado, inicie sesión. </Span>
-                    </Alert>
-                  </div>
+            {alertWrongPassword && (
+              <div className="row justify-content-center pl-1 pr-1">
+                <div className="col text-center">
+                  <Alert variant="danger" className="p-0">
+                    <Span> <b> Contraseña no válida.</b> Debe de contener entre 4 y 14 caracteres </Span>
+                  </Alert>
+                </div>
+              </div>
+            )}
+            {alertWrongValue && (
+              <div className="row justify-content-center mt-2 pl-1 pr-1">
+                <div className="col text-center">
+                  <Alert variant="danger" className="pt-2 pb-2 pl-0 pr-0">
+                    <img src="/images/other/cancel.png" width="35" alt="" className="mr-3" />
+                    <Span> <b> Ya existe una cuenta con ese nombre de usuario o email.</b>
+                      <br />
+                      Si está registrado, inicie sesión. </Span>
+                  </Alert>
+                </div>
               </div>
             )}
             <div className="row">
               <div className="col">
                 <div className="form-check">
-                  <input
-                    className="form-check-input align-items-center mt-2"
+                  <Form.Check
+                    className="form-check-input align-items-center"
                     type="checkbox"
-                    value=""
                     id="defaultCheck1"
                   />
                   <Label className="form-check-label pl-1">

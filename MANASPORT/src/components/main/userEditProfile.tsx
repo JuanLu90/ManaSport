@@ -159,7 +159,7 @@ const EditUserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = p
   //*************************
   return (
     <>
-      <Wrapper className="container w-50 ">
+      <Wrapper className="container w-50">
         <div className="row">
           <div className="col h1 text-light mb-4">
             <span>

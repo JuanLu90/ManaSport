@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import * as actions from "../../action";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { IUser } from "../../interfaces";
+import { IUser, ITournament } from "../../interfaces";
 import { IGlobalState } from "../../reducers/reducers";
 import styled from "styled-components";
 
@@ -21,6 +21,14 @@ const ButtonRegister = styled.button`
   &:hover {
     background-color: #bdc3c7;
   }
+`
+const SearchResult = styled.div`
+  position: absolute;
+  width: 93%;
+  left: 25px;
+  top: 40px;
+  background-color: rgba(108, 117, 125, 0.95);
+  font-size: 0.8em;
 `
 const SpanUsername = styled.span`
   font-family: "Source Sans Pro", sans-serif;
@@ -52,6 +60,7 @@ interface IProps { }
 interface IPropsGLobal {
   setToken: (token: string) => void;
   users: IUser[];
+  allleagues: ITournament[];
 }
 
 const Header: React.FC<IProps & IPropsGLobal> = props => {
@@ -105,10 +114,43 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
     props.setToken("");
   };
 
+  const [inputLeagues, setInputLeagues] = React.useState<string>("");
+
+  const UpdateInputLeagues = (event: any) =>
+    setInputLeagues(event.currentTarget.value);
+
   const token: any = localStorage.getItem("token");
   const decoded: any = jwt.decode(token);
   const currentUser = token ? props.users.find(u => u.UserId === decoded.UserId) : null;
+  
+  // let table = []
+  // for (var i = 0; i < inputLeagues.length; i++) {
+  //   table.push(<tr>
+  //     {
+  //       inputLeagues !== "" &&
+  //       <SearchResult className="text-light rounded" key={['recipient', i].join('_')}>
+  //         {props.allleagues
+  //           .filter(l =>
+  //             l.name.toLowerCase().includes(inputLeagues.toLowerCase())
+  //           )
+  //           .slice(0, 5)
+  //           .map(l => (
+  //             <Link
+  //               to={"/leagues/allleaguesDetails/" + l.TournamentId}
+  //               className="text-light p-0"
+  //               style={{ textDecoration: 'none' }}>
+  //               <div className="row p-2">
+  //                 <div className="col-8">{l.name}</div>
+  //                 <div className="col-4 text-center">{l.NameAdmin}</div>
+  //               </div>
+  //             </Link>
+  //           ))}
+  //       </SearchResult>
 
+
+  //     }
+  //   </tr>)
+  // }
 
 
 
@@ -127,17 +169,37 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
             className="justify-content-between"
           >
             <Form inline style={{ width: '500px' }} className="ml-2">
-              {token ? <ButtonHeader>Tus Ligas</ButtonHeader> : <Link to={'/leagues'} className="border-0"><ButtonHeader>Info Ligas</ButtonHeader> </Link> }
+              {token ? <ButtonHeader>Tus Ligas</ButtonHeader> : <Link to={'/leagues'} className="border-0"><ButtonHeader>Info Ligas</ButtonHeader> </Link>}
               {!token && (
                 <InputGroup size="sm" className="w-75">
-                  <FormControl className="bg-dark border border-dark text-light ml-sm-4" />
+                  <FormControl className="bg-dark border border-dark text-light ml-sm-4" value={inputLeagues} onChange={UpdateInputLeagues} />
                   <InputGroup.Append>
-                    <InputGroup.Text className="bg-dark border border-dark text-light"> <ImgSearch src="/images/other/search.png" width="14" alt="" /></InputGroup.Text>
+                    <InputGroup.Text className="bg-dark border border-dark text-light" > <ImgSearch src="/images/other/search.png" width="14" alt="" /></InputGroup.Text>
                   </InputGroup.Append>
+                  {inputLeagues !== "" &&
+                    <SearchResult className="text-light rounded" key={1}>
+                      {props.allleagues
+                        .filter(l =>
+                          l.name.toLowerCase().includes(inputLeagues.toLowerCase())
+                        )
+                        .slice(0, 5)
+                        .map(l => (
+                          <Link
+                            to={"/leagues/allleaguesDetails/" + l.TournamentId}
+                            className="text-light p-0"
+                            style={{ textDecoration: 'none' }}>
+                            <div className="row p-2" key={l.TournamentId}>
+                              <div className="col-8">{l.name}</div>
+                              <div className="col-4 text-center">{l.NameAdmin}</div>
+                            </div>
+                          </Link>
+                        ))}
+                    </SearchResult>
+                  }
+
                 </InputGroup>
               )}
             </Form>
-
             {!token && (
               <Nav className="w-50 justify-content-end mr-3">
                 <a
@@ -194,7 +256,7 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
         </Navbar>
       </HeaderDiv>
       <Modal show={showLogin} onHide={handleCloseLogin}>
-        <LoginModal handleCloseLogin={handleCloseLogin} handleShowRegister={handleShowRegister}/>
+        <LoginModal handleCloseLogin={handleCloseLogin} handleShowRegister={handleShowRegister} />
       </Modal>
       <Modal show={showRegister} onHide={handleCloseRegister}>
         <RegisterModal handleCloseRegister={handleCloseRegister} />
@@ -210,7 +272,9 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state: IGlobalState) => ({
   users: state.users,
+  allleagues: state.allleagues
 });
+
 
 export default connect(
   mapStateToProps,

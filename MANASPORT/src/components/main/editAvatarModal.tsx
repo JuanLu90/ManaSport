@@ -6,12 +6,18 @@ import { ITournament, IUser } from "../../interfaces";
 import { createBrowserHistory } from "history";
 import jwt from "jsonwebtoken";
 import styled from "styled-components";
-
+import $ from 'jquery';
 
 const Wrapper = styled.div`
-
   height: 80vh;
 `
+const ImgCursorPointer = styled.img`
+cursor: pointer;
+width: 60px;
+
+`
+
+
 
 interface IProps {
   leagues: ITournament[];
@@ -36,6 +42,38 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
     setInputAvatar(event.currentTarget.value);
   };
 
+
+  const [inputProfile1, setInputProfile1] = React.useState(false);
+  const toggleImageSelected = React.useCallback(() => setInputProfile1(s => !s), []); //Open and close alert league name invalid
+
+  $('.position-image img').click(function () {
+    let alt = $(this).attr("alt");
+    let currentImg = $(this);
+    let othersImgs = $("img");
+
+    for (let i = 1; i < 16; i++) {
+      switch (alt) {
+        case `${i}`:
+          currentImg.css({ "box-shadow": " 0 0 1pt 4pt yellow", "border-radius": "40px" });
+          othersImgs.not($(this)).css("box-shadow", "none");
+          break;
+        default:
+          console.log("petaso");
+      }
+    }
+  })
+
+  const ProfileImages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((i) => {
+    return <div className="col-2 pl-4 pr-4 pt-3 pb-3">
+      <ImgCursorPointer
+        src={`/images/profile/img-profile-${i}.png`}
+        onClick={() => setInputAvatar(`/images/profile/img-profile-${i}.png`)}
+        alt={i.toString()}
+        key={i}
+      />
+    </div>
+  })
+
   const token: any = localStorage.getItem("token");
   const decoded: any = jwt.decode(token);
   const currentUser = props.users.find(u => u.UserId === decoded.UserId);
@@ -50,6 +88,9 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
   if (!currentUser) {
     return null;
   }
+
+
+
 
   const editAvatar = () => {
     fetch("http://localhost:8080/api/users/edit/" + currentUser.UserId, {
@@ -89,10 +130,6 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
       });
   };
 
-  const ImgCursorPointer = styled("img")({
-    cursor: "pointer"
-  });
-
   return (
     <Wrapper className="modal-dialog-centered" role="document">
       <div className="modal-content bg-dark border border-secondary text-dark">
@@ -116,165 +153,13 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
                 value={inputAvatar}
                 onChange={updateAvatar}
                 className="w-50"
+                id="position"
                 hidden
               />
             </div>
           </div>
-          <div className="row text-center m-4">
-            <div className="col">
-              <ImgCursorPointer
-                src="/images/profile/img-profile-1.png"
-                onClick={() =>
-                  setInputAvatar("/images/profile/img-profile-1.png")
-                }
-                width="60"
-                alt=""
-              />
-            </div>
-            <div className="col">
-              <ImgCursorPointer
-                src="/images/profile/img-profile-2.png"
-                onClick={() =>
-                  setInputAvatar("/images/profile/img-profile-2.png")
-                }
-                width="60"
-                alt=""
-              />
-            </div>
-            <div className="col">
-              <ImgCursorPointer
-                src="/images/profile/img-profile-3.png"
-                onClick={() =>
-                  setInputAvatar("/images/profile/img-profile-3.png")
-                }
-                width="60"
-                alt=""
-              />
-            </div>
-            <div className="col">
-              <ImgCursorPointer
-                src="/images/profile/img-profile-4.png"
-                onClick={() =>
-                  setInputAvatar("/images/profile/img-profile-4.png")
-                }
-                width="60"
-                alt=""
-              />
-            </div>
-            <div className="col">
-              <ImgCursorPointer
-                src="/images/profile/img-profile-5.png"
-                onClick={() =>
-                  setInputAvatar("/images/profile/img-profile-5.png")
-                }
-                width="60"
-                alt=""
-              />
-            </div>
-          </div>
-          <div className="row text-center m-4">
-            <div className="col">
-              <ImgCursorPointer
-                src="/images/profile/img-profile-6.png"
-                onClick={() =>
-                  setInputAvatar("/images/profile/img-profile-6.png")
-                }
-                width="60"
-                alt=""
-              />
-            </div>
-            <div className="col">
-              <ImgCursorPointer
-                src="/images/profile/img-profile-7.png"
-                onClick={() =>
-                  setInputAvatar("/images/profile/img-profile-7.png")
-                }
-                width="60"
-                alt=""
-              />
-            </div>
-            <div className="col">
-              <ImgCursorPointer
-                src="/images/profile/img-profile-8.png"
-                onClick={() =>
-                  setInputAvatar("/images/profile/img-profile-8.png")
-                }
-                width="60"
-                alt=""
-              />
-            </div>
-            <div className="col">
-              <ImgCursorPointer
-                src="/images/profile/img-profile-9.png"
-                onClick={() =>
-                  setInputAvatar("/images/profile/img-profile-9.png")
-                }
-                width="60"
-                alt=""
-              />
-            </div>
-            <div className="col">
-              <ImgCursorPointer
-                src="/images/profile/img-profile-10.png"
-                onClick={() =>
-                  setInputAvatar("/images/profile/img-profile-10.png")
-                }
-                width="60"
-                alt=""
-              />
-            </div>
-          </div>
-          <div className="row text-center m-4">
-            <div className="col">
-              <ImgCursorPointer
-                src="/images/profile/img-profile-11.png"
-                onClick={() =>
-                  setInputAvatar("/images/profile/img-profile-11.png")
-                }
-                width="60"
-                alt=""
-              />
-            </div>
-            <div className="col">
-              <ImgCursorPointer
-                src="/images/profile/img-profile-12.png"
-                onClick={() =>
-                  setInputAvatar("/images/profile/img-profile-12.png")
-                }
-                width="60"
-                alt=""
-              />
-            </div>
-            <div className="col">
-              <ImgCursorPointer
-                src="/images/profile/img-profile-13.png"
-                onClick={() =>
-                  setInputAvatar("/images/profile/img-profile-13.png")
-                }
-                width="60"
-                alt=""
-              />
-            </div>
-            <div className="col">
-              <ImgCursorPointer
-                src="/images/profile/img-profile-14.png"
-                onClick={() =>
-                  setInputAvatar("/images/profile/img-profile-14.png")
-                }
-                width="60"
-                alt=""
-              />
-            </div>
-            <div className="col">
-              <ImgCursorPointer
-                src="/images/profile/img-profile-15.png"
-                onClick={() =>
-                  setInputAvatar("/images/profile/img-profile-15.png")
-                }
-                width="60"
-                alt=""
-              />
-            </div>
+          <div className="row justify-content-center m-4 position-image">
+            {ProfileImages}
           </div>
         </div>
         <div className="modal-footer">
