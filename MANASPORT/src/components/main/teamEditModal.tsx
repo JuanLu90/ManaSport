@@ -10,6 +10,9 @@ import { connect } from "react-redux";
 //Interfaces
 import { ITournament, ITeam } from "../../interfaces";
 import styled from "styled-components";
+//Jquery
+import $ from 'jquery';
+
 
 // STYLES ----- STYLED COMPONENTS ----- CSSINJS
 const Wrapper = styled.div`
@@ -76,6 +79,37 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
   const updateTeamBadge = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputTeamBadge(event.currentTarget.value);
   };
+
+
+  $('.position-image img').click(function () {
+    let alt = $(this).attr("alt");
+    let currentImg = $(this);
+    let othersImgs = $("img");
+
+    for (let i = 1; i < 16; i++) {
+      switch (alt) {
+        case `${i}`:
+          currentImg.css({ "box-shadow": " 0 0 1pt 2pt yellow"});
+          othersImgs.not($(this)).css("box-shadow", "none");
+          break;
+        default:
+          console.log("petaso");
+      }
+    }
+  })
+
+
+  
+  const BadgesImages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => {
+    return <div className="col m-2">
+     <ImgCursorPointer
+       src={`/images/badges-teams/badge${i}.png`}
+       onClick={() => setInputTeamBadge(`/images/badges-teams/badge${i}.png`) }
+       alt={i.toString()}
+       key={i}
+     />
+   </div>
+  })
 
   // Hook to get fetch error
   const [fetchError, setFetchError] = useState("");
@@ -176,6 +210,7 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
                 value={inputTeamBadge}
                 onChange={updateTeamBadge}
                 className="w-50"
+                id="position"
                 hidden
               />
             </div>
@@ -192,102 +227,8 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
                 <Card className="border-0">
                   <Accordion.Collapse eventKey="1">
                     <Card.Body className="p-0 border-0" style={{ backgroundColor: '#2B2F38' }}>
-                      <div className="row justify-content-between">
-                        <div className="col m-2">
-                          <ImgCursorPointer
-                            src="/images/badges-teams/badge1.png" alt=""
-                            onClick={() =>
-                              setInputTeamBadge("/images/badges-teams/badge1.png")
-                            }
-                          />
-                        </div>
-                        <div className="col m-2">
-                          <ImgCursorPointer
-                            src="/images/badges-teams/badge2.png" alt=""
-                            onClick={() =>
-                              setInputTeamBadge("/images/badges-teams/badge2.png")
-                            }
-                          />
-                        </div>
-                        <div className="col m-2">
-                          <ImgCursorPointer
-                            src="/images/badges-teams/badge3.png" alt=""
-                            onClick={() =>
-                              setInputTeamBadge("/images/badges-teams/badge3.png")
-                            }
-                          />
-                        </div>
-                        <div className="col m-2">
-                          <ImgCursorPointer
-                            src="/images/badges-teams/badge4.png" alt=""
-                            onClick={() =>
-                              setInputTeamBadge("/images/badges-teams/badge4.png")
-                            }
-                          />
-                        </div>
-                        <div className="col m-2">
-                          <ImgCursorPointer
-                            src="/images/badges-teams/badge5.png" alt=""
-                            onClick={() =>
-                              setInputTeamBadge("/images/badges-teams/badge5.png")
-                            }
-                          />                </div>
-                        <div className="col m-2">
-                          <ImgCursorPointer
-                            src="/images/badges-teams/badge6.png" alt=""
-                            onClick={() =>
-                              setInputTeamBadge("/images/badges-teams/badge6.png")
-                            }
-                          />
-                        </div>
-                        <div className="col m-2">
-                          <ImgCursorPointer
-                            src="/images/badges-teams/badge7.png" alt=""
-                            onClick={() =>
-                              setInputTeamBadge("/images/badges-teams/badge7.png")
-                            }
-                          />
-                        </div>
-                        <div className="col m-2">
-                          <ImgCursorPointer
-                            src="/images/badges-teams/badge8.png" alt=""
-                            onClick={() =>
-                              setInputTeamBadge("/images/badges-teams/badge8.png")
-                            }
-                          />
-                        </div>
-                        <div className="col m-2">
-                          <ImgCursorPointer
-                            src="/images/badges-teams/badge9.png" alt=""
-                            onClick={() =>
-                              setInputTeamBadge("/images/badges-teams/badge9.png")
-                            }
-                          />
-                        </div>
-                        <div className="col m-2">
-                          <ImgCursorPointer
-                            src="/images/badges-teams/badge10.png" alt=""
-                            onClick={() =>
-                              setInputTeamBadge("/images/badges-teams/badge10.png")
-                            }
-                          />
-                        </div>
-                        <div className="col m-2">
-                          <ImgCursorPointer
-                            src="/images/badges-teams/badge11.png" alt=""
-                            onClick={() =>
-                              setInputTeamBadge("/images/badges-teams/badge11.png")
-                            }
-                          />
-                        </div>
-                        <div className="col m-2">
-                          <ImgCursorPointer
-                            src="/images/badges-teams/badge12.png" alt=""
-                            onClick={() =>
-                              setInputTeamBadge("/images/badges-teams/badge12.png")
-                            }
-                          />
-                        </div>
+                      <div className="row justify-content-between position-image">
+                        {BadgesImages}
                       </div>
                     </Card.Body>
                   </Accordion.Collapse>

@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { IUser, ITournament } from "../../interfaces";
 import { IGlobalState } from "../../reducers/reducers";
 import styled from "styled-components";
+import { createBrowserHistory } from "history";
 
 // ********* Styles - Styled Components - CSSINJS **********
 
@@ -116,12 +117,12 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
 
   const [inputLeagues, setInputLeagues] = React.useState<string>("");
 
-  const UpdateInputLeagues = (event: any) =>
-    setInputLeagues(event.currentTarget.value);
+  const UpdateInputLeagues = (event: any) => setInputLeagues(event.currentTarget.value);
 
   const token: any = localStorage.getItem("token");
   const decoded: any = jwt.decode(token);
   const currentUser = token ? props.users.find(u => u.UserId === decoded.UserId) : null;
+  const history = createBrowserHistory({ forceRefresh: true });
   
   // let table = []
   // for (var i = 0; i < inputLeagues.length; i++) {
@@ -187,7 +188,8 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
                           <Link
                             to={"/leagues/allleaguesDetails/" + l.TournamentId}
                             className="text-light p-0"
-                            style={{ textDecoration: 'none' }}>
+                            style={{ textDecoration: 'none' }}
+                            onClick={() => history.push("/leagues/allleaguesDetails/" + l.TournamentId)}>
                             <div className="row p-2" key={l.TournamentId}>
                               <div className="col-8">{l.name}</div>
                               <div className="col-4 text-center">{l.NameAdmin}</div>

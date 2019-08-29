@@ -43,9 +43,6 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
   };
 
 
-  const [inputProfile1, setInputProfile1] = React.useState(false);
-  const toggleImageSelected = React.useCallback(() => setInputProfile1(s => !s), []); //Open and close alert league name invalid
-
   $('.position-image img').click(function () {
     let alt = $(this).attr("alt");
     let currentImg = $(this);
