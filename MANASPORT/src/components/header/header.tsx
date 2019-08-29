@@ -5,7 +5,7 @@ import RegisterModal from "./registerModal";
 import jwt from "jsonwebtoken";
 import * as actions from "../../action";
 import { connect } from "react-redux";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { IUser } from "../../interfaces";
 import { IGlobalState } from "../../reducers/reducers";
 import styled from "styled-components";
@@ -40,6 +40,9 @@ const ButtonHeader = styled.button`
   transition: 0.3s;
   &:hover{
     box-shadow: inset 0 -4px rgba(255,193,7,0.8);
+  }
+  &:focus{
+    outline:none;
   }
 `
 const ImgSearch = styled.img`
@@ -124,7 +127,7 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
             className="justify-content-between"
           >
             <Form inline style={{ width: '500px' }} className="ml-2">
-              {token ? <ButtonHeader>Tus Ligas</ButtonHeader> : <Link to={'/leagues'}><ButtonHeader>Info Ligas</ButtonHeader> </Link> }
+              {token ? <ButtonHeader>Tus Ligas</ButtonHeader> : <Link to={'/leagues'} className="border-0"><ButtonHeader>Info Ligas</ButtonHeader> </Link> }
               {!token && (
                 <InputGroup size="sm" className="w-75">
                   <FormControl className="bg-dark border border-dark text-light ml-sm-4" />
@@ -191,7 +194,7 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
         </Navbar>
       </HeaderDiv>
       <Modal show={showLogin} onHide={handleCloseLogin}>
-        <LoginModal handleCloseLogin={handleCloseLogin} />
+        <LoginModal handleCloseLogin={handleCloseLogin} handleShowRegister={handleShowRegister}/>
       </Modal>
       <Modal show={showRegister} onHide={handleCloseRegister}>
         <RegisterModal handleCloseRegister={handleCloseRegister} />

@@ -1,10 +1,13 @@
-import React from "react";
-import { InputGroup, FormControl } from "react-bootstrap";
+import React, { useState } from "react";
+import { InputGroup, FormControl, Alert } from "react-bootstrap";
 import styled from "styled-components";
 var md5 = require('md5');
 
 // ********* Styles - Styled Components - CSSINJS **********
 const Label = styled.label`
+  font-size: 0.85em;
+`
+const Span = styled.span`
   font-size: 0.85em;
 `
 const Modal = styled.div`
@@ -41,6 +44,12 @@ const RegisterModal: React.FC<IProps> = props => {
   const updateInputPassword = (event: any) =>
     setInputPassword(md5(event.currentTarget.value));
 
+  const [alertWrongValue, setAlertWrongValue] = useState(false);
+  const toggleWrongValue = React.useCallback(() => setAlertWrongValue(s => !s), []); //Open and close alert league name invalid
+
+  const [alertRightValue, setAlertRightValue] = useState(false);
+  const toggleRightValue = React.useCallback(() => setAlertRightValue(s => !s), []); //Open and close alert league name valid
+
 
   const newUser = () => {
     fetch("http://localhost:8080/api/users/newUser", {
@@ -59,8 +68,15 @@ const RegisterModal: React.FC<IProps> = props => {
       })
     }).then(response => {
       if (response.ok) {
-        response.text().then(token => {
-
+        //   response.text().then(token => {});
+        console.log(response)
+      }
+      else {
+        response.json().then(({ e }) => {
+          if (e === 1062) {
+            toggleWrongValue();
+            setTimeout(() => toggleWrongValue(), 5000)
+          }
         });
       }
     });
@@ -72,7 +88,7 @@ const RegisterModal: React.FC<IProps> = props => {
       <Modal className="modal-content bg-dark border border-secondary text-light rounded-0">
         <div className="modal-header border-0">
           <h5 className="modal-title pl-2" id="exampleModalCenterTitle">
-            Registro
+            Registro en ManaSport
           </h5>
           <button
             type="button"
@@ -164,6 +180,16 @@ const RegisterModal: React.FC<IProps> = props => {
                 </InputGroup>
               </div>
             </div>
+            {!alertWrongValue && (
+              <div className="row justify-content-center mt-2 pl-4 pr-4">
+                  <div className="col">
+                    <Alert variant="danger">
+                      <img src="/images/other/cancel.png" width="35" alt="" className="mr-3" />
+                      <Span> <b> Nombre de usuario o email actualmente en uso.</b> Si ya está registrado, inicie sesión. </Span>
+                    </Alert>
+                  </div>
+              </div>
+            )}
             <div className="row">
               <div className="col">
                 <div className="form-check">

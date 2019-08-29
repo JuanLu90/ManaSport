@@ -17,7 +17,19 @@ import jwt from "jsonwebtoken";
 import "./reset.css";
 import "./App.css";
 import mainApp from "./components/main/mainApp";
-import AllleagueList from "./components/main/allLeaguesList";
+import AllLeagueList from "./components/main/allLeaguesList";
+import AllLeaguesDetails from "./components/main/allLeaguesDetails";
+import styled from "styled-components";
+
+//******** STYLES - STYLED-COMPONENTS - CCSSINJS *********
+
+let Wrapper = styled.div`
+background-image: url('/images/fondo4.png');
+background-repeat: no-repeat;
+background-size: cover;
+background-attachment: fixed;
+background-position: center top;
+`
 
 
 //----------------------------------------------------
@@ -80,13 +92,14 @@ const App: React.FC<IProps & IPropsGlobal> = props => { //Function Component
 
   return (
     <BrowserRouter>
-      <div className="bg-dark">
+      <Wrapper className="bg-dark">
         <Header /> {/* Header Component */}
         <main> {/* Index */}
           {!token && (
             <Switch>
               <Route path="/" exact component={mainApp} />
-              <Route path="/leagues" exact component={AllleagueList} />
+              <Route path="/leagues" exact component={AllLeagueList} />
+              <Route path="/leagues/allleaguesDetails" component={AllLeaguesDetails} />
             </Switch>
           )}
           {token && (
@@ -97,7 +110,7 @@ const App: React.FC<IProps & IPropsGlobal> = props => { //Function Component
           )}
         </main>
         <Footer /> {/* Footer Component */}
-      </div>
+      </Wrapper>
     </BrowserRouter>
   );
 };

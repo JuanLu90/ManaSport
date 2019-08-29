@@ -18,6 +18,7 @@ const Modal = styled.div`
 
 interface IProps {
   handleCloseLogin: () => void;
+  handleShowRegister: () => void;
 }
 
 interface IPropsGLobal {
@@ -34,6 +35,11 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
 
   const updateInputPassword = (event: any) =>
     setInputPassword(event.currentTarget.value);
+
+    const goToRegister = () => {
+      props.handleCloseLogin();
+      props.handleShowRegister();
+    }
 
   const getToken = () => {
     fetch("http://localhost:8080/api/auth", {
@@ -126,7 +132,7 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
           </div>
           <div className="row mt-3 mb-3">
             <Col className="col text-center">
-              ¿La primera vez? <a href="/#" className="text-warning text-decoration-none">Registrate </a>
+              ¿La primera vez? <a href="/#" className="text-warning text-decoration-none" onClick={goToRegister}>Registrate </a>
             </Col>
           </div>
         </div>

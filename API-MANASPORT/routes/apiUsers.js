@@ -33,8 +33,11 @@ router.get("/users/:UserId", (req, res) => {
 router.post("/users/newUser", (req, res) => {
     const data = req.body;
     dbConn.query("INSERT INTO user set ?", [data], (err, rows) => {
-        if (err) throw err;
-        res.send(data);
+        if (err) {
+            res.status(400).send({ e: err.errno });
+        } else {
+            res.send(data);
+        }
     });
 });
 
