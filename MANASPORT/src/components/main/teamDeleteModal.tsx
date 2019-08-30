@@ -24,6 +24,7 @@ const Wrapper = styled.div`
 interface IProps {
   teams: ITeam[];
   handleCloseDeleteTeam: () => void;
+  toggleSetTeams: () => void;
 }
 interface IPropsGLobal {
   DeleteLeagueId: number;
@@ -42,7 +43,7 @@ const DeleteTeamModal: React.FC<IProps & IPropsGLobal> = props => { //Function C
       if (response.ok) {
         props.deleteTeamById(TeamId);
         props.handleCloseDeleteTeam();
-        history.push("/management/LeagueDetails/" + pathTournamentId);
+        props.toggleSetTeams();
       }
     });
   };

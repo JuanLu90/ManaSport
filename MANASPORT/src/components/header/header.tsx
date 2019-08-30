@@ -27,8 +27,8 @@ const SearchResult = styled.div`
   position: absolute;
   width: 93%;
   left: 25px;
-  top: 40px;
-  background-color: rgba(108, 117, 125, 0.95);
+  top: 35px;
+  background-color: rgba(108, 117, 125, 1);
   font-size: 0.8em;
 `
 const SpanUsername = styled.span`
@@ -123,7 +123,7 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
   const decoded: any = jwt.decode(token);
   const currentUser = token ? props.users.find(u => u.UserId === decoded.UserId) : null;
   const history = createBrowserHistory({ forceRefresh: true });
-  
+
   // let table = []
   // for (var i = 0; i < inputLeagues.length; i++) {
   //   table.push(<tr>

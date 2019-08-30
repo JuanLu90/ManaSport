@@ -89,23 +89,6 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
   const path: any = history.location.pathname; //Get path content
   let pathTournamentId = path.split(["/"]).slice(-1)[0];
 
-  useEffect(() => { //Fetch league´s teams to Redux every time token changes
-    fetch(
-      "http://localhost:8080/api/tournaments/tournamentTeams/" +
-      pathTournamentId,
-      {
-        headers: {
-          "Content-type": "application/json",
-          Accept: "application/json"
-          // Authorization: "Bearer " + props.token
-        }
-      }
-    ).then(response => {
-      if (response.ok) {
-        response.json().then(teams => props.setLeagueTeams(teams));
-      }
-    });
-  }, [token, props.leagueTeams.length]);
 
   const [showEditTeam, setEditTeam] = useState(false); //Hook for edit team modal
   const handleCloseEditTeam = () => setEditTeam(false); //Close edit team modal
@@ -145,6 +128,9 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
     setInputTeamPhone(event.currentTarget.value);
   };
 
+  const [updateSetTeams, setUpdateSetTeams] = React.useState(false);
+  const toggleSetTeams = React.useCallback(() => setUpdateSetTeams(s => !s), []); //Open and close alert league name invalid
+
   const [showDeleteTeam, setDeleteTeam] = useState(false); //Hook to delete a team
   const toggleEditTeam = React.useCallback(() => setDeleteTeam(s => !s), []); //Open and close delete team modal
 
@@ -158,6 +144,24 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
   const [inputAlert, setInputAlert] = useState(true); //Hook to manage the error alert
   const [inputAddedTeam, setInputAddedTeam] = useState(false); //Hook to manage the alert if a team is added
 
+  
+  useEffect(() => { //Fetch league´s teams to Redux every time token changes
+    fetch(
+      "http://localhost:8080/api/tournaments/tournamentTeams/" +
+      pathTournamentId,
+      {
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json"
+          // Authorization: "Bearer " + props.token
+        }
+      }
+    ).then(response => {
+      if (response.ok) {
+        response.json().then(teams => props.setLeagueTeams(teams));
+      }
+    });
+  }, [token, props.leagueTeams.length, updateSetTeams]);
 
   const sendTeam = () => { //Function Component
     const token = localStorage.getItem("token");  //Token - Get the token stored from local storage
@@ -259,7 +263,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                           {props.leagueTeams.map(l => (
                             <tr key={l.TeamId}>
                               <td className="p-0 align-middle">
-                              {l.badge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" /> : <ImgBadge src={l.badge} />}
+                                {l.badge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" /> : <ImgBadge src={l.badge} />}
                               </td>
                               <td className="p-2 align-middle">
                                 {l.name === null ? "-" : l.name}
@@ -288,6 +292,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                   width="15"
                                   alt=""
                                   onClick={() => funcionEditTeam(l.TeamId)}
+                                  style={{ cursor: 'pointer' }}
                                 />
                               </td>
                               <td className="p-1">
@@ -578,10 +583,10 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
         </div>
       </Wrapper>
       <Modal size="lg" show={showEditTeam} onHide={handleCloseEditTeam}>
-        <EditTeamModal handleCloseEditTeam={handleCloseEditTeam} />
+        <EditTeamModal handleCloseEditTeam={handleCloseEditTeam} toggleSetTeams={toggleSetTeams}/>
       </Modal>
       <Modal show={showDeleteTeam} onHide={() => null}>
-        <DeleteTeamModal handleCloseDeleteTeam={toggleEditTeam} />
+        <DeleteTeamModal handleCloseDeleteTeam={toggleEditTeam} toggleSetTeams={toggleSetTeams}/>
       </Modal>
     </>
   );

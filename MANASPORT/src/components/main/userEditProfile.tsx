@@ -61,24 +61,6 @@ const EditUserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = p
     setInputEmail(event.currentTarget.value);
   };
 
-  // const updateBirthDate = (date: any) => {
-  //   setInputBirthDate(date);
-  //   console.log("date " + date)
-  //   console.log("inputBirthDate " + inputBirthDate)
-  // };
-
-  // const updateBirthDate = (date: any) => {
-  //   if (date !== null) {
-  //     const dateDay = date.getDay();
-  //     const dateMonth = date.getMonth();
-  //     const dateYear = date.getFullYear();
-  //     const fullyear = dateDay + "/" + dateMonth + "/" + dateYear;
-  //     date = fullyear;
-  //     setInputBirthDate(date);
-  //     console.log(date)
-  //   }
-  // };
-
   const updateAvatar = (event: any) => {
     setInputAvatar(event.currentTarget.value);
   };
@@ -96,7 +78,6 @@ const EditUserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = p
       setInputEmail(currentUser.email);
       setInputName(currentUser.name);
       setInputSurname(currentUser.surname);
-      // updateBirthDate(currentUser.birthDate);
       setInputAvatar(currentUser.avatar);
     }
   }, [currentUser]);
@@ -123,7 +104,6 @@ const EditUserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = p
         surname: inputSurname,
         email: inputEmail,
         avatar: currentUser.avatar
-        // birthDate: inputBirthDate
       })
     })
       .then(response => {
@@ -135,11 +115,9 @@ const EditUserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = p
             surname: currentUser.surname,
             email: currentUser.email,
             avatar: currentUser.avatar
-            // birthDate: inputBirthDate
           };
           response.json().then(u => {
             props.putUserById(currentUser.UserId, u);
-            // props.history.push("/management/user/");
             history.push("/management/user/");
 
           });
@@ -199,36 +177,17 @@ const EditUserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = p
         </div>
         <div className="row justify-content-center mt-3">
           <div className="col-2 text-center">
-            <button className="btn btn-light m-2 pt-1 pb-1 pl-3 pr-3 text-uppercase font-weight-bold" onClick={() => props.history.push("/management/user/")}>
+            <button className="btn btn-light m-2 pt-1 pb-1 pl-3 pr-3 font-weight-bold" onClick={() => props.history.push("/management/user/")}>
               Volver
           </button>
           </div>
           <div className="col-2 text-center">
-            <button className="btn btn-warning m-2 pt-1 pb-1 pl-3 pr-3 text-uppercase font-weight-bold" onClick={editCurrentUserById}>
+            <button className="btn btn-warning m-2 pt-1 pb-1 pl-3 pr-3 font-weight-bold" onClick={editCurrentUserById}>
               Enviar
           </button>
           </div>
         </div>
       </Wrapper>
-      {/* <Wrapper className="container w-50 text-light">
-        <div className="row ">
-          <div className="col align-self-center pt-4 pb-4">
-            <div className="row m-4">
-              <div className="col-3 text-right">
-                Fecha de nacimiento:
-              </div>
-              <div className="col">
-                <DatePicker
-                  selected={inputBirthDate}
-                  onSelect={setInputBirthDate}
-                  onChange={updateBirthDate}
-                  className="form-control form-control-sm"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </Wrapper> */}
       <Modal size="lg" show={showEditAvatar} onHide={() => null}>
         <EditAvatarModal handleCloseEditAvatar={handleCloseEditAvatar} />
       </Modal>

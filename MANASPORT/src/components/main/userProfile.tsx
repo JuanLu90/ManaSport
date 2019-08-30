@@ -41,9 +41,6 @@ const UserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
     return null;
   }
 
-  const history = createBrowserHistory({ forceRefresh: true });
-
-
   return (
     <Wrapper className="container w-50">
       <div className="row">

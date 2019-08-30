@@ -24,6 +24,7 @@ const Wrapper = styled.div`
 interface IProps {
   teamPlayers: IPlayer[];
   handleCloseDeletePlayer: () => void;
+  toggleSetTeamPlayers: () => void;
 }
 interface IPropsGLobal {
   DeleteLeagueId: number;
@@ -31,9 +32,6 @@ interface IPropsGLobal {
 }
 
 const DeletePlayerModal: React.FC<IProps & IPropsGLobal> = props => { //Function Component
-  const history = createBrowserHistory({ forceRefresh: true }); //Refresh the page
-  const path: any = history.location.pathname; //Get the path content
-  let pathTournamentId = path.split(["/"]).slice(-1)[0];
 
   const deletePlayer = (PlayerId: number) => {
     fetch("http://localhost:8080/api/players/deletePlayer/" + PlayerId, {
@@ -42,7 +40,7 @@ const DeletePlayerModal: React.FC<IProps & IPropsGLobal> = props => { //Function
       if (response.ok) {
         props.deletePlayerById(PlayerId);
         props.handleCloseDeletePlayer();
-        history.push("/management/LeagueDetails/" + pathTournamentId);
+        props.toggleSetTeamPlayers();
       }
     });
   };

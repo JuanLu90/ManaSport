@@ -20,6 +20,7 @@ interface IProps {
   teamPlayers: IPlayer[];
   handleCloseEditPlayer: () => void;
   putPlayerById: (PlayerId: number, player: IPlayer) => void;
+  toggleSetTeamPlayers: () => void;
 }
 
 interface IPropsGlobal {
@@ -104,9 +105,9 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
           };
           response.json().then(u => {
             props.putPlayerById(currentPlayer.PlayerId, u);
-            history.push(
-              "/management/leagueDetails/" + pathTournamentId
-            );
+            props.handleCloseEditPlayer();
+            props.toggleSetTeamPlayers();
+
           });
         }
       })
@@ -209,10 +210,10 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
         </div>
         <div className="modal-footer">
           <div className="col text-right">
-            <button className="btn btn-light" onClick={props.handleCloseEditPlayer}>Cancelar</button>
+            <button className="btn btn-light font-weight-bold" onClick={props.handleCloseEditPlayer}>Cancelar</button>
           </div>
           <div className="col">
-            <button className="btn btn-warning" onClick={editCurrentPlayer}>Guardar</button>
+            <button className="btn btn-warning font-weight-bold" onClick={editCurrentPlayer}>Guardar</button>
           </div>
         </div>
       </Wrapper2>

@@ -1,5 +1,5 @@
 //React´s Components
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 //Components made by Juanlu
 import DeleteLeagueModal from "./leagueDeleteModal";
@@ -41,6 +41,7 @@ const Title = styled.span`
 //Global Props
 interface IProps { }
 interface IPropsGlobal {
+  setLeagues: (leagues: ITournament[]) => void;
   leagues: ITournament[];
   newLeague: (league: ITournament) => void;
   setLeagueId: (DeleteLeagueId: number) => void;
@@ -92,6 +93,33 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
 
   const [alertRightLeagueName, setAlertRightLeagueName] = useState(false);
   const toggleRightLeagueName = React.useCallback(() => setAlertRightLeagueName(s => !s), []); //Open and close alert league name valid
+
+  const [updateSetLeagues, setUpdateSetLeagues] = React.useState(false);
+  const toggleSetLeagues = React.useCallback(() => setUpdateSetLeagues(s => !s), []); //Open and close alert league name invalid
+
+  const token = localStorage.getItem("token");   //Token - Get the token stored from local storage
+
+  useEffect(() => { //Fetch leagues of the current user to redux
+    if (token) { // We need that token exits to decode it but React will fall down
+      const decoded: any = jwt.decode(token); //Decode token to get the UserId
+      const UserId: number = decoded.UserId; //Get the UserId
+      fetch(
+        "http://localhost:8080/api/users/tournamentsList/leagues/" + UserId,
+        {
+          headers: {
+            "Content-type": "application/json",
+            Accept: "application/json"
+            // Authorization: "Bearer " + props.token
+          }
+        }
+      ).then(response => {
+        if (response.ok) {
+          response.json().then(leagues => props.setLeagues(leagues));
+        }
+      });
+    }
+  }, [token, props.leagues.length, updateSetLeagues]); //When a new League is add, Redux will be update.
+
 
   const sendLeague = () => {
     if (inputLeagueName.length > 3 && inputLeagueName.length < 41) {
@@ -176,14 +204,13 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
                     </td>
                     <td className="p-1  align-middle">{l.createdate}</td>
                     <td className="p-1  align-middle">
-                      <Button
-                        variant="info"
-                        className="pt-0 pb-0 pl-3 pr-3"
-                        size="sm"
+                      <img
+                        src="/images/other/edit.png"
+                        width="15"
+                        alt=""
                         onClick={() => funcionEditLeague(l.TournamentId)}
-                      >
-                        Editar
-                    </Button>
+                        style={{ cursor: 'pointer' }}
+                      />
                     </td>
                     <td className="p-1 cursor-pointer  align-middle">
                       <Button
@@ -275,22 +302,12 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
             </div>
           </div>
         )}
-
-        {/* <div className="row">
-          <div className="col">
-            {showAlert && (
-              <Alert variant="success" onClose={() => setShowAlert(false)} dismissible>
-                La liga se ha creado correctamente
-            </Alert>
-            )}
-          </div>
-        </div> */}
       </Wrapper>
       <Modal show={showDeleteLeague} onHide={() => null}>
-        <DeleteLeagueModal handleCloseDeleteLeague={handleCloseDeleteLeague} />
+        <DeleteLeagueModal handleCloseDeleteLeague={handleCloseDeleteLeague} toggleSetLeagues={toggleSetLeagues}/>
       </Modal>
       <Modal show={showEditLeague} onHide={() => null}>
-        <EditLeagueModal handleCloseEditLeague={handleCloseEditLeague} />
+        <EditLeagueModal handleCloseEditLeague={handleCloseEditLeague} toggleSetLeagues={toggleSetLeagues}/>
       </Modal>
     </>
   );
@@ -304,7 +321,8 @@ const mapStateToProps = (state: IGlobalState) => ({
 const mapDispatchToProps = {
   deleteLeagueById: action.deleteLeagueById,
   newLeague: action.newLeague,
-  setLeagueId: action.setLeagueId
+  setLeagueId: action.setLeagueId,
+  setLeagues: action.setLeagues
 };
 
 export default connect(

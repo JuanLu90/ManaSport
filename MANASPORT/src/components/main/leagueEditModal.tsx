@@ -24,6 +24,7 @@ const SpanAlert = styled.span`
 interface IProps {
   leagues: ITournament[];
   handleCloseEditLeague: () => void;
+  toggleSetLeagues: () => void;
   putLeagueById: (LeagueId: number, league: ITournament) => void;
   DeleteLeagueId: number;
 }
@@ -34,7 +35,6 @@ interface IPropsGLobal {
 }
 
 const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
-  const history = createBrowserHistory({ forceRefresh: true });
 
   const [inputLeagueName, setInputLeagueName] = React.useState("");
   const [inputLeagueSport, setInputLeagueSport] = React.useState("Futbol");
@@ -97,7 +97,8 @@ const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
           };
           response.json().then(u => {
             props.putLeagueById(currentLeague.TournamentId, u);
-            history.push("/management");
+            props.handleCloseEditLeague();
+            props.toggleSetLeagues();
           });
         }
       })
@@ -179,10 +180,10 @@ const EditLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
         </div>
         <div className="modal-footer">
           <div className="col text-right">
-            <button className="btn btn-light" onClick={props.handleCloseEditLeague}>Cancelar</button>
+            <button className="btn btn-light font-weight-bold" onClick={props.handleCloseEditLeague}>Cancelar</button>
           </div>
           <div className="col">
-            <button className="btn btn-warning" onClick={editCurrentLeague}>Guardar</button>
+            <button className="btn btn-warning font-weight-bold" onClick={editCurrentLeague}>Guardar</button>
           </div>
         </div>
       </Wrapper2>

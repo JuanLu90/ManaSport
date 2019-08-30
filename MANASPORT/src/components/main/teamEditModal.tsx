@@ -41,6 +41,7 @@ interface IProps {
   leagues: ITournament[];
   leagueTeams: ITeam[];
   handleCloseEditTeam: () => void;
+  toggleSetTeams: () => void;
   putTeamById: (TeamId: number, team: ITeam) => void;
 }
 interface IPropsGlobal {
@@ -89,7 +90,7 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
     for (let i = 1; i < 16; i++) {
       switch (alt) {
         case `${i}`:
-          currentImg.css({ "box-shadow": " 0 0 1pt 2pt yellow"});
+          currentImg.css({ "box-shadow": " 0 0 10pt 2pt #ffc107"});
           othersImgs.not($(this)).css("box-shadow", "none");
           break;
         default:
@@ -172,7 +173,8 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
           };
           response.json().then(u => {
             props.putTeamById(currentTeam.TeamId, u);
-            history.push("/management/leagueDetails/" + pathTournamentId);
+            props.handleCloseEditTeam();
+            props.toggleSetTeams();
           });
         } else {
           response.json().then(({ e }) => {
@@ -388,10 +390,10 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
         </div>
         <div className="modal-footer">
           <div className="col text-right">
-            <button className="btn btn-light" onClick={props.handleCloseEditTeam}>Cancelar</button>
+            <button className="btn btn-light font-weight-bold" onClick={props.handleCloseEditTeam}>Cancelar</button>
           </div>
           <div className="col">
-            <button className="btn btn-warning" onClick={editCurrentTeam}>Guardar</button>
+            <button className="btn btn-warning font-weight-bold" onClick={editCurrentTeam}>Guardar</button>
           </div>
           {fetchError &&
             <div className="col">

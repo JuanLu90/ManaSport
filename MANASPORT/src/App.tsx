@@ -39,39 +39,15 @@ background-position: center top;
 //Global Props
 interface IProps { }
 interface IPropsGlobal {
-  setLeagues: (leagues: ITournament[]) => void;
-  leagues: ITournament[];
   setAllLeagues: (allleagues: ITournament[]) => void;
   allleagues: ITournament[];
 }
 
-
 const App: React.FC<IProps & IPropsGlobal> = props => { //Function Component
   const token = localStorage.getItem("token");   //Token - Get the token stored from local storage
 
-  useEffect(() => { //Fetch leagues of the current user to redux
-    if (token) { // We need that token exits to decode it but React will fall down
-      const decoded: any = jwt.decode(token); //Decode token to get the UserId
-      const UserId: number = decoded.UserId; //Get the UserId
-      fetch(
-        "http://localhost:8080/api/users/tournamentsList/leagues/" + UserId,
-        {
-          headers: {
-            "Content-type": "application/json",
-            Accept: "application/json"
-            // Authorization: "Bearer " + props.token
-          }
-        }
-      ).then(response => {
-        if (response.ok) {
-          response.json().then(leagues => props.setLeagues(leagues));
-        }
-      });
-    }
-  }, [token, props.leagues.length]); //When a new League is add, Redux will be update.
 
-
-  useEffect(() => { //Fetch leagues of the current user to redux
+  useEffect(() => { //Fetch all leagues to redux
     fetch(
       "http://localhost:8080/api/tournaments",
       {
@@ -116,13 +92,10 @@ const App: React.FC<IProps & IPropsGlobal> = props => { //Function Component
 };
 
 const mapStateToProps = (state: IGlobalState) => ({
-  leagues: state.leagues,
   allleagues: state.allleagues
 });
 
 const mapDispatchToProps = {
-  setUsers: action.setUsers,
-  setLeagues: action.setLeagues,
   setAllLeagues: action.setAllLeagues
 };
 

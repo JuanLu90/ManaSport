@@ -15,6 +15,7 @@ const Wrapper = styled.div`
 interface IProps {
   leagues: ITournament[];
   handleCloseDeleteLeague: () => void;
+  toggleSetLeagues: () => void;
 }
 
 interface IPropsGLobal {
@@ -23,7 +24,6 @@ interface IPropsGLobal {
 }
 
 const DeleteLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
-  const history = createBrowserHistory({ forceRefresh: true });
 
   const deleteLeague = (LeagueId: number) => {
     fetch("http://localhost:8080/api/tournaments/deleteTournament/" + LeagueId, {
@@ -32,7 +32,7 @@ const DeleteLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
       if (response.ok) {
         props.deleteLeagueById(LeagueId);
         props.handleCloseDeleteLeague();
-        history.push("/management");
+        props.toggleSetLeagues();
       }
     });
   };
@@ -62,7 +62,7 @@ const DeleteLeagueModal: React.FC<IProps & IPropsGLobal> = props => {
         </div>
         <div className="modal-body">
           La liga "<b>{currentLeague.name}</b>" y todos sus datos(equipos,
-          estadisticas...) será eliminada de manera permanente e irreversible.
+          estadísticas...) será eliminada de manera permanente e irreversible.
           <br />
           <br />
           <b>Recomendación:</b> Si tiene información importante que podría hacerle falta

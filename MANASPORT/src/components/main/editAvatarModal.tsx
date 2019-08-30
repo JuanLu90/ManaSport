@@ -51,7 +51,7 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
     for (let i = 1; i < 16; i++) {
       switch (alt) {
         case `${i}`:
-          currentImg.css({ "box-shadow": " 0 0 1pt 4pt yellow", "border-radius": "40px" });
+          currentImg.css({ "box-shadow": " 0 0 10pt 4pt #ffc107", "border-radius": "40px" });
           othersImgs.not($(this)).css("box-shadow", "none");
           break;
         default:
@@ -161,10 +161,10 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
         </div>
         <div className="modal-footer">
           <div className="col text-right">
-            <button className="btn btn-light text-uppercase font-weight-bold" onClick={props.handleCloseEditAvatar}>Cancelar</button>
+            <button className="btn btn-light font-weight-bold" onClick={props.handleCloseEditAvatar}>Cancelar</button>
           </div>
           <div className="col">
-            <button className="btn btn-warning text-uppercase font-weight-bold" onClick={editAvatar}>Aceptar</button>
+            <button className="btn btn-warning font-weight-bold" onClick={editAvatar}>Aceptar</button>
           </div>
         </div>
       </div>

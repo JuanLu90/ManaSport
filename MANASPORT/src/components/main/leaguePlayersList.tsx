@@ -167,6 +167,9 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
     setInputPlayerTeam(event.currentTarget.value);
   };
 
+  const [updateSetTeamPlayers, setUpdateSetTeamPlayers] = React.useState(false);
+  const toggleSetTeamPlayers = React.useCallback(() => setUpdateSetTeamPlayers(s => !s), []); //Open and close alert league name invalid
+
   useEffect(() => { //Fetch team players to redux every time the team ID changes
     fetch(
       "http://localhost:8080/api/teams/teamPlayers/" +
@@ -183,7 +186,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
         response.json().then(players => props.setTeamPlayers(players));
       }
     });
-  }, [valueTeamId]);
+  }, [valueTeamId, props.teamPlayers.length, updateSetTeamPlayers]);
 
   const currentTeam = props.leagueTeams.find(
     u => u.TeamId === valueTeamId
@@ -337,14 +340,14 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                                   </TdMatchdaySmall>
                                   <TdMatchdayBig className="p-2">
                                     {p.position === null ? "-" : (
-                                      p.position === "Delantero" ? <Badge variant="danger"> <SpanBadge>DEL</SpanBadge> </Badge> : (
-                                        p.position === "ExtremoIzq" ? <Badge variant="danger"><SpanBadge>EI</SpanBadge></Badge> : (
-                                          p.position === "ExtremoDer" ? <Badge variant="danger"><SpanBadge>ED</SpanBadge></Badge> : (
-                                            p.position === "Medio" ? <Badge variant="success"><SpanBadge>MD</SpanBadge></Badge> : (
-                                              p.position === "LateralIzq" ? <Badge variant="info"><SpanBadge>LI</SpanBadge></Badge> : (
-                                                p.position === "LateralDer" ? <Badge variant="info"><SpanBadge>LD</SpanBadge></Badge> : (
-                                                  p.position === "Central" ? <Badge variant="info"><SpanBadge>CT</SpanBadge></Badge> : (
-                                                    p.position === "Portero" ? <Badge variant="warning"><SpanBadge>PT</SpanBadge></Badge> : null
+                                      p.position === "Delantero" ? <Badge variant="danger" title="Delantero"> <SpanBadge>DC</SpanBadge> </Badge> : (
+                                        p.position === "ExtremoIzq" ? <Badge variant="danger" title="Extremo izquierdo"><SpanBadge>EI</SpanBadge></Badge> : (
+                                          p.position === "ExtremoDer" ? <Badge variant="danger" title="Extremo derecho"><SpanBadge>ED</SpanBadge></Badge> : (
+                                            p.position === "Medio" ? <Badge variant="success" title="Medio"><SpanBadge>MD</SpanBadge></Badge> : (
+                                              p.position === "LateralIzq" ? <Badge variant="info" title="Lateral izquierdo"><SpanBadge>LI</SpanBadge></Badge> : (
+                                                p.position === "LateralDer" ? <Badge variant="info" title="Lateral derecho"><SpanBadge>LD</SpanBadge></Badge> : (
+                                                  p.position === "Central" ? <Badge variant="info" title="Central"><SpanBadge>CT</SpanBadge></Badge> : (
+                                                    p.position === "Portero" ? <Badge variant="warning" title="Portero"><SpanBadge>PT</SpanBadge></Badge> : null
                                                   )
                                                 )
                                               )
@@ -363,6 +366,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                                       width="15"
                                       alt=""
                                       onClick={() => funcionEditPlayer(p.PlayerId)}
+                                      style={{ cursor: 'pointer' }}
                                     />
                                   </TdMatchdaySmall>
                                   <TdMatchdayBig className="p-1">
@@ -383,9 +387,9 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                       </Tab.Pane>
                       <Tab.Pane eventKey="second">
                         <div className="row justify-content-center mt-3 overflow-auto">
-                          {props.teamPlayers.map(l => (
+                          {props.teamPlayers.map(p => (
                             <CardDeck
-                              key={l.PlayerId}
+                              key={p.PlayerId}
                               className="m-1"
                               style={{ width: "13rem" }}
                             >
@@ -394,8 +398,8 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                                   <Card.Body className="p-2">
                                     <ImgBadgeCard src="https://icon-library.net/images/avatar-icon-images/avatar-icon-images-4.jpg" />
                                     <Card.Title className="text-light mt-2">
-                                      {l.name === null ? "-" : l.name} <br />
-                                      {l.surname === null ? "-" : l.surname}
+                                      {p.name === null ? "-" : p.name} <br />
+                                      {p.surname === null ? "-" : p.surname}
                                     </Card.Title>
                                   </Card.Body>
                                 </WrapperCardBody>
@@ -407,15 +411,31 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                                     </ListGroupItem>
                                     <ListGroupItem className="p-2" variant="secondary">
                                       <b className="mr-1">Edad: </b>
-                                      {l.age === null ? "-" : l.age}
+                                      {p.age === null ? "-" : p.age}
                                     </ListGroupItem>
                                     <ListGroupItem className="p-2">
                                       <b className="mr-1">Posición: </b>
-                                      {l.position === null ? "-" : l.position}
+                                      {p.position === null ? "-" : (
+                                        p.position === "Delantero" ? <Badge variant="danger" title="Delantero" className="align-self-middle"> <span>DC</span> </Badge> : (
+                                          p.position === "ExtremoIzq" ? <Badge variant="danger" title="Extremo izquierdo"><span>EI</span></Badge> : (
+                                            p.position === "ExtremoDer" ? <Badge variant="danger" title="Extremo derecho"><SpanBadge>ED</SpanBadge></Badge> : (
+                                              p.position === "Medio" ? <Badge variant="success" title="Medio"><SpanBadge>MD</SpanBadge></Badge> : (
+                                                p.position === "LateralIzq" ? <Badge variant="info" title="Lateral izquierdo"><SpanBadge>LI</SpanBadge></Badge> : (
+                                                  p.position === "LateralDer" ? <Badge variant="info" title="Lateral derecho"><SpanBadge>LD</SpanBadge></Badge> : (
+                                                    p.position === "Central" ? <Badge variant="info" title="Central"><SpanBadge>CT</SpanBadge></Badge> : (
+                                                      p.position === "Portero" ? <Badge variant="warning" title="Portero"><SpanBadge>PT</SpanBadge></Badge> : null
+                                                    )
+                                                  )
+                                                )
+                                              )
+                                            )
+                                          )
+                                        )
+                                      )}
                                     </ListGroupItem>
                                     <ListGroupItem className="p-2" variant="secondary">
                                       <b className="mr-1">Goles: </b>
-                                      {l.goals === null ? "-" : l.goals}
+                                      {p.goals === null ? "-" : p.goals}
                                     </ListGroupItem>
                                   </ListGroup>
                                 </ListgroupCard>
@@ -607,10 +627,10 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
         </Card>
       </Accordion>
       <Modal show={showEditPlayer} onHide={handleCloseEditPlayer}>
-        <EditPlayerModal handleCloseEditPlayer={handleCloseEditPlayer} />
+        <EditPlayerModal handleCloseEditPlayer={handleCloseEditPlayer} toggleSetTeamPlayers={toggleSetTeamPlayers}/>
       </Modal>
       <Modal show={showDeletePlayer} onHide={() => null}>
-        <DeletePlayerModal handleCloseDeletePlayer={toggleEditPlayer} />
+        <DeletePlayerModal handleCloseDeletePlayer={toggleEditPlayer} toggleSetTeamPlayers={toggleSetTeamPlayers}/>
       </Modal>
     </>
   );
