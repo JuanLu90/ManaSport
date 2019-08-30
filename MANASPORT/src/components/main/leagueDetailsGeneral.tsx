@@ -190,7 +190,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
                         <td className="p-1 text-center"> {q.badge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" alt="" /> : <ImgBadge src={q.badge} alt="" />}</td>
                         <td className="p-1">{q.TEAM}</td>
                         <td className="p-1 text-center"><b>{q.PTS}</b></td>
-                        <td className="p-1 text-center">PJ</td>
+                        <td className="p-1 text-center">{q.PJ}</td>
                         <td className="p-1 text-center">{q.PG}</td>
                         <td className="p-1 text-center">{q.PE}</td>
                         <td className="p-1 text-center">{q.PP}</td>

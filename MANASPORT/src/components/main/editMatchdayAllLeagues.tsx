@@ -33,7 +33,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
     <tr>
       <TdMatchdayTeam className="p-1 text-right">{props.m.localTeam} </TdMatchdayTeam>
       <TdMatchdayBadge className="p-1">
-        <ImgBadge src={props.m.localbadge} alt="" />
+       {props.m.localbadge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" alt="" /> : <ImgBadge src={props.m.localbadge} alt="" />} 
       </TdMatchdayBadge>
       <TdMatchdayResult className="p-1">
         <>
@@ -46,7 +46,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
         </>
       </TdMatchdayResult>
       <TdMatchdayBadge className="p-1">
-        <ImgBadge src={props.m.awaybadge} alt="" />
+      {props.m.awaybadge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" alt="" /> : <ImgBadge src={props.m.awaybadge} alt="" />} 
       </TdMatchdayBadge>
       <TdMatchdayTeam className="p-1 text-left"> {props.m.awayTeam}</TdMatchdayTeam>
     </tr>

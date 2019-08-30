@@ -129,47 +129,27 @@ router.get("/tournaments/matchs/:TournamentId/:matchday", (req, res) => {
 router.get("/tournaments/qualification/:TournamentId/", (req, res) => {
   const TournamentId = req.params.TournamentId;
   dbConn.query(
-    `SELECT
-    a1.badge,
-    a1.TeamId as "ID",
-    a1.name as "TEAM",
-    a1.ptswin + a2.ptsdraw AS 'PTS',
-    a1.pg AS 'PG',
-    a2.ptsdraw AS 'PE',
-    ((SELECT COUNT(TeamId) from team where TournamentId = ${TournamentId}) * 2 - a1.pg - a2.ptsdraw) AS "PP"
-FROM
-    (SELECT 
-        t.badge,
-        t.TeamId,
-            name,
-            3 * COUNT(m.MatchId) AS ptswin,
-            COUNT(m.MatchId) AS pg,
-            t.TournamentId
+    `SELECT a1.badge, a1.TeamId as "ID", a1.name as "TEAM", a1.ptswin + a2.ptsdraw AS 'PTS', a1.pg AS 'PG', a2.ptsdraw AS 'PE', a3.pp AS 'PP', a3.pp, a1.pg + a2.ptsdraw + a3.pp AS 'PJ'
     FROM
-        manasport.match m
-    JOIN manasport.team t
-    WHERE
-        (m.localTeamId = t.TeamId
-            AND m.localteam_score > m.awayteam_score)
-            OR (m.awayTeamId = t.TeamId
-            AND m.awayteam_score > m.localteam_score)
-    GROUP BY t.TeamId) AS a1
+        (SELECT  t.badge, t.TeamId, name, 3 * COUNT(m.MatchId) AS ptswin, COUNT(m.MatchId) AS pg, t.TournamentId
+        FROM manasport.match m
+        JOIN manasport.team t
+        WHERE (m.localTeamId = t.TeamId AND m.localteam_score > m.awayteam_score) OR (m.awayTeamId = t.TeamId AND m.awayteam_score > m.localteam_score)
+        GROUP BY t.TeamId) AS a1
+            INNER JOIN
+        (SELECT t.TeamId, COUNT(m.MatchId) AS ptsdraw, t.TournamentId 
+        FROM manasport.match m
+        JOIN manasport.team t
+        WHERE (m.localTeamId = t.TeamId AND m.localteam_score = m.awayteam_score) OR (m.awayTeamId = t.TeamId AND m.awayteam_score = m.localteam_score)
+        GROUP BY t.TeamId) AS a2 
         INNER JOIN
-    (SELECT 
-        t.TeamId, COUNT(m.MatchId) AS ptsdraw, t.TournamentId
-    FROM
-        manasport.match m
-    JOIN manasport.team t
-    WHERE
-        (m.localTeamId = t.TeamId
-            AND m.localteam_score = m.awayteam_score)
-            OR (m.awayTeamId = t.TeamId
-            AND m.awayteam_score = m.localteam_score)
-    GROUP BY t.TeamId) AS a2 ON a1.TeamId = a2.TeamId
-WHERE
-    a1.TournamentId = ${TournamentId}
-        AND a2.TournamentId = ${TournamentId}
-  ORDER BY PTS DESC`,
+        (SELECT  t.badge, t.TeamId, name, COUNT(m.MatchId) AS pp, t.TournamentId
+        FROM manasport.match m
+        JOIN manasport.team t
+        WHERE (m.localTeamId = t.TeamId AND m.localteam_score < m.awayteam_score) OR (m.awayTeamId = t.TeamId AND m.awayteam_score < m.localteam_score)
+        GROUP BY t.TeamId) AS a3 ON (a1.TeamId = a2.TeamId AND a1.TeamId = a3.TeamId)
+    WHERE a1.TournamentId = ${TournamentId} AND a2.TournamentId = ${TournamentId} AND a3.TournamentId = ${TournamentId}
+    ORDER BY PTS DESC`,
     (err, rows) => {
       if (err) throw err;
       res.send(rows);

@@ -185,10 +185,13 @@ const AllLeaguesDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //F
                           <td className="p-1 text-center bg-success rounded-right">{1}</td> :
                           <td className="p-1 text-center">{i + 1}</td>
                         }
-                        <td className="p-1 text-center"> <ImgBadge src={q.badge} alt="" /></td>
+                        <td className="p-1 text-center"> 
+                              {q.badge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" alt="" /> : <ImgBadge src={q.badge} alt="" />} 
+
+                        </td>
                         <td className="p-1">{q.TEAM}</td>
                         <td className="p-1 text-center"><b>{q.PTS}</b></td>
-                        <td className="p-1 text-center">PJ</td>
+                        <td className="p-1 text-center">{q.PJ}</td>
                         <td className="p-1 text-center">{q.PG}</td>
                         <td className="p-1 text-center">{q.PE}</td>
                         <td className="p-1 text-center">{q.PP}</td>

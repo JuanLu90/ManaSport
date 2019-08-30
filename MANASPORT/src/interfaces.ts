@@ -62,6 +62,7 @@ export interface IQualification {
     TEAM: string;
     badge: string;
     PTS: number;
+    PJ: number;
     PG: number;
     PE: number;
     PP: number;
