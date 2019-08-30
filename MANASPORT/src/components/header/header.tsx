@@ -124,36 +124,6 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
   const currentUser = token ? props.users.find(u => u.UserId === decoded.UserId) : null;
   const history = createBrowserHistory({ forceRefresh: true });
 
-  // let table = []
-  // for (var i = 0; i < inputLeagues.length; i++) {
-  //   table.push(<tr>
-  //     {
-  //       inputLeagues !== "" &&
-  //       <SearchResult className="text-light rounded" key={['recipient', i].join('_')}>
-  //         {props.allleagues
-  //           .filter(l =>
-  //             l.name.toLowerCase().includes(inputLeagues.toLowerCase())
-  //           )
-  //           .slice(0, 5)
-  //           .map(l => (
-  //             <Link
-  //               to={"/leagues/allleaguesDetails/" + l.TournamentId}
-  //               className="text-light p-0"
-  //               style={{ textDecoration: 'none' }}>
-  //               <div className="row p-2">
-  //                 <div className="col-8">{l.name}</div>
-  //                 <div className="col-4 text-center">{l.NameAdmin}</div>
-  //               </div>
-  //             </Link>
-  //           ))}
-  //       </SearchResult>
-
-
-  //     }
-  //   </tr>)
-  // }
-
-
 
   return (
     <>
@@ -170,7 +140,7 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
             className="justify-content-between"
           >
             <Form inline style={{ width: '500px' }} className="ml-2">
-              {token ? <ButtonHeader>Tus Ligas</ButtonHeader> : <Link to={'/leagues'} className="border-0"><ButtonHeader>Info Ligas</ButtonHeader> </Link>}
+              {token ?  <Link to={'/management'} className="border-0"> <ButtonHeader>Tus Ligas</ButtonHeader> </Link>: <Link to={'/leagues'} className="border-0"><ButtonHeader>Info Ligas</ButtonHeader> </Link>}
               {!token && (
                 <InputGroup size="sm" className="w-75">
                   <FormControl className="bg-dark border border-dark text-light ml-sm-4" value={inputLeagues} onChange={UpdateInputLeagues} />

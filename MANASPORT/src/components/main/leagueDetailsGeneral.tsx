@@ -128,7 +128,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
           <div className="col p-3 m-3 text-center">
             <div className="row pb-3">
               <div className="col text-center text-light h3">Resultados</div>
-              {/* <div className="col"><button onClick={createMatchs}>Crear Calendario</button></div> */}
+              <div className="col"><button onClick={createMatchs}>Crear Calendario</button></div>
             </div>
             <div className="row justify-content-center">
               <div className="col-10">
@@ -187,7 +187,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
                           <td className="p-1 text-center bg-success rounded-right">{1}</td> :
                           <td className="p-1 text-center">{i + 1}</td>
                         }
-                        <td className="p-1 text-center"> <ImgBadge src={q.badge} alt="" /></td>
+                        <td className="p-1 text-center"> {q.badge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" alt="" /> : <ImgBadge src={q.badge} alt="" />}</td>
                         <td className="p-1">{q.TEAM}</td>
                         <td className="p-1 text-center"><b>{q.PTS}</b></td>
                         <td className="p-1 text-center">PJ</td>

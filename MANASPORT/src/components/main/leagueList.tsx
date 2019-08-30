@@ -22,6 +22,7 @@ import styled from "styled-components";
 // ********* Styles - Styled Components - CSSINJS **********
 const Wrapper = styled.div`
     font-family: "Source Sans Pro", sans-serif;
+    margin-bottom: 100px;
 `;
 const TableHead = styled.thead`
     font-family: "Roboto", sans-serif;

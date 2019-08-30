@@ -36,10 +36,6 @@ const LeagueDetails: React.FC<IProps> = props => {
     u => u.TournamentId === +pathTournamentId
   );
 
-  if (!currentLeague) {
-    return null;
-  }
-
   return (
     <>
       <Tab.Container id="left-tabs-example" defaultActiveKey="first">
@@ -49,7 +45,7 @@ const LeagueDetails: React.FC<IProps> = props => {
               <Span className="text-light">General</Span>
             </Nav.Link>
           </Nav.Item>
-          <SpanNameLeague className="text-light">{currentLeague.name}</SpanNameLeague>
+          <SpanNameLeague className="text-light">{currentLeague ? currentLeague.name : null}</SpanNameLeague>
           <div>
           <Nav.Item>
             <Nav.Link eventKey="second" className="pt-0 pb-1 d-inline bg-secondary border border-dark">

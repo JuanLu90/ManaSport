@@ -44,56 +44,61 @@ const UserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
   return (
     <Wrapper className="container w-50">
       <div className="row">
-        <div className="col h1 text-light text-center mb-2">
+        <div className="col h3 text-light text-center mb-4">
           <span>
-            Perfil
+            Perfil:  <b className="ml-2 text-warning">{currentUser.username}</b>
           </span>
         </div>
       </div>
-      <div className="row bg-dark text-light rounded">
-        <div className="col-2 text-center align-self-center pt-4 pb-4">
-          <img src={currentUser.avatar} width="110" alt="" />
-        </div>
-        <div className="col align-self-center h3">
-          {currentUser.name}  <br /> {currentUser.surname ? currentUser.surname : null}
-        </div>
-        <div className="col text-center align-self-center">
-        <img src="/images/other/hand.png" width="40" alt="" title="Ligas creadas" />
-          <span className="h4 ml-2">5</span> {currentUser.NTournaments}
-        </div>
-      </div>
-      <div className="row bg-secondary rounded">
+      <div className="row border border-light rounded">
         <div className="col">
-          <div className="row text-light p-3">
-            <div className="col-4 text-right">
-              <img src="/images/other/mail.png" width="30" alt="" title="Email" />
+          <div className="row bg-dark text-light">
+            <div className="col-2 text-center align-self-center pt-4 pb-4">
+              <img src={currentUser.avatar} width="110" alt="" />
             </div>
-            <div className="col">
-              {currentUser.email}
+            <div className="col align-self-center h3">
+              {currentUser.name}  <br /> {currentUser.surname ? currentUser.surname : null}
             </div>
-          </div>
-          <div className="row text-light p-3">
-            <div className="col-4 text-right">
-              <img src="/images/other/profile.png" width="30" alt="" title="Nombre de usuario" />
-            </div>
-            <div className="col">
-              {currentUser.username}
+            <div className="col text-center align-self-center">
+              <img src="/images/other/hand.png" width="40" alt="" title="Ligas creadas" />
+              <span className="h4 ml-2">5</span> {currentUser.NTournaments}
             </div>
           </div>
-          <div className="row text-light p-3">
-            <div className="col-4 text-right">
-              <img src="/images/other/date.png" width="30" alt="" title="Fecha de registro" />
-            </div>
+          <div className="row bg-secondary">
             <div className="col">
-              {currentUser.createdate}
+              <div className="row text-light pt-3 pb-1">
+                <div className="col-4 text-right">
+                  <img src="/images/other/mail.png" width="30" alt="" title="Email" />
+                </div>
+                <div className="col">
+                  {currentUser.email}
+                </div>
+              </div>
+              <div className="row text-light pt-2 pb-2">
+                <div className="col-4 text-right">
+                  <img src="/images/other/profile.png" width="30" alt="" title="Nombre de usuario" />
+                </div>
+                <div className="col">
+                  {currentUser.username}
+                </div>
+              </div>
+              <div className="row text-light pt-1 pb-3">
+                <div className="col-4 text-right">
+                  <img src="/images/other/date.png" width="30" alt="" title="Fecha de registro" />
+                </div>
+                <div className="col">
+                  {currentUser.createdate}
+                </div>
+              </div>
+            </div>
+            <div className="col align-self-center text-light text-center">
+              <button className="btn btn-outline-light text-uppercase" onClick={() => props.history.push("/management/user/edit")}>
+                Editar Perfil <img src="/images/other/edit2.png" className="ml-2 mb-1" width="18" alt="" />
+              </button>
             </div>
           </div>
         </div>
-        <div className="col align-self-center text-light text-center">
-          <button className="btn btn-outline-light" onClick={() => props.history.push("/management/user/edit")}>
-            Editar Perfil <img src="/images/other/edit2.png" className="ml-2 mb-1" width="18" alt=""/>
-          </button>
-        </div>
+
       </div>
     </Wrapper>
   );

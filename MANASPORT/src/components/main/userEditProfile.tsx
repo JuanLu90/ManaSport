@@ -1,9 +1,8 @@
 //React´s Components
 import React, { useEffect, useState } from "react";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 //React Bootstrap
-import DatePicker from "react-datepicker";
-import { Modal } from "react-bootstrap";
+import { Modal, Card } from "react-bootstrap";
 //Interfaces
 import { IUser } from "../../interfaces";
 //Components made by Juanlu
@@ -20,6 +19,13 @@ import styled from "styled-components";
 import "react-datepicker/dist/react-datepicker.css";
 import { createBrowserHistory } from "history";
 
+
+
+
+
+const Span = styled.span`
+  font-size: 0.9em;
+`
 
 
 //----------------------------------------------------
@@ -137,56 +143,50 @@ const EditUserProfile: React.FC<RouteComponentProps & IProps & IPropsGlobal> = p
   //*************************
   return (
     <>
-      <Wrapper className="container w-50">
-        <div className="row">
-          <div className="col h1 text-light mb-4">
-            <span>
-              Perfil
-            </span>
-          </div>
+      <Wrapper className="container w-25">
+      <div className="row">
+        <div className="col h3 text-light mb-3">
+          <span>
+            Editando perfil: <b className="ml-2 text-warning">  {currentUser.username}</b>
+          </span>
         </div>
-        <div className="row bg-secondary text-light rounded">
-          <div className="col-4 text-center align-self-center pt-4 pb-4">
-            <img src={currentUser.avatar} width="110" alt="" /> <br />
-            <button className="btn btn-outline-light mt-3 pt-0 pb-0 pl-3 pr-3" onClick={handleShowEditAvatar}>Actualizar avatar</button>
-          </div>
-          <div className="col align-self-center">
-            <div className="row mt-4 mb-4">
-              <div className="col-3">Nombre</div>
-              <div className="col">
+      </div>
+        <Card border="light" bg="secondary">
+          <img src={currentUser.avatar} width="110" alt="" className="align-self-center mt-3" /> <br />
+          <button className="btn btn-outline-light pt-0 pb-0 pl-3 pr-3 align-self-center" onClick={handleShowEditAvatar}>Actualizar avatar</button>
+          <Card.Body>
+            <Card.Text>
+              <Span className="text-light">Nombre:</Span>
+              <p>
                 <input
                   className="form-control form-control-sm"
                   type="text"
                   value={inputName}
                   onChange={updateName}
                 />
-              </div>
-            </div>
-            <div className="row mt-4 mb-4">
-              <div className="col-3"> Apellidos:</div>
-              <div className="col">
+              </p>
+            </Card.Text>
+            <Card.Text>
+              <Span className="text-light">Apellidos:</Span>
+              <p>
                 <input
                   className="form-control form-control-sm"
                   type="text"
                   value={inputSurname}
                   onChange={updateSurname}
                 />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row justify-content-center mt-3">
-          <div className="col-2 text-center">
+              </p>
+            </Card.Text>
+          </Card.Body>
+          <Card.Footer className="d-flex justify-content-around">
             <button className="btn btn-light m-2 pt-1 pb-1 pl-3 pr-3 font-weight-bold" onClick={() => props.history.push("/management/user/")}>
               Volver
-          </button>
-          </div>
-          <div className="col-2 text-center">
+            </button>
             <button className="btn btn-warning m-2 pt-1 pb-1 pl-3 pr-3 font-weight-bold" onClick={editCurrentUserById}>
               Enviar
-          </button>
-          </div>
-        </div>
+           </button>
+          </Card.Footer>
+        </Card>
       </Wrapper>
       <Modal size="lg" show={showEditAvatar} onHide={() => null}>
         <EditAvatarModal handleCloseEditAvatar={handleCloseEditAvatar} />
