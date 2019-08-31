@@ -16,7 +16,6 @@ import styled from "styled-components";
 
 
 
-
 // ********* Styles - Styled Components - CSSINJS **********
 const TableHead = styled.thead`
   font-family: "Roboto", sans-serif;
@@ -69,10 +68,11 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
   //Hook to update the matchday list when a match is edited
   const [matchResult, setMatchResult] = React.useState(false);
   const updatedResults = React.useCallback(() => setMatchResult(s => !s), []);
-  
+
   const history = createBrowserHistory({});
   const path: any = history.location.pathname;
   let pathTournamentId = path.split(["/"]).slice(-1)[0];
+
 
   useEffect(() => { //Fetch matchs to Redux
     fetch("http://localhost:8080/api/tournaments/matchs/" +

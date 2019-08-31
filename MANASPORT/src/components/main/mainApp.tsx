@@ -1,12 +1,8 @@
 //React´s Components
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 //Styled Components - CSSINJS
 import styled from "styled-components";
 import { Modal } from "react-bootstrap";
-import { ITournament } from "../../interfaces";
-import { IGlobalState } from "../../reducers/reducers";
-import * as action from "../../action";
-import { connect } from "react-redux";
 
 
 // ********* Styles - Styled Components - CSSINJS **********
@@ -32,6 +28,10 @@ const Row2 = styled.div`
   top: 420px;
 `
 const Row3 = styled.div`
+  position: absolute;
+  top: 520px;
+`
+const Row4 = styled.div`
   position: absolute;
   height: 25%;
   bottom: 0px;
@@ -86,10 +86,43 @@ const MainApp: React.FC = props => { // Function Component
           </Row1>
           <Row2 className="row align-self-center">
             <div className="col">
-              <button className="btn btn-warning pt-3 pb-3 pl-5 pr-5 text-uppercase font-weight-bold" onClick={handleShowModalVideo}>Cómo funciona</button>
+              <button
+                className="btn btn-warning pt-3 pb-3 pl-5 pr-5 text-uppercase font-weight-bold"
+                onClick={handleShowModalVideo}
+              >
+                Cómo funciona
+              </button>
             </div>
           </Row2>
-          <Row3 className="row text-light text-center justify-content-center w-100">
+          <Row2 className="row align-self-center">
+            <div className="col">
+              <button
+                className="btn btn-warning pt-3 pb-3 pl-5 pr-5 text-uppercase font-weight-bold"
+                onClick={handleShowModalVideo}
+              >
+                Cómo funciona
+              </button>
+            </div>
+          </Row2>
+          <Row3 className="row w-50 align-self-center justify-content-center">
+            <div className="col-4 text-center">
+              <button
+                className="btn btn-secondary pt-2 pb-2 pl-3 pr-3 text-uppercase font-weight-bold"
+                onClick={handleShowModalVideo}
+              >
+                Ligas Activas
+              </button>
+            </div>
+            <div className="col-4 text-center">
+              <button
+                className="btn btn-dark pt-2 pb-2 pl-3 pr-3 text-uppercase font-weight-bold"
+                onClick={handleShowModalVideo}
+              >
+                CREA TU LIGA
+              </button>
+            </div>
+          </Row3>
+          <Row4 className="row text-light text-center justify-content-center w-100">
             <Col className="col-2 m-3">
               <div className="row">
                 <div className="col">
@@ -141,7 +174,7 @@ const MainApp: React.FC = props => { // Function Component
                 </div>
               </div>
             </Col>
-          </Row3>
+          </Row4>
         </WrapperContainer>
       </BackgroundImage>
       <Modal show={modalVideo} onHide={handleCloseModalVideo} size="xl">
