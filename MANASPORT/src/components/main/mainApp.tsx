@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 //Styled Components - CSSINJS
 import styled from "styled-components";
-import { Modal } from "react-bootstrap";
-
+import { Modal, Carousel } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 // ********* Styles - Styled Components - CSSINJS **********
 
@@ -12,12 +12,21 @@ const BackgroundImage = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center top;
+  background-attachment: fixed;
 `
 const WrapperContainer = styled.div`
   font-family: "Russo One", sans-serif;
   font-size: 3em;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
+`
+const WrapperContainer2 = styled.div`
+font-family: "Russo One", sans-serif;
+height: 70vh;
+background-color: #F5F5F5;
+`
+const WrapperContainer3 = styled.div`
+  height: 60vh;
 `
 const Row1 = styled.div`
   position: absolute;
@@ -36,6 +45,7 @@ const Row4 = styled.div`
   height: 25%;
   bottom: 0px;
   font-size: 0.6em;
+  }
 `
 const FontSpan1 = styled.span`
   font-family: 'PT Serif', serif;
@@ -57,16 +67,18 @@ const FontSpan = styled.span`
 `
 const Col = styled.div`
   line-height: 0.7em;
-
 `
+const Span2 = styled.span`
+font-size: 3em;
+`
+
+
 //*************************
 
-const MainApp: React.FC = props => { // Function Component
+const MainApp: React.FC = () => { // Function Component
   const [modalVideo, setModalVideo] = useState(false);
   const handleCloseModalVideo = () => setModalVideo(false);
   const handleShowModalVideo = () => setModalVideo(true);
-
-
 
 
   return (
@@ -106,12 +118,13 @@ const MainApp: React.FC = props => { // Function Component
           </Row2>
           <Row3 className="row w-50 align-self-center justify-content-center">
             <div className="col-4 text-center">
-              <button
-                className="btn btn-secondary pt-2 pb-2 pl-3 pr-3 text-uppercase font-weight-bold"
-                onClick={handleShowModalVideo}
-              >
-                Ligas Activas
+              <Link to={'/leagues'} className="border-0">
+                <button
+                  className="btn btn-secondary pt-2 pb-2 pl-3 pr-3 text-uppercase font-weight-bold"
+                >
+                  Ligas Activas
               </button>
+              </Link>
             </div>
             <div className="col-4 text-center">
               <button
@@ -177,6 +190,73 @@ const MainApp: React.FC = props => { // Function Component
           </Row4>
         </WrapperContainer>
       </BackgroundImage>
+      <WrapperContainer2 className="container-fluid d-flex align-items-center">
+        <div className="row w-100 justify-content-center">
+          <div className="col">
+            <img src="/images/mockup.jpg" width="100%" alt="" />
+          </div>
+          <div className="col">
+            <div className="row mt-3 ml-5 mr-5 mb-5">
+              <div className="col">
+                <Span2>RESPONSIVE</Span2>
+              </div>
+            </div>
+            <div className="row m-5">
+              <div className="col h3">
+                <p>
+                  ManaSport está optimizado para todo tipo de dispositivos.
+                </p>
+              </div>
+            </div>
+            <div className="row m-5">
+              <div className="col text-center">
+                <img src="/images/other/computer.png" className="mb-3" width="80" alt="" />
+                <span className="d-block">Ordenadores</span>
+              </div>
+              <div className="col text-center">
+                <img src="/images/other/laptop.png" className="mb-3" width="80" alt="" />
+                <span className="d-block"> Portátiles </span>
+              </div>
+              <div className="col text-center">
+                <img src="/images/other/tablet.png" className="mb-3" width="80" alt="" />
+                <span className="d-block">Tablets</span>
+              </div>
+              <div className="col text-center">
+                <img src="/images/other/smartphone.png" className="mb-3" width="80" alt="" />
+                <span className="d-block">Smartphones</span>
+              </div>
+            </div>
+            <div className="row m-5">
+              <div className="col text-center h2">
+                <p>¡Gestiona tu liga donde y cuando quieras!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </WrapperContainer2>
+      <WrapperContainer3 className="container-fluid bg-dark p-5">
+        <div className="row justify-content-center">
+          <div className="col-6">
+            <Carousel indicators={false}>
+              <Carousel.Item className="text-light">
+                <div className="row justify-content-center"><img src="/images/other/players.png" alt="" /></div>
+                <div className="row justify-content-center"><h3>First slide label</h3> </div>
+                <div className="row justify-content-center"><p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> </div>
+              </Carousel.Item>
+              <Carousel.Item className="text-light">
+                <div className="row justify-content-center"><img src="/images/other/players.png" alt="" /></div>
+                <div className="row justify-content-center"><h3>First slide label</h3> </div>
+                <div className="row justify-content-center"><p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> </div>
+              </Carousel.Item>
+              <Carousel.Item className="text-light">
+                <div className="row justify-content-center"><img src="/images/other/players.png" alt="" /></div>
+                <div className="row justify-content-center"><h3>First slide label</h3> </div>
+                <div className="row justify-content-center"><p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> </div>
+              </Carousel.Item>
+            </Carousel>
+          </div>
+        </div>
+      </WrapperContainer3>
       <Modal show={modalVideo} onHide={handleCloseModalVideo} size="xl">
         <div className="modal-dialog-centered" role="document">
           <div className="modal-content bg-light text-dark">
