@@ -21,9 +21,9 @@ const WrapperContainer = styled.div`
   background: rgba(0, 0, 0, 0.5);
 `
 const WrapperContainer2 = styled.div`
-font-family: "Russo One", sans-serif;
+font-family: "Source Sans Pro", sans-serif;
 height: 70vh;
-background-color: #F5F5F5;
+background-color: rgba(241, 242, 246,1);
 `
 const WrapperContainer3 = styled.div`
   height: 60vh;
@@ -38,14 +38,14 @@ const Row2 = styled.div`
 `
 const Row3 = styled.div`
   position: absolute;
-  top: 520px;
-`
-const Row4 = styled.div`
-  position: absolute;
   height: 25%;
   bottom: 0px;
   font-size: 0.6em;
   }
+`
+const Hr = styled.hr`
+  height: 4px;
+  margin-left: 8%;
 `
 const FontSpan1 = styled.span`
   font-family: 'PT Serif', serif;
@@ -69,7 +69,7 @@ const Col = styled.div`
   line-height: 0.7em;
 `
 const Span2 = styled.span`
-font-size: 3em;
+font-size: 2.3em;
 `
 
 
@@ -96,46 +96,24 @@ const MainApp: React.FC = () => { // Function Component
               </FontSpan>
             </div>
           </Row1>
-          <Row2 className="row align-self-center">
-            <div className="col">
+          <Row2 className="row w-50 justify-content-center align-self-center">
+            <div className="col text-center">
               <button
-                className="btn btn-warning pt-3 pb-3 pl-5 pr-5 text-uppercase font-weight-bold"
+                className="btn btn-warning pt-2 pb-2 pl-3 pr-3 m-3 text-uppercase font-weight-bold"
                 onClick={handleShowModalVideo}
               >
                 Cómo funciona
               </button>
-            </div>
-          </Row2>
-          <Row2 className="row align-self-center">
-            <div className="col">
-              <button
-                className="btn btn-warning pt-3 pb-3 pl-5 pr-5 text-uppercase font-weight-bold"
-                onClick={handleShowModalVideo}
-              >
-                Cómo funciona
-              </button>
-            </div>
-          </Row2>
-          <Row3 className="row w-50 align-self-center justify-content-center">
-            <div className="col-4 text-center">
               <Link to={'/leagues'} className="border-0">
                 <button
-                  className="btn btn-secondary pt-2 pb-2 pl-3 pr-3 text-uppercase font-weight-bold"
+                  className="btn btn-dark text-warning pt-2 pb-2 pl-3 pr-3 m-3 text-uppercase font-weight-bold"
                 >
                   Ligas Activas
               </button>
               </Link>
             </div>
-            <div className="col-4 text-center">
-              <button
-                className="btn btn-dark pt-2 pb-2 pl-3 pr-3 text-uppercase font-weight-bold"
-                onClick={handleShowModalVideo}
-              >
-                CREA TU LIGA
-              </button>
-            </div>
-          </Row3>
-          <Row4 className="row text-light text-center justify-content-center w-100">
+          </Row2>
+          <Row3 className="row text-light text-center justify-content-center w-100">
             <Col className="col-2 m-3">
               <div className="row">
                 <div className="col">
@@ -187,13 +165,13 @@ const MainApp: React.FC = () => { // Function Component
                 </div>
               </div>
             </Col>
-          </Row4>
+          </Row3>
         </WrapperContainer>
       </BackgroundImage>
       <WrapperContainer2 className="container-fluid d-flex align-items-center">
         <div className="row w-100 justify-content-center">
-          <div className="col">
-            <img src="/images/mockup.jpg" width="100%" alt="" />
+          <div className="col d-flex align-items-center justify-content-center">
+            <img src="/images/mockup.png" className="align-self-center" width="80%" alt="" />
           </div>
           <div className="col">
             <div className="row mt-3 ml-5 mr-5 mb-5">
@@ -202,13 +180,14 @@ const MainApp: React.FC = () => { // Function Component
               </div>
             </div>
             <div className="row m-5">
-              <div className="col h3">
+              <div className="col h5">
                 <p>
-                  ManaSport está optimizado para todo tipo de dispositivos.
+                  Optimizado para todo tipo de dispositivos.
                 </p>
               </div>
             </div>
-            <div className="row m-5">
+            <Hr className="bg-warning w-25 rounded" />
+            <div className="row m-5 font-weight-bold">
               <div className="col text-center">
                 <img src="/images/other/computer.png" className="mb-3" width="80" alt="" />
                 <span className="d-block">Ordenadores</span>
@@ -227,8 +206,8 @@ const MainApp: React.FC = () => { // Function Component
               </div>
             </div>
             <div className="row m-5">
-              <div className="col text-center h2">
-                <p>¡Gestiona tu liga donde y cuando quieras!</p>
+              <div className="col h5">
+                <p>Gestiona tu liga donde y cuando quieras</p>
               </div>
             </div>
           </div>
