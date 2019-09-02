@@ -36,11 +36,14 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
   const updateInputPassword = (event: any) =>
     setInputPassword(event.currentTarget.value);
 
-    const goToRegister = () => {
-      props.handleCloseLogin();
-      props.handleShowRegister();
-    }
+  const goToRegister = () => {
+    props.handleCloseLogin();
+    props.handleShowRegister();
+  }
 
+  const [inputCheckbox, setInputCheckbox] = React.useState(false);
+  const toggleCheckbox = React.useCallback(() => setInputCheckbox(s => !s), []); //Open and close alert league name invalid
+console.log(inputCheckbox)
   const getToken = () => {
     fetch("http://localhost:8080/api/auth", {
       method: "POST",
@@ -106,13 +109,18 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
                     </InputGroup.Text>
                   </InputGroup.Prepend>
                   <FormControl
-                    type="password"
+                    type={inputCheckbox === true ? "text" : "password"}
                     className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
                     placeholder="Contraseña"
                     name="passwordlogin"
-                    id="passwordlogin"
+                    id="myInput"
                     onChange={updateInputPassword}
                   />
+                  <InputGroup.Append>
+                    <InputGroup.Text>
+                      <img src="/images/form/eye.png" width="20" alt="" onClick={() => toggleCheckbox} />
+                    </InputGroup.Text>
+                  </InputGroup.Append>
                 </InputGroup>
               </div>
             </div>

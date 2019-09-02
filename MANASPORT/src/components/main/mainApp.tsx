@@ -14,15 +14,22 @@ const BackgroundImage = styled.div`
   background-position: center top;
   background-attachment: fixed;
 `
+
+const Wrapper = styled.div`
+  font-family: "Source Sans Pro", sans-serif;
+`
 const WrapperContainer = styled.div`
-  font-family: "Russo One", sans-serif;
   font-size: 3em;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
 `
 const WrapperContainer2 = styled.div`
-  font-family: "Source Sans Pro", sans-serif;
   background-color: rgba(241, 242, 246, 1);
+  height: 50vh;
+`
+const WrapperContainer3 = styled.div`
+  background: rgba(0, 0, 0, 0.7);
+  height: 60vh;
 `
 const Row1 = styled.div`
   position: absolute;
@@ -49,32 +56,49 @@ const ColDevices = styled.div`
   }
 `
 const FontSpan1 = styled.span`
-  font-family: 'PT Serif', serif;
   font-weight: bolder;
   text-transform: uppercase;
   color: #f1f2f6;
   font-size: 0.7em;
+  line-height: 80% !important;
+  @media (max-width: 1230px) {
+    font-size: 0.5em;
+  }
+  @media (max-width: 900px) {
+    font-size: 0.45em;
+  }
+  @media (max-width: 365px) {
+    font-size: 0.4em;
+
+  }
 `
 const Span = styled.span`
-  font-family: 'PT Serif', serif;
   color: #f1f2f6;
   font-size: 0.62em;
 `
 const FontSpan = styled.span`
-  font-family: 'PT Serif', serif;
   font-weight: bolder;
   color: #f1f2f6;
   font-size: 0.5em;
+  @media (max-width: 1230px) {
+    font-size: 0.4em;
+  }
+  @media (max-width: 900px) {
+    font-size: 0.3.5em;
+  }
+  @media (max-width: 365px) {
+    font-size: 0.3em;
+  }
 `
 const Col = styled.div`
   line-height: 0.7em;
-` 
+`
 const VerticalHr = styled.hr`
-border:         none;
-border-left:    2px solid hsla(200, 10%, 50%,100);
-height:         390px;
-width:          3px;
-margin: 0 5%;
+  border:         none;
+  border-left:    2px solid hsla(200, 10%, 50%,100);
+  height:         390px;
+  width:          3px;
+  margin: 0 5%;
 `
 const MiniHr = styled.hr({
   border: 'none',
@@ -85,6 +109,11 @@ const MiniHr = styled.hr({
   overflow: "visible",
   position: "relative"
 });
+
+
+const SizeResponsive = '365px';
+
+
 
 //*************************
 
@@ -99,8 +128,36 @@ const MainApp: React.FC = () => { // Function Component
     setIndex(selectedIndex);
   };
 
+
+  let BackgroundImage2 = styled.div``;
+  if (index === 0) {
+    BackgroundImage2 = styled.div`
+    background-image: url("/images/fondo7.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+  `
+  } else if (index === 1) {
+    BackgroundImage2 = styled.div`
+    background-image: url("/images/fondo5.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+  `
+  } else {
+    BackgroundImage2 = styled.div`
+    background-image: url("/images/fondo6.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+  `
+  }
+
   return (
-    <>
+    <Wrapper>
       <BackgroundImage>
         <WrapperContainer className="container-fluid d-flex flex-column">
           <Row1 className="row w-75 text-center align-self-center">
@@ -132,7 +189,7 @@ const MainApp: React.FC = () => { // Function Component
             </div>
           </Row2>
           <Row3 className="row text-light text-center justify-content-center w-100">
-            <Col className="col-2 m-3">
+            <Col className="col-md-2 m-3">
               <div className="row">
                 <div className="col">
                   <img src="/images/other/cup.png" width="50" className="m-2" alt="" />
@@ -149,7 +206,7 @@ const MainApp: React.FC = () => { // Function Component
                 </div>
               </div>
             </Col>
-            <Col className="col-2 m-3">
+            <Col className="col-md-2 m-3">
               <div className="row">
                 <div className="col">
                   <img src="/images/other/shield.png" width="50" className="m-2" alt="" />
@@ -166,7 +223,7 @@ const MainApp: React.FC = () => { // Function Component
                 </div>
               </div>
             </Col>
-            <Col className="col-2 m-3">
+            <Col className="col-sm-2 m-3">
               <div className="row">
                 <div className="col">
                   <img src="/images/other/players.png" width="50" className="m-2" alt="" />
@@ -226,38 +283,40 @@ const MainApp: React.FC = () => { // Function Component
           </div>
         </div>
       </WrapperContainer2>
-      <div className="container-fluid bg-warning p-5">
-      <MiniHr className="bg-dark" />
-        <div className="row w-50 m-auto">
-          <div className="col font-weight-bold text-uppercase text-center mb-5 h4">Para todo tipo de usuarios</div>
-        </div>
-        <div className="row w-75 m-auto text-center justify-content-center">
-          <div className={index === 0 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1"} onClick={() => setIndex(0)} style={{cursor: 'pointer'}}>Amigos</div>
-          <div className={index === 1 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1"} onClick={() => setIndex(1)} style={{cursor: 'pointer'}}>Aficionados</div>
-          <div className={index === 2 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1"} onClick={() => setIndex(2)} style={{cursor: 'pointer'}}>Profesionales</div>
-        </div>
-        <div className="row justify-content-center">
-          <div className="col-9">
-            <Carousel indicators={false} activeIndex={index} onSelect={handleSelect} interval={3000}>
-              <Carousel.Item>
-                <div className="row justify-content-center"><img src="/images/other/players.png" alt="" /></div>
-                <div className="row justify-content-center"><h3>Para amigos</h3> </div>
-                <div className="row justify-content-center"><p>Compite con tus amigos y gestionad vuestra liga de una manera rápida, facil e intuitiva.</p> </div>
-              </Carousel.Item>
-              <Carousel.Item>
-                <div className="row justify-content-center"><img src="/images/other/players.png" alt="" /></div>
-                <div className="row justify-content-center"><h3>Para aficionados</h3> </div>
-                <div className="row justify-content-center"><p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> </div>
-              </Carousel.Item>
-              <Carousel.Item>
-                <div className="row justify-content-center"><img src="/images/other/players.png" alt="" /></div>
-                <div className="row justify-content-center"><h3>Para profesionales</h3> </div>
-                <div className="row justify-content-center"><p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> </div>
-              </Carousel.Item>
-            </Carousel>
+      <BackgroundImage2>
+        <WrapperContainer3 className="container-fluid p-5">
+          <MiniHr className="bg-warning" />
+          <div className="row w-50 m-auto">
+            <div className="col font-weight-bold text-uppercase text-center text-light mb-5 h4">Para todo tipo de usuarios</div>
           </div>
-        </div>
-      </div>
+          <div className="row w-75 m-auto text-center justify-content-center">
+            <div className={index === 0 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1"} onClick={() => setIndex(0)} style={{ cursor: 'pointer' }}>Amigos</div>
+            <div className={index === 1 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1"} onClick={() => setIndex(1)} style={{ cursor: 'pointer' }}>Aficionados</div>
+            <div className={index === 2 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1"} onClick={() => setIndex(2)} style={{ cursor: 'pointer' }}>Profesionales</div>
+          </div>
+          <div className="row justify-content-center text-light mt-5">
+            <div className="col-9">
+              <Carousel indicators={false} activeIndex={index} onSelect={handleSelect} interval={4000}>
+                <Carousel.Item>
+                  {/* <div className="row justify-content-center"><img src="/images/fondo5.jpg" alt="" /></div> */}
+                  <div className="row justify-content-center"><h3>Para amigos</h3> </div>
+                  <div className="row justify-content-center"><p>Compite con tus amigos y gestionad vuestra liga de una manera rápida, facil e intuitiva.</p> </div>
+                </Carousel.Item>
+                <Carousel.Item>
+                  {/* <div className="row justify-content-center"><img src="/images/fondo6.jpg" alt="" /></div> */}
+                  <div className="row justify-content-center"><h3>Para aficionados</h3> </div>
+                  <div className="row justify-content-center"><p>Crea una liga en la que competir con tus amigos ocasionalmente, y gestionala como lo haria un profesional.</p> </div>
+                </Carousel.Item>
+                <Carousel.Item>
+                  {/* <div className="row justify-content-center"><img src="/images/fondo7.jpg" alt="" /></div> */}
+                  <div className="row justify-content-center"><h3>Para profesionales</h3> </div>
+                  <div className="row justify-content-center"><p>Crea tantas ligas sean necesarias, sin restricciones de número de equipos y jugadores.</p> </div>
+                </Carousel.Item>
+              </Carousel>
+            </div>
+          </div>
+        </WrapperContainer3>
+      </BackgroundImage2>
       <Modal show={modalVideo} onHide={handleCloseModalVideo} size="xl">
         <div className="modal-dialog-centered" role="document">
           <div className="modal-content bg-light text-dark">
@@ -276,7 +335,7 @@ const MainApp: React.FC = () => { // Function Component
           </div>
         </div>
       </Modal>
-    </>
+    </Wrapper>
   );
 };
 

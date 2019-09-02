@@ -120,7 +120,6 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
   }
 
 
-
   return (
     <>
       <div className="container-fluid text-dark">
@@ -128,7 +127,6 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
           <div className="col p-3 m-3 text-center">
             <div className="row pb-3">
               <div className="col text-center text-light h3">Resultados</div>
-              <div className="col"><button onClick={createMatchs}>Crear Calendario</button></div>
             </div>
             <div className="row justify-content-center">
               <div className="col-10">
@@ -160,6 +158,11 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
                 </Table>
               </div>
             </div>
+            {props.matchs.length === 0 &&
+              <div className="row">
+                <div className="col"><button className="btn btn-light pt-1 pb-1" onClick={createMatchs}>Crear Calendario</button></div>
+              </div>
+            }
           </div>
           <div className="col p-3 m-3">
             <div className="row pb-3">
