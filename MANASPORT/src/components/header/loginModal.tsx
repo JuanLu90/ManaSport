@@ -44,6 +44,9 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
   const [inputCheckbox, setInputCheckbox] = React.useState(false);
   const toggleCheckbox = React.useCallback(() => setInputCheckbox(s => !s), []); //Open and close alert league name invalid
 console.log(inputCheckbox)
+
+
+
   const getToken = () => {
     fetch("http://localhost:8080/api/auth", {
       method: "POST",
@@ -118,7 +121,7 @@ console.log(inputCheckbox)
                   />
                   <InputGroup.Append>
                     <InputGroup.Text>
-                      <img src="/images/form/eye.png" width="20" alt="" onClick={() => toggleCheckbox} />
+                    <button></button>
                     </InputGroup.Text>
                   </InputGroup.Append>
                 </InputGroup>
