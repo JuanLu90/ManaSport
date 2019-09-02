@@ -21,12 +21,8 @@ const WrapperContainer = styled.div`
   background: rgba(0, 0, 0, 0.5);
 `
 const WrapperContainer2 = styled.div`
-font-family: "Source Sans Pro", sans-serif;
-height: 70vh;
-background-color: rgba(241, 242, 246,1);
-`
-const WrapperContainer3 = styled.div`
-  height: 60vh;
+  font-family: "Source Sans Pro", sans-serif;
+  background-color: rgba(241, 242, 246, 1);
 `
 const Row1 = styled.div`
   position: absolute;
@@ -43,9 +39,14 @@ const Row3 = styled.div`
   font-size: 0.6em;
   }
 `
-const Hr = styled.hr`
-  height: 4px;
-  margin-left: 8%;
+const ColDevices = styled.div`
+  border-top: 4px solid rgba(255, 193, 7, 0.2);
+  border-bottom: 4px solid rgba(255, 193, 7, 0.2);
+  transition: 0.5s;
+  &:hover{
+    border-top: 4px solid rgba(255, 193, 7, 1);
+    border-bottom: 4px solid rgba(255, 193, 7, 1);
+  }
 `
 const FontSpan1 = styled.span`
   font-family: 'PT Serif', serif;
@@ -67,11 +68,23 @@ const FontSpan = styled.span`
 `
 const Col = styled.div`
   line-height: 0.7em;
+` 
+const VerticalHr = styled.hr`
+border:         none;
+border-left:    2px solid hsla(200, 10%, 50%,100);
+height:         390px;
+width:          3px;
+margin: 0 5%;
 `
-const Span2 = styled.span`
-font-size: 2.3em;
-`
-
+const MiniHr = styled.hr({
+  border: 'none',
+  display: 'block',
+  height: "4px",
+  margin: "18px auto",
+  width: "24px",
+  overflow: "visible",
+  position: "relative"
+});
 
 //*************************
 
@@ -80,6 +93,11 @@ const MainApp: React.FC = () => { // Function Component
   const handleCloseModalVideo = () => setModalVideo(false);
   const handleShowModalVideo = () => setModalVideo(true);
 
+  const [index, setIndex] = useState(0);
+
+  const handleSelect = (selectedIndex: any, e: any) => {
+    setIndex(selectedIndex);
+  };
 
   return (
     <>
@@ -168,74 +186,78 @@ const MainApp: React.FC = () => { // Function Component
           </Row3>
         </WrapperContainer>
       </BackgroundImage>
-      <WrapperContainer2 className="container-fluid d-flex align-items-center">
-        <div className="row w-100 justify-content-center">
-          <div className="col d-flex align-items-center justify-content-center">
-            <img src="/images/mockup.png" className="align-self-center" width="80%" alt="" />
+      <WrapperContainer2 className="container-fluid d-flex align-items-center p-2">
+        <div className="row w-100 justify-content-center p-3 m-auto">
+          <div className="col-4 d-flex align-items-center justify-content-center">
+            <img src="/images/mockup.png" className="align-self-center" width="85%" alt="" />
           </div>
-          <div className="col">
-            <div className="row mt-3 ml-5 mr-5 mb-5">
-              <div className="col">
-                <Span2>RESPONSIVE</Span2>
-              </div>
-            </div>
-            <div className="row m-5">
-              <div className="col h5">
+          <VerticalHr />
+          <div className="col-5">
+            <div className="row pt-4 pl-4 pr-4">
+              <div className="col h4 text-uppercase font-weight-bold">
                 <p>
-                  Optimizado para todo tipo de dispositivos.
+                  Optimizado para todos los dispositivos.
                 </p>
               </div>
             </div>
-            <Hr className="bg-warning w-25 rounded" />
-            <div className="row m-5 font-weight-bold">
-              <div className="col text-center">
+            <div className="row p-3 font-weight-bold">
+              <ColDevices className="col pt-4 pb-4 text-center rounded">
                 <img src="/images/other/computer.png" className="mb-3" width="80" alt="" />
                 <span className="d-block">Ordenadores</span>
-              </div>
-              <div className="col text-center">
+              </ColDevices>
+              <ColDevices className="col pt-4 pb-4 text-center rounded">
                 <img src="/images/other/laptop.png" className="mb-3" width="80" alt="" />
                 <span className="d-block"> Portátiles </span>
-              </div>
-              <div className="col text-center">
+              </ColDevices>
+              <ColDevices className="col pt-4 pb-4 text-center rounded">
                 <img src="/images/other/tablet.png" className="mb-3" width="80" alt="" />
                 <span className="d-block">Tablets</span>
-              </div>
-              <div className="col text-center">
+              </ColDevices>
+              <ColDevices className="col pt-4 pb-4 text-center rounded">
                 <img src="/images/other/smartphone.png" className="mb-3" width="80" alt="" />
                 <span className="d-block">Smartphones</span>
-              </div>
+              </ColDevices>
             </div>
-            <div className="row m-5">
-              <div className="col h5">
+            <div className="row pt-4 pb-4 pl-4 pr-4">
+              <div className="col h4 text-uppercase font-weight-bold">
                 <p>Gestiona tu liga donde y cuando quieras</p>
               </div>
             </div>
           </div>
         </div>
       </WrapperContainer2>
-      <WrapperContainer3 className="container-fluid bg-dark p-5">
+      <div className="container-fluid bg-warning p-5">
+      <MiniHr className="bg-dark" />
+        <div className="row w-50 m-auto">
+          <div className="col font-weight-bold text-uppercase text-center mb-5 h4">Para todo tipo de usuarios</div>
+        </div>
+        <div className="row w-75 m-auto text-center justify-content-center">
+          <div className={index === 0 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1"} onClick={() => setIndex(0)} style={{cursor: 'pointer'}}>Amigos</div>
+          <div className={index === 1 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1"} onClick={() => setIndex(1)} style={{cursor: 'pointer'}}>Aficionados</div>
+          <div className={index === 2 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1"} onClick={() => setIndex(2)} style={{cursor: 'pointer'}}>Profesionales</div>
+        </div>
         <div className="row justify-content-center">
-          <div className="col-6">
-            <Carousel indicators={false}>
-              <Carousel.Item className="text-light">
+          <div className="col-9">
+            <Carousel indicators={false} activeIndex={index} onSelect={handleSelect} interval={3000}>
+              <Carousel.Item>
                 <div className="row justify-content-center"><img src="/images/other/players.png" alt="" /></div>
-                <div className="row justify-content-center"><h3>First slide label</h3> </div>
+                <div className="row justify-content-center"><h3>Para amigos</h3> </div>
+                <div className="row justify-content-center"><p>Compite con tus amigos y gestionad vuestra liga de una manera rápida, facil e intuitiva.</p> </div>
+              </Carousel.Item>
+              <Carousel.Item>
+                <div className="row justify-content-center"><img src="/images/other/players.png" alt="" /></div>
+                <div className="row justify-content-center"><h3>Para aficionados</h3> </div>
                 <div className="row justify-content-center"><p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> </div>
               </Carousel.Item>
-              <Carousel.Item className="text-light">
+              <Carousel.Item>
                 <div className="row justify-content-center"><img src="/images/other/players.png" alt="" /></div>
-                <div className="row justify-content-center"><h3>First slide label</h3> </div>
-                <div className="row justify-content-center"><p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> </div>
-              </Carousel.Item>
-              <Carousel.Item className="text-light">
-                <div className="row justify-content-center"><img src="/images/other/players.png" alt="" /></div>
-                <div className="row justify-content-center"><h3>First slide label</h3> </div>
+                <div className="row justify-content-center"><h3>Para profesionales</h3> </div>
                 <div className="row justify-content-center"><p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> </div>
               </Carousel.Item>
             </Carousel>
           </div>
         </div>
-      </WrapperContainer3>
+      </div>
       <Modal show={modalVideo} onHide={handleCloseModalVideo} size="xl">
         <div className="modal-dialog-centered" role="document">
           <div className="modal-content bg-light text-dark">

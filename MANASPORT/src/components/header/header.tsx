@@ -148,7 +148,7 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
                     <InputGroup.Text className="bg-dark border border-dark text-light" > <ImgSearch src="/images/other/search.png" width="14" alt="" /></InputGroup.Text>
                   </InputGroup.Append>
                   {inputLeagues !== "" &&
-                    <SearchResult className="text-light rounded" key={1}>
+                    <SearchResult className="text-light rounded">
                       {props.allleagues
                         .filter(l =>
                           l.name.toLowerCase().includes(inputLeagues.toLowerCase())
@@ -159,7 +159,8 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
                             to={"/leagues/allleaguesDetails/" + l.TournamentId}
                             className="text-light p-0"
                             style={{ textDecoration: 'none' }}
-                            onClick={() => history.push("/leagues/allleaguesDetails/" + l.TournamentId)}>
+                            onClick={() => history.push("/leagues/allleaguesDetails/" + l.TournamentId)}
+                            >
                             <div className="row p-2" key={l.TournamentId}>
                               <div className="col-8">{l.name}</div>
                               <div className="col-4 text-center">{l.NameAdmin}</div>
