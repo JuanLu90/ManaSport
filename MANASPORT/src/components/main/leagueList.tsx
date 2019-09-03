@@ -17,30 +17,25 @@ import jwt from "jsonwebtoken";
 //Styled Components - CSSINJS
 import styled from "styled-components";
 
-
-
 // ********* Styles - Styled Components - CSSINJS **********
 const Wrapper = styled.div`
-    font-family: "Source Sans Pro", sans-serif;
-    margin-bottom: 100px;
+  font-family: "Source Sans Pro", sans-serif;
+  margin-bottom: 100px;
 `;
 const TableHead = styled.thead`
-    font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif;
 `;
 const Title = styled.span`
-    font-size: 2.3em;
-    font-family: "Source Sans Pro", sans-serif;
-        color: #BDBDBD;
-    text-transform: uppercase;
+  font-size: 2.3em;
+  font-family: "Source Sans Pro", sans-serif;
+  color: #bdbdbd;
+  text-transform: uppercase;
 `;
-
 
 //----------------------------------------------------
 
-
-
 //Global Props
-interface IProps { }
+interface IProps {}
 interface IPropsGlobal {
   setLeagues: (leagues: ITournament[]) => void;
   leagues: ITournament[];
@@ -90,18 +85,29 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
   }
 
   const [alertWrongLeagueName, setAlertWrongLeagueName] = useState(false);
-  const toggleWrongLeagueName = React.useCallback(() => setAlertWrongLeagueName(s => !s), []); //Open and close alert league name invalid
+  const toggleWrongLeagueName = React.useCallback(
+    () => setAlertWrongLeagueName(s => !s),
+    []
+  ); //Open and close alert league name invalid
 
   const [alertRightLeagueName, setAlertRightLeagueName] = useState(false);
-  const toggleRightLeagueName = React.useCallback(() => setAlertRightLeagueName(s => !s), []); //Open and close alert league name valid
+  const toggleRightLeagueName = React.useCallback(
+    () => setAlertRightLeagueName(s => !s),
+    []
+  ); //Open and close alert league name valid
 
   const [updateSetLeagues, setUpdateSetLeagues] = React.useState(false);
-  const toggleSetLeagues = React.useCallback(() => setUpdateSetLeagues(s => !s), []); //Open and close alert league name invalid
+  const toggleSetLeagues = React.useCallback(
+    () => setUpdateSetLeagues(s => !s),
+    []
+  ); //Open and close alert league name invalid
 
-  const token = localStorage.getItem("token");   //Token - Get the token stored from local storage
+  const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
 
-  useEffect(() => { //Fetch leagues of the current user to redux
-    if (token) { // We need that token exits to decode it but React will fall down
+  useEffect(() => {
+    //Fetch leagues of the current user to redux
+    if (token) {
+      // We need that token exits to decode it but React will fall down
       const decoded: any = jwt.decode(token); //Decode token to get the UserId
       const UserId: number = decoded.UserId; //Get the UserId
       fetch(
@@ -120,7 +126,6 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
       });
     }
   }, [token, props.leagues.length, updateSetLeagues]); //When a new League is add, Redux will be update.
-
 
   const sendLeague = () => {
     if (inputLeagueName.length > 3 && inputLeagueName.length < 41) {
@@ -147,7 +152,7 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
                 props.newLeague(l);
                 setInputLeagueName("");
                 toggleRightLeagueName();
-                setTimeout(() => toggleRightLeagueName(), 4000)
+                setTimeout(() => toggleRightLeagueName(), 4000);
               });
             }
           })
@@ -158,9 +163,9 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
     } else {
       toggleWrongLeagueName();
       setInputLeagueName("");
-      setTimeout(() => toggleWrongLeagueName(), 4000)
+      setTimeout(() => toggleWrongLeagueName(), 4000);
     }
-  }
+  };
   return (
     <>
       <Wrapper className="container-fluid">
@@ -171,7 +176,13 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
         </div>
         <div className="row mt-1 justify-content-center">
           <div className="col-10 p-3 text-center">
-            <Table responsive="md" variant="dark" striped hover className=" border border-secondary">
+            <Table
+              responsive="md"
+              variant="dark"
+              striped
+              hover
+              className=" border border-secondary"
+            >
               <TableHead>
                 <tr>
                   <th />
@@ -210,7 +221,7 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
                         width="15"
                         alt=""
                         onClick={() => funcionEditLeague(l.TournamentId)}
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: "pointer" }}
                       />
                     </td>
                     <td className="p-1 cursor-pointer  align-middle">
@@ -221,7 +232,7 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
                         onClick={() => funcionDeleteLeague(l.TournamentId)}
                       >
                         Eliminar
-                    </Button>
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -233,9 +244,12 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
           <div className="col-4">
             <InputGroup size="sm">
               <InputGroup.Prepend>
-                <InputGroup.Text id="inputGroup-sizing-sm" className="bg-secondary border border-secondary text-light">
+                <InputGroup.Text
+                  id="inputGroup-sizing-sm"
+                  className="bg-secondary border border-secondary text-light"
+                >
                   Nombre de la liga*
-              </InputGroup.Text>
+                </InputGroup.Text>
               </InputGroup.Prepend>
               <input
                 type="text"
@@ -248,11 +262,18 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
           <div className="col-2">
             <InputGroup size="sm">
               <InputGroup.Prepend>
-                <InputGroup.Text id="inputGroup-sizing-sm" className="bg-secondary border border-secondary text-light">
+                <InputGroup.Text
+                  id="inputGroup-sizing-sm"
+                  className="bg-secondary border border-secondary text-light"
+                >
                   Deporte*
-              </InputGroup.Text>
+                </InputGroup.Text>
               </InputGroup.Prepend>
-              <Form.Control as="select" onChange={updateLeagueSport} className="bg-dark border border-secondary text-light">
+              <Form.Control
+                as="select"
+                onChange={updateLeagueSport}
+                className="bg-dark border border-secondary text-light"
+              >
                 <option>Fútbol</option>
               </Form.Control>
             </InputGroup>
@@ -260,11 +281,18 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
           <div className="col-2">
             <InputGroup size="sm">
               <InputGroup.Prepend>
-                <InputGroup.Text id="inputGroup-sizing-sm" className="bg-secondary border border-secondary text-light">
+                <InputGroup.Text
+                  id="inputGroup-sizing-sm"
+                  className="bg-secondary border border-secondary text-light"
+                >
                   Categoría*
-              </InputGroup.Text>
+                </InputGroup.Text>
               </InputGroup.Prepend>
-              <Form.Control as="select" onChange={updateLeagueCategory} className="bg-dark border border-secondary text-light">
+              <Form.Control
+                as="select"
+                onChange={updateLeagueCategory}
+                className="bg-dark border border-secondary text-light"
+              >
                 <option>Fútbol 11</option>
                 <option>Fútbol 7</option>
                 <option>Fútbol Sala</option>
@@ -278,7 +306,12 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
               onClick={sendLeague}
               className="font-weight-bold text-dark pl-3 pr-3 btn-sm"
             >
-              <img src="/images/other/plus.png" className="mr-2 align-middle" width="17" alt="" />
+              <img
+                src="/images/other/plus.png"
+                className="mr-2 align-middle"
+                width="17"
+                alt=""
+              />
               <span className="align-middle">CREAR LIGA</span>
             </Button>
           </div>
@@ -287,8 +320,16 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
           <div className="row justify-content-center mt-4">
             <div className="col-10 text-center">
               <Alert variant="danger" className="p-2">
-                <img src="/images/other/cancel.png" width="35" alt="" className="mr-3" />
-                <span> <b> Nombre de liga inválido.</b> El nombre de una liga debe de contener entre 4 y 40 caracteres.</span>
+                <img
+                  src="/images/other/cancel.png"
+                  width="35"
+                  alt=""
+                  className="mr-3"
+                />
+                <span>
+                  <b> Nombre de liga inválido.</b> El nombre de una liga debe de
+                  contener entre 4 y 40 caracteres.
+                </span>
               </Alert>
             </div>
           </div>
@@ -297,18 +338,31 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
           <div className="row justify-content-center mt-4">
             <div className="col-10 text-center">
               <Alert variant="success" className="p-2">
-                <img src="/images/other/send.png" width="35" alt="" className="mr-3" />
-                <span> <b> Liga creada correctamente</b> </span>
+                <img
+                  src="/images/other/send.png"
+                  width="35"
+                  alt=""
+                  className="mr-3"
+                />
+                <span>
+                  <b> Liga creada correctamente</b>{" "}
+                </span>
               </Alert>
             </div>
           </div>
         )}
       </Wrapper>
       <Modal show={showDeleteLeague} onHide={() => null}>
-        <DeleteLeagueModal handleCloseDeleteLeague={handleCloseDeleteLeague} toggleSetLeagues={toggleSetLeagues}/>
+        <DeleteLeagueModal
+          handleCloseDeleteLeague={handleCloseDeleteLeague}
+          toggleSetLeagues={toggleSetLeagues}
+        />
       </Modal>
       <Modal show={showEditLeague} onHide={() => null}>
-        <EditLeagueModal handleCloseEditLeague={handleCloseEditLeague} toggleSetLeagues={toggleSetLeagues}/>
+        <EditLeagueModal
+          handleCloseEditLeague={handleCloseEditLeague}
+          toggleSetLeagues={toggleSetLeagues}
+        />
       </Modal>
     </>
   );

@@ -13,38 +13,38 @@ import * as action from "../../action";
 import { connect } from "react-redux";
 //Styled Components - CSSINJS
 import styled from "styled-components";
-
-
+import { IGlobalState } from "../../reducers/reducers";
+import jwt from "jsonwebtoken";
 
 //******** STYLES - STYLED-COMPONENTS - CCSSINJS *********
 
-  let Wrapper = styled.div`
-    background-image: url('/images/fondo4.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center top;
-    padding-top: 100px;
-    min-height: 72.3vh;
-  `
-
+let Wrapper = styled.div`
+  background-image: url("/images/fondo4.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center top;
+  padding-top: 100px;
+  min-height: 72.3vh;
+`;
 
 //----------------------------------------------------
 
 //Global Props
-interface IProps { }
+interface IProps {
+  users: IUser[];
+}
 interface IPropsGlobal {
   setUsers: (users: IUser[]) => void;
 }
 
-const Management: React.FC<IProps & IPropsGlobal> = props => { //Function Component
-  const token = localStorage.getItem("token");   //Token - Get the token stored from local storage
+const Management: React.FC<IProps & IPropsGlobal> = props => {
+  //Function Component
+  const token: any = localStorage.getItem("token"); //Token - Get the token stored from local storage
+  const decoded: any = jwt.decode(token);
 
-  //Hook to update the profile list when it changes
-  const [profileUpdated, setProfileUpdated] = React.useState(false);
-
-
-  useEffect(() => { //Fetch users to redux every time the token changes
+  useEffect(() => {
+    //Fetch users to redux every time the token changes
     fetch("http://localhost:8080/api/users/", {
       headers: {
         "Content-type": "application/json",
@@ -56,8 +56,7 @@ const Management: React.FC<IProps & IPropsGlobal> = props => { //Function Compon
         response.json().then(users => props.setUsers(users));
       }
     });
-  }, [token, profileUpdated]);
-
+  }, [token]);
 
   return (
     <Wrapper className="container-fluid">
@@ -66,7 +65,11 @@ const Management: React.FC<IProps & IPropsGlobal> = props => { //Function Compon
           <Switch>
             <Route path="/management" exact component={leagueList} />
             <Route path="/management/user" exact component={UserProfile} />
-            <Route path="/management/user/edit" exact component={EditUserProfile} />
+            <Route
+              path="/management/user/edit"
+              exact
+              component={EditUserProfile}
+            />
             <Route path="/management/leagueDetails" component={LeagueDetails} />
           </Switch>
         </div>
@@ -74,12 +77,14 @@ const Management: React.FC<IProps & IPropsGlobal> = props => { //Function Compon
     </Wrapper>
   );
 };
-
+const mapStateToProps = (state: IGlobalState) => ({
+  users: state.users
+});
 const mapDispatchToProps = {
   setUsers: action.setUsers
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Management);

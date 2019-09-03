@@ -16,7 +16,7 @@ export const UsersReducer = (
         user[index] = action.user;
         return [...user];
     }
-    
+
     // if (action.type === "UPDATE_USER") {
     //     const users = state;
     //     const index = state.findIndex(u => u._id === action.user_id);
@@ -37,12 +37,12 @@ export const UsersReducer = (
 
     // }
 
-    
+
 
     // if (action.type === "NEW_USER") {
     //     const users = state;
     //     users.push(action.users)
-        
+
     //     return [...users];
     // }
 
