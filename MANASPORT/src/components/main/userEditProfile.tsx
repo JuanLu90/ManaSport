@@ -109,7 +109,8 @@ const EditUserProfile: React.FC<
         name: inputName,
         surname: inputSurname,
         email: inputEmail,
-        avatar: currentUser.avatar
+        avatar: currentUser.avatar,
+        createdate: currentUser.createdate
       })
     })
       .then(response => {
@@ -120,7 +121,8 @@ const EditUserProfile: React.FC<
             name: currentUser.name,
             surname: currentUser.surname,
             email: currentUser.email,
-            avatar: currentUser.avatar
+            avatar: currentUser.avatar,
+            createdate: currentUser.createdate
           };
           response.json().then(u => {
             props.putUserById(currentUser.UserId, u);

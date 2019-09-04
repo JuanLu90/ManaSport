@@ -133,7 +133,7 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
 
   return (
     <>
-      <HeaderDiv className="position-fixed w-100" >
+      <HeaderDiv className="position-fixed w-100">
         <Navbar collapseOnSelect expand="lg" className="p-0">
           <Navbar.Brand>
             <a href="/">
