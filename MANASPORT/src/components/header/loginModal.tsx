@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers/reducers";
 import * as actions from "../../action";
 import { createBrowserHistory } from "history";
-import { InputGroup, FormControl } from "react-bootstrap";
+import { InputGroup, FormControl, Alert } from "react-bootstrap";
 import styled from "styled-components";
 
 // ********* Styles - Styled Components - CSSINJS **********
@@ -15,6 +15,9 @@ const Modal = styled.div`
   width: 400px;
   opacity: 0.95;
 `
+const Span = styled.span`
+  font-size: 0.85em;
+`
 
 interface IProps {
   handleCloseLogin: () => void;
@@ -24,6 +27,11 @@ interface IProps {
 interface IPropsGLobal {
   setToken: (token: string) => void;
 }
+
+
+
+
+
 const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
   const history = createBrowserHistory({ forceRefresh: true });
 
@@ -42,29 +50,54 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
   }
 
   const [inputCheckbox, setInputCheckbox] = React.useState(false);
-  const toggleCheckbox = React.useCallback(() => setInputCheckbox(s => !s), []); //Open and close alert league name invalid
-console.log(inputCheckbox)
+  const toggleCheckbox = React.useCallback(() => setInputCheckbox(s => !s), []); //Show and Hide password
 
+  const [checkEmail, setCheckdEmail] = React.useState(true);
+  const toggleCheckEmail = React.useCallback(() => setCheckdEmail(s => !s), []); //Check if email is valid
+  const validEmailRegex = RegExp(
+    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+  );
+
+  const [checkPassword, setCheckdPassword] = React.useState(true);
+  const toggleCheckPassword = React.useCallback(() => setCheckdPassword(s => !s), []); //Check if password is valid
+
+  const [checkCredentials, setCheckdCredentials] = React.useState(true);
+  const toggleCheckCredentials = React.useCallback(() => setCheckdCredentials(s => !s), []); //Check if credentials are valid
 
 
   const getToken = () => {
-    fetch("http://localhost:8080/api/auth", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-        // Authorization: "Bearer " + token
-      },
-      body: JSON.stringify({ email: emailValue, password: passwordValue })
-    }).then(response => {
-      if (response.ok) {
-        response.text().then(token => {
-          localStorage.setItem("token", token);
-          props.setToken(token);
-          props.handleCloseLogin();
-          history.push("/management");
-        });
-      }
-    });
+    const finalValidateEmail = validEmailRegex.test(emailValue);
+
+    if (!finalValidateEmail) {
+      toggleCheckEmail();
+      setTimeout(() => toggleCheckEmail(), 4000);
+
+    } else if (passwordValue.length < 4 || passwordValue.length > 14) {
+      toggleCheckPassword();
+      setTimeout(() => toggleCheckPassword(), 4000);
+    } else {
+      fetch("http://localhost:8080/api/auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+          // Authorization: "Bearer " + token
+        },
+        body: JSON.stringify({ email: emailValue, password: passwordValue })
+      }).then(response => {
+        if (response.ok) {
+          response.text().then(token => {
+            localStorage.setItem("token", token);
+            props.setToken(token);
+            props.handleCloseLogin();
+            history.push("/management");
+          });
+        } else {
+          toggleCheckCredentials();
+          setTimeout(() => toggleCheckCredentials(), 4000);
+        }
+      });
+    }
+
   };
 
   return (
@@ -119,14 +152,46 @@ console.log(inputCheckbox)
                     id="myInput"
                     onChange={updateInputPassword}
                   />
-                  <InputGroup.Append>
+                  <InputGroup.Append style={{ cursor: 'pointer' }} onClick={() => toggleCheckbox()}>
                     <InputGroup.Text>
-                    <button></button>
+                      <img src={inputCheckbox ? "/images/form/noeye.png" : "/images/form/eye.png"} width="20" alt="" />
                     </InputGroup.Text>
                   </InputGroup.Append>
                 </InputGroup>
               </div>
             </div>
+            {!checkEmail && (
+              <div className="row justify-content-center mt-1">
+                <div className="col text-center">
+                  <Alert variant="danger" className="p-2">
+                    <img
+                      src="/images/other/cancel.png"
+                      width="35"
+                      alt=""
+                      className="mr-3"
+                    />
+                    <span>
+                      <b> Email inválido.</b>
+                    </span>
+                  </Alert>
+                </div>
+              </div>
+            )}
+            {!checkPassword && (
+              <div className="row justify-content-center pl-1 pr-1">
+                <Alert variant="danger" className="p-0">
+                  <Span> <b> Contraseña inválida.</b> Debe de contener entre 4 y 14 caracteres </Span>
+                </Alert>
+              </div>
+            )}
+            {!checkCredentials && (
+              <div className="row justify-content-center pl-3 pr-3">
+                <Alert variant="danger" className="pt-1 pb-1 pr-4 pl-4">
+                  <img src="/images/other/cancel.png" width="35" alt="" className="mr-3" />
+                  <Span> <b> Datos introducidos erróneos</b></Span>
+                </Alert>
+              </div>
+            )}
           </form>
         </div>
         <div className="container-fluid">

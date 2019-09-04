@@ -14,6 +14,15 @@ const Modal = styled.div`
   width: 500px;
   opacity: 0.95;
 `
+const MiniHr = styled.hr({
+  border: 'none',
+  display: 'block',
+  height: "2px",
+  margin: "0 auto -18px auto",
+  width: "200px",
+  overflow: "visible",
+  position: "relative"
+});
 
 interface IProps {
   handleCloseRegister: () => void;
@@ -47,17 +56,30 @@ const RegisterModal: React.FC<IProps> = props => {
   const [alertWrongValue, setAlertWrongValue] = useState(false);
   const toggleWrongValue = React.useCallback(() => setAlertWrongValue(s => !s), []); //Open and close alert league name invalid
 
-  const [alertWrongPassword, setAlertWrongPassword] = useState(false);
-  const toggleWrongPassword = React.useCallback(() => setAlertWrongPassword(s => !s), []); //Open and close alert league name invalid
 
   const [alertRightValue, setAlertRightValue] = useState(false);
   const toggleRightValue = React.useCallback(() => setAlertRightValue(s => !s), []); //Open and close alert league name valid
 
 
+  const [checkEmail, setCheckdEmail] = React.useState(true);
+  const toggleCheckEmail = React.useCallback(() => setCheckdEmail(s => !s), []); //Check if email is valid
+  const validEmailRegex = RegExp(
+    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+  );
+
+  const [checkCredentials, setCheckdCredentials] = React.useState(true);
+  const toggleCheckCredentials = React.useCallback(() => setCheckdCredentials(s => !s), []); //Check if credentials are valid
+
+  const [checkUserAdded, setCheckdUserAdded] = React.useState(false);
+  const toggleCheckUserAdded = React.useCallback(() => setCheckdUserAdded(s => !s), []); //Check if credentials are valid
+
+
   const newUser = () => {
-    if (updateInputPassword.length === 2) {
-      toggleWrongPassword()
-      setTimeout(() => toggleWrongPassword(), 5000)
+    const finalValidateEmail = validEmailRegex.test(emailValue);
+
+    if (!finalValidateEmail) {
+      toggleCheckEmail();
+      setTimeout(() => toggleCheckEmail(), 4000);
     } else {
       fetch("http://localhost:8080/api/users/newUser", {
         method: "POST",
@@ -75,14 +97,17 @@ const RegisterModal: React.FC<IProps> = props => {
         })
       }).then(response => {
         if (response.ok) {
-          //   response.text().then(token => {});
-          console.log(response)
+          toggleCheckUserAdded();
+          setTimeout(() => toggleCheckUserAdded(), 4000);
         }
         else {
           response.json().then(({ e }) => {
             if (e === 1062) {
               toggleWrongValue();
-              setTimeout(() => toggleWrongValue(), 5000)
+              setTimeout(() => toggleWrongValue(), 6000)
+            } else {
+              toggleCheckCredentials();
+              setTimeout(() => toggleCheckCredentials(), 4000);
             }
           });
         }
@@ -188,15 +213,6 @@ const RegisterModal: React.FC<IProps> = props => {
                 </InputGroup>
               </div>
             </div>
-            {alertWrongPassword && (
-              <div className="row justify-content-center pl-1 pr-1">
-                <div className="col text-center">
-                  <Alert variant="danger" className="p-0">
-                    <Span> <b> Contraseña no válida.</b> Debe de contener entre 4 y 14 caracteres </Span>
-                  </Alert>
-                </div>
-              </div>
-            )}
             {alertWrongValue && (
               <div className="row justify-content-center mt-2 pl-1 pr-1">
                 <div className="col text-center">
@@ -209,20 +225,43 @@ const RegisterModal: React.FC<IProps> = props => {
                 </div>
               </div>
             )}
-            <div className="row">
-              <div className="col">
-                <div className="form-check">
-                  <Form.Check
-                    className="form-check-input align-items-center"
-                    type="checkbox"
-                    id="defaultCheck1"
-                  />
-                  <Label className="form-check-label pl-1">
-                    Estoy de acuerdo con los términos y condiciones
-                  </Label>
+            {!checkEmail && (
+              <div className="row justify-content-center mt-1">
+                <div className="col text-center">
+                  <Alert variant="danger" className="p-2">
+                    <img
+                      src="/images/other/cancel.png"
+                      width="35"
+                      alt=""
+                      className="mr-3"
+                    />
+                    <span>
+                      <b> Email inválido.</b>
+                    </span>
+                  </Alert>
                 </div>
               </div>
-            </div>
+            )}
+            {!checkCredentials && (
+              <div className="row justify-content-center pl-3 pr-3">
+                <Alert variant="danger" className="pt-1 pb-1 pr-4 pl-4">
+                  <img src="/images/other/cancel.png" width="35" alt="" className="mr-3" />
+                  <Span> <b> Datos introducidos erróneos</b></Span>
+                </Alert>
+              </div>
+            )}
+            {checkUserAdded && (
+              <div className="row justify-content-center mt-1">
+                <div className="col text-center">
+                  <Alert variant="success" className="p-2">
+                    <img src="/images/other/send.png" width="35" alt="" className="mr-3" />
+                    <span> <b> Registrado correctamente</b> Puede iniciar sesión</span>
+                  </Alert>
+                </div>
+              </div>
+            )}
+            <MiniHr className="bg-warning" />
+
           </form>
         </div>
         <div className="modal-footer border-0">
