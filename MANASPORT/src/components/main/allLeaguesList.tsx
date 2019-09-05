@@ -1,11 +1,8 @@
 //React´s Components
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-//Components made by Juanlu
-import DeleteLeagueModal from "./leagueDeleteModal";
-import EditLeagueModal from "./leagueEditModal";
 //React Bootstrap
-import { Button, InputGroup, Form, Table, Modal, Alert } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 //Interfaces
 import { ITournament } from "../../interfaces";
 //Redux
@@ -14,37 +11,61 @@ import { connect } from "react-redux";
 //Styled Components - CSSINJS
 import styled from "styled-components";
 
-
-
 // ********* Styles - Styled Components - CSSINJS **********
 const Wrapper = styled.div`
-    font-family: "Source Sans Pro", sans-serif;
-    margin-top: 120px;
-    margin-bottom: 80px;
+  font-family: "Source Sans Pro", sans-serif;
+  margin-top: 120px;
+  margin-bottom: 80px;
 `;
 const TableHead = styled.thead`
-    font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif;
 `;
 const Title = styled.span`
-    font-size: 2.3em;
-    font-family: "Source Sans Pro", sans-serif;
-        color: #BDBDBD;
-    text-transform: uppercase;
+  font-size: 2.3em;
+  font-family: "Source Sans Pro", sans-serif;
+  color: #bdbdbd;
+  text-transform: uppercase;
 `;
-
 
 //----------------------------------------------------
 
-
-
 //Global Props
-interface IProps { }
+interface IProps {}
 interface IPropsGlobal {
   allleagues: ITournament[];
 }
 
 const AllLeaguesList: React.FC<IProps & IPropsGlobal> = props => {
+  const compareNameAdmin = (a: any, b: any) => {
+    if (a.NameAdmin < b.NameAdmin) {
+      return -1;
+    }
+    if (a.NameAdmin > b.NameAdmin) {
+      return 1;
+    }
+    return 0;
+  };
+  const compareNameAdminReverse = (a: any, b: any) => {
+    if (a.NameAdmin > b.NameAdmin) {
+      return -1;
+    }
+    if (a.NameAdmin < b.NameAdmin) {
+      return 1;
+    }
+    return 0;
+  };
 
+  const [sortByNameAdmin, setSortByNameAdmin] = React.useState(false);
+  const toggleSortByNameAdmin = React.useCallback(
+    () => setSortByNameAdmin(s => !s),
+    []
+  );
+
+  if (sortByNameAdmin) {
+    props.allleagues.sort(compareNameAdmin);
+  } else {
+    props.allleagues.sort(compareNameAdminReverse);
+  }
 
   return (
     <Wrapper className="container-fluid">
@@ -55,12 +76,28 @@ const AllLeaguesList: React.FC<IProps & IPropsGlobal> = props => {
       </div>
       <div className="row mt-1 justify-content-center">
         <div className="col-10 p-3 text-center">
-          <Table responsive="md" variant="dark" striped hover className=" border border-secondary">
+          <Table
+            responsive="md"
+            variant="dark"
+            striped
+            hover
+            className=" border border-secondary"
+          >
             <TableHead>
               <tr>
                 <th />
                 <th />
-                <th>ADMINISTRADOR</th>
+                <th>
+                  ADMINISTRADOR
+                  <img
+                    src="/images/other/sort.png"
+                    className="ml-3"
+                    width="15"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => toggleSortByNameAdmin()}
+                    alt=""
+                  />
+                </th>
                 <th>DEPORTE</th>
                 <th>MODALIDAD</th>
                 <th>Nº EQUIPOS</th>
@@ -102,6 +139,4 @@ const mapStateToProps = (state: IGlobalState) => ({
   allleagues: state.allleagues
 });
 
-export default connect(
-  mapStateToProps
-)(AllLeaguesList);
+export default connect(mapStateToProps)(AllLeaguesList);

@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
   const ImgRRSS = styled.img`
   cursor: pointer;
     &:hover{
-      filter: opacity(35%)
+      filter: opacity(75%)
     }
   `
   //*************************

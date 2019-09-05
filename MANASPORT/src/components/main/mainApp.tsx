@@ -28,12 +28,15 @@ const WrapperContainer2 = styled.div`
   height: 50vh;
 `
 const WrapperContainer3 = styled.div`
+background: rgba(0, 0, 0, 0.5);
+  height: 60vh;
+`
+const BackgroundImage2 = styled.div`
   background-image: url("/images/fondo7.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center top;
   background-attachment: fixed;
-  height: 60vh;
 `
 const Row1 = styled.div`
   position: absolute;
@@ -134,32 +137,32 @@ const MainApp: React.FC = () => { // Function Component
 
 
 
-  let BackgroundImage2 = styled.div``;
-  if (index === 0) {
-    let BackgroundImage2 = styled.div`
-    background-image: url("/images/fondo7.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center top;
-    background-attachment: fixed;
-  `
-  } else if (index === 1) {
-    BackgroundImage2 = styled.div`
-    background-image: url("/images/fondo5.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center top;
-    background-attachment: fixed;
-  `
-  } else {
-    BackgroundImage2 = styled.div`
-    background-image: url("/images/fondo6.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center top;
-    background-attachment: fixed;
-  `
-  }
+  // let BackgroundImage2 = styled.div``;
+  // if (index === 0) {
+  //   let BackgroundImage2 = styled.div`
+  //   background-image: url("/images/fondo7.jpg");
+  //   background-repeat: no-repeat;
+  //   background-size: cover;
+  //   background-position: center top;
+  //   background-attachment: fixed;
+  // `
+  // } else if (index === 1) {
+  //   BackgroundImage2 = styled.div`
+  //   background-image: url("/images/fondo5.jpg");
+  //   background-repeat: no-repeat;
+  //   background-size: cover;
+  //   background-position: center top;
+  //   background-attachment: fixed;
+  // `
+  // } else {
+  //   BackgroundImage2 = styled.div`
+  //   background-image: url("/images/fondo6.jpg");
+  //   background-repeat: no-repeat;
+  //   background-size: cover;
+  //   background-position: center top;
+  //   background-attachment: fixed;
+  // `
+  // }
 
 
 
@@ -290,18 +293,18 @@ const MainApp: React.FC = () => { // Function Component
           </div>
         </div>
       </WrapperContainer2>
-      {/* <BackgroundImage2> */}
+      <BackgroundImage2>
         <WrapperContainer3 className="container-fluid pt-5">
           <MiniHr className="bg-warning" />
           <div className="row w-50 m-auto pt-4">
-            <div className="col font-weight-bold text-uppercase text-center text-dark mb-5 h4">Para todo tipo de usuarios</div>
+            <div className="col font-weight-bold text-uppercase text-center text-light mb-5 h4">Para todo tipo de usuarios</div>
           </div>
           <div className="row w-75 m-auto text-center justify-content-center pt-3">
             <div className={index === 0 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1 rounded" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1 rounded"} onClick={() => setIndex(0)} style={{ cursor: 'pointer' }}>Amigos</div>
             <div className={index === 1 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1 rounded" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1 rounded"} onClick={() => setIndex(1)} style={{ cursor: 'pointer' }}>Aficionados</div>
             <div className={index === 2 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1 rounded" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1 rounded"} onClick={() => setIndex(2)} style={{ cursor: 'pointer' }}>Profesionales</div>
           </div>
-          <div className="row justify-content-center text-dark mt-5">
+          <div className="row justify-content-center text-light mt-5">
             <div className="col-9">
               <Carousel indicators={false} activeIndex={index} onSelect={handleSelect} interval={3000}>
                 <Carousel.Item>
@@ -323,7 +326,7 @@ const MainApp: React.FC = () => { // Function Component
             </div>
           </div>
         </WrapperContainer3>
-      {/* </BackgroundImage2> */}
+      </BackgroundImage2>
       <Modal show={modalVideo} onHide={handleCloseModalVideo} size="xl">
         <div className="modal-dialog-centered" role="document">
           <div className="modal-content bg-light text-dark">
