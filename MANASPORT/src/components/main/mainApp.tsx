@@ -294,30 +294,30 @@ const MainApp: React.FC = () => { // Function Component
         <WrapperContainer3 className="container-fluid pt-5">
           <MiniHr className="bg-warning" />
           <div className="row w-50 m-auto pt-4">
-            <div className="col font-weight-bold text-uppercase text-center text-light mb-5 h4">Para todo tipo de usuarios</div>
+            <div className="col font-weight-bold text-uppercase text-center text-dark mb-5 h4">Para todo tipo de usuarios</div>
           </div>
           <div className="row w-75 m-auto text-center justify-content-center pt-3">
             <div className={index === 0 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1 rounded" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1 rounded"} onClick={() => setIndex(0)} style={{ cursor: 'pointer' }}>Amigos</div>
             <div className={index === 1 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1 rounded" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1 rounded"} onClick={() => setIndex(1)} style={{ cursor: 'pointer' }}>Aficionados</div>
             <div className={index === 2 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1 rounded" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1 rounded"} onClick={() => setIndex(2)} style={{ cursor: 'pointer' }}>Profesionales</div>
           </div>
-          <div className="row justify-content-center text-light mt-5">
+          <div className="row justify-content-center text-dark mt-5">
             <div className="col-9">
-              <Carousel indicators={false} activeIndex={index} onSelect={handleSelect} interval={4000}>
+              <Carousel indicators={false} activeIndex={index} onSelect={handleSelect} interval={3000}>
                 <Carousel.Item>
                   {/* <div className="row justify-content-center"><img src="/images/fondo5.jpg" alt="" /></div> */}
-                  <div className="row justify-content-center"><h3>Para amigos</h3> </div>
-                  <div className="row justify-content-center"><p>Compite con tus amigos y gestionad vuestra liga de una manera rápida, facil e intuitiva.</p> </div>
+                  <div className="row justify-content-center font-weight-bold h3">Para amigos </div>
+                  <div className="row justify-content-center h5"><p>Compite con tus amigos y gestionad vuestra liga de una manera rápida, facil e intuitiva.</p> </div>
                 </Carousel.Item>
                 <Carousel.Item>
                   {/* <div className="row justify-content-center"><img src="/images/fondo6.jpg" alt="" /></div> */}
-                  <div className="row justify-content-center"><h3>Para aficionados</h3> </div>
-                  <div className="row justify-content-center"><p>Crea una liga en la que competir con tus amigos ocasionalmente, y gestionala como lo haria un profesional.</p> </div>
+                  <div className="row justify-content-center font-weight-bold h3">Para aficionados </div>
+                  <div className="row justify-content-center h5"><p>Crea una liga en la que competir con tus amigos ocasionalmente, y gestionala como lo haria un profesional.</p> </div>
                 </Carousel.Item>
                 <Carousel.Item>
                   {/* <div className="row justify-content-center"><img src="/images/fondo7.jpg" alt="" /></div> */}
-                  <div className="row justify-content-center"><h3>Para profesionales</h3> </div>
-                  <div className="row justify-content-center"><p>Crea tantas ligas sean necesarias, sin restricciones de número de equipos y jugadores.</p> </div>
+                  <div className="row justify-content-center font-weight-bold h3">Para profesionales </div>
+                  <div className="row justify-content-center h5"><p>Crea tantas ligas sean necesarias, sin restricciones de número de equipos y jugadores.</p> </div>
                 </Carousel.Item>
               </Carousel>
             </div>

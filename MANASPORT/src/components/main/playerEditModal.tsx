@@ -5,15 +5,15 @@ import { connect } from "react-redux";
 import { createBrowserHistory } from "history";
 import * as action from "../../action";
 import styled from "styled-components";
-
+import Form from "react-bootstrap/Form";
 
 const Wrapper = styled.div`
   font-family: "Source Sans Pro", sans-serif;
   z-index: 9999;
-`
+`;
 const Wrapper2 = styled.div`
-  background-color: #2B2F38;
-`
+  background-color: #2b2f38;
+`;
 
 interface IProps {
   leagues: ITournament[];
@@ -77,22 +77,25 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
     if (!currentPlayer) {
       return null;
     }
-    fetch("http://localhost:8080/api/players/editPlayer/" + currentPlayer.PlayerId, {
-      method: "PUT",
-      headers: {
-        "Content-type": "application/json",
-        Accept: "application/json"
-        // Authorization: "Bearer " + props.token
-      },
-      body: JSON.stringify({
-        PlayerId: currentPlayer.PlayerId,
-        name: inputPlayerName,
-        surname: inputPlayerSurname,
-        age: inputPlayerAge,
-        position: inputPlayerPosition,
-        goals: inputPlayerGoals
-      })
-    })
+    fetch(
+      "http://localhost:8080/api/players/editPlayer/" + currentPlayer.PlayerId,
+      {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json"
+          // Authorization: "Bearer " + props.token
+        },
+        body: JSON.stringify({
+          PlayerId: currentPlayer.PlayerId,
+          name: inputPlayerName,
+          surname: inputPlayerSurname,
+          age: inputPlayerAge,
+          position: inputPlayerPosition,
+          goals: inputPlayerGoals
+        })
+      }
+    )
       .then(response => {
         if (response.ok) {
           const u: any = {
@@ -107,7 +110,6 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
             props.putPlayerById(currentPlayer.PlayerId, u);
             props.handleCloseEditPlayer();
             props.toggleSetTeamPlayers();
-
           });
         }
       })
@@ -133,9 +135,7 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
         </div>
         <div className="modal-body">
           <div className="row">
-            <div className="col">
-              Nombre del jugador
-            </div>
+            <div className="col">Nombre del jugador</div>
           </div>
           <div className="row mb-3">
             <div className="col">
@@ -148,9 +148,7 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
             </div>
           </div>
           <div className="row">
-            <div className="col">
-              Apellidos
-            </div>
+            <div className="col">Apellidos</div>
           </div>
           <div className="row mb-3">
             <div className="col">
@@ -163,9 +161,7 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
             </div>
           </div>
           <div className="row">
-            <div className="col">
-              Edad
-            </div>
+            <div className="col">Edad</div>
           </div>
           <div className="row mb-3">
             <div className="col">
@@ -177,25 +173,30 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
               />
             </div>
           </div>
-          <div className="row">
-            <div className="col">
-              Posición
-            </div>
+          <div className="row mt-3">
+            <div className="col text-left">Posición:</div>
           </div>
           <div className="row mb-3">
             <div className="col">
-              <input
-                type="text"
-                className="form-control form-control-sm mt-0"
-                value={inputPlayerPosition}
+              <Form.Control
+                as="select"
+                size="sm"
+                className="pt-0 pb-0 border border-secondary"
                 onChange={updatePlayerPosition}
-              />
+              >
+                <option value="Portero">Portero</option>
+                <option value="Central">Central</option>
+                <option value="LateralIzq">Lateral Izquierdo</option>
+                <option value="LateralDer">Lateral Derecho</option>
+                <option value="Medio">Medio</option>
+                <option value="ExtremoIzq">Extremo Izquierdo</option>
+                <option value="ExtremoDer">Extremo Derecho</option>
+                <option value="Delantero">Delantero</option>
+              </Form.Control>
             </div>
           </div>
           <div className="row">
-            <div className="col">
-              Goles
-            </div>
+            <div className="col">Goles</div>
           </div>
           <div className="row mb-3">
             <div className="col">
@@ -210,10 +211,20 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
         </div>
         <div className="modal-footer">
           <div className="col text-right">
-            <button className="btn btn-light font-weight-bold" onClick={props.handleCloseEditPlayer}>Cancelar</button>
+            <button
+              className="btn btn-light font-weight-bold"
+              onClick={props.handleCloseEditPlayer}
+            >
+              Cancelar
+            </button>
           </div>
           <div className="col">
-            <button className="btn btn-warning font-weight-bold" onClick={editCurrentPlayer}>Guardar</button>
+            <button
+              className="btn btn-warning font-weight-bold"
+              onClick={editCurrentPlayer}
+            >
+              Guardar
+            </button>
           </div>
         </div>
       </Wrapper2>

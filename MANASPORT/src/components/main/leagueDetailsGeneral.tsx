@@ -14,8 +14,6 @@ import { connect } from "react-redux";
 //Styled Components - CSSINJS
 import styled from "styled-components";
 
-
-
 // ********* Styles - Styled Components - CSSINJS **********
 const TableHead = styled.thead`
   font-family: "Roboto", sans-serif;
@@ -39,14 +37,10 @@ const Tbody = styled.tbody`
   font-family: "Source Sans Pro", sans-serif;
 `;
 
-
-
 //----------------------------------------------------
 
-
-
 //Global Props
-interface IProps { }
+interface IProps {}
 interface IpropsGlobal {
   leagueTeams: ITeam[];
   setMatchs: (matchs: IMatch[]) => void;
@@ -55,13 +49,16 @@ interface IpropsGlobal {
   qualification: IQualification[];
 }
 
-const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Function Component
+const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
+  //Function Component
   //Hook to change the matchday´s number
   const [count, setCount] = React.useState(1);
-  const matchdayAdd = () => { //Set +1 to matchday
+  const matchdayAdd = () => {
+    //Set +1 to matchday
     setCount(count + 1);
   };
-  const matchdaySub = () => { //set -1 to matchday
+  const matchdaySub = () => {
+    //set -1 to matchday
     setCount(count > 1 ? count - 1 : count); // matchday cant be less than 1
   };
 
@@ -73,10 +70,13 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
   const path: any = history.location.pathname;
   let pathTournamentId = path.split(["/"]).slice(-1)[0];
 
-
-  useEffect(() => { //Fetch matchs to Redux
-    fetch("http://localhost:8080/api/tournaments/matchs/" +
-      pathTournamentId + "/" + count,
+  useEffect(() => {
+    //Fetch matchs to Redux
+    fetch(
+      "http://localhost:8080/api/tournaments/matchs/" +
+        pathTournamentId +
+        "/" +
+        count,
       {
         headers: {
           "Content-type": "application/json",
@@ -90,8 +90,10 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
     });
   }, [count, matchResult]); //When a hook value changes, the matchs on Redux are updated
 
-  useEffect(() => { //Fetch qualification to Redux
-    fetch("http://localhost:8080/api/tournaments/qualification/" + pathTournamentId,
+  useEffect(() => {
+    //Fetch qualification to Redux
+    fetch(
+      "http://localhost:8080/api/tournaments/qualification/" + pathTournamentId,
       {
         headers: {
           "Content-type": "application/json",
@@ -100,25 +102,30 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
       }
     ).then(response => {
       if (response.ok) {
-        response.json().then(qualification => props.setQualification(qualification));
+        response
+          .json()
+          .then(qualification => props.setQualification(qualification));
       }
     });
   }, [matchResult]); //When the value changes, the qualification is updated
 
-  const createMatchs = () => { //Create the matchs of the seasson for a league
-    fetch("http://localhost:8080/api/tournaments/createMatchs/" + pathTournamentId, {
-      headers: {
-        "Content-type": "application/json",
-        Accept: "application/json"
-        // Authorization: "Bearer " + props.token
+  const createMatchs = () => {
+    //Create the matchs of the seasson for a league
+    fetch(
+      "http://localhost:8080/api/tournaments/createMatchs/" + pathTournamentId,
+      {
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json"
+          // Authorization: "Bearer " + props.token
+        }
       }
-    }).then(response => {
+    ).then(response => {
       if (response.ok) {
         response.json().then(matchs => props.setMatchs(matchs));
       }
     });
-  }
-
+  };
 
   return (
     <>
@@ -130,13 +137,23 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
             </div>
             <div className="row justify-content-center">
               <div className="col-10">
-                <Table responsive striped hover variant="dark" className="border border-secondary">
+                <Table
+                  responsive
+                  striped
+                  hover
+                  variant="dark"
+                  className="border border-secondary"
+                >
                   <TableHead>
                     <tr>
                       <TrMatchday className="text-white font-weight-light">
                         {count !== 1 && (
                           <DivCursor onClick={matchdaySub}>
-                            <img src="/images/other/arrow-left.png" width="17" /> <SpanMatchday>jornada {count - 1}</SpanMatchday>
+                            <img
+                              src="/images/other/arrow-left.png"
+                              width="17"
+                            />
+                            <SpanMatchday>jornada {count - 1}</SpanMatchday>
                           </DivCursor>
                         )}
                       </TrMatchday>
@@ -145,24 +162,36 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
                       <th />
                       <TrMatchday className="text-white font-weight-light">
                         <DivCursor onClick={matchdayAdd}>
-                          <SpanMatchday  >jornada {count + 1}</SpanMatchday> <img src="/images/other/arrow-right.png" width="17" />
+                          <SpanMatchday>jornada {count + 1}</SpanMatchday>{" "}
+                          <img src="/images/other/arrow-right.png" width="17" />
                         </DivCursor>
                       </TrMatchday>
                     </tr>
                   </TableHead>
                   <Tbody>
                     {props.matchs.map(m => (
-                      <EditMatchDay key={m.MatchId} m={m} updatedResults={updatedResults} />
+                      <EditMatchDay
+                        key={m.MatchId}
+                        m={m}
+                        updatedResults={updatedResults}
+                      />
                     ))}
                   </Tbody>
                 </Table>
               </div>
             </div>
-            {props.matchs.length === 0 &&
+            {props.matchs.length === 0 && (
               <div className="row">
-                <div className="col"><button className="btn btn-light pt-1 pb-1" onClick={createMatchs}>Crear Calendario</button></div>
+                <div className="col">
+                  <button
+                    className="btn btn-light pt-1 pb-1"
+                    onClick={createMatchs}
+                  >
+                    Crear Calendario
+                  </button>
+                </div>
               </div>
-            }
+            )}
           </div>
           <div className="col p-3 m-3">
             <div className="row pb-3">
@@ -170,29 +199,55 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => { //Funct
             </div>
             <div className="row justify-content-center">
               <div className="col-10">
-                <Table striped variant="dark" className="border border-secondary">
+                <Table
+                  striped
+                  variant="dark"
+                  className="border border-secondary"
+                >
                   <TableHead>
                     <tr>
                       <th />
                       <th />
                       <th />
                       <th className="p-2 text-center text-light">PTS</th>
-                      <th className="p-2 text-center text-light font-weight-light">PJ</th>
-                      <th className="p-2 text-center text-light font-weight-light">PG</th>
-                      <th className="p-2 text-center text-light font-weight-light">PE</th>
-                      <th className="p-2 text-center text-light font-weight-light">PP</th>
+                      <th className="p-2 text-center text-light font-weight-light">
+                        PJ
+                      </th>
+                      <th className="p-2 text-center text-light font-weight-light">
+                        PG
+                      </th>
+                      <th className="p-2 text-center text-light font-weight-light">
+                        PE
+                      </th>
+                      <th className="p-2 text-center text-light font-weight-light">
+                        PP
+                      </th>
                     </tr>
                   </TableHead>
                   <Tbody>
                     {props.qualification.map((q, i) => (
                       <tr key={q.ID}>
-                        {i === 0 ?
-                          <td className="p-1 text-center bg-success rounded-right">{1}</td> :
+                        {i === 0 ? (
+                          <td className="p-1 text-center bg-success rounded-right">
+                            {1}
+                          </td>
+                        ) : (
                           <td className="p-1 text-center">{i + 1}</td>
-                        }
-                        <td className="p-1 text-center"> {q.badge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" alt="" /> : <ImgBadge src={q.badge} alt="" />}</td>
+                        )}
+                        <td className="p-1 text-center">
+                          {q.badge === null ? (
+                            <ImgBadge
+                              src="/images/badges-teams/default-badge.png"
+                              alt=""
+                            />
+                          ) : (
+                            <ImgBadge src={q.badge} alt="" />
+                          )}
+                        </td>
                         <td className="p-1">{q.TEAM}</td>
-                        <td className="p-1 text-center"><b>{q.PTS}</b></td>
+                        <td className="p-1 text-center">
+                          <b>{q.PTS}</b>
+                        </td>
                         <td className="p-1 text-center">{q.PJ}</td>
                         <td className="p-1 text-center">{q.PG}</td>
                         <td className="p-1 text-center">{q.PE}</td>

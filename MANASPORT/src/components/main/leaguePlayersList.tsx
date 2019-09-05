@@ -27,12 +27,9 @@ import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers/reducers";
 //Styled Components - CSSINJS
 import styled from "styled-components";
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from "react-custom-scrollbars";
 
 //----------------------------------------------------
-
-
-
 
 // ****** Styles *******
 const Wrapper = styled.div`
@@ -42,19 +39,19 @@ const Wrapper2 = styled.div`
   min-height: 400px;
 `;
 const borderCard = {
-  border: '1px solid rgb(35, 41, 128)'
+  border: "1px solid rgb(35, 41, 128)"
 };
 const WrapperListTeams = styled.div`
-  background: rgb(35,41,128);
+  background: rgb(35, 41, 128);
   height: 30px;
   &:hover {
-    background-color: #50559A;
+    background-color: #50559a;
     color: white;
   }
   cursor: pointer;
 `;
 const WrapperCardBody = styled.div`
-  background: rgba(35,41,128, 0.5);
+  background: rgba(35, 41, 128, 0.5);
 `;
 const WrapperFormAddTeam = styled.div`
   background: rgba(83, 92, 104, 0.8);
@@ -75,7 +72,13 @@ const TdMatchdaySmall = styled.td`
   width: 10%;
 `;
 const DivDegraded = styled.div`
-  background: linear-gradient(50deg, rgba(255,193,7,0.9), rgba(255,193,7,0.5), rgba(43,47,56,0.7), rgba(43,47,56,0.4));
+  background: linear-gradient(
+    50deg,
+    rgba(255, 193, 7, 0.9),
+    rgba(255, 193, 7, 0.5),
+    rgba(43, 47, 56, 0.7),
+    rgba(43, 47, 56, 0.4)
+  );
 `;
 const ImgBadge = styled.img`
   height: 40px;
@@ -98,9 +101,8 @@ const Row = styled.div`
 `;
 // *********************
 
-
 //Global Props
-interface IProps { }
+interface IProps {}
 interface IPropsGlobal {
   leagueTeams: ITeam[];
   setLeagueTeams: (leagueTeams: ITeam[]) => void;
@@ -113,7 +115,8 @@ interface IPropsGlobal {
   newPlayer: (player: IPlayer) => void;
 }
 
-const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Function Component
+const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
+  //Function Component
   const [valueTeamId, setValueTeamId] = useState(-1); //Hook the team ID to show the team players
 
   const [showEditPlayer, setEditPlayer] = useState(false); //Hook for edit player modal
@@ -127,13 +130,15 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
   }
 
   const [showDeletePlayer, setDeletePlayer] = useState(false); //Hook to delete a team
-  const toggleEditPlayer = React.useCallback(() => setDeletePlayer(s => !s), []); //Open and close delete team modal
+  const toggleEditPlayer = React.useCallback(
+    () => setDeletePlayer(s => !s),
+    []
+  ); //Open and close delete team modal
 
   function funcionDeletePlayer(DeleteLeagueId: any): any {
     toggleEditPlayer();
     props.setPlayerId(DeleteLeagueId);
   }
-
 
   const [fetchError, setFetchError] = useState(""); //Hook to manage an error
   const [inputAlert, setInputAlert] = useState(true); //Hook to manage the error alert
@@ -142,7 +147,9 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
   const [inputPlayerName, setInputPlayerName] = useState("");
   const [inputPlayerSurname, setInputPlayerSurname] = useState("");
   const [inputPlayerAge, setInputPlayerAge] = React.useState("");
-  const [inputPlayerPosition, setInputPlayerPosition] = React.useState("Portero");
+  const [inputPlayerPosition, setInputPlayerPosition] = React.useState(
+    "Portero"
+  );
   const [inputPlayerGoals, setInputPlayerGoals] = React.useState("");
   const [inputPlayerTeam, setInputPlayerTeam] = React.useState("");
 
@@ -168,43 +175,52 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
   };
 
   const [updateSetTeamPlayers, setUpdateSetTeamPlayers] = React.useState(false);
-  const toggleSetTeamPlayers = React.useCallback(() => setUpdateSetTeamPlayers(s => !s), []); //Open and close alert league name invalid
+  const toggleSetTeamPlayers = React.useCallback(
+    () => setUpdateSetTeamPlayers(s => !s),
+    []
+  ); //Open and close alert league name invalid
 
-  useEffect(() => { //Fetch team players to redux every time the team ID changes
-    fetch(
-      "http://localhost:8080/api/teams/teamPlayers/" +
-      valueTeamId,
-      {
-        headers: {
-          "Content-type": "application/json",
-          Accept: "application/json"
-          // Authorization: "Bearer " + props.token
-        }
+  useEffect(() => {
+    //Fetch team players to redux every time the team ID changes
+    fetch("http://localhost:8080/api/teams/teamPlayers/" + valueTeamId, {
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json"
+        // Authorization: "Bearer " + props.token
       }
-    ).then(response => {
+    }).then(response => {
       if (response.ok) {
         response.json().then(players => props.setTeamPlayers(players));
       }
     });
   }, [valueTeamId, props.teamPlayers.length, updateSetTeamPlayers]);
 
-  const currentTeam = props.leagueTeams.find(
-    u => u.TeamId === valueTeamId
-  );
+  const currentTeam = props.leagueTeams.find(u => u.TeamId === valueTeamId);
 
   const [alertWrongPlayer, setAlertWrongPlayer] = useState(false);
-  const toggleWrongPlayer = React.useCallback(() => setAlertWrongPlayer(s => !s), []); //Open and close alert player name invalid
+  const toggleWrongPlayer = React.useCallback(
+    () => setAlertWrongPlayer(s => !s),
+    []
+  ); //Open and close alert player name invalid
 
   const [alertRightPlayer, setAlertRightPlayer] = useState(false);
-  const toggleRightPlayer = React.useCallback(() => setAlertRightPlayer(s => !s), []); //Open and close alert right player name 
+  const toggleRightPlayer = React.useCallback(
+    () => setAlertRightPlayer(s => !s),
+    []
+  ); //Open and close alert right player name
 
-  const sendPlayer = () => { //Function Component
-    if (inputPlayerTeam === "" || (inputPlayerName.length < 3 || inputPlayerName.length > 25)) {
+  const sendPlayer = () => {
+    //Function Component
+    if (
+      inputPlayerTeam === "" ||
+      (inputPlayerName.length < 3 || inputPlayerName.length > 25)
+    ) {
       toggleWrongPlayer();
-      setTimeout(() => toggleWrongPlayer(), 5000)
+      setTimeout(() => toggleWrongPlayer(), 5000);
     } else {
-      const token = localStorage.getItem("token");  //Token - Get the token stored from local storage
-      if (token) { // We need that token exits to decode it but React will fall down
+      const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
+      if (token) {
+        // We need that token exits to decode it but React will fall down
         fetch("http://localhost:8080/api/players/newPlayer", {
           method: "POST",
           headers: {
@@ -223,8 +239,8 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
             if (response.ok) {
               response.json().then(p => {
                 props.newPlayer(p);
-                toggleRightPlayer()
-                setTimeout(() => toggleRightPlayer(), 5000)
+                toggleRightPlayer();
+                setTimeout(() => toggleRightPlayer(), 5000);
                 setInputPlayerName("");
                 setInputPlayerSurname("");
                 setInputPlayerAge("");
@@ -234,8 +250,8 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
               response.json().then(({ e }) => {
                 if (e === 1062) {
                   setFetchError("El nombre del equipo ya existe");
-                  setInputAlert(true)
-                  setTimeout(() => setInputAlert(false), 3000)
+                  setInputAlert(true);
+                  setTimeout(() => setInputAlert(false), 3000);
                 }
               });
             }
@@ -248,25 +264,29 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
   };
 
   return (
-    <> {/* '<> ... </>' used to send an only one container */}
+    <>
+      {/* '<> ... </>' used to send an only one container */}
       <Wrapper className="container-fluid text-dark">
         <div className="row mt-1 ">
           <div className="col pt-3 pl-3 pr-3 m-1 text-center">
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
               <Nav
                 variant="pills"
-                className="flex-fill text-right justify-content-end mb-3">
+                className="flex-fill text-right justify-content-end mb-3"
+              >
                 <Nav.Item style={{ width: "2rem" }}>
                   <Nav.Link
                     eventKey="first"
-                    className="pt-0 pl-0 pr-0 pb-1 bg-light border border-dark text-center">
+                    className="pt-0 pl-0 pr-0 pb-1 bg-light border border-dark text-center"
+                  >
                     <img src="/images/other/normal.png" width="20" alt="" />
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item style={{ width: "2rem" }}>
                   <Nav.Link
                     eventKey="second"
-                    className="pt-0 pl-0 pr-0 pb-1 bg-light border border-dark text-center">
+                    className="pt-0 pl-0 pr-0 pb-1 bg-light border border-dark text-center"
+                  >
                     <img src="/images/other/cards.png" width="20" alt="" />
                   </Nav.Link>
                 </Nav.Item>
@@ -279,12 +299,24 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
               <Row className="row justify-content-center mb-4">
                 <div className="col-2 pl-2 pr-0 overflow-auto">
                   {props.leagueTeams.map(l => (
-                    <Card style={borderCard} className="mb-1 ml-1 mr-1" onClick={() => setValueTeamId(l.TeamId)} key={l.TeamId}>
+                    <Card
+                      style={borderCard}
+                      className="mb-1 ml-1 mr-1"
+                      onClick={() => setValueTeamId(l.TeamId)}
+                      key={l.TeamId}
+                    >
                       <WrapperListTeams className="pl-3 pr-3">
                         <tr>
-                          <td> <Card.Img src={l.badge} style={{ width: "1rem", marginRight: "7px" }} /></td>
+                          <td>
+                            <Card.Img
+                              src={l.badge}
+                              style={{ width: "1rem", marginRight: "7px" }}
+                            />
+                          </td>
                           <td className="text-light">
-                            <SpanNameTeam className="align-middle">{l.name === null ? "-" : l.name}</SpanNameTeam>
+                            <SpanNameTeam className="align-middle">
+                              {l.name === null ? "-" : l.name}
+                            </SpanNameTeam>
                           </td>
                         </tr>
                       </WrapperListTeams>
@@ -298,19 +330,29 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                         {currentTeam ? (
                           <div className="col text-center text-light h3 p-0 m-0">
                             <ImgBadge src={currentTeam.badge} alt="" />
-                            <span className="ml-3 align-middle">{currentTeam.name}</span>
+                            <span className="ml-3 align-middle">
+                              {currentTeam.name}
+                            </span>
                           </div>
-                        ) :
+                        ) : (
                           <div className="col text-center text-light h5 p-0 m-0">
-                            <span className="ml-3 align-middle">Selecciona un equipo</span>
+                            <span className="ml-3 align-middle">
+                              Selecciona un equipo
+                            </span>
                           </div>
-                        }
+                        )}
                       </div>
                     </div>
                     <Tab.Content>
                       <Tab.Pane eventKey="first">
                         <Wrapper2 className="row ">
-                          <Table responsive striped hover variant="dark" className="m-0 border-0">
+                          <Table
+                            responsive
+                            striped
+                            hover
+                            variant="dark"
+                            className="m-0 border-0"
+                          >
                             <thead>
                               <tr>
                                 <th> </th>
@@ -339,23 +381,53 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                                     {p.age === null ? "-" : p.age}
                                   </TdMatchdaySmall>
                                   <TdMatchdayBig className="p-2">
-                                    {p.position === null ? "-" : (
-                                      p.position === "Delantero" ? <Badge variant="danger" title="Delantero"> <SpanBadge>DC</SpanBadge> </Badge> : (
-                                        p.position === "ExtremoIzq" ? <Badge variant="danger" title="Extremo izquierdo"><SpanBadge>EI</SpanBadge></Badge> : (
-                                          p.position === "ExtremoDer" ? <Badge variant="danger" title="Extremo derecho"><SpanBadge>ED</SpanBadge></Badge> : (
-                                            p.position === "Medio" ? <Badge variant="success" title="Medio"><SpanBadge>MD</SpanBadge></Badge> : (
-                                              p.position === "LateralIzq" ? <Badge variant="info" title="Lateral izquierdo"><SpanBadge>LI</SpanBadge></Badge> : (
-                                                p.position === "LateralDer" ? <Badge variant="info" title="Lateral derecho"><SpanBadge>LD</SpanBadge></Badge> : (
-                                                  p.position === "Central" ? <Badge variant="info" title="Central"><SpanBadge>CT</SpanBadge></Badge> : (
-                                                    p.position === "Portero" ? <Badge variant="warning" title="Portero"><SpanBadge>PT</SpanBadge></Badge> : null
-                                                  )
-                                                )
-                                              )
-                                            )
-                                          )
-                                        )
-                                      )
-                                    )}
+                                    {p.position === null ? (
+                                      "-"
+                                    ) : p.position === "Delantero" ? (
+                                      <Badge variant="danger" title="Delantero">
+                                        <SpanBadge>DC</SpanBadge>
+                                      </Badge>
+                                    ) : p.position === "ExtremoIzq" ? (
+                                      <Badge
+                                        variant="danger"
+                                        title="Extremo izquierdo"
+                                      >
+                                        <SpanBadge>EI</SpanBadge>
+                                      </Badge>
+                                    ) : p.position === "ExtremoDer" ? (
+                                      <Badge
+                                        variant="danger"
+                                        title="Extremo derecho"
+                                      >
+                                        <SpanBadge>ED</SpanBadge>
+                                      </Badge>
+                                    ) : p.position === "Medio" ? (
+                                      <Badge variant="success" title="Medio">
+                                        <SpanBadge>MD</SpanBadge>
+                                      </Badge>
+                                    ) : p.position === "LateralIzq" ? (
+                                      <Badge
+                                        variant="info"
+                                        title="Lateral izquierdo"
+                                      >
+                                        <SpanBadge>LI</SpanBadge>
+                                      </Badge>
+                                    ) : p.position === "LateralDer" ? (
+                                      <Badge
+                                        variant="info"
+                                        title="Lateral derecho"
+                                      >
+                                        <SpanBadge>LD</SpanBadge>
+                                      </Badge>
+                                    ) : p.position === "Central" ? (
+                                      <Badge variant="info" title="Central">
+                                        <SpanBadge>CT</SpanBadge>
+                                      </Badge>
+                                    ) : p.position === "Portero" ? (
+                                      <Badge variant="warning" title="Portero">
+                                        <SpanBadge>PT</SpanBadge>
+                                      </Badge>
+                                    ) : null}
                                   </TdMatchdayBig>
                                   <TdMatchdaySmall className="p-2">
                                     {p.goals === null ? "-" : p.goals}
@@ -365,8 +437,10 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                                       src="/images/other/edit.png"
                                       width="15"
                                       alt=""
-                                      onClick={() => funcionEditPlayer(p.PlayerId)}
-                                      style={{ cursor: 'pointer' }}
+                                      onClick={() =>
+                                        funcionEditPlayer(p.PlayerId)
+                                      }
+                                      style={{ cursor: "pointer" }}
                                     />
                                   </TdMatchdaySmall>
                                   <TdMatchdayBig className="p-1">
@@ -374,10 +448,12 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                                       variant="danger"
                                       className="pt-0 pb-0 pl-3 pr-3"
                                       size="sm"
-                                      onClick={() => funcionDeletePlayer(p.PlayerId)}
+                                      onClick={() =>
+                                        funcionDeletePlayer(p.PlayerId)
+                                      }
                                     >
                                       Eliminar
-                                  </Button>
+                                    </Button>
                                   </TdMatchdayBig>
                                 </tr>
                               ))}
@@ -393,7 +469,10 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                               className="m-1"
                               style={{ width: "13rem" }}
                             >
-                              <Card style={borderCard} className="bg-transparent m-2">
+                              <Card
+                                style={borderCard}
+                                className="bg-transparent m-2"
+                              >
                                 <WrapperCardBody>
                                   <Card.Body className="p-2">
                                     <ImgBadgeCard src="https://icon-library.net/images/avatar-icon-images/avatar-icon-images-4.jpg" />
@@ -407,33 +486,79 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                                   <ListGroup className="list-group-flush text-left">
                                     <ListGroupItem className="p-2">
                                       <b className="mr-1">Equipo: </b>
-                                      {currentTeam && (currentTeam.name === null ? "-" : currentTeam.name)}
+                                      {currentTeam &&
+                                        (currentTeam.name === null
+                                          ? "-"
+                                          : currentTeam.name)}
                                     </ListGroupItem>
-                                    <ListGroupItem className="p-2" variant="secondary">
+                                    <ListGroupItem
+                                      className="p-2"
+                                      variant="secondary"
+                                    >
                                       <b className="mr-1">Edad: </b>
                                       {p.age === null ? "-" : p.age}
                                     </ListGroupItem>
                                     <ListGroupItem className="p-2">
                                       <b className="mr-1">Posición: </b>
-                                      {p.position === null ? "-" : (
-                                        p.position === "Delantero" ? <Badge variant="danger" title="Delantero" className="align-self-middle"> <span>DC</span> </Badge> : (
-                                          p.position === "ExtremoIzq" ? <Badge variant="danger" title="Extremo izquierdo"><span>EI</span></Badge> : (
-                                            p.position === "ExtremoDer" ? <Badge variant="danger" title="Extremo derecho"><SpanBadge>ED</SpanBadge></Badge> : (
-                                              p.position === "Medio" ? <Badge variant="success" title="Medio"><SpanBadge>MD</SpanBadge></Badge> : (
-                                                p.position === "LateralIzq" ? <Badge variant="info" title="Lateral izquierdo"><SpanBadge>LI</SpanBadge></Badge> : (
-                                                  p.position === "LateralDer" ? <Badge variant="info" title="Lateral derecho"><SpanBadge>LD</SpanBadge></Badge> : (
-                                                    p.position === "Central" ? <Badge variant="info" title="Central"><SpanBadge>CT</SpanBadge></Badge> : (
-                                                      p.position === "Portero" ? <Badge variant="warning" title="Portero"><SpanBadge>PT</SpanBadge></Badge> : null
-                                                    )
-                                                  )
-                                                )
-                                              )
-                                            )
-                                          )
-                                        )
-                                      )}
+                                      {p.position === null ? (
+                                        "-"
+                                      ) : p.position === "Delantero" ? (
+                                        <Badge
+                                          variant="danger"
+                                          title="Delantero"
+                                          className="align-self-middle"
+                                        >
+                                          <span>DC</span>
+                                        </Badge>
+                                      ) : p.position === "ExtremoIzq" ? (
+                                        <Badge
+                                          variant="danger"
+                                          title="Extremo izquierdo"
+                                        >
+                                          <span>EI</span>
+                                        </Badge>
+                                      ) : p.position === "ExtremoDer" ? (
+                                        <Badge
+                                          variant="danger"
+                                          title="Extremo derecho"
+                                        >
+                                          <SpanBadge>ED</SpanBadge>
+                                        </Badge>
+                                      ) : p.position === "Medio" ? (
+                                        <Badge variant="success" title="Medio">
+                                          <SpanBadge>MD</SpanBadge>
+                                        </Badge>
+                                      ) : p.position === "LateralIzq" ? (
+                                        <Badge
+                                          variant="info"
+                                          title="Lateral izquierdo"
+                                        >
+                                          <SpanBadge>LI</SpanBadge>
+                                        </Badge>
+                                      ) : p.position === "LateralDer" ? (
+                                        <Badge
+                                          variant="info"
+                                          title="Lateral derecho"
+                                        >
+                                          <SpanBadge>LD</SpanBadge>
+                                        </Badge>
+                                      ) : p.position === "Central" ? (
+                                        <Badge variant="info" title="Central">
+                                          <SpanBadge>CT</SpanBadge>
+                                        </Badge>
+                                      ) : p.position === "Portero" ? (
+                                        <Badge
+                                          variant="warning"
+                                          title="Portero"
+                                        >
+                                          <SpanBadge>PT</SpanBadge>
+                                        </Badge>
+                                      ) : null}
                                     </ListGroupItem>
-                                    <ListGroupItem className="p-2" variant="secondary">
+                                    <ListGroupItem
+                                      className="p-2"
+                                      variant="secondary"
+                                    >
                                       <b className="mr-1">Goles: </b>
                                       {p.goals === null ? "-" : p.goals}
                                     </ListGroupItem>
@@ -463,7 +588,12 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                     // onClick={sendLeague}
                     className="font-weight-bold text-dark pl-3 pr-3 btn-sm"
                   >
-                    <img src="/images/other/plus.png" className="mr-2 align-middle" width="17" alt="" />
+                    <img
+                      src="/images/other/plus.png"
+                      className="mr-2 align-middle"
+                      width="17"
+                      alt=""
+                    />
                     <span className="align-middle">AÑADIR JUGADOR</span>
                   </Button>
                 </Accordion.Toggle>
@@ -477,25 +607,38 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                   <WrapperFormAddTeam className="col-5 pt-1 pl-4 pr-4 pb-1 rounded">
                     <div className="row mt-4 mb-4">
                       <div className="col-3 text-right">
-                        <img src="/images/football-player.png" width="50" alt="" />
+                        <img
+                          src="/images/football-player.png"
+                          width="50"
+                          alt=""
+                        />
                       </div>
                       <div className="col-9 align-self-center">
                         <SpanFieldTeam className="h4">
                           Formulario añadir jugador:
-                         </SpanFieldTeam>
+                        </SpanFieldTeam>
                       </div>
                     </div>
                     <hr className="bg-light" />
                     <div className="row mt-2">
                       <div className="col-3 text-left">
-                        <SpanFieldTeam className="align-middle">*Equipo:</SpanFieldTeam>
+                        <SpanFieldTeam className="align-middle">
+                          *Equipo:
+                        </SpanFieldTeam>
                       </div>
                       <div className="col-9">
-                        <Form.Control as="select" size="sm" className="pt-0 pb-0 bg-dark border border-secondary text-light" onChange={updatePlayerTeam}>
+                        <Form.Control
+                          as="select"
+                          size="sm"
+                          className="pt-0 pb-0 bg-dark border border-secondary text-light"
+                          onChange={updatePlayerTeam}
+                        >
                           <option value=""> Selecciona un equipo </option>
-                          {props.leagueTeams.map(l =>
-                            <option value={l.TeamId} key={l.TeamId}>{l.name}</option>
-                          )}
+                          {props.leagueTeams.map(l => (
+                            <option value={l.TeamId} key={l.TeamId}>
+                              {l.name}
+                            </option>
+                          ))}
                         </Form.Control>
                       </div>
                     </div>
@@ -516,9 +659,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                       </div>
                     </div>
                     <div className="row mt-3">
-                      <div className="col text-left">
-                        Apellidos:
-                                </div>
+                      <div className="col text-left">Apellidos:</div>
                     </div>
                     <div className="row">
                       <div className="col">
@@ -531,9 +672,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                       </div>
                     </div>
                     <div className="row mt-3">
-                      <div className="col text-left">
-                        Edad:
-                      </div>
+                      <div className="col text-left">Edad:</div>
                     </div>
                     <div className="row">
                       <div className="col">
@@ -546,13 +685,16 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                       </div>
                     </div>
                     <div className="row mt-3">
-                      <div className="col text-left">
-                        *Posicion:
-                      </div>
+                      <div className="col text-left">*Posición:</div>
                     </div>
                     <div className="row">
                       <div className="col">
-                        <Form.Control as="select" size="sm" className="pt-0 pb-0 bg-dark border border-secondary text-light" onChange={updatePlayerPosition}>
+                        <Form.Control
+                          as="select"
+                          size="sm"
+                          className="pt-0 pb-0 bg-dark border border-secondary text-light"
+                          onChange={updatePlayerPosition}
+                        >
                           <option value="Portero">Portero</option>
                           <option value="Central">Central</option>
                           <option value="LateralIzq">Lateral Izquierdo</option>
@@ -565,9 +707,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                       </div>
                     </div>
                     <div className="row mt-3">
-                      <div className="col text-left">
-                        Goles:
-                      </div>
+                      <div className="col text-left">Goles:</div>
                     </div>
                     <div className="row">
                       <div className="col">
@@ -581,18 +721,33 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                     </div>
                     <div className="row">
                       <div className="col-4 text-left mt-1">
-                        <SpanFieldRequired>* Campos obligatorios </SpanFieldRequired>
+                        <SpanFieldRequired>
+                          * Campos obligatorios
+                        </SpanFieldRequired>
                       </div>
                     </div>
                     {alertWrongPlayer && (
                       <div className="row justify-content-center mt-4">
                         <div className="col text-center">
                           <Alert variant="danger" className="p-2">
-                            <img src="/images/other/cancel.png" width="35" alt="" className="mr-3" />
-                            <span> <b> Error, comprueba que el jugador cumple los siguientes requisitos:</b> </span>
+                            <img
+                              src="/images/other/cancel.png"
+                              width="35"
+                              alt=""
+                              className="mr-3"
+                            />
+                            <span>
+                              <b>
+                                Error, comprueba que el jugador cumple los
+                                siguientes requisitos:
+                              </b>
+                            </span>
                             <ul className="text-left">
                               <li>Debe de seleccionar un equipo.</li>
-                              <li>El nombre del jugador debe contener entre 4 y 25 caracteres.</li>
+                              <li>
+                                El nombre del jugador debe contener entre 4 y 25
+                                caracteres.
+                              </li>
                             </ul>
                           </Alert>
                         </div>
@@ -602,8 +757,15 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
                       <div className="row justify-content-center mt-4">
                         <div className="col text-center">
                           <Alert variant="success" className="p-2">
-                            <img src="/images/other/send.png" width="35" alt="" className="mr-3" />
-                            <span> <b> Jugador añadido correctamente</b> </span>
+                            <img
+                              src="/images/other/send.png"
+                              width="35"
+                              alt=""
+                              className="mr-3"
+                            />
+                            <span>
+                              <b> Jugador añadido correctamente</b>
+                            </span>
                           </Alert>
                         </div>
                       </div>
@@ -627,10 +789,16 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => { //Funct
         </Card>
       </Accordion>
       <Modal show={showEditPlayer} onHide={handleCloseEditPlayer}>
-        <EditPlayerModal handleCloseEditPlayer={handleCloseEditPlayer} toggleSetTeamPlayers={toggleSetTeamPlayers}/>
+        <EditPlayerModal
+          handleCloseEditPlayer={handleCloseEditPlayer}
+          toggleSetTeamPlayers={toggleSetTeamPlayers}
+        />
       </Modal>
       <Modal show={showDeletePlayer} onHide={() => null}>
-        <DeletePlayerModal handleCloseDeletePlayer={toggleEditPlayer} toggleSetTeamPlayers={toggleSetTeamPlayers}/>
+        <DeletePlayerModal
+          handleCloseDeletePlayer={toggleEditPlayer}
+          toggleSetTeamPlayers={toggleSetTeamPlayers}
+        />
       </Modal>
     </>
   );

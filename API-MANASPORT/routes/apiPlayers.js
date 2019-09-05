@@ -40,7 +40,7 @@ router.put("/players/editPlayer/:PlayerId", (req, res) => {
       surname = ${data.surname.length > 0 ? `'${data.surname}'` : "NULL"},  
       age = '${data.age}',
       position = ${data.position.length > 0 ? `'${data.position}'` : "NULL"}, 
-      goals = '${data.goals}'
+      goals = ${data.goals.length > 0 ? `'${data.goals}'` : "NULL"} 
       WHERE PlayerId = ${data.PlayerId};`,
     (err, rows) => {
       if (err) throw err;
