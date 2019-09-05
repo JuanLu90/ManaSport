@@ -46,6 +46,34 @@ interface IPropsGlobal {
 }
 
 const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
+  const compareName = (a: any, b: any) => {
+    if (a.name.localeCompare(b.name) > b.name.localeCompare(a.name)) {
+      return -1;
+    }
+    if (a.name.localeCompare(b.name) < b.name.localeCompare(a.name)) {
+      return 1;
+    }
+    return 0;
+  };
+  const compareNameReverse = (a: any, b: any) => {
+    if (a.name.localeCompare(b.name) < b.name.localeCompare(a.name)) {
+      return -1;
+    }
+    if (a.name.localeCompare(b.name) > b.name.localeCompare(a.name)) {
+      return 1;
+    }
+    return 0;
+  };
+
+  const [sortByName, setSortByName] = React.useState(false);
+  const toggleSortByName = React.useCallback(() => setSortByName(s => !s), []);
+
+  if (sortByName) {
+    props.leagues.sort(compareName);
+  } else {
+    props.leagues.sort(compareNameReverse);
+  }
+
   const [inputLeagueName, setInputLeagueName] = useState("");
   const [inputLeagueSport, setInputLeagueSport] = useState("Fútbol");
   const [inputLeagueCategory, setInputLeagueCategory] = React.useState(
@@ -186,7 +214,17 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
               <TableHead>
                 <tr>
                   <th />
-                  <th />
+                  <th>
+                    NOMBRE
+                    <img
+                      src="/images/other/sort.png"
+                      className="ml-2 mb-1"
+                      width="15"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => toggleSortByName()}
+                      alt=""
+                    />
+                  </th>
                   <th>DEPORTE</th>
                   <th>MODALIDAD</th>
                   <th>Nº EQUIPOS</th>

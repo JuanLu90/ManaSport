@@ -117,6 +117,35 @@ interface IPropsGlobal {
 
 const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
   //Function Component
+
+  const compareName = (a: any, b: any) => {
+    if (a.name.localeCompare(b.name) > b.name.localeCompare(a.name)) {
+      return -1;
+    }
+    if (a.name.localeCompare(b.name) < b.name.localeCompare(a.name)) {
+      return 1;
+    }
+    return 0;
+  };
+  const compareNameReverse = (a: any, b: any) => {
+    if (a.name.localeCompare(b.name) < b.name.localeCompare(a.name)) {
+      return -1;
+    }
+    if (a.name.localeCompare(b.name) > b.name.localeCompare(a.name)) {
+      return 1;
+    }
+    return 0;
+  };
+
+  const [sortByName, setSortByName] = React.useState(false);
+  const toggleSortByName = React.useCallback(() => setSortByName(s => !s), []);
+
+  if (sortByName) {
+    props.teamPlayers.sort(compareName);
+  } else {
+    props.teamPlayers.sort(compareNameReverse);
+  }
+
   const [valueTeamId, setValueTeamId] = useState(-1); //Hook the team ID to show the team players
 
   const [showEditPlayer, setEditPlayer] = useState(false); //Hook for edit player modal
@@ -356,7 +385,17 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
                             <thead>
                               <tr>
                                 <th> </th>
-                                <th> NOMBRE </th>
+                                <th>
+                                  NOMBRE
+                                  <img
+                                    src="/images/other/sort.png"
+                                    className="ml-2 mb-1"
+                                    width="15"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => toggleSortByName()}
+                                    alt=""
+                                  />
+                                </th>
                                 <th> APELLIDOS </th>
                                 <th> EDAD </th>
                                 <th> POSICIÓN</th>

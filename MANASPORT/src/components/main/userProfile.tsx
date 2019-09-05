@@ -1,5 +1,5 @@
 //React´s Components
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 //JsonWebToken
 import jwt from "jsonwebtoken";
@@ -34,6 +34,29 @@ const UserProfile: React.FC<
   const decoded: any = jwt.decode(token); //Decode token to get the current user
   const currentUser = props.users.find(u => u.UserId === decoded.UserId);
 
+
+
+  const [countTournaments, setCountTournaments] = React.useState("");
+
+console.log(countTournaments)
+  useEffect(() => {
+    //Fetch users to redux every time the token changes
+    fetch(
+      "http://localhost:8080/api/users/countTournaments/" + decoded.UserId,
+      {
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json"
+          // Authorization: "Bearer " + props.token
+        }
+      }
+    ).then(response => {
+      if (response.ok) {
+        response.json().then(t => setCountTournaments(t[0].countTournaments));
+      }
+    });
+  }, []);
+
   if (!currentUser) {
     //Avoid that 'user' will be undefined
     return null;
@@ -65,7 +88,7 @@ const UserProfile: React.FC<
                 alt=""
                 title="Ligas creadas"
               />
-              <span className="h4 ml-2">5</span> {currentUser.NTournaments}
+              <span className="h4 ml-2">{countTournaments}</span>
             </div>
           </div>
           <div className="row bg-secondary">

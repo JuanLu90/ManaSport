@@ -28,18 +28,14 @@ import { IGlobalState } from "../../reducers/reducers";
 //Styled Components - CSSINJS
 import styled from "styled-components";
 
-
-
 //----------------------------------------------------
-
-
 
 // ****** Styles *******
 const Wrapper = styled.div`
   font-family: "Source Sans Pro", sans-serif;
 `;
 const WrapperCardBody = styled.div`
-  background: rgba(35,41,128, 0.5);
+  background: rgba(35, 41, 128, 0.5);
 `;
 const WrapperFormAddTeam = styled.div`
   background: rgba(83, 92, 104, 0.8);
@@ -67,13 +63,18 @@ const SpanFieldRequired = styled.span`
   font-family: "Source Sans Pro", sans-serif;
 `;
 const DivDegraded = styled.div`
-background: linear-gradient(50deg, rgba(255,193,7,0.9), rgba(255,193,7,0.5), rgba(43,47,56,0.7), rgba(43,47,56,0.4));
+  background: linear-gradient(
+    50deg,
+    rgba(255, 193, 7, 0.9),
+    rgba(255, 193, 7, 0.5),
+    rgba(43, 47, 56, 0.7),
+    rgba(43, 47, 56, 0.4)
+  );
 `;
 // *********************
 
-
 //Global Props
-interface IProps { }
+interface IProps {}
 interface IPropsGlobal {
   leagueTeams: ITeam[];
   newTeam: (team: ITeam) => void;
@@ -83,12 +84,40 @@ interface IPropsGlobal {
   DeleteLeagueId: number;
 }
 
-const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Function Component
+const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
+  //Function Component
+  const compareName = (a: any, b: any) => {
+    if (a.name.localeCompare(b.name) > b.name.localeCompare(a.name)) {
+      return -1;
+    }
+    if (a.name.localeCompare(b.name) < b.name.localeCompare(a.name)) {
+      return 1;
+    }
+    return 0;
+  };
+  const compareNameReverse = (a: any, b: any) => {
+    if (a.name.localeCompare(b.name) < b.name.localeCompare(a.name)) {
+      return -1;
+    }
+    if (a.name.localeCompare(b.name) > b.name.localeCompare(a.name)) {
+      return 1;
+    }
+    return 0;
+  };
+
+  const [sortByName, setSortByName] = React.useState(false);
+  const toggleSortByName = React.useCallback(() => setSortByName(s => !s), []);
+
+  if (sortByName) {
+    props.leagueTeams.sort(compareName);
+  } else {
+    props.leagueTeams.sort(compareNameReverse);
+  }
+
   const token: any = localStorage.getItem("token"); //Token - Get the token stored from local storage
   const history = createBrowserHistory({});
   const path: any = history.location.pathname; //Get path content
   let pathTournamentId = path.split(["/"]).slice(-1)[0];
-
 
   const [showEditTeam, setEditTeam] = useState(false); //Hook for edit team modal
   const handleCloseEditTeam = () => setEditTeam(false); //Close edit team modal
@@ -129,7 +158,10 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
   };
 
   const [updateSetTeams, setUpdateSetTeams] = React.useState(false);
-  const toggleSetTeams = React.useCallback(() => setUpdateSetTeams(s => !s), []); //Open and close alert league name invalid
+  const toggleSetTeams = React.useCallback(
+    () => setUpdateSetTeams(s => !s),
+    []
+  ); //Open and close alert league name invalid
 
   const [showDeleteTeam, setDeleteTeam] = useState(false); //Hook to delete a team
   const toggleEditTeam = React.useCallback(() => setDeleteTeam(s => !s), []); //Open and close delete team modal
@@ -144,11 +176,11 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
   const [inputAlert, setInputAlert] = useState(true); //Hook to manage the error alert
   const [inputAddedTeam, setInputAddedTeam] = useState(false); //Hook to manage the alert if a team is added
 
-  
-  useEffect(() => { //Fetch league´s teams to Redux every time token changes
+  useEffect(() => {
+    //Fetch league´s teams to Redux every time token changes
     fetch(
       "http://localhost:8080/api/tournaments/tournamentTeams/" +
-      pathTournamentId,
+        pathTournamentId,
       {
         headers: {
           "Content-type": "application/json",
@@ -163,9 +195,11 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
     });
   }, [token, props.leagueTeams.length, updateSetTeams]);
 
-  const sendTeam = () => { //Function Component
-    const token = localStorage.getItem("token");  //Token - Get the token stored from local storage
-    if (token) { // We need that token exits to decode it but React will fall down
+  const sendTeam = () => {
+    //Function Component
+    const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
+    if (token) {
+      // We need that token exits to decode it but React will fall down
       fetch("http://localhost:8080/api/teams/newTeam", {
         method: "POST",
         headers: {
@@ -195,8 +229,8 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
             response.json().then(({ e }) => {
               if (e === 1062) {
                 setFetchError("El nombre del equipo ya existe");
-                setInputAlert(true)
-                setTimeout(() => setInputAlert(false), 3000)
+                setInputAlert(true);
+                setTimeout(() => setInputAlert(false), 3000);
               }
             });
           }
@@ -235,20 +269,35 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                 </Nav.Item>
               </Nav>
               <Tab.Content>
-
                 <div className="row justify-content-center pl-3 pr-3">
                   <DivDegraded className="col-10 p-2 h2 font-weight-bold text-left">
                     Equipos
-                    </DivDegraded>
+                  </DivDegraded>
                 </div>
                 <Tab.Pane eventKey="first">
                   <div className="row justify-content-center">
                     <div className="col-10">
-                      <Table responsive striped hover variant="dark" className="border border-secondary">
+                      <Table
+                        responsive
+                        striped
+                        hover
+                        variant="dark"
+                        className="border border-secondary"
+                      >
                         <thead>
                           <tr>
                             <th />
-                            <th> NOMBRE </th>
+                            <th>
+                              NOMBRE
+                              <img
+                                src="/images/other/sort.png"
+                                className="ml-2 mb-1"
+                                width="15"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => toggleSortByName()}
+                                alt=""
+                              />
+                            </th>
                             <th> PROVINCIA </th>
                             <th> ENTRENADOR </th>
                             <th>2º ENTRENADOR</th>
@@ -263,7 +312,11 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                           {props.leagueTeams.map(l => (
                             <tr key={l.TeamId}>
                               <td className="p-0 align-middle">
-                                {l.badge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" /> : <ImgBadge src={l.badge} />}
+                                {l.badge === null ? (
+                                  <ImgBadge src="/images/badges-teams/default-badge.png" />
+                                ) : (
+                                  <ImgBadge src={l.badge} />
+                                )}
                               </td>
                               <td className="p-2 align-middle">
                                 {l.name === null ? "-" : l.name}
@@ -292,7 +345,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                   width="15"
                                   alt=""
                                   onClick={() => funcionEditTeam(l.TeamId)}
-                                  style={{ cursor: 'pointer' }}
+                                  style={{ cursor: "pointer" }}
                                 />
                               </td>
                               <td className="p-1">
@@ -303,7 +356,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                   onClick={() => funcionDeleteTeam(l.TeamId)}
                                 >
                                   Eliminar
-                              </Button>
+                                </Button>
                               </td>
                             </tr>
                           ))}
@@ -311,19 +364,33 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                       </Table>
                     </div>
                   </div>
-                  <Accordion defaultActiveKey="0" className="bg-transparent border-0">
+                  <Accordion
+                    defaultActiveKey="0"
+                    className="bg-transparent border-0"
+                  >
                     <Card className="bg-transparent border-0">
                       <div className="row">
                         <div className="col text-light">
                           <Card.Header className="bg-transparent border-0">
-                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                            <Accordion.Toggle
+                              as={Button}
+                              variant="link"
+                              eventKey="1"
+                            >
                               <Button
                                 variant="warning"
                                 // onClick={sendLeague}
                                 className="font-weight-bold text-dark pl-3 pr-3 btn-sm"
                               >
-                                <img src="/images/other/plus.png" className="mr-2 align-middle" width="17" alt="" />
-                                <span className="align-middle">AÑADIR EQUIPO</span>
+                                <img
+                                  src="/images/other/plus.png"
+                                  className="mr-2 align-middle"
+                                  width="17"
+                                  alt=""
+                                />
+                                <span className="align-middle">
+                                  AÑADIR EQUIPO
+                                </span>
                               </Button>
                             </Accordion.Toggle>
                           </Card.Header>
@@ -336,18 +403,24 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                               <WrapperFormAddTeam className="col-5 pt-1 pl-4 pr-4 pb-1 rounded">
                                 <div className="row mt-4 mb-4">
                                   <div className="col-3 text-right">
-                                    <img src="/images/football-badge.png" width="50" alt="" />
+                                    <img
+                                      src="/images/football-badge.png"
+                                      width="50"
+                                      alt=""
+                                    />
                                   </div>
                                   <div className="col-9 text-left align-self-center">
                                     <SpanFieldTeam className="h4">
                                       Formulario añadir equipo:
-                                      </SpanFieldTeam>
+                                    </SpanFieldTeam>
                                   </div>
                                 </div>
                                 <hr className="bg-light" />
                                 <div className="row mt-4">
                                   <div className="col text-left">
-                                    <SpanFieldTeam>*Nombre del equipo:</SpanFieldTeam>
+                                    <SpanFieldTeam>
+                                      *Nombre del equipo:
+                                    </SpanFieldTeam>
                                   </div>
                                 </div>
                                 <div className="row">
@@ -367,7 +440,12 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                 </div>
                                 <div className="row">
                                   <div className="col">
-                                    <Form.Control as="select" size="sm" onChange={updateTeamLocality} className="pt-0 pb-0 bg-dark border border-secondary text-light">
+                                    <Form.Control
+                                      as="select"
+                                      size="sm"
+                                      onChange={updateTeamLocality}
+                                      className="pt-0 pb-0 bg-dark border border-secondary text-light"
+                                    >
                                       <option value="Álava">Álava</option>
                                       <option value="Albacete">Albacete</option>
                                       <option value="Alicante">Alicante</option>
@@ -375,24 +453,40 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                       <option value="Asturias">Asturias</option>
                                       <option value="Ávila">Ávila</option>
                                       <option value="Badajoz">Badajoz</option>
-                                      <option value="Barcelona">Barcelona</option>
+                                      <option value="Barcelona">
+                                        Barcelona
+                                      </option>
                                       <option value="Burgos">Burgos</option>
                                       <option value="Cáceres">Cáceres</option>
                                       <option value="Cádiz">Cádiz</option>
-                                      <option value="Cantabria">Cantabria</option>
-                                      <option value="Castellón">Castellón</option>
+                                      <option value="Cantabria">
+                                        Cantabria
+                                      </option>
+                                      <option value="Castellón">
+                                        Castellón
+                                      </option>
                                       <option value="Ceuta">Ceuta</option>
-                                      <option value="Ciudad Real">Ciudad Real</option>
+                                      <option value="Ciudad Real">
+                                        Ciudad Real
+                                      </option>
                                       <option value="Córdoba">Córdoba</option>
                                       <option value="Cuenca">Cuenca</option>
                                       <option value="Girona">Girona</option>
-                                      <option value="Las Palmas">Las Palmas</option>
+                                      <option value="Las Palmas">
+                                        Las Palmas
+                                      </option>
                                       <option value="Granada">Granada</option>
-                                      <option value="Guadalajara">Guadalajara</option>
-                                      <option value="Guipúzcoa">Guipúzcoa</option>
+                                      <option value="Guadalajara">
+                                        Guadalajara
+                                      </option>
+                                      <option value="Guipúzcoa">
+                                        Guipúzcoa
+                                      </option>
                                       <option value="Huelva">Huelva</option>
                                       <option value="Huesca">Huesca</option>
-                                      <option value="illesbalIlles Balearsears">Illes Balears</option>
+                                      <option value="illesbalIlles Balearsears">
+                                        Illes Balears
+                                      </option>
                                       <option value="Jaén">Jaén</option>
                                       <option value="A Coruña">A Coruña</option>
                                       <option value="La Rioja">La Rioja</option>
@@ -406,20 +500,30 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                       <option value="Navarra">Navarra</option>
                                       <option value="Ourense">Ourense</option>
                                       <option value="Palencia">Palencia</option>
-                                      <option value="Pontevedra">Pontevedra</option>
-                                      <option value="Salamanca">Salamanca</option>
+                                      <option value="Pontevedra">
+                                        Pontevedra
+                                      </option>
+                                      <option value="Salamanca">
+                                        Salamanca
+                                      </option>
                                       <option value="Segovia">Segovia</option>
                                       <option value="Sevilla">Sevilla</option>
                                       <option value="Soria">Soria</option>
-                                      <option value="Tarragona">Tarragona</option>
+                                      <option value="Tarragona">
+                                        Tarragona
+                                      </option>
                                       <option value="Santa Cruz de Tenerife">
                                         Santa Cruz de Tenerife
                                       </option>
                                       <option value="Teruel">Teruel</option>
                                       <option value="Toledo">Toledo</option>
                                       <option value="Valencia">Valencia</option>
-                                      <option value="Valladolid">Valladolid</option>
-                                      <option value="vizcVizcayaaya">Vizcaya</option>
+                                      <option value="Valladolid">
+                                        Valladolid
+                                      </option>
+                                      <option value="vizcVizcayaaya">
+                                        Vizcaya
+                                      </option>
                                       <option value="Zamora">Zamora</option>
                                       <option value="Zaragoza">Zaragoza</option>
                                     </Form.Control>
@@ -428,7 +532,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                 <div className="row mt-3">
                                   <div className="col text-left">
                                     Entrenador:
-                                </div>
+                                  </div>
                                 </div>
                                 <div className="row">
                                   <div className="col">
@@ -443,7 +547,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                 <div className="row mt-3">
                                   <div className="col text-left">
                                     2º Entrenador:
-                                </div>
+                                  </div>
                                 </div>
                                 <div className="row">
                                   <div className="col">
@@ -456,9 +560,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                   </div>
                                 </div>
                                 <div className="row mt-3">
-                                  <div className="col text-left">
-                                    Email:
-                                </div>
+                                  <div className="col text-left">Email:</div>
                                 </div>
                                 <div className="row">
                                   <div className="col">
@@ -471,9 +573,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                   </div>
                                 </div>
                                 <div className="row mt-3">
-                                  <div className="col text-left">
-                                    Teléfono:
-                                </div>
+                                  <div className="col text-left">Teléfono:</div>
                                 </div>
                                 <div className="row">
                                   <div className="col">
@@ -487,7 +587,9 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                 </div>
                                 <div className="row">
                                   <div className="col-4 text-left mt-1">
-                                    <SpanFieldRequired>* Campos obligatorios </SpanFieldRequired>
+                                    <SpanFieldRequired>
+                                      * Campos obligatorios{" "}
+                                    </SpanFieldRequired>
                                   </div>
                                 </div>
                                 <div className="row mt-4 mb-2">
@@ -504,14 +606,16 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                                 </div>
                                 <div className="row mt-4">
                                   <div className="col">
-                                    {(fetchError && inputAlert) &&
+                                    {fetchError && inputAlert && (
                                       <Alert variant="danger">
                                         {fetchError}
-                                      </Alert>}
-                                    {(inputAddedTeam && inputAlert) &&
+                                      </Alert>
+                                    )}
+                                    {inputAddedTeam && inputAlert && (
                                       <Alert variant="success">
                                         Se ha añadido correctamente
-                                      </Alert>}
+                                      </Alert>
+                                    )}
                                   </div>
                                 </div>
                               </WrapperFormAddTeam>
@@ -523,7 +627,10 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
                   </Accordion>
                 </Tab.Pane>
                 <Tab.Pane eventKey="second">
-                  <div className="row mx-auto pl-2 pr-2" style={{ width: "86%" }}>
+                  <div
+                    className="row mx-auto pl-2 pr-2"
+                    style={{ width: "86%" }}
+                  >
                     {props.leagueTeams.map(l => (
                       <CardDeck
                         key={l.TeamId}
@@ -583,10 +690,16 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => { //Functio
         </div>
       </Wrapper>
       <Modal size="lg" show={showEditTeam} onHide={handleCloseEditTeam}>
-        <EditTeamModal handleCloseEditTeam={handleCloseEditTeam} toggleSetTeams={toggleSetTeams}/>
+        <EditTeamModal
+          handleCloseEditTeam={handleCloseEditTeam}
+          toggleSetTeams={toggleSetTeams}
+        />
       </Modal>
       <Modal show={showDeleteTeam} onHide={() => null}>
-        <DeleteTeamModal handleCloseDeleteTeam={toggleEditTeam} toggleSetTeams={toggleSetTeams}/>
+        <DeleteTeamModal
+          handleCloseDeleteTeam={toggleEditTeam}
+          toggleSetTeams={toggleSetTeams}
+        />
       </Modal>
     </>
   );

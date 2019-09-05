@@ -91,7 +91,7 @@ const AllLeaguesList: React.FC<IProps & IPropsGlobal> = props => {
                   ADMINISTRADOR
                   <img
                     src="/images/other/sort.png"
-                    className="ml-3"
+                    className="ml-2 mb-1"
                     width="15"
                     style={{ cursor: "pointer" }}
                     onClick={() => toggleSortByNameAdmin()}
