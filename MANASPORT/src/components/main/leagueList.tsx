@@ -1,11 +1,11 @@
 //React´s Components
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 //Components made by Juanlu
 import DeleteLeagueModal from "./leagueDeleteModal";
 import EditLeagueModal from "./leagueEditModal";
 //React Bootstrap
-import { Button, InputGroup, Form, Table, Modal, Alert } from "react-bootstrap";
+import { Button, InputGroup, Form, Table, Modal, Alert, Spinner } from "react-bootstrap";
 //Interfaces
 import { ITournament } from "../../interfaces";
 //Redux
@@ -35,7 +35,7 @@ const Title = styled.span`
 //----------------------------------------------------
 
 //Global Props
-interface IProps {}
+interface IProps { }
 interface IPropsGlobal {
   setLeagues: (leagues: ITournament[]) => void;
   leagues: ITournament[];
@@ -45,7 +45,7 @@ interface IPropsGlobal {
   deleteLeagueById: (LeagueId: number) => void;
 }
 
-const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
+const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props => {
   const compareName = (a: any, b: any) => {
     if (a.name.localeCompare(b.name) > b.name.localeCompare(a.name)) {
       return -1;
@@ -155,6 +155,10 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
     }
   }, [token, props.leagues.length, updateSetLeagues]); //When a new League is add, Redux will be update.
 
+  const [spinner, setSpinner] = useState(false);
+  const toggleSpinner = React.useCallback(() => setSpinner(s => !s), []);
+
+
   const sendLeague = () => {
     if (inputLeagueName.length > 3 && inputLeagueName.length < 41) {
       const token = localStorage.getItem("token");
@@ -237,13 +241,25 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
                 {props.leagues.map(l => (
                   <tr key={l.TournamentId}>
                     <td className="p-1 align-middle">{l.TournamentId}</td>
-                    <td className="p-1  align-middle">
+                    {/* <td className="p-1  align-middle">
+                      {setTimeout(() => toggleCheckEmail(), 4000)}
                       <Link
                         to={"/management/leagueDetails/" + l.TournamentId}
                         className="btn text-warning p-0"
                       >
                         {l.name}
                       </Link>
+                    </td> */}
+
+                    <td className="text-warning p-0 align-middle"
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => (
+                        toggleSpinner(),
+                        setTimeout(() => toggleSpinner(), 1000),
+                        setTimeout(() => props.history.push("/management/leagueDetails/" + l.TournamentId), 1000)
+                      )}
+                    >
+                      {l.name}
                     </td>
                     <td className="p-1  align-middle">{l.sport}</td>
                     <td className="p-1  align-middle">{l.category}</td>
@@ -401,6 +417,11 @@ const LeaguesList: React.FC<IProps & IPropsGlobal> = props => {
           handleCloseEditLeague={handleCloseEditLeague}
           toggleSetLeagues={toggleSetLeagues}
         />
+      </Modal>
+      <Modal show={spinner}>
+        <div className="modal-dialog-centered justify-content-center" role="document">
+          <Spinner animation="border" variant="primary" style={{ width: '120px', height: '120px', borderWidth: '8px' }} />
+        </div>
       </Modal>
     </>
   );

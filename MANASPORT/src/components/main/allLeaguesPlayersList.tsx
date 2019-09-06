@@ -76,7 +76,7 @@ const ImgBadgeCard = styled.img`
   height: 80px;
 `;
 const ImgBadgeCardTitle = styled.img`
-  height: 28px;
+  height: 35px;
 `;
 const Row = styled.div`
   min-height: 40vh;
@@ -84,7 +84,7 @@ const Row = styled.div`
 // *********************
 
 //Global Props
-interface IProps {}
+interface IProps { }
 interface IPropsGlobal {
   leagueTeams: ITeam[];
   setLeagueTeams: (leagueTeams: ITeam[]) => void;
@@ -143,6 +143,12 @@ const AllLeaguesDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
   }, [valueTeamId]);
 
   const currentTeam = props.leagueTeams.find(u => u.TeamId === valueTeamId);
+
+  const randomNumber = () => {
+    let number = Math.floor(Math.random() * (1 - 51)) + 51
+    return number;
+  }
+
 
   return (
     <Wrapper className="container-fluid text-dark">
@@ -214,12 +220,12 @@ const AllLeaguesDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
                           </span>
                         </div>
                       ) : (
-                        <div className="col text-center text-light h5 p-0 m-0">
-                          <span className="ml-3 align-middle">
-                            Selecciona un equipo
+                          <div className="col text-center text-light h5 p-0 m-0">
+                            <span className="ml-3 align-middle">
+                              Selecciona un equipo
                           </span>
-                        </div>
-                      )}
+                          </div>
+                        )}
                     </div>
                   </div>
                   <Tab.Content>
@@ -256,7 +262,7 @@ const AllLeaguesDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
                             {props.teamPlayers.map(p => (
                               <tr key={p.PlayerId}>
                                 <TdMatchdaySmall className="p-0 align-middle">
-                                  <ImgBadgeCardTitle src="https://icon-library.net/images/avatar-icon-images/avatar-icon-images-4.jpg" />
+                                  <ImgBadgeCardTitle src={`/images/profile/player-${randomNumber()}.png`} className="align-middle" />
                                 </TdMatchdaySmall>
                                 <TdMatchdayBig className="p-2">
                                   {p.name === null ? "-" : p.name}
@@ -272,8 +278,7 @@ const AllLeaguesDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
                                     "-"
                                   ) : p.position === "Delantero" ? (
                                     <Badge variant="danger">
-                                      {" "}
-                                      <SpanBadge>DEL</SpanBadge>{" "}
+                                      <SpanBadge>DEL</SpanBadge>
                                     </Badge>
                                   ) : p.position === "ExtremoIzq" ? (
                                     <Badge variant="danger">
@@ -328,7 +333,7 @@ const AllLeaguesDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
                             >
                               <WrapperCardBody>
                                 <Card.Body className="p-2">
-                                  <ImgBadgeCard src="https://icon-library.net/images/avatar-icon-images/avatar-icon-images-4.jpg" />
+                                  <ImgBadgeCard src={`/images/profile/player-${randomNumber()}.png`} />
                                   <Card.Title className="text-light mt-2">
                                     {l.name === null ? "-" : l.name} <br />
                                     {l.surname === null ? "-" : l.surname}

@@ -1,8 +1,8 @@
 //React´s Components
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, RouteComponentProps } from "react-router-dom";
 //React Bootstrap
-import { Table } from "react-bootstrap";
+import { Table, Spinner, Modal } from "react-bootstrap";
 //Interfaces
 import { ITournament } from "../../interfaces";
 //Redux
@@ -30,12 +30,17 @@ const Title = styled.span`
 //----------------------------------------------------
 
 //Global Props
-interface IProps {}
+interface IProps { }
 interface IPropsGlobal {
   allleagues: ITournament[];
 }
 
-const AllLeaguesList: React.FC<IProps & IPropsGlobal> = props => {
+
+
+const AllLeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props => {
+  const [spinner, setSpinner] = useState(false);
+  const toggleSpinner = React.useCallback(() => setSpinner(s => !s), []);
+
   const compareNameAdmin = (a: any, b: any) => {
     if (a.NameAdmin < b.NameAdmin) {
       return -1;
@@ -68,70 +73,79 @@ const AllLeaguesList: React.FC<IProps & IPropsGlobal> = props => {
   }
 
   return (
-    <Wrapper className="container-fluid">
-      <div className="row mt-4 justify-content-center">
-        <div className="col-10">
-          <Title>Ligas:</Title>
+    <>
+      <Wrapper className="container-fluid">
+        <div className="row mt-4 justify-content-center">
+          <div className="col-10">
+            <Title>Ligas:</Title>
+          </div>
         </div>
-      </div>
-      <div className="row mt-1 justify-content-center">
-        <div className="col-10 p-3 text-center">
-          <Table
-            responsive="md"
-            variant="dark"
-            striped
-            hover
-            className=" border border-secondary"
-          >
-            <TableHead>
-              <tr>
-                <th />
-                <th />
-                <th>
-                  ADMINISTRADOR
+        <div className="row mt-1 justify-content-center">
+          <div className="col-10 p-3 text-center">
+            <Table
+              responsive="md"
+              variant="dark"
+              striped
+              hover
+              className=" border border-secondary"
+            >
+              <TableHead>
+                <tr>
+                  <th />
+                  <th />
+                  <th>
+                    ADMINISTRADOR
                   <img
-                    src="/images/other/sort.png"
-                    className="ml-2 mb-1"
-                    width="15"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => toggleSortByNameAdmin()}
-                    alt=""
-                  />
-                </th>
-                <th>DEPORTE</th>
-                <th>MODALIDAD</th>
-                <th>Nº EQUIPOS</th>
-                <th>FECHA CREACIÓN</th>
-              </tr>
-            </TableHead>
-            <tbody>
-              {props.allleagues.map(l => (
-                <tr key={l.TournamentId}>
-                  <td className="p-1 align-middle">{l.TournamentId}</td>
-                  <td className="p-1 align-middle">
-                    <Link
-                      to={"/leagues/allleaguesDetails/" + l.TournamentId}
-                      className="btn text-warning p-0"
+                      src="/images/other/sort.png"
+                      className="ml-2 mb-1"
+                      width="15"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => toggleSortByNameAdmin()}
+                      alt=""
+                    />
+                  </th>
+                  <th>DEPORTE</th>
+                  <th>MODALIDAD</th>
+                  <th>Nº EQUIPOS</th>
+                  <th>FECHA CREACIÓN</th>
+                </tr>
+              </TableHead>
+              <tbody>
+                {props.allleagues.map(l => (
+                  <tr key={l.TournamentId}>
+                    <td className="p-1 align-middle">{l.TournamentId}</td>
+                    <td className="text-warning p-0 align-middle"
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => (
+                        toggleSpinner(),
+                        setTimeout(() => toggleSpinner(), 1000),
+                        setTimeout(() => props.history.push("/leagues/allleaguesDetails/" + l.TournamentId), 1000)
+                      )}
                     >
                       {l.name}
-                    </Link>
-                  </td>
-                  <td className="p-1 align-middle">{l.NameAdmin}</td>
-                  <td className="p-1 align-middle">{l.sport}</td>
-                  <td className="p-1 align-middle">{l.category}</td>
-                  <td className="p-1 align-middle">
-                    <div className="row">
-                      <div className="col text-center">{l.NTeams}</div>
-                    </div>
-                  </td>
-                  <td className="p-1 align-middle">{l.createdate}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+                    </td>
+                    <td className="p-1 align-middle">{l.NameAdmin}</td>
+                    <td className="p-1 align-middle">{l.sport}</td>
+                    <td className="p-1 align-middle">{l.category}</td>
+                    <td className="p-1 align-middle">
+                      <div className="row">
+                        <div className="col text-center">{l.NTeams}</div>
+                      </div>
+                    </td>
+                    <td className="p-1 align-middle">{l.createdate}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
         </div>
-      </div>
-    </Wrapper>
+      </Wrapper>
+      <Modal show={spinner}>
+        <div className="modal-dialog-centered justify-content-center" role="document">
+          <Spinner animation="border" variant="primary" style={{ width: '120px', height: '120px', borderWidth: '8px' }} />
+        </div>
+      </Modal>
+    </>
   );
 };
 

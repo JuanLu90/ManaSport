@@ -119,7 +119,7 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
           <form>
             <div className="row">
               <div className="col">
-                <InputGroup className="mb-3">
+                <InputGroup className="mb-3 rounded" style={!checkEmail ? { border: '2px solid red' } : { border: 'none' }}>
                   <InputGroup.Prepend>
                     <InputGroup.Text id="basic-addon1" className="pt-0 pb-0">
                       <img src="/images/form/email.png" width="15" alt="" />
@@ -128,6 +128,7 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
                   <FormControl
                     type="text"
                     className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
+                    style={!checkEmail ? { color: 'red' } : { color: 'black' }}
                     name="emaillogin"
                     id="emaillogin"
                     placeholder="Email"
@@ -161,16 +162,16 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
               </div>
             </div>
             {!checkEmail && (
-              <div className="row justify-content-center mt-1">
+              <div className="row justify-content-center">
                 <div className="col text-center">
-                  <Alert variant="danger" className="p-2">
+                  <Alert variant="danger" className="p-1">
                     <img
                       src="/images/other/cancel.png"
-                      width="35"
+                      width="25"
                       alt=""
-                      className="mr-3"
+                      className="mr-1"
                     />
-                    <span>
+                    <span className="align-middle">
                       <b> Email inválido.</b>
                     </span>
                   </Alert>
@@ -178,17 +179,18 @@ const LoginModal: React.FC<IProps & IPropsGLobal> = props => {
               </div>
             )}
             {!checkPassword && (
-              <div className="row justify-content-center pl-1 pr-1">
-                <Alert variant="danger" className="p-0">
-                  <Span> <b> Contraseña inválida.</b> Debe de contener entre 4 y 14 caracteres </Span>
+              <div className="row justify-content-center pl-3 pr-3">
+                <Alert variant="danger" className="text-center pt-1 pb-1 pr-1 pl-1 w-100">
+                  <img src="/images/other/cancel.png" width="25" alt="" className="mr-1" />
+                  <Span> <b> Contraseña inválida. </b> <br/>  Debe contener entre 4 y 14 caracteres  </Span>
                 </Alert>
               </div>
             )}
             {!checkCredentials && (
               <div className="row justify-content-center pl-3 pr-3">
-                <Alert variant="danger" className="pt-1 pb-1 pr-4 pl-4">
-                  <img src="/images/other/cancel.png" width="35" alt="" className="mr-3" />
-                  <Span> <b> Datos introducidos erróneos</b></Span>
+                <Alert variant="danger" className="text-center pt-1 pb-1 pr-4 pl-4 w-100">
+                  <img src="/images/other/cancel.png" width="35" alt="" className="mr-1" />
+                  <Span> <b> Email o contraseña erróneos</b></Span>
                 </Alert>
               </div>
             )}

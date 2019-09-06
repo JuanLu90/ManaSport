@@ -269,7 +269,10 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
         />
       </Modal>
       <Modal show={showRegister} onHide={handleCloseRegister}>
-        <RegisterModal handleCloseRegister={handleCloseRegister} />
+        <RegisterModal 
+          handleCloseRegister={handleCloseRegister}
+          handleShowLogin={handleShowLogin}
+          />
       </Modal>
     </>
   );

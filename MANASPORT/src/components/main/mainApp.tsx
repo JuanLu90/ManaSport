@@ -193,7 +193,7 @@ const MainApp: React.FC = () => { // Function Component
                 <button
                   className="btn btn-dark text-warning pt-2 pb-2 pl-3 pr-3 m-3 text-uppercase font-weight-bold"
                 >
-                  Ligas Activas
+                  Info Ligas
               </button>
               </Link>
             </div>

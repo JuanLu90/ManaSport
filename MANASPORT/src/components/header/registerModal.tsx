@@ -4,9 +4,7 @@ import styled from "styled-components";
 var md5 = require('md5');
 
 // ********* Styles - Styled Components - CSSINJS **********
-const Label = styled.label`
-  font-size: 0.85em;
-`
+
 const Span = styled.span`
   font-size: 0.85em;
 `
@@ -24,8 +22,13 @@ const MiniHr = styled.hr({
   position: "relative"
 });
 
+const Col = styled.div`
+  font-size: 0.85em;
+`
+
 interface IProps {
   handleCloseRegister: () => void;
+  handleShowLogin: () => void;
 }
 
 const RegisterModal: React.FC<IProps> = props => {
@@ -53,12 +56,20 @@ const RegisterModal: React.FC<IProps> = props => {
   const updateInputPassword = (event: any) =>
     setInputPassword(md5(event.currentTarget.value));
 
-  const [alertWrongValue, setAlertWrongValue] = useState(false);
-  const toggleWrongValue = React.useCallback(() => setAlertWrongValue(s => !s), []); //Open and close alert league name invalid
+
+    const goToLogin = () => {
+      props.handleCloseRegister();
+      props.handleShowLogin();
+    }
 
 
-  const [alertRightValue, setAlertRightValue] = useState(false);
-  const toggleRightValue = React.useCallback(() => setAlertRightValue(s => !s), []); //Open and close alert league name valid
+
+  const [alertUserExits, setAlertUserExits] = useState(false);
+  const toggleUserExits = React.useCallback(() => setAlertUserExits(s => !s), []); //Open and close alert league name invalid
+
+
+  const [checkName, setCheckName] = useState(false);
+  const toggleCheckName = React.useCallback(() => setCheckName(s => !s), []); //Open and close alert league name valid
 
 
   const [checkEmail, setCheckdEmail] = React.useState(true);
@@ -66,6 +77,8 @@ const RegisterModal: React.FC<IProps> = props => {
   const validEmailRegex = RegExp(
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
   );
+  const finalValidateEmail = validEmailRegex.test(emailValue);
+
 
   const [checkCredentials, setCheckdCredentials] = React.useState(true);
   const toggleCheckCredentials = React.useCallback(() => setCheckdCredentials(s => !s), []); //Check if credentials are valid
@@ -73,11 +86,11 @@ const RegisterModal: React.FC<IProps> = props => {
   const [checkUserAdded, setCheckdUserAdded] = React.useState(false);
   const toggleCheckUserAdded = React.useCallback(() => setCheckdUserAdded(s => !s), []); //Check if credentials are valid
 
-
   const newUser = () => {
-    const finalValidateEmail = validEmailRegex.test(emailValue);
-
-    if (!finalValidateEmail) {
+    if (nameValue.length < 5) {
+      toggleCheckName();
+      setTimeout(() => toggleCheckName(), 4000);
+    } else if (!finalValidateEmail) {
       toggleCheckEmail();
       setTimeout(() => toggleCheckEmail(), 4000);
     } else {
@@ -99,12 +112,14 @@ const RegisterModal: React.FC<IProps> = props => {
         if (response.ok) {
           toggleCheckUserAdded();
           setTimeout(() => toggleCheckUserAdded(), 4000);
+          setTimeout(() => props.handleCloseRegister(), 4000);
+          setTimeout(() => props.handleShowLogin(), 4000);
         }
         else {
           response.json().then(({ e }) => {
             if (e === 1062) {
-              toggleWrongValue();
-              setTimeout(() => toggleWrongValue(), 6000)
+              toggleUserExits();
+              setTimeout(() => toggleUserExits(), 6000)
             } else {
               toggleCheckCredentials();
               setTimeout(() => toggleCheckCredentials(), 4000);
@@ -135,13 +150,14 @@ const RegisterModal: React.FC<IProps> = props => {
           <form>
             <div className="row">
               <div className="col">
-                <InputGroup className="mb-3">
+                <InputGroup className="mb-3" style={checkName ? { border: '2px solid red' } : { border: 'none' }}>
                   <InputGroup.Prepend>
                     <InputGroup.Text id="basic-addon1" className="pt-0 pb-0"><img src="/images/form/profile-login.png" width="15" alt="" /></InputGroup.Text>
                   </InputGroup.Prepend>
                   <FormControl
                     type="text"
                     className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
+                    style={checkName ? { color: 'red' } : { color: 'black' }}
                     placeholder="Nombre"
                     name="name"
                     onChange={updateInputName}
@@ -167,13 +183,14 @@ const RegisterModal: React.FC<IProps> = props => {
             </div>
             <div className="row">
               <div className="col">
-                <InputGroup className="mb-3">
+                <InputGroup className="mb-3" style={alertUserExits ? { border: '2px solid red' } : { border: 'none' }}>
                   <InputGroup.Prepend>
                     <InputGroup.Text id="basic-addon1" className="pt-0 pb-0"><img src="/images/form/username.png" width="15" alt="" /></InputGroup.Text>
                   </InputGroup.Prepend>
                   <FormControl
                     type="text"
                     className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
+                    style={alertUserExits ? { color: 'red' } : { color: 'black' }}
                     placeholder="Nombre de usuario"
                     name="username"
                     onChange={updateInputUsername}
@@ -183,13 +200,14 @@ const RegisterModal: React.FC<IProps> = props => {
             </div>
             <div className="row">
               <div className="col">
-                <InputGroup className="mb-3">
+                <InputGroup className="mb-3" style={!checkEmail || alertUserExits ? { border: '2px solid red' } : { border: 'none' }}>
                   <InputGroup.Prepend>
                     <InputGroup.Text id="basic-addon1" className="pt-0 pb-0"><img src="/images/form/email.png" width="15" alt="" /></InputGroup.Text>
                   </InputGroup.Prepend>
                   <FormControl
                     type="text"
                     className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
+                    style={!checkEmail || alertUserExits ? { color: 'red' } : { color: 'black' }}
                     placeholder="Email"
                     name="email"
                     onChange={updateInputEmail}
@@ -213,7 +231,7 @@ const RegisterModal: React.FC<IProps> = props => {
                 </InputGroup>
               </div>
             </div>
-            {alertWrongValue && (
+            {alertUserExits && (
               <div className="row justify-content-center mt-2 pl-1 pr-1">
                 <div className="col text-center">
                   <Alert variant="danger" className="pt-2 pb-2 pl-0 pr-0">
@@ -225,17 +243,34 @@ const RegisterModal: React.FC<IProps> = props => {
                 </div>
               </div>
             )}
-            {!checkEmail && (
-              <div className="row justify-content-center mt-1">
+            {checkName && (
+              <div className="row justify-content-center">
                 <div className="col text-center">
-                  <Alert variant="danger" className="p-2">
+                  <Alert variant="danger" className="p-1">
                     <img
                       src="/images/other/cancel.png"
-                      width="35"
+                      width="25"
                       alt=""
-                      className="mr-3"
+                      className="mr-1"
                     />
-                    <span>
+                    <span className="align-middle">
+                      <b> Nombre de usuario inválido.</b>
+                    </span>
+                  </Alert>
+                </div>
+              </div>
+            )}
+            {!checkEmail && (
+              <div className="row justify-content-center">
+                <div className="col text-center">
+                  <Alert variant="danger" className="p-1">
+                    <img
+                      src="/images/other/cancel.png"
+                      width="25"
+                      alt=""
+                      className="mr-1"
+                    />
+                    <span className="align-middle">
                       <b> Email inválido.</b>
                     </span>
                   </Alert>
@@ -264,15 +299,22 @@ const RegisterModal: React.FC<IProps> = props => {
 
           </form>
         </div>
-        <div className="modal-footer border-0">
-          <div className="col p-0">
-            <button
-              type="button"
-              className="btn btn-warning w-100 font-weight-bold text-uppercase"
-              onClick={newUser}
-            >
-              Regístrate
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col">
+              <button
+                type="button"
+                className="btn btn-warning w-100 font-weight-bold text-uppercase"
+                onClick={newUser}
+              >
+                Regístrate
             </button>
+            </div>
+          </div>
+          <div className="row mt-3 mb-3">
+            <Col className="col text-center">
+              ¿Estás ya registrado? <a href="/#" className="text-warning text-decoration-none" onClick={goToLogin}>Login </a>
+            </Col>
           </div>
         </div>
       </Modal>
