@@ -18,10 +18,8 @@ import jwt from "jsonwebtoken";
 import styled from "styled-components";
 
 // ********* Styles - Styled Components - CSSINJS **********
-const Wrapper = styled.div`
-  font-family: "Source Sans Pro", sans-serif;
-  margin-bottom: 100px;
-`;
+
+
 const TableHead = styled.thead`
   font-family: "Roboto", sans-serif;
 `;
@@ -43,9 +41,15 @@ interface IPropsGlobal {
   setLeagueId: (DeleteLeagueId: number) => void;
   DeleteLeagueId: number;
   deleteLeagueById: (LeagueId: number) => void;
+  // setAllLeagues: (allleagues: ITournament[]) => void;
+  allleagues: ITournament[];
 }
 
 const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props => {
+
+
+
+
   const compareName = (a: any, b: any) => {
     if (a.name.localeCompare(b.name) > b.name.localeCompare(a.name)) {
       return -1;
@@ -131,6 +135,29 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
   ); //Open and close alert league name invalid
 
   const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
+
+  
+  let leagueorallleagues;
+  if (token) {
+    leagueorallleagues = props.leagues;
+  } else {
+    leagueorallleagues = props.allleagues;
+  }
+
+  
+  let Wrapper = styled.div``
+  if(token){
+    Wrapper = styled.div`
+    font-family: "Source Sans Pro", sans-serif;
+    margin-bottom: 100px;
+  `;
+  }else {
+    Wrapper = styled.div`
+    font-family: "Source Sans Pro", sans-serif;
+    margin-bottom: 100px;
+    margin-top: 80px;
+  `;
+  }
 
   useEffect(() => {
     //Fetch leagues of the current user to redux
@@ -233,24 +260,17 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
                   <th>MODALIDAD</th>
                   <th>Nº EQUIPOS</th>
                   <th>FECHA CREACIÓN</th>
-                  <th />
-                  <th />
+                  {token && <>
+                    <th />
+                    <th />
+                  </>
+                  }
                 </tr>
               </TableHead>
               <tbody>
-                {props.leagues.map(l => (
+                {leagueorallleagues.map(l => (
                   <tr key={l.TournamentId}>
                     <td className="p-1 align-middle">{l.TournamentId}</td>
-                    {/* <td className="p-1  align-middle">
-                      {setTimeout(() => toggleCheckEmail(), 4000)}
-                      <Link
-                        to={"/management/leagueDetails/" + l.TournamentId}
-                        className="btn text-warning p-0"
-                      >
-                        {l.name}
-                      </Link>
-                    </td> */}
-
                     <td className="text-warning p-0 align-middle"
                       style={{ cursor: 'pointer' }}
                       onClick={() => (
@@ -269,142 +289,149 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
                       </div>
                     </td>
                     <td className="p-1  align-middle">{l.createdate}</td>
-                    <td className="p-1  align-middle">
-                      <img
-                        src="/images/other/edit.png"
-                        width="15"
-                        alt=""
-                        onClick={() => funcionEditLeague(l.TournamentId)}
-                        style={{ cursor: "pointer" }}
-                      />
-                    </td>
-                    <td className="p-1 cursor-pointer  align-middle">
-                      <Button
-                        variant="danger"
-                        className="pt-0 pb-0 pl-3 pr-3"
-                        size="sm"
-                        onClick={() => funcionDeleteLeague(l.TournamentId)}
-                      >
-                        Eliminar
-                      </Button>
-                    </td>
+                    {token && <>
+                      <td className="p-1  align-middle">
+                        <img
+                          src="/images/other/edit.png"
+                          width="15"
+                          alt=""
+                          onClick={() => funcionEditLeague(l.TournamentId)}
+                          style={{ cursor: "pointer" }}
+                        />
+                      </td>
+
+                      <td className="p-1 cursor-pointer  align-middle">
+                        <Button
+                          variant="danger"
+                          className="pt-0 pb-0 pl-3 pr-3"
+                          size="sm"
+                          onClick={() => funcionDeleteLeague(l.TournamentId)}
+                        >
+                          Eliminar
+                          </Button>
+                      </td>
+                    </>
+                    }
+
                   </tr>
                 ))}
               </tbody>
             </Table>
           </div>
         </div>
-        <div className="row justify-content-center">
-          <div className="col-4">
-            <InputGroup size="sm">
-              <InputGroup.Prepend>
-                <InputGroup.Text
-                  id="inputGroup-sizing-sm"
-                  className="bg-secondary border border-secondary text-light"
-                >
-                  Nombre de la liga*
+        {token && <>
+          <div className="row justify-content-center">
+            <div className="col-4">
+              <InputGroup size="sm">
+                <InputGroup.Prepend>
+                  <InputGroup.Text
+                    id="inputGroup-sizing-sm"
+                    className="bg-secondary border border-secondary text-light"
+                  >
+                    Nombre de la liga*
                 </InputGroup.Text>
-              </InputGroup.Prepend>
-              <input
-                type="text"
-                className="form-control form-control-sm bg-dark border border-secondary text-light"
-                value={inputLeagueName}
-                onChange={updateLeagueName}
-              />
-            </InputGroup>
-          </div>
-          <div className="col-2">
-            <InputGroup size="sm">
-              <InputGroup.Prepend>
-                <InputGroup.Text
-                  id="inputGroup-sizing-sm"
-                  className="bg-secondary border border-secondary text-light"
-                >
-                  Deporte*
-                </InputGroup.Text>
-              </InputGroup.Prepend>
-              <Form.Control
-                as="select"
-                onChange={updateLeagueSport}
-                className="bg-dark border border-secondary text-light"
-              >
-                <option>Fútbol</option>
-              </Form.Control>
-            </InputGroup>
-          </div>
-          <div className="col-2">
-            <InputGroup size="sm">
-              <InputGroup.Prepend>
-                <InputGroup.Text
-                  id="inputGroup-sizing-sm"
-                  className="bg-secondary border border-secondary text-light"
-                >
-                  Categoría*
-                </InputGroup.Text>
-              </InputGroup.Prepend>
-              <Form.Control
-                as="select"
-                onChange={updateLeagueCategory}
-                className="bg-dark border border-secondary text-light"
-              >
-                <option>Fútbol 11</option>
-                <option>Fútbol 7</option>
-                <option>Fútbol Sala</option>
-                <option>Fútbol(otros)</option>
-              </Form.Control>
-            </InputGroup>
-          </div>
-          <div className="col-2 text-center align-self-center">
-            <Button
-              variant="warning"
-              onClick={sendLeague}
-              className="font-weight-bold text-dark pl-3 pr-3 btn-sm"
-            >
-              <img
-                src="/images/other/plus.png"
-                className="mr-2 align-middle"
-                width="17"
-                alt=""
-              />
-              <span className="align-middle">CREAR LIGA</span>
-            </Button>
-          </div>
-        </div>
-        {alertWrongLeagueName && (
-          <div className="row justify-content-center mt-4">
-            <div className="col-10 text-center">
-              <Alert variant="danger" className="p-2">
-                <img
-                  src="/images/other/cancel.png"
-                  width="35"
-                  alt=""
-                  className="mr-3"
+                </InputGroup.Prepend>
+                <input
+                  type="text"
+                  className="form-control form-control-sm bg-dark border border-secondary text-light"
+                  value={inputLeagueName}
+                  onChange={updateLeagueName}
                 />
-                <span>
-                  <b> Nombre de liga inválido.</b> El nombre de una liga debe de
-                  contener entre 4 y 40 caracteres.
-                </span>
-              </Alert>
+              </InputGroup>
+            </div>
+            <div className="col-2">
+              <InputGroup size="sm">
+                <InputGroup.Prepend>
+                  <InputGroup.Text
+                    id="inputGroup-sizing-sm"
+                    className="bg-secondary border border-secondary text-light"
+                  >
+                    Deporte*
+                </InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control
+                  as="select"
+                  onChange={updateLeagueSport}
+                  className="bg-dark border border-secondary text-light"
+                >
+                  <option>Fútbol</option>
+                </Form.Control>
+              </InputGroup>
+            </div>
+            <div className="col-2">
+              <InputGroup size="sm">
+                <InputGroup.Prepend>
+                  <InputGroup.Text
+                    id="inputGroup-sizing-sm"
+                    className="bg-secondary border border-secondary text-light"
+                  >
+                    Categoría*
+                </InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control
+                  as="select"
+                  onChange={updateLeagueCategory}
+                  className="bg-dark border border-secondary text-light"
+                >
+                  <option>Fútbol 11</option>
+                  <option>Fútbol 7</option>
+                  <option>Fútbol Sala</option>
+                  <option>Fútbol(otros)</option>
+                </Form.Control>
+              </InputGroup>
+            </div>
+            <div className="col-2 text-center align-self-center">
+              <Button
+                variant="warning"
+                onClick={sendLeague}
+                className="font-weight-bold text-dark pl-3 pr-3 btn-sm"
+              >
+                <img
+                  src="/images/other/plus.png"
+                  className="mr-2 align-middle"
+                  width="17"
+                  alt=""
+                />
+                <span className="align-middle">CREAR LIGA</span>
+              </Button>
             </div>
           </div>
-        )}
-        {alertRightLeagueName && (
-          <div className="row justify-content-center mt-4">
-            <div className="col-10 text-center">
-              <Alert variant="success" className="p-2">
-                <img
-                  src="/images/other/send.png"
-                  width="35"
-                  alt=""
-                  className="mr-3"
-                />
-                <span>
-                  <b> Liga creada correctamente</b>{" "}
+          {alertWrongLeagueName && (
+            <div className="row justify-content-center mt-4">
+              <div className="col-10 text-center">
+                <Alert variant="danger" className="p-2">
+                  <img
+                    src="/images/other/cancel.png"
+                    width="35"
+                    alt=""
+                    className="mr-3"
+                  />
+                  <span>
+                    <b> Nombre de liga inválido.</b> El nombre de una liga debe de
+                    contener entre 4 y 40 caracteres.
                 </span>
-              </Alert>
+                </Alert>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+          {alertRightLeagueName && (
+            <div className="row justify-content-center mt-4">
+              <div className="col-10 text-center">
+                <Alert variant="success" className="p-2">
+                  <img
+                    src="/images/other/send.png"
+                    width="35"
+                    alt=""
+                    className="mr-3"
+                  />
+                  <span>
+                    <b> Liga creada correctamente</b>{" "}
+                  </span>
+                </Alert>
+              </div>
+            </div>
+          )}
+        </>}
       </Wrapper>
       <Modal show={showDeleteLeague} onHide={() => null}>
         <DeleteLeagueModal
@@ -429,14 +456,17 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
 
 const mapStateToProps = (state: IGlobalState) => ({
   leagues: state.leagues,
-  DeleteLeagueId: state.TournamentId
+  DeleteLeagueId: state.TournamentId,
+  allleagues: state.allleagues
+
 });
 
 const mapDispatchToProps = {
   deleteLeagueById: action.deleteLeagueById,
   newLeague: action.newLeague,
   setLeagueId: action.setLeagueId,
-  setLeagues: action.setLeagues
+  setLeagues: action.setLeagues,
+  // setAllLeagues: action.setAllLeagues
 };
 
 export default connect(

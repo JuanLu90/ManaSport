@@ -238,14 +238,20 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
     []
   ); //Open and close alert right player name
 
+
+
   const randomNumber = () => {
-    let number = Math.floor(Math.random() * (1 - 51)) + 51
+    let number = Math.floor(Math.random() * (1 - 51)) + 51;
     return number;
   }
 
 
 
+
+  const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
+
   const sendPlayer = () => {
+
     //Function Component
     if (
       inputPlayerTeam === "" ||
@@ -254,7 +260,6 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
       toggleWrongPlayer();
       setTimeout(() => toggleWrongPlayer(), 5000);
     } else {
-      const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
       if (token) {
         // We need that token exits to decode it but React will fall down
         fetch("http://localhost:8080/api/players/newPlayer", {
@@ -407,8 +412,13 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
                                 <th> EDAD </th>
                                 <th> POSICIÓN</th>
                                 <th> GOLES </th>
-                                <th />
-                                <th />
+                                {token &&
+                                  <>
+                                    <th />
+                                    <th />
+                                  </>
+                                }
+
                               </tr>
                             </thead>
                             <tbody>
@@ -477,29 +487,34 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
                                   <TdMatchdaySmall className="p-2">
                                     {p.goals === null ? "-" : p.goals}
                                   </TdMatchdaySmall>
-                                  <TdMatchdaySmall className="p-2">
-                                    <img
-                                      src="/images/other/edit.png"
-                                      width="15"
-                                      alt=""
-                                      onClick={() =>
-                                        funcionEditPlayer(p.PlayerId)
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                  </TdMatchdaySmall>
-                                  <TdMatchdayBig className="p-1">
-                                    <Button
-                                      variant="danger"
-                                      className="pt-0 pb-0 pl-3 pr-3"
-                                      size="sm"
-                                      onClick={() =>
-                                        funcionDeletePlayer(p.PlayerId)
-                                      }
-                                    >
-                                      Eliminar
+                                  {token &&
+                                    <>
+                                      <TdMatchdaySmall className="p-2">
+                                        <img
+                                          src="/images/other/edit.png"
+                                          width="15"
+                                          alt=""
+                                          onClick={() =>
+                                            funcionEditPlayer(p.PlayerId)
+                                          }
+                                          style={{ cursor: "pointer" }}
+                                        />
+                                      </TdMatchdaySmall>
+                                      <TdMatchdayBig className="p-1">
+                                        <Button
+                                          variant="danger"
+                                          className="pt-0 pb-0 pl-3 pr-3"
+                                          size="sm"
+                                          onClick={() =>
+                                            funcionDeletePlayer(p.PlayerId)
+                                          }
+                                        >
+                                          Eliminar
                                     </Button>
-                                  </TdMatchdayBig>
+                                      </TdMatchdayBig>
+                                    </>
+                                  }
+
                                 </tr>
                               ))}
                             </tbody>
@@ -622,217 +637,219 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
           </div>
         </div>
       </Wrapper>
-      <Accordion defaultActiveKey="0" className="bg-transparent border-0">
-        <Card className="bg-transparent border-0">
-          <div className="row">
-            <div className="col text-center text-light">
-              <Card.Header className="bg-transparent border-0 mb-4">
-                <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                  <Button
-                    variant="warning"
-                    // onClick={sendLeague}
-                    className="font-weight-bold text-dark pl-3 pr-3 btn-sm"
-                  >
-                    <img
-                      src="/images/other/plus.png"
-                      className="mr-2 align-middle"
-                      width="17"
-                      alt=""
-                    />
-                    <span className="align-middle">AÑADIR JUGADOR</span>
-                  </Button>
-                </Accordion.Toggle>
-              </Card.Header>
+      {token &&
+        <Accordion defaultActiveKey="0" className="bg-transparent border-0">
+          <Card className="bg-transparent border-0">
+            <div className="row">
+              <div className="col text-center text-light">
+                <Card.Header className="bg-transparent border-0 mb-4">
+                  <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                    <Button
+                      variant="warning"
+                      // onClick={sendLeague}
+                      className="font-weight-bold text-dark pl-3 pr-3 btn-sm"
+                    >
+                      <img
+                        src="/images/other/plus.png"
+                        className="mr-2 align-middle"
+                        width="17"
+                        alt=""
+                      />
+                      <span className="align-middle">AÑADIR JUGADOR</span>
+                    </Button>
+                  </Accordion.Toggle>
+                </Card.Header>
+              </div>
             </div>
-          </div>
-          <Accordion.Collapse eventKey="1">
-            <Card.Body className="p-0">
-              <Wrapper className="container text-light p-3 mb-1">
-                <div className="row justify-content-center">
-                  <WrapperFormAddTeam className="col-5 pt-1 pl-4 pr-4 pb-1 rounded">
-                    <div className="row mt-4 mb-4">
-                      <div className="col-3 text-right">
-                        <img
-                          src="/images/football-player.png"
-                          width="50"
-                          alt=""
-                        />
-                      </div>
-                      <div className="col-9 align-self-center">
-                        <SpanFieldTeam className="h4">
-                          Formulario añadir jugador:
+            <Accordion.Collapse eventKey="1">
+              <Card.Body className="p-0">
+                <Wrapper className="container text-light p-3 mb-1">
+                  <div className="row justify-content-center">
+                    <WrapperFormAddTeam className="col-5 pt-1 pl-4 pr-4 pb-1 rounded">
+                      <div className="row mt-4 mb-4">
+                        <div className="col-3 text-right">
+                          <img
+                            src="/images/football-player.png"
+                            width="50"
+                            alt=""
+                          />
+                        </div>
+                        <div className="col-9 align-self-center">
+                          <SpanFieldTeam className="h4">
+                            Formulario añadir jugador:
                         </SpanFieldTeam>
+                        </div>
                       </div>
-                    </div>
-                    <hr className="bg-light" />
-                    <div className="row mt-2">
-                      <div className="col-3 text-left">
-                        <SpanFieldTeam className="align-middle">
-                          *Equipo:
+                      <hr className="bg-light" />
+                      <div className="row mt-2">
+                        <div className="col-3 text-left">
+                          <SpanFieldTeam className="align-middle">
+                            *Equipo:
                         </SpanFieldTeam>
+                        </div>
+                        <div className="col-9">
+                          <Form.Control
+                            as="select"
+                            size="sm"
+                            className="pt-0 pb-0 bg-dark border border-secondary text-light"
+                            onChange={updatePlayerTeam}
+                          >
+                            <option value=""> Selecciona un equipo </option>
+                            {props.leagueTeams.map(l => (
+                              <option value={l.TeamId} key={l.TeamId}>
+                                {l.name}
+                              </option>
+                            ))}
+                          </Form.Control>
+                        </div>
                       </div>
-                      <div className="col-9">
-                        <Form.Control
-                          as="select"
-                          size="sm"
-                          className="pt-0 pb-0 bg-dark border border-secondary text-light"
-                          onChange={updatePlayerTeam}
-                        >
-                          <option value=""> Selecciona un equipo </option>
-                          {props.leagueTeams.map(l => (
-                            <option value={l.TeamId} key={l.TeamId}>
-                              {l.name}
-                            </option>
-                          ))}
-                        </Form.Control>
+                      <hr className="bg-secondary" />
+                      <div className="row mt-3">
+                        <div className="col text-left">
+                          <SpanFieldTeam>*Nombre del jugador:</SpanFieldTeam>
+                        </div>
                       </div>
-                    </div>
-                    <hr className="bg-secondary" />
-                    <div className="row mt-3">
-                      <div className="col text-left">
-                        <SpanFieldTeam>*Nombre del jugador:</SpanFieldTeam>
+                      <div className="row">
+                        <div className="col">
+                          <input
+                            type="text"
+                            className="form-control form-control-sm bg-dark border border-secondary text-light"
+                            value={inputPlayerName}
+                            onChange={updatePlayerName}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <input
-                          type="text"
-                          className="form-control form-control-sm bg-dark border border-secondary text-light"
-                          value={inputPlayerName}
-                          onChange={updatePlayerName}
-                        />
+                      <div className="row mt-3">
+                        <div className="col text-left">Apellidos:</div>
                       </div>
-                    </div>
-                    <div className="row mt-3">
-                      <div className="col text-left">Apellidos:</div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <input
-                          type="text"
-                          className="form-control form-control-sm bg-dark border border-secondary text-light"
-                          value={inputPlayerSurname}
-                          onChange={updatePlayerSurname}
-                        />
+                      <div className="row">
+                        <div className="col">
+                          <input
+                            type="text"
+                            className="form-control form-control-sm bg-dark border border-secondary text-light"
+                            value={inputPlayerSurname}
+                            onChange={updatePlayerSurname}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="row mt-3">
-                      <div className="col text-left">Edad:</div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <input
-                          type="text"
-                          className="form-control form-control-sm bg-dark border border-secondary text-light"
-                          value={inputPlayerAge}
-                          onChange={updatePlayerAge}
-                        />
+                      <div className="row mt-3">
+                        <div className="col text-left">Edad:</div>
                       </div>
-                    </div>
-                    <div className="row mt-3">
-                      <div className="col text-left">*Posición:</div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <Form.Control
-                          as="select"
-                          size="sm"
-                          className="pt-0 pb-0 bg-dark border border-secondary text-light"
-                          onChange={updatePlayerPosition}
-                        >
-                          <option value="Portero">Portero</option>
-                          <option value="Central">Central</option>
-                          <option value="LateralIzq">Lateral Izquierdo</option>
-                          <option value="LateralDer">Lateral Derecho</option>
-                          <option value="Medio">Medio</option>
-                          <option value="ExtremoIzq">Extremo Izquierdo</option>
-                          <option value="ExtremoDer">Extremo Derecho</option>
-                          <option value="Delantero">Delantero</option>
-                        </Form.Control>
+                      <div className="row">
+                        <div className="col">
+                          <input
+                            type="text"
+                            className="form-control form-control-sm bg-dark border border-secondary text-light"
+                            value={inputPlayerAge}
+                            onChange={updatePlayerAge}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="row mt-3">
-                      <div className="col text-left">Goles:</div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <input
-                          type="text"
-                          className="form-control form-control-sm bg-dark border border-secondary text-light"
-                          value={inputPlayerGoals}
-                          onChange={updatePlayerGoals}
-                        />
+                      <div className="row mt-3">
+                        <div className="col text-left">*Posición:</div>
                       </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-4 text-left mt-1">
-                        <SpanFieldRequired>
-                          * Campos obligatorios
+                      <div className="row">
+                        <div className="col">
+                          <Form.Control
+                            as="select"
+                            size="sm"
+                            className="pt-0 pb-0 bg-dark border border-secondary text-light"
+                            onChange={updatePlayerPosition}
+                          >
+                            <option value="Portero">Portero</option>
+                            <option value="Central">Central</option>
+                            <option value="LateralIzq">Lateral Izquierdo</option>
+                            <option value="LateralDer">Lateral Derecho</option>
+                            <option value="Medio">Medio</option>
+                            <option value="ExtremoIzq">Extremo Izquierdo</option>
+                            <option value="ExtremoDer">Extremo Derecho</option>
+                            <option value="Delantero">Delantero</option>
+                          </Form.Control>
+                        </div>
+                      </div>
+                      <div className="row mt-3">
+                        <div className="col text-left">Goles:</div>
+                      </div>
+                      <div className="row">
+                        <div className="col">
+                          <input
+                            type="text"
+                            className="form-control form-control-sm bg-dark border border-secondary text-light"
+                            value={inputPlayerGoals}
+                            onChange={updatePlayerGoals}
+                          />
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-4 text-left mt-1">
+                          <SpanFieldRequired>
+                            * Campos obligatorios
                         </SpanFieldRequired>
+                        </div>
                       </div>
-                    </div>
-                    {alertWrongPlayer && (
-                      <div className="row justify-content-center mt-4">
-                        <div className="col text-center">
-                          <Alert variant="danger" className="p-2">
-                            <img
-                              src="/images/other/cancel.png"
-                              width="35"
-                              alt=""
-                              className="mr-3"
-                            />
-                            <span>
-                              <b>
-                                Error, comprueba que el jugador cumple los
-                                siguientes requisitos:
+                      {alertWrongPlayer && (
+                        <div className="row justify-content-center mt-4">
+                          <div className="col text-center">
+                            <Alert variant="danger" className="p-2">
+                              <img
+                                src="/images/other/cancel.png"
+                                width="35"
+                                alt=""
+                                className="mr-3"
+                              />
+                              <span>
+                                <b>
+                                  Error, comprueba que el jugador cumple los
+                                  siguientes requisitos:
                               </b>
-                            </span>
-                            <ul className="text-left">
-                              <li>Debe de seleccionar un equipo.</li>
-                              <li>
-                                El nombre del jugador debe contener entre 4 y 25
-                                caracteres.
+                              </span>
+                              <ul className="text-left">
+                                <li>Debe de seleccionar un equipo.</li>
+                                <li>
+                                  El nombre del jugador debe contener entre 4 y 25
+                                  caracteres.
                               </li>
-                            </ul>
-                          </Alert>
+                              </ul>
+                            </Alert>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    {alertRightPlayer && (
-                      <div className="row justify-content-center mt-4">
+                      )}
+                      {alertRightPlayer && (
+                        <div className="row justify-content-center mt-4">
+                          <div className="col text-center">
+                            <Alert variant="success" className="p-2">
+                              <img
+                                src="/images/other/send.png"
+                                width="35"
+                                alt=""
+                                className="mr-3"
+                              />
+                              <span>
+                                <b> Jugador añadido correctamente</b>
+                              </span>
+                            </Alert>
+                          </div>
+                        </div>
+                      )}
+                      <div className="row mt-4 mb-2">
                         <div className="col text-center">
-                          <Alert variant="success" className="p-2">
-                            <img
-                              src="/images/other/send.png"
-                              width="35"
-                              alt=""
-                              className="mr-3"
-                            />
-                            <span>
-                              <b> Jugador añadido correctamente</b>
-                            </span>
-                          </Alert>
+                          <Button
+                            variant="warning"
+                            className="pt-1 pb-1 pl-4 pr-4 font-weight-bold"
+                            onClick={sendPlayer}
+                          >
+                            Enviar
+                        </Button>
                         </div>
                       </div>
-                    )}
-                    <div className="row mt-4 mb-2">
-                      <div className="col text-center">
-                        <Button
-                          variant="warning"
-                          className="pt-1 pb-1 pl-4 pr-4 font-weight-bold"
-                          onClick={sendPlayer}
-                        >
-                          Enviar
-                        </Button>
-                      </div>
-                    </div>
-                  </WrapperFormAddTeam>
-                </div>
-              </Wrapper>
-            </Card.Body>
-          </Accordion.Collapse>
-        </Card>
-      </Accordion>
+                    </WrapperFormAddTeam>
+                  </div>
+                </Wrapper>
+              </Card.Body>
+            </Accordion.Collapse>
+          </Card>
+        </Accordion>
+      }
       <Modal show={showEditPlayer} onHide={handleCloseEditPlayer}>
         <EditPlayerModal
           handleCloseEditPlayer={handleCloseEditPlayer}

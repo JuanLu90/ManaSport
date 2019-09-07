@@ -35,9 +35,17 @@ const LeagueDetails: React.FC<IProps> = props => {
   const currentLeague = props.leagues.find(
     u => u.TournamentId === +pathTournamentId
   );
+  const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
+
+  let Wrapper = styled.div``
+  if (!token) {
+    Wrapper = styled.div`
+    margin-top: 80px;
+  `;
+  }
 
   return (
-    <>
+    <Wrapper>
       <Tab.Container id="left-tabs-example" defaultActiveKey="first">
         <Nav variant="tabs" className="flex-fill justify-content-between">
           <Nav.Item>
@@ -47,14 +55,14 @@ const LeagueDetails: React.FC<IProps> = props => {
           </Nav.Item>
           <SpanNameLeague className="text-light">{currentLeague ? currentLeague.name : null}</SpanNameLeague>
           <div>
-          <Nav.Item>
-            <Nav.Link eventKey="second" className="pt-0 pb-1 d-inline bg-secondary border border-dark">
-              <Span className="text-light">Equipos</Span>
-            </Nav.Link>
-            <Nav.Link eventKey="third" className="pt-0 pb-1 d-inline bg-secondary border border-dark">
-              <Span className="text-light">Jugadores</Span>
-            </Nav.Link>
-          </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="second" className="pt-0 pb-1 d-inline bg-secondary border border-dark">
+                <Span className="text-light">Equipos</Span>
+              </Nav.Link>
+              <Nav.Link eventKey="third" className="pt-0 pb-1 d-inline bg-secondary border border-dark">
+                <Span className="text-light">Jugadores</Span>
+              </Nav.Link>
+            </Nav.Item>
           </div>
         </Nav>
         <Tab.Content>
@@ -69,7 +77,7 @@ const LeagueDetails: React.FC<IProps> = props => {
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
-    </>
+    </Wrapper>
   );
 };
 

@@ -5,20 +5,18 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Header from "./components/header/header";
 import Footer from "./components/footer";
 import management from "./components/main/management";
+import leagueList from "./components/main/leagueList";
+import leagueDetails from "./components/main/leagueDetails";
 //Redux
 import { connect } from "react-redux";
 import { IGlobalState } from "./reducers/reducers";
 import * as action from "./action";
 //Interfaces
 import { ITournament } from "./interfaces";
-//JsonWebToken
-import jwt from "jsonwebtoken";
 //Css
 import "./reset.css";
 import "./App.css";
 import mainApp from "./components/main/mainApp";
-import AllLeagueList from "./components/main/allLeaguesList";
-import AllLeaguesDetails from "./components/main/allLeaguesDetails";
 import styled from "styled-components";
 
 //******** STYLES - STYLED-COMPONENTS - CCSSINJS *********
@@ -34,7 +32,7 @@ let Wrapper = styled.div`
 //----------------------------------------------------
 
 //Global Props
-interface IProps {}
+interface IProps { }
 interface IPropsGlobal {
   setAllLeagues: (allleagues: ITournament[]) => void;
   allleagues: ITournament[];
@@ -68,11 +66,16 @@ const App: React.FC<IProps & IPropsGlobal> = props => {
           {!token && (
             <Switch>
               <Route path="/" exact component={mainApp} />
-              <Route path="/leagues" exact component={AllLeagueList} />
-              <Route
+              <Route path="/leagues" exact component={leagueList} />
+              {/* <Route
                 path="/leagues/allleaguesDetails"
                 component={AllLeaguesDetails}
+              /> */}
+              <Route
+                path="/management/leagueDetails"
+                component={leagueDetails}
               />
+
             </Switch>
           )}
           {token && (

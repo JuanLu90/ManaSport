@@ -42,7 +42,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
 
   const [editMode, setEditMode] = React.useState(false);
   const toggleEditMode = React.useCallback(() => setEditMode(s => !s), []);
-  
+
   const updateLocalScore = React.useCallback(
     v => setInputLocalScore(v.target.value),
     []
@@ -51,6 +51,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
     v => setInputAwayScore(v.target.value),
     []
   );
+  const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
 
 
   const sendMatchResult = () => {
@@ -102,15 +103,18 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
                 ? props.m.date
                 : props.m.localteam_score + "-" + props.m.awayteam_score}
             </span>
-            <img
-              src="/images/other/edit.png"
-              className="ml-3"
-              width={13}
-              alt=""
-              title="Editar resultado"
-              onClick={toggleEditMode}
-              style={{cursor: 'pointer'}}
-            />
+            {token &&
+              <img
+                src="/images/other/edit.png"
+                className="ml-3"
+                width={13}
+                alt=""
+                title="Editar resultado"
+                onClick={toggleEditMode}
+                style={{ cursor: 'pointer' }}
+              />
+            }
+
           </>
         )}
         {editMode && (
@@ -137,7 +141,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
         )}
       </TdMatchdayResult>
       <TdMatchdayBadge className="p-1">
-      { props.m.awaybadge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" /> : <ImgBadge src={props.m.awaybadge} alt="" />}
+        {props.m.awaybadge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" /> : <ImgBadge src={props.m.awaybadge} alt="" />}
       </TdMatchdayBadge>
       <TdMatchdayTeam className="p-1 text-left"> {props.m.awayTeam}</TdMatchdayTeam>
     </tr>
