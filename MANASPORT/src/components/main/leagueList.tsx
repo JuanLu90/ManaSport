@@ -1,6 +1,6 @@
 //React´s Components
 import React, { useState, useEffect } from "react";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 //Components made by Juanlu
 import DeleteLeagueModal from "./leagueDeleteModal";
 import EditLeagueModal from "./leagueEditModal";
@@ -41,7 +41,7 @@ interface IPropsGlobal {
   setLeagueId: (DeleteLeagueId: number) => void;
   DeleteLeagueId: number;
   deleteLeagueById: (LeagueId: number) => void;
-  // setAllLeagues: (allleagues: ITournament[]) => void;
+  setAllLeagues: (allleagues: ITournament[]) => void;
   allleagues: ITournament[];
 }
 
@@ -136,7 +136,7 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
 
   const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
 
-  
+
   let leagueorallleagues;
   if (token) {
     leagueorallleagues = props.leagues;
@@ -144,20 +144,6 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
     leagueorallleagues = props.allleagues;
   }
 
-  
-  let Wrapper = styled.div``
-  if(token){
-    Wrapper = styled.div`
-    font-family: "Source Sans Pro", sans-serif;
-    margin-bottom: 100px;
-  `;
-  }else {
-    Wrapper = styled.div`
-    font-family: "Source Sans Pro", sans-serif;
-    margin-bottom: 100px;
-    margin-top: 80px;
-  `;
-  }
 
   useEffect(() => {
     //Fetch leagues of the current user to redux
@@ -227,7 +213,7 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
   };
   return (
     <>
-      <Wrapper className="container-fluid">
+      <div className="container-fluid" style={token ? { marginBottom: '100px', fontFamily: "'Source Sans Pro', sans-serif" } : { margin: '120px 0', fontFamily: "'Source Sans Pro', sans-serif" }}>
         <div className="row mt-4 justify-content-center">
           <div className="col-10">
             <Title>Tus ligas:</Title>
@@ -281,16 +267,16 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
                     >
                       {l.name}
                     </td>
-                    <td className="p-1  align-middle">{l.sport}</td>
-                    <td className="p-1  align-middle">{l.category}</td>
-                    <td className="p-1  align-middle">
+                    <td className="p-1 align-middle">{l.sport}</td>
+                    <td className="p-1 align-middle">{l.category}</td>
+                    <td className="p-1 align-middle">
                       <div className="row">
                         <div className="col text-center">{l.NTeams}</div>
                       </div>
                     </td>
-                    <td className="p-1  align-middle">{l.createdate}</td>
+                    <td className="p-1 align-middle">{l.createdate}</td>
                     {token && <>
-                      <td className="p-1  align-middle">
+                      <td className="p-1 align-middle">
                         <img
                           src="/images/other/edit.png"
                           width="15"
@@ -336,6 +322,7 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
                   className="form-control form-control-sm bg-dark border border-secondary text-light"
                   value={inputLeagueName}
                   onChange={updateLeagueName}
+                // autoFocus
                 />
               </InputGroup>
             </div>
@@ -432,7 +419,7 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
             </div>
           )}
         </>}
-      </Wrapper>
+      </div>
       <Modal show={showDeleteLeague} onHide={() => null}>
         <DeleteLeagueModal
           handleCloseDeleteLeague={handleCloseDeleteLeague}
@@ -466,7 +453,7 @@ const mapDispatchToProps = {
   newLeague: action.newLeague,
   setLeagueId: action.setLeagueId,
   setLeagues: action.setLeagues,
-  // setAllLeagues: action.setAllLeagues
+  setAllLeagues: action.setAllLeagues
 };
 
 export default connect(

@@ -182,7 +182,6 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
   const [inputPlayerGoals, setInputPlayerGoals] = React.useState("");
   const [inputPlayerTeam, setInputPlayerTeam] = React.useState("");
 
-  // console.log(props.teamPlayers)
   //Onchanges to create a new player
   const updatePlayerName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputPlayerName(event.currentTarget.value);

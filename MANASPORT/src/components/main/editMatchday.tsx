@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { connect } from "react-redux";
 import * as action from "../../action";
 import { IGlobalState } from "../../reducers/reducers";
@@ -51,6 +51,17 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
     v => setInputAwayScore(v.target.value),
     []
   );
+
+
+  const deleteResult = () => {
+    // updateLocalScore(-1)
+    // updateAwayScore(-1)
+    setInputLocalScore(-1)
+    setInputAwayScore(-1)
+    sendMatchResult()
+    toggleEditMode();
+    // setTimeout(() => toggleEditMode(), 300);
+  }
   const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
 
 
@@ -64,8 +75,8 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
       },
       body: JSON.stringify({
         MatchId: props.m.MatchId,
-        localteam_score: +inputLocalScore,
-        awayteam_score: +inputAwayScore
+        localteam_score: inputLocalScore === -1 ? null : +inputLocalScore,
+        awayteam_score: inputAwayScore === -1 ? null : +inputAwayScore
       })
     })
       .then(response => {
@@ -79,7 +90,6 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
             props.putMatchById(props.m.MatchId, m);
             toggleEditMode();
             props.updatedResults(+1)
-            // props.history.push("/management");
           });
         }
       })
@@ -97,6 +107,17 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
       <TdMatchdayResult className="p-1">
         {!editMode && (
           <>
+            {token &&
+              <img
+                src="/images/other/cancel.png"
+                className="mr-3"
+                width={13}
+                alt=""
+                title="Eliminar resultado"
+                onClick={() => deleteResult()}
+                style={{ cursor: 'pointer' }}
+              />
+            }
             <span>
               {props.m.localteam_score === null &&
                 props.m.awayteam_score === null
@@ -119,13 +140,13 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
         )}
         {editMode && (
           <>
-            <ImgArrow src="/images/other/cancel.png" className="mr-2 mb-1" onClick={toggleEditMode} title="Atrás" />
+            <ImgArrow src="/images/other/back.png" className="mr-2 mb-1" onClick={toggleEditMode} title="Atrás" />
             <input
               type="text"
               name=""
               id=""
               className="w-25 text-center"
-              value={inputLocalScore}
+              value={inputLocalScore === -1 ? "" : inputLocalScore}
               onChange={updateLocalScore}
             />
             <input
@@ -133,7 +154,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
               name=""
               id=""
               className="w-25 text-center"
-              value={inputAwayScore}
+              value={inputAwayScore === -1 ? "" : inputAwayScore}
               onChange={updateAwayScore}
             />
             <ImgArrow src="/images/other/send.png" className="ml-2 mb-1" onClick={sendMatchResult} title="Enviar" />

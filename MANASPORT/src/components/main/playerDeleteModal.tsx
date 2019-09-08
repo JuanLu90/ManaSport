@@ -1,7 +1,6 @@
 //React´s Components
 import React from "react";
 import { IGlobalState } from "../../reducers/reducers";
-import { createBrowserHistory } from "history";
 //Redux
 import { connect } from "react-redux";
 import * as action from "../../action";

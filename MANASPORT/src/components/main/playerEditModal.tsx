@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ITournament, ITeam, IPlayer } from "../../interfaces";
+import { ITournament, IPlayer } from "../../interfaces";
 import { IGlobalState } from "../../reducers/reducers";
 import { connect } from "react-redux";
 import { createBrowserHistory } from "history";

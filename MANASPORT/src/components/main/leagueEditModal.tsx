@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import * as action from "../../action";
 import { IGlobalState } from "../../reducers/reducers";
-import { InputGroup, Form, Alert } from "react-bootstrap";
+import { Form, Alert } from "react-bootstrap";
 import { ITournament } from "../../interfaces";
-import { createBrowserHistory } from "history";
 import styled from "styled-components";
 
 // STYLES ----- STYLED COMPONENTS ----- CSSINJS

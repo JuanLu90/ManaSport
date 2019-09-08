@@ -2,7 +2,6 @@ import React from "react";
 import { IGlobalState } from "../../reducers/reducers";
 import { connect } from "react-redux";
 import * as action from "../../action";
-import { createBrowserHistory } from "history";
 import { ITournament } from "../../interfaces";
 import styled from "styled-components";
 

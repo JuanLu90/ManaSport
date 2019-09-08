@@ -63,7 +63,17 @@ const ButtonHeader = styled.button`
 const ImgSearch = styled.img`
   cursor: pointer;
 `;
-interface IProps {}
+
+const RowHover = styled.div`
+  &:hover {
+    color: yellow;
+  }
+`;
+
+
+
+
+interface IProps { }
 interface IPropsGLobal {
   setToken: (token: string) => void;
   users: IUser[];
@@ -151,10 +161,10 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
                   <ButtonHeader>Tus Ligas</ButtonHeader>{" "}
                 </Link>
               ) : (
-                <Link to={"/leagues"} className="border-0">
-                  <ButtonHeader>Info Ligas</ButtonHeader>{" "}
-                </Link>
-              )}
+                  <Link to={"/leagues"} className="border-0">
+                    <ButtonHeader>Info Ligas</ButtonHeader>{" "}
+                  </Link>
+                )}
               {!token && (
                 <InputGroup size="sm" className="w-75">
                   <FormControl
@@ -182,24 +192,13 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
                         )
                         .slice(0, 5)
                         .map(l => (
-                          <Link
-                            key={l.TournamentId}
-                            to={"/leagues/allleaguesDetails/" + l.TournamentId}
-                            className="text-light p-0"
-                            style={{ textDecoration: "none" }}
-                            onClick={() =>
-                              history.push(
-                                "/leagues/allleaguesDetails/" + l.TournamentId
-                              )
-                            }
-                          >
-                            <div className="row p-2" key={l.TournamentId}>
-                              <div className="col-8">{l.name}</div>
-                              <div className="col-4 text-center">
-                                {l.NameAdmin}
-                              </div>
+                          <RowHover className="row p-2" key={l.TournamentId} style={{ cursor: 'pointer' }} onClick={() => history.push("/management/leagueDetails/" + l.TournamentId)
+                          }>
+                            <div className="col-8">{l.name}</div>
+                            <div className="col-4 text-center">
+                              {l.NameAdmin}
                             </div>
-                          </Link>
+                          </RowHover>
                         ))}
                     </SearchResult>
                   )}
@@ -269,10 +268,10 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
         />
       </Modal>
       <Modal show={showRegister} onHide={handleCloseRegister}>
-        <RegisterModal 
+        <RegisterModal
           handleCloseRegister={handleCloseRegister}
           handleShowLogin={handleShowLogin}
-          />
+        />
       </Modal>
     </>
   );
