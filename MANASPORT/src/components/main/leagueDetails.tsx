@@ -24,6 +24,7 @@ const Span = styled.span`
 
 interface IProps {
   leagues: ITournament[];
+  allleagues: ITournament[];
 }
 
 const LeagueDetails: React.FC<IProps> = props => {
@@ -32,15 +33,27 @@ const LeagueDetails: React.FC<IProps> = props => {
   const path: any = history.location.pathname;
   let pathTournamentId = path.split(["/"]).slice(-1)[0];
 
-  const currentLeague = props.leagues.find(
+
+  const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
+
+  let leagueorallleagues;
+  if (token) {
+    leagueorallleagues = props.leagues;
+  } else {
+    leagueorallleagues = props.allleagues;
+  }
+
+  const currentLeague = leagueorallleagues.find(
     u => u.TournamentId === +pathTournamentId
   );
-  const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
+
+
+
 
   let Wrapper = styled.div``
   if (!token) {
     Wrapper = styled.div`
-    margin-top: 80px;
+    margin-top: 120px;
   `;
   }
 
@@ -83,7 +96,8 @@ const LeagueDetails: React.FC<IProps> = props => {
 
 
 const mapStateToProps = (state: IGlobalState) => ({
-  leagues: state.leagues
+  leagues: state.leagues,
+  allleagues: state.allleagues
 });
 
 

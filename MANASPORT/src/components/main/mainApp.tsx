@@ -28,8 +28,9 @@ const WrapperContainer2 = styled.div`
   height: 50vh;
 `
 const WrapperContainer3 = styled.div`
-background: rgba(0, 0, 0, 0.5);
-  height: 60vh;
+background-color: rgba(241, 242, 246, 1);
+
+  height: 50vh;
 `
 const BackgroundImage2 = styled.div`
   background-image: url("/images/fondo7.jpg");
@@ -118,9 +119,6 @@ const MiniHr = styled.hr({
 });
 
 
-const SizeResponsive = '365px';
-
-
 
 //*************************
 
@@ -136,38 +134,10 @@ const MainApp: React.FC = () => { // Function Component
   };
 
 
-
-  // let BackgroundImage2 = styled.div``;
-  // if (index === 0) {
-  //   let BackgroundImage2 = styled.div`
-  //   background-image: url("/images/fondo7.jpg");
-  //   background-repeat: no-repeat;
-  //   background-size: cover;
-  //   background-position: center top;
-  //   background-attachment: fixed;
-  // `
-  // } else if (index === 1) {
-  //   BackgroundImage2 = styled.div`
-  //   background-image: url("/images/fondo5.jpg");
-  //   background-repeat: no-repeat;
-  //   background-size: cover;
-  //   background-position: center top;
-  //   background-attachment: fixed;
-  // `
-  // } else {
-  //   BackgroundImage2 = styled.div`
-  //   background-image: url("/images/fondo6.jpg");
-  //   background-repeat: no-repeat;
-  //   background-size: cover;
-  //   background-position: center top;
-  //   background-attachment: fixed;
-  // `
-  // }
-
-
-
   return (
     <Wrapper>
+         
+
       <BackgroundImage>
         <WrapperContainer className="container-fluid d-flex flex-column">
           <Row1 className="row w-75 text-center align-self-center">
@@ -212,7 +182,7 @@ const MainApp: React.FC = () => { // Function Component
               </div>
               <div className="row mt-2">
                 <div className="col">
-                  <Span>Crea tús ligas y administralas de manera fácil e intuitiva</Span>
+                  <Span>Crea tus ligas y administralas de manera fácil e intuitiva</Span>
                 </div>
               </div>
             </Col>
@@ -253,7 +223,7 @@ const MainApp: React.FC = () => { // Function Component
           </Row3>
         </WrapperContainer>
       </BackgroundImage>
-      <WrapperContainer2 className="container-fluid d-flex align-items-center p-2">
+      {/* <WrapperContainer2 className="container-fluid d-flex align-items-center p-2">
         <div className="row w-100 justify-content-center p-3 m-auto">
           <div className="col-4 d-flex align-items-center justify-content-center">
             <img src="/images/mockup.png" className="align-self-center" width="85%" alt="" />
@@ -292,33 +262,30 @@ const MainApp: React.FC = () => { // Function Component
             </div>
           </div>
         </div>
-      </WrapperContainer2>
-      <BackgroundImage2>
+      </WrapperContainer2> */}
+      {/* <BackgroundImage2> */}
         <WrapperContainer3 className="container-fluid pt-5">
           <MiniHr className="bg-warning" />
           <div className="row w-50 m-auto pt-4">
-            <div className="col font-weight-bold text-uppercase text-center text-light mb-5 h4">Para todo tipo de usuarios</div>
+            <div className="col font-weight-bold text-uppercase text-center text-dark mb-5 h4">Para todo tipo de usuarios</div>
           </div>
           <div className="row w-75 m-auto text-center justify-content-center pt-3">
-            <div className={index === 0 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1 rounded" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1 rounded"} onClick={() => setIndex(0)} style={{ cursor: 'pointer' }}>Amigos</div>
-            <div className={index === 1 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1 rounded" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1 rounded"} onClick={() => setIndex(1)} style={{ cursor: 'pointer' }}>Aficionados</div>
-            <div className={index === 2 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1 rounded" : "col-2 bg-light text-secondary font-weight-bold text-uppercase p-2 m-1 rounded"} onClick={() => setIndex(2)} style={{ cursor: 'pointer' }}>Profesionales</div>
+            <div className={index === 0 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1 rounded " : "col-2 bg-light border border-secondary text-secondary font-weight-bold text-uppercase p-2 m-1 rounded"} onClick={() => setIndex(0)} style={{ cursor: 'pointer' }}>Amigos</div>
+            <div className={index === 1 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1 rounded" : "col-2 bg-light border border-secondary text-secondary font-weight-bold text-uppercase p-2 m-1 rounded"} onClick={() => setIndex(1)} style={{ cursor: 'pointer' }}>Aficionados</div>
+            <div className={index === 2 ? "col-2 bg-dark text-light font-weight-bold text-uppercase p-2 m-1 rounded" : "col-2 bg-light border border-secondary text-secondary font-weight-bold text-uppercase p-2 m-1 rounded"} onClick={() => setIndex(2)} style={{ cursor: 'pointer' }}>Profesionales</div>
           </div>
-          <div className="row justify-content-center text-light mt-5">
+          <div className="row justify-content-center text-dark mt-5">
             <div className="col-9">
               <Carousel indicators={false} activeIndex={index} onSelect={handleSelect} interval={3000}>
                 <Carousel.Item>
-                  {/* <div className="row justify-content-center"><img src="/images/fondo5.jpg" alt="" /></div> */}
                   <div className="row justify-content-center font-weight-bold h3">Para amigos </div>
                   <div className="row justify-content-center h5"><p>Compite con tus amigos y gestionad vuestra liga de una manera rápida, facil e intuitiva.</p> </div>
                 </Carousel.Item>
                 <Carousel.Item>
-                  {/* <div className="row justify-content-center"><img src="/images/fondo6.jpg" alt="" /></div> */}
                   <div className="row justify-content-center font-weight-bold h3">Para aficionados </div>
                   <div className="row justify-content-center h5"><p>Crea una liga en la que competir con tus amigos ocasionalmente, y gestionala como lo haria un profesional.</p> </div>
                 </Carousel.Item>
                 <Carousel.Item>
-                  {/* <div className="row justify-content-center"><img src="/images/fondo7.jpg" alt="" /></div> */}
                   <div className="row justify-content-center font-weight-bold h3">Para profesionales </div>
                   <div className="row justify-content-center h5"><p>Crea tantas ligas sean necesarias, sin restricciones de número de equipos y jugadores.</p> </div>
                 </Carousel.Item>
@@ -326,7 +293,7 @@ const MainApp: React.FC = () => { // Function Component
             </div>
           </div>
         </WrapperContainer3>
-      </BackgroundImage2>
+      {/* </BackgroundImage2> */}
       <Modal show={modalVideo} onHide={handleCloseModalVideo} size="xl">
         <div className="modal-dialog-centered" role="document">
           <div className="modal-content bg-light text-dark">

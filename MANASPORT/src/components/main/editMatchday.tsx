@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import * as action from "../../action";
 import { IGlobalState } from "../../reducers/reducers";
@@ -65,7 +65,6 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
     setInputAwayScore(-1)
     sendMatchResult()
     toggleEditMode();
-    // setTimeout(() => toggleEditMode(), 300);
   }
   const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
 
@@ -124,12 +123,6 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
                 style={{ width: '17px', height: '17px', cursor: 'pointer' }}
               />
             }
-            {/* <span>
-              {props.m.localteam_score === null &&
-                props.m.awayteam_score === null
-                ? props.m.date
-                : props.m.localteam_score + "-" + props.m.awayteam_score}
-            </span> */}
             <div>
               {props.m.localteam_score === null &&
                 props.m.awayteam_score === null
@@ -156,7 +149,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
         )}
         {editMode && (
           <>
-            <ImgArrow src="/images/other/back.png" className="mr-2 mb-1" onClick={toggleEditMode} title="Atrás" />
+            <ImgArrow src="/images/other/back.png" className="mr-2 align-self-center" onClick={toggleEditMode} title="Atrás" />
             <input
               type="text"
               name=""
@@ -184,7 +177,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
               value={inputDate}
               onChange={updateDate}
             />
-            <ImgArrow src="/images/other/send.png" className="ml-2 mb-1" onClick={sendMatchResult} title="Enviar" />
+            <ImgArrow src="/images/other/send.png" className="ml-2 align-self-center" onClick={sendMatchResult} title="Enviar" />
           </>
         )}
       </TdMatchdayResult>

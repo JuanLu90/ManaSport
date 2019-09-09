@@ -41,14 +41,19 @@ interface IPropsGlobal {
   setLeagueId: (DeleteLeagueId: number) => void;
   DeleteLeagueId: number;
   deleteLeagueById: (LeagueId: number) => void;
-  setAllLeagues: (allleagues: ITournament[]) => void;
   allleagues: ITournament[];
 }
 
 const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props => {
 
+  const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
 
-
+  let leagueorallleagues;
+  if (token) {
+    leagueorallleagues = props.leagues;
+  } else {
+    leagueorallleagues = props.allleagues;
+  }
 
   const compareName = (a: any, b: any) => {
     if (a.name.localeCompare(b.name) > b.name.localeCompare(a.name)) {
@@ -73,9 +78,9 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
   const toggleSortByName = React.useCallback(() => setSortByName(s => !s), []);
 
   if (sortByName) {
-    props.leagues.sort(compareName);
+    leagueorallleagues.sort(compareName);
   } else {
-    props.leagues.sort(compareNameReverse);
+    leagueorallleagues.sort(compareNameReverse);
   }
 
   const [inputLeagueName, setInputLeagueName] = useState("");
@@ -133,16 +138,6 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
     () => setUpdateSetLeagues(s => !s),
     []
   ); //Open and close alert league name invalid
-
-  const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
-
-
-  let leagueorallleagues;
-  if (token) {
-    leagueorallleagues = props.leagues;
-  } else {
-    leagueorallleagues = props.allleagues;
-  }
 
 
   useEffect(() => {
@@ -242,11 +237,12 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
                       alt=""
                     />
                   </th>
+                  {token && <th>Administrador</th>}
                   <th>DEPORTE</th>
                   <th>MODALIDAD</th>
                   <th>Nº EQUIPOS</th>
                   <th>FECHA CREACIÓN</th>
-                  {token && <>
+                  {!token && <>
                     <th />
                     <th />
                   </>
@@ -267,6 +263,7 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
                     >
                       {l.name}
                     </td>
+                    {!token && <td className="p-1 align-middle">{l.NameAdmin}</td>}
                     <td className="p-1 align-middle">{l.sport}</td>
                     <td className="p-1 align-middle">{l.category}</td>
                     <td className="p-1 align-middle">
@@ -452,8 +449,7 @@ const mapDispatchToProps = {
   deleteLeagueById: action.deleteLeagueById,
   newLeague: action.newLeague,
   setLeagueId: action.setLeagueId,
-  setLeagues: action.setLeagues,
-  setAllLeagues: action.setAllLeagues
+  setLeagues: action.setLeagues
 };
 
 export default connect(
