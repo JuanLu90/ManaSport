@@ -37,10 +37,10 @@ router.put("/players/editPlayer/:PlayerId", (req, res) => {
   dbConn.query(
     `UPDATE player set 
       name = ${data.name.length > 0 ? `'${data.name}'` : "NULL"}, 
-      surname = ${data.surname.length > 0 ? `'${data.surname}'` : "NULL"},  
-      age = '${data.age}',
+      surname = ${data.surname === "" ? null : `'${data.surname}'`},  
+      age = ${data.age === 0 || data.age === "" ? "NULL" : `'${data.age}'`}, 
       position = ${data.position.length > 0 ? `'${data.position}'` : "NULL"}, 
-      goals = ${data.goals.length > 0 ? `'${data.goals}'` : "NULL"} 
+      goals = ${data.goals === 0 || data.goals === "" ? "NULL" : `'${data.goals}'`} 
       WHERE PlayerId = ${data.PlayerId};`,
     (err, rows) => {
       if (err) throw err;

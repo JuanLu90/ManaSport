@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { ITournament, IPlayer } from "../../interfaces";
 import { IGlobalState } from "../../reducers/reducers";
 import { connect } from "react-redux";
-import { createBrowserHistory } from "history";
 import * as action from "../../action";
 import styled from "styled-components";
 import Form from "react-bootstrap/Form";
@@ -28,15 +27,14 @@ interface IPropsGlobal {
 }
 
 const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
-  const history = createBrowserHistory({ forceRefresh: true });
-  const path: any = history.location.pathname;
-  let pathTournamentId = path.split(["/"]).slice(-1)[0]; //Get the TournamentID from the path
 
   const [inputPlayerName, setInputPlayerName] = React.useState("");
   const [inputPlayerSurname, setInputPlayerSurname] = React.useState("");
   const [inputPlayerAge, setInputPlayerAge] = React.useState(0);
   const [inputPlayerPosition, setInputPlayerPosition] = React.useState("");
   const [inputPlayerGoals, setInputPlayerGoals] = React.useState(0);
+
+  
 
   const updatePlayerName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputPlayerName(event.currentTarget.value);
@@ -71,7 +69,8 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
   if (!currentPlayer) {
     return null;
   }
-
+console.log(currentPlayer.goals)
+console.log("inputPlayerGoals: " + inputPlayerGoals)
   const editCurrentPlayer = () => {
     //Evita que 'league' sea undefined
     if (!currentPlayer) {
@@ -90,9 +89,9 @@ const EditPlayerModal: React.FC<IProps & IPropsGlobal> = props => {
           PlayerId: currentPlayer.PlayerId,
           name: inputPlayerName,
           surname: inputPlayerSurname,
-          age: inputPlayerAge,
+          age: inputPlayerAge === null ? 0 : inputPlayerAge,
           position: inputPlayerPosition,
-          goals: inputPlayerGoals
+          goals: inputPlayerGoals === null ? 0 : inputPlayerGoals
         })
       }
     )

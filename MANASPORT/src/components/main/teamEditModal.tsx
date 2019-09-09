@@ -121,7 +121,6 @@ const EditTeamModal: React.FC<IProps & IPropsGlobal> = props => {
 
   const history = createBrowserHistory({ forceRefresh: true });
   const path: any = history.location.pathname;
-  let pathTournamentId = path.split(["/"]).slice(-1)[0]; //Get the TournamentID from the path
 
   useEffect(() => { //Fetch current team every time it changes
     if (currentTeam) {

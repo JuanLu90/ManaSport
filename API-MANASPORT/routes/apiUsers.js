@@ -17,7 +17,7 @@ router.get("/users/countTournaments/:UserId", (req, res) => {
     COUNT(*) AS 'countTournaments'
     FROM user U 
     INNER JOIN tournament AS TOUR on U.UserId = TOUR.UserId 
-    WHERE U.UserId = ${UserId}`,
+    WHERE U.UserId = ${UserId} AND TOUR.disabled = 0`,
     (err, rows) => {
       if (err) throw err;
       res.send(rows);

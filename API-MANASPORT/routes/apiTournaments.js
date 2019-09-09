@@ -2,6 +2,15 @@ var express = require("express");
 var router = express.Router();
 const dbConn = require("../config/db");
 
+
+
+let today = new Date();
+let dd = String(today.getDate()).padStart(2, '');
+let mm = String(today.getMonth() + 1).padStart(2, '');
+let yyyy = today.getFullYear();
+
+today = mm + '/' + dd + '/' + yyyy;
+
 // SHOW ALL TOURNAMENTS
 router.get("/tournaments", (req, res) => {
   dbConn.query(`SELECT TOUR.TournamentId, TOUR.name, TOUR.sport, TOUR.category, TOUR.createdate, TOUR.UserId, TOUR.disabled,
@@ -13,9 +22,9 @@ router.get("/tournaments", (req, res) => {
   ON U.UserId = TOUR.UserId
   WHERE TOUR.disabled = 0
   GROUP BY TournamentId;`, (err, rows) => {
-      if (err) throw err;
-      res.send(rows);
-    });
+    if (err) throw err;
+    res.send(rows);
+  });
 });
 
 // SHOW TOURNAMENT BY ID
@@ -160,8 +169,10 @@ router.get("/tournaments/qualification/:TournamentId/", (req, res) => {
 //Edit result of a match
 router.put("/tournaments/editMatch", (req, res) => {
   const data = req.body;
+  console.log(data);
   dbConn.query(
     `UPDATE manasport.match set 
+      date = '${data.date}',
       localteam_score = ${data.localteam_score}, 
       awayteam_score = ${data.awayteam_score} 
       WHERE MatchId = '${data.MatchId}';`,
@@ -225,14 +236,14 @@ router.get("/tournaments/createMatchs/:TournamentId", (req, res) => {
       calculation.map(matches => {
         matches.map(match => {
           dbConn.query(
-            `INSERT INTO manasport.match (localTeamId, awayTeamId, matchday, TournamentId) VALUES('${
+            `INSERT INTO manasport.match (date, localTeamId, awayTeamId, matchday, TournamentId) VALUES('${today}', '${
             teams[match.teamA].TeamId
             }', '${teams[match.teamB].TeamId}', '${
             match.round
             }', '${TournamentId}')`
           );
           dbConn.query(
-            `INSERT INTO manasport.match (localTeamId, awayTeamId, matchday, TournamentId) VALUES('${
+            `INSERT INTO manasport.match (date, localTeamId, awayTeamId, matchday, TournamentId) VALUES('${today}', '${
             teams[match.teamB].TeamId
             }', '${teams[match.teamA].TeamId}', '${match.round +
             calculation.length}', '${TournamentId}')`
@@ -243,6 +254,7 @@ router.get("/tournaments/createMatchs/:TournamentId", (req, res) => {
     }
   );
 });
+
 
 // TORNEOS JUNTO A LOS EQUIPOS QUE PARTICIPAN
 // SELECT TOUR.TournamentId, TOUR.name, TOUR.UserId, T.name

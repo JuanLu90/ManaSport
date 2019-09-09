@@ -4,7 +4,7 @@ import { createBrowserHistory } from "history";
 //Components made by Juanlu
 import EditMatchDay from "./editMatchday";
 //React Bootstrap
-import { Table } from "react-bootstrap";
+import { Table, Alert } from "react-bootstrap";
 //Interfaces
 import { IMatch, ITeam, IQualification } from "../../interfaces";
 //Redux
@@ -40,7 +40,7 @@ const Tbody = styled.tbody`
 //----------------------------------------------------
 
 //Global Props
-interface IProps {}
+interface IProps { }
 interface IpropsGlobal {
   leagueTeams: ITeam[];
   setMatchs: (matchs: IMatch[]) => void;
@@ -66,6 +66,9 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
   const [matchResult, setMatchResult] = React.useState(false);
   const updatedResults = React.useCallback(() => setMatchResult(s => !s), []);
 
+  const [checkCreateSchedule, setCheckCreateSchedule] = React.useState(false);
+  const toggleCheckCreateSchedule = React.useCallback(() => setCheckCreateSchedule(s => !s), []); //Check if credentials are valid
+
   const history = createBrowserHistory({});
   const path: any = history.location.pathname;
   let pathTournamentId = path.split(["/"]).slice(-1)[0];
@@ -74,9 +77,9 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
     //Fetch matchs to Redux
     fetch(
       "http://localhost:8080/api/tournaments/matchs/" +
-        pathTournamentId +
-        "/" +
-        count,
+      pathTournamentId +
+      "/" +
+      count,
       {
         headers: {
           "Content-type": "application/json",
@@ -88,7 +91,7 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
         response.json().then(matchs => props.setMatchs(matchs));
       }
     });
-  }, [count, matchResult]); //When a hook value changes, the matchs on Redux are updated
+  }, [count, matchResult, checkCreateSchedule]); //When a hook value changes, the matchs on Redux are updated
 
   useEffect(() => {
     //Fetch qualification to Redux
@@ -123,6 +126,9 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
     ).then(response => {
       if (response.ok) {
         response.json().then(matchs => props.setMatchs(matchs));
+        toggleCheckCreateSchedule();
+        setTimeout(() => toggleCheckCreateSchedule(), 4000);
+
       }
     });
   };
@@ -192,6 +198,16 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
                 </div>
               </div>
             )}
+            {checkCreateSchedule && (
+              <div className="row justify-content-center mt-1">
+                <div className="col text-center">
+                  <Alert variant="success" className="p-2">
+                    <img src="/images/other/send.png" width="35" alt="" className="mr-3" />
+                    <span> <b> Calendario creado correctamente. </b> Ya puede consultarlo en la sección resultados.</span>
+                  </Alert>
+                </div>
+              </div>
+            )}
           </div>
           <div className="col p-3 m-3">
             <div className="row pb-3">
@@ -232,8 +248,8 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
                             {1}
                           </td>
                         ) : (
-                          <td className="p-1 text-center">{i + 1}</td>
-                        )}
+                            <td className="p-1 text-center">{i + 1}</td>
+                          )}
                         <td className="p-1 text-center">
                           {q.badge === null ? (
                             <ImgBadge
@@ -241,8 +257,8 @@ const LeagueDetailsGeneral: React.FC<IProps & IpropsGlobal> = props => {
                               alt=""
                             />
                           ) : (
-                            <ImgBadge src={q.badge} alt="" />
-                          )}
+                              <ImgBadge src={q.badge} alt="" />
+                            )}
                         </td>
                         <td className="p-1">{q.TEAM}</td>
                         <td className="p-1 text-center">

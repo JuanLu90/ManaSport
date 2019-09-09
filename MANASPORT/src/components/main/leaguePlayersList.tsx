@@ -349,8 +349,8 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
                         <tr>
                           <td>
                             <Card.Img
-                              src={l.badge}
-                              style={{ width: "1rem", marginRight: "7px" }}
+                              src={l.badge === null ? "/images/badges-teams/default-badge.png" : l.badge}
+                              style={{ width: '20px', height: "22px", marginRight: "7px" }}
                             />
                           </td>
                           <td className="text-light">
@@ -369,7 +369,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
                       <div className="col">
                         {currentTeam ? (
                           <div className="col text-center text-light h3 p-0 m-0">
-                            <ImgBadge src={currentTeam.badge} alt="" />
+                            <ImgBadge src={currentTeam.badge === null ? "/images/badges-teams/default-badge.png" : currentTeam.badge} alt="" />
                             <span className="ml-3 align-middle">
                               {currentTeam.name}
                             </span>
@@ -484,7 +484,7 @@ const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
                                     ) : null}
                                   </TdMatchdayBig>
                                   <TdMatchdaySmall className="p-2">
-                                    {p.goals === null ? "-" : p.goals}
+                                    {p.goals === null ? 0 : p.goals}
                                   </TdMatchdaySmall>
                                   {token &&
                                     <>

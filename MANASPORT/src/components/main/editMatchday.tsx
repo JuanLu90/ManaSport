@@ -19,13 +19,13 @@ const ImgBadge = styled.img`
   height: 28px;
 `;
 const TdMatchdayTeam = styled.td`
-  width: 30%;
+  width: 20%;
 `;
 const TdMatchdayBadge = styled.td`
-  width: 10%;
+  width: 5%;
 `;
 const TdMatchdayResult = styled.td`
-width: 25%;
+width: 50%;
 `;
 const ImgArrow = styled.img`
   cursor: pointer;
@@ -39,6 +39,9 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
   const [inputAwayScore, setInputAwayScore] = React.useState(
     props.m.awayteam_score
   );
+  const [inputDate, setInputDate] = React.useState(
+    props.m.date
+  );
 
   const [editMode, setEditMode] = React.useState(false);
   const toggleEditMode = React.useCallback(() => setEditMode(s => !s), []);
@@ -51,11 +54,13 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
     v => setInputAwayScore(v.target.value),
     []
   );
+  const updateDate = React.useCallback(
+    v => setInputDate(v.target.value),
+    []
+  );
 
 
   const deleteResult = () => {
-    // updateLocalScore(-1)
-    // updateAwayScore(-1)
     setInputLocalScore(-1)
     setInputAwayScore(-1)
     sendMatchResult()
@@ -75,6 +80,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
       },
       body: JSON.stringify({
         MatchId: props.m.MatchId,
+        date: inputDate,
         localteam_score: inputLocalScore === -1 ? null : +inputLocalScore,
         awayteam_score: inputAwayScore === -1 ? null : +inputAwayScore
       })
@@ -83,6 +89,7 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
         if (response.ok) {
           const u: any = {
             MatchId: props.m.MatchId,
+            date: inputDate,
             localteam_score: props.m.localteam_score,
             awayteam_score: props.m.awayteam_score
           };
@@ -100,39 +107,48 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
 
   return (
     <tr>
-      <TdMatchdayTeam className="p-1 text-right">{props.m.localTeam} </TdMatchdayTeam>
-      <TdMatchdayBadge className="p-1">
+      <TdMatchdayTeam className="p-1 border-0 text-right align-middle">{props.m.localTeam} </TdMatchdayTeam>
+      <TdMatchdayBadge className="p-1 border-0 align-middle">
         {props.m.localbadge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" /> : <ImgBadge src={props.m.localbadge} alt="" />}
       </TdMatchdayBadge>
-      <TdMatchdayResult className="p-1">
+      <TdMatchdayResult className="p-1 border-0 d-flex justify-content-around m-auto">
         {!editMode && (
           <>
             {token &&
               <img
                 src="/images/other/cancel.png"
-                className="mr-3"
-                width={13}
+                className="mr-3 align-self-center"
                 alt=""
                 title="Eliminar resultado"
                 onClick={() => deleteResult()}
-                style={{ cursor: 'pointer' }}
+                style={{ width: '17px', height: '17px', cursor: 'pointer' }}
               />
             }
-            <span>
+            {/* <span>
               {props.m.localteam_score === null &&
                 props.m.awayteam_score === null
                 ? props.m.date
                 : props.m.localteam_score + "-" + props.m.awayteam_score}
-            </span>
+            </span> */}
+            <div>
+              {props.m.localteam_score === null &&
+                props.m.awayteam_score === null
+                ? props.m.date
+                : <>
+                  <div>{props.m.localteam_score + "-" + props.m.awayteam_score}</div>
+                  <div style={{ fontSize: '0.75em', color: '#bdc3c7' }}>{props.m.date}</div>
+                </>
+
+              }
+            </div>
             {token &&
               <img
                 src="/images/other/edit.png"
-                className="ml-3"
-                width={13}
+                className="ml-3 align-self-center"
                 alt=""
                 title="Editar resultado"
                 onClick={toggleEditMode}
-                style={{ cursor: 'pointer' }}
+                style={{ width: '17px', height: '17px', cursor: 'pointer' }}
               />
             }
 
@@ -145,7 +161,8 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
               type="text"
               name=""
               id=""
-              className="w-25 text-center"
+              className="text-center"
+              style={{ width: '40px' }}
               value={inputLocalScore === -1 ? "" : inputLocalScore}
               onChange={updateLocalScore}
             />
@@ -153,18 +170,28 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
               type="text"
               name=""
               id=""
-              className="w-25 text-center"
+              className="text-center"
+              style={{ width: '40px' }}
               value={inputAwayScore === -1 ? "" : inputAwayScore}
               onChange={updateAwayScore}
+            />
+            <input
+              type="text"
+              name=""
+              id=""
+              className="text-center"
+              style={{ width: '100px' }}
+              value={inputDate}
+              onChange={updateDate}
             />
             <ImgArrow src="/images/other/send.png" className="ml-2 mb-1" onClick={sendMatchResult} title="Enviar" />
           </>
         )}
       </TdMatchdayResult>
-      <TdMatchdayBadge className="p-1">
-        {props.m.awaybadge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" /> : <ImgBadge src={props.m.awaybadge} alt="" />}
+      <TdMatchdayBadge className="p-1 border-0 align-middle">
+        {props.m.awaybadge === null ? <ImgBadge src="/images/badges-teams/default-badge.png" alt="" /> : <ImgBadge src={props.m.awaybadge} alt="" />}
       </TdMatchdayBadge>
-      <TdMatchdayTeam className="p-1 text-left"> {props.m.awayTeam}</TdMatchdayTeam>
+      <TdMatchdayTeam className="p-1 text-left border-0 align-middle"> {props.m.awayTeam}</TdMatchdayTeam>
     </tr>
   );
 };
