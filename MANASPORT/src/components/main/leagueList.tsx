@@ -237,7 +237,7 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
                       alt=""
                     />
                   </th>
-                  {token && <th>Administrador</th>}
+                  {!token && <th>Administrador</th>}
                   <th>DEPORTE</th>
                   <th>MODALIDAD</th>
                   <th>Nº EQUIPOS</th>
