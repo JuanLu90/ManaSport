@@ -650,7 +650,7 @@ const LeagueDetailsTeams: React.FC<IProps & IPropsGlobal> = props => {
                         <Card style={borderCard} className="bg-transparent">
                           <WrapperCardBody>
                             <Card.Body>
-                              <ImgBadgeCard src={l.badge} />
+                            <ImgBadgeCard src={l.badge === null ? "/images/badges-teams/default-badge.png" : l.badge} alt="" />
                               <Card.Title className="text-light mt-2">
                                 {l.name === null ? "-" : l.name}
                               </Card.Title>
