@@ -233,6 +233,7 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
                     <img
                       src="/images/profile/no-profile.png"
                       width="30"
+                      className="ml-3"
                       alt=""
                     />
                   )}

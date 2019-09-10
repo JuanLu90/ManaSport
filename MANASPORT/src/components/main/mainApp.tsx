@@ -199,7 +199,7 @@ const MainApp: React.FC = () => { // Function Component
               </div>
               <div className="row mt-2">
                 <div className="col">
-                  <Span>Gestiona horarios, resultados y clasificaciónes de tus equipos</Span>
+                  <Span>Gestiona horarios, resultados y clasificaciones de tus equipos</Span>
                 </div>
               </div>
             </Col>
@@ -216,7 +216,7 @@ const MainApp: React.FC = () => { // Function Component
               </div>
               <div className="row mt-2">
                 <div className="col">
-                  <Span>Lleva el control de las estádisticas de cada uno de los jugadores</Span>
+                  <Span>Lleva el control de las estadísticas de cada uno de los jugadores</Span>
                 </div>
               </div>
             </Col>
