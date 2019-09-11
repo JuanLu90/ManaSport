@@ -242,7 +242,7 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
                   <th>MODALIDAD</th>
                   <th>Nº EQUIPOS</th>
                   <th>FECHA CREACIÓN</th>
-                  {!token && <>
+                  {token && <>
                     <th />
                     <th />
                   </>
