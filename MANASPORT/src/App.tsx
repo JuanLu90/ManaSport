@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 //Components made by Juanlu
 import Header from "./components/header/header";
+import mainApp from "./components/main/mainApp";
 import Footer from "./components/footer";
 import management from "./components/main/management";
 import leagueList from "./components/main/leagueList";
@@ -13,11 +14,11 @@ import { IGlobalState } from "./reducers/reducers";
 import * as action from "./action";
 //Interfaces
 import { ITournament } from "./interfaces";
+//Styled Components
+import styled from "styled-components";
 //Css
 import "./reset.css";
 import "./App.css";
-import mainApp from "./components/main/mainApp";
-import styled from "styled-components";
 
 //******** STYLES - STYLED-COMPONENTS - CCSSINJS *********
 
@@ -31,15 +32,14 @@ let Wrapper = styled.div`
 
 //----------------------------------------------------
 
-//Global Props
+//Props & Global Props
 interface IProps { }
 interface IPropsGlobal {
   setAllLeagues: (allleagues: ITournament[]) => void;
   allleagues: ITournament[];
 }
 
-const App: React.FC<IProps & IPropsGlobal> = props => {
-  //Function Component
+const App: React.FC<IProps & IPropsGlobal> = props => { //Function Component
   const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
 
   useEffect(() => {

@@ -1,24 +1,32 @@
+//React´s Components
 import React, { useEffect } from "react";
+import { createBrowserHistory } from "history";
+//Redux
 import { connect } from "react-redux";
 import * as action from "../../action";
 import { IGlobalState } from "../../reducers/reducers";
+//Interfaces
 import { ITournament, IUser } from "../../interfaces";
-import { createBrowserHistory } from "history";
+//Json Web Token
 import jwt from "jsonwebtoken";
+//Styled Components
 import styled from "styled-components";
+//Jquery
 import $ from 'jquery';
 
+
+//******** STYLES - STYLED-COMPONENTS - CCSSINJS *********
 const Wrapper = styled.div`
   height: 80vh;
-`
+`;
 const ImgCursorPointer = styled.img`
 cursor: pointer;
 width: 60px;
+`;
+//----------------------------------------------------
 
-`
 
-
-
+//Props & Global Props
 interface IProps {
   leagues: ITournament[];
   handleCloseEditAvatar: () => void;
@@ -27,27 +35,26 @@ interface IProps {
   users: IUser[];
   putUserById: (UserId: string, user: IUser) => void;
 }
+interface IPropsGLobal { }
 
-interface IPropsGLobal {
-  // EditLeagueId: number;
-  // editLeagueById: (LeagueId: number) => void;
-}
 
-const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
+const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => { //Function Component
   const history = createBrowserHistory({ forceRefresh: true });
 
+  //Hook to get the current Avatar and update it
   const [inputAvatar, setInputAvatar] = React.useState("");
-
   const updateAvatar = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputAvatar(event.currentTarget.value);
   };
 
 
+  //Get the avatar selected and set it a css style
   $('.position-image img').click(function () {
     let alt = $(this).attr("alt");
     let currentImg = $(this);
     let othersImgs = $("img");
 
+    //Loop to walk through avatars image
     for (let i = 1; i < 16; i++) {
       switch (alt) {
         case `${i}`:
@@ -60,6 +67,7 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
     }
   })
 
+  //Show the image selected and set it in hook
   const ProfileImages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((i) => {
     return <div className="col-2 pl-4 pr-4 pt-3 pb-3">
       <ImgCursorPointer
@@ -71,24 +79,23 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => {
     </div>
   })
 
-  const token: any = localStorage.getItem("token");
-  const decoded: any = jwt.decode(token);
-  const currentUser = props.users.find(u => u.UserId === decoded.UserId);
+  const token: any = localStorage.getItem("token"); //Get token from localstorage
+  const decoded: any = jwt.decode(token); //Decode the token to get the info
+  const currentUser = props.users.find(u => u.UserId === decoded.UserId); //Select the current user 
 
+  //When user changes, avatar is updated
   useEffect(() => {
     if (currentUser) {
       setInputAvatar(currentUser.avatar);
     }
   }, [currentUser]);
 
-  //Evita que 'user' sea undefined
+  //Avoid 'user' will be undefined
   if (!currentUser) {
     return null;
   }
 
-
-
-
+  //Fetch to update the user with new info
   const editAvatar = () => {
     fetch("http://localhost:8080/api/users/edit/" + currentUser.UserId, {
       method: "PUT",
