@@ -44,7 +44,7 @@ const Management: React.FC<IProps & IPropsGlobal> = props => {
   const decoded: any = jwt.decode(token);
 
   useEffect(() => {
-    //Fetch users to redux every time the token changes
+    //Fetch users to redux every time token changes
     fetch("http://localhost:8080/api/users/", {
       headers: {
         "Content-type": "application/json",
@@ -77,6 +77,9 @@ const Management: React.FC<IProps & IPropsGlobal> = props => {
     </Wrapper>
   );
 };
+
+
+
 const mapStateToProps = (state: IGlobalState) => ({
   users: state.users
 });

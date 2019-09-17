@@ -29,9 +29,7 @@ import { IGlobalState } from "../../reducers/reducers";
 import styled from "styled-components";
 import { Scrollbars } from "react-custom-scrollbars";
 
-//----------------------------------------------------
-
-// ****** Styles *******
+//******** STYLES - STYLED-COMPONENTS - CCSSINJS *********
 const Wrapper = styled.div`
   font-family: "Source Sans Pro", sans-serif;
 `;
@@ -99,9 +97,11 @@ const SpanFieldTeam = styled.span`
 const Row = styled.div`
   min-height: 40vh;
 `;
-// *********************
 
-//Global Props
+//----------------------------------------------------
+
+
+//Props & Global Props
 interface IProps { }
 interface IPropsGlobal {
   leagueTeams: ITeam[];
@@ -115,9 +115,7 @@ interface IPropsGlobal {
   newPlayer: (player: IPlayer) => void;
 }
 
-const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {
-  //Function Component
-
+const LeagueDetailsPlayers: React.FC<IProps & IPropsGlobal> = props => {   //Function Component
   const compareName = (a: any, b: any) => {
     if (a.name.localeCompare(b.name) > b.name.localeCompare(a.name)) {
       return -1;
