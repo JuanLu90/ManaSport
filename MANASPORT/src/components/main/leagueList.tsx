@@ -339,6 +339,7 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
                   className="bg-dark border border-secondary text-light"
                 >
                   <option>Fútbol</option>
+                  <option>Tenis</option>
                 </Form.Control>
               </InputGroup>
             </div>
@@ -357,10 +358,10 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
                   onChange={updateLeagueCategory}
                   className="bg-dark border border-secondary text-light"
                 >
-                  <option>Fútbol 11</option>
-                  <option>Fútbol 7</option>
-                  <option>Fútbol Sala</option>
-                  <option>Fútbol(otros)</option>
+                  { inputLeagueSport !== 'Tenis' ? (<option>Fútbol 11</option>) : <option>Individual</option>}
+                  { inputLeagueSport !== 'Tenis' ? (<option>Fútbol 7</option>) : <option>Dobles</option>}
+                  { inputLeagueSport !== 'Tenis' && (<option>Fútbol Sala</option>) }
+                  { inputLeagueSport !== 'Tenis' && (<option>Fútbol(otros)</option>) }                 
                 </Form.Control>
               </InputGroup>
             </div>

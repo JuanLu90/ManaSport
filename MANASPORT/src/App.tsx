@@ -30,7 +30,6 @@ let Wrapper = styled.div`
   background-position: center top;
 `;
 
-//----------------------------------------------------
 
 //Props & Global Props
 interface IProps { }

@@ -1,19 +1,15 @@
+//React´s Components
 import React from "react";
+//Redux
 import { connect } from "react-redux";
 import * as action from "../../action";
 import { IGlobalState } from "../../reducers/reducers";
+//Styled Components
 import styled from "styled-components";
+//Interfaces
 import { IMatch } from "../../interfaces";
 
-interface IProps {
-  m: IMatch;
-  putMatchById: (MatchId: number, match: IMatch) => void;
-  updatedResults: (count: number) => void;
-}
-
-interface IPropsGLobal {
-  setLeagueId: (DeleteLeagueId: number) => void;
-}
+//******** STYLES - STYLED-COMPONENTS - CCSSINJS *********
 
 const ImgBadge = styled.img`
   height: 28px;
@@ -32,18 +28,36 @@ const ImgArrow = styled.img`
   height: 16px;
 `;
 
-const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
+
+//Props & Global Props
+interface IProps {
+  m: IMatch;
+  putMatchById: (MatchId: number, match: IMatch) => void;
+  updatedResults: (count: number) => void;
+}
+interface IPropsGLobal {
+  setLeagueId: (DeleteLeagueId: number) => void;
+}
+
+
+
+const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => { //Function Component
+  //Hook to get the local score and update it
   const [inputLocalScore, setInputLocalScore] = React.useState(
     props.m.localteam_score
   );
+  //Hook to get the away score and update it
   const [inputAwayScore, setInputAwayScore] = React.useState(
     props.m.awayteam_score
   );
+  //Hook to get the date match and update it
   const [inputDate, setInputDate] = React.useState(
     props.m.date
   );
 
+  //Hook to get the boolean state to show the edit mode inputs
   const [editMode, setEditMode] = React.useState(false);
+  //Toggle to set a boolean state
   const toggleEditMode = React.useCallback(() => setEditMode(s => !s), []);
 
   const updateLocalScore = React.useCallback(
@@ -59,7 +73,8 @@ const EditMatchResult: React.FC<IProps & IPropsGLobal> = props => {
     []
   );
 
-
+  //IMPORTANT: this function should be improve - it needs two clicks to works
+  //Delete the current result, send it to database and set to false the boolean state of edit mode
   const deleteResult = () => {
     setInputLocalScore(-1)
     setInputAwayScore(-1)

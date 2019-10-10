@@ -134,7 +134,7 @@ const EditAvatarModal: React.FC<IProps & IPropsGLobal> = props => { //Function C
       });
   };
 
-  return (
+  return ( //Modal
     <Wrapper className="modal-dialog-centered" role="document">
       <div className="modal-content bg-dark border border-secondary text-dark">
         <div className="modal-header">
