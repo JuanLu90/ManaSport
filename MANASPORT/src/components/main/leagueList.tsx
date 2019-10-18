@@ -86,7 +86,7 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
   const [inputLeagueName, setInputLeagueName] = useState("");
   const [inputLeagueSport, setInputLeagueSport] = useState("Fútbol");
   const [inputLeagueCategory, setInputLeagueCategory] = React.useState(
-    "Fútbol 11"
+    inputLeagueSport === 'Tenis' ? 'Fútbol 11' : 'Individual'
   );
 
   const [inputLeagueCreateDate, setInputLeagueCreateDate] = useState(
@@ -240,7 +240,7 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
                   {!token && <th>Administrador</th>}
                   <th>DEPORTE</th>
                   <th>MODALIDAD</th>
-                  <th>Nº EQUIPOS</th>
+                  <th>Nº PARTICIPANTES</th>
                   <th>FECHA CREACIÓN</th>
                   {token && <>
                     <th />
