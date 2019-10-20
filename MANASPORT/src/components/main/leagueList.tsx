@@ -258,7 +258,7 @@ const LeaguesList: React.FC<RouteComponentProps & IProps & IPropsGlobal> = props
                       onClick={() => (
                         toggleSpinner(),
                         setTimeout(() => toggleSpinner(), 1000),
-                        setTimeout(() => props.history.push("/management/leagueDetails/" + l.TournamentId), 1000)
+                        setTimeout(() => props.history.push(`/management/${ l.sport === 'Futbol' ? 'leagueDetails' : 'leagueDetailsTennis'}/` + l.TournamentId), 1000)
                       )}
                     >
                       {l.name}

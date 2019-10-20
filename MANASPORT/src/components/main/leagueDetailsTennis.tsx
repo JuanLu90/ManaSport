@@ -27,7 +27,7 @@ interface IProps {
   allleagues: ITournament[];
 }
 
-const LeagueDetails: React.FC<IProps> = props => {
+const LeagueDetailsTennis: React.FC<IProps> = props => {
 
   const history = createBrowserHistory({});
   const path: any = history.location.pathname;
@@ -47,7 +47,7 @@ const LeagueDetails: React.FC<IProps> = props => {
     u => u.TournamentId === +pathTournamentId
   );
 
-  if (currentLeague === undefined) return null;
+    if(currentLeague === undefined) return null;
 
 
   let Wrapper = styled.div``
@@ -69,9 +69,6 @@ const LeagueDetails: React.FC<IProps> = props => {
           <SpanNameLeague className="text-light">{currentLeague ? currentLeague.name : null}</SpanNameLeague>
           <div>
             <Nav.Item>
-              <Nav.Link eventKey="second" className="pt-0 pb-1 d-inline bg-secondary border border-dark">
-                <Span className="text-light">Equipos</Span>
-              </Nav.Link>}
               <Nav.Link eventKey="third" className="pt-0 pb-1 d-inline bg-secondary border border-dark">
                 <Span className="text-light">Jugadores</Span>
               </Nav.Link>
@@ -101,4 +98,4 @@ const mapStateToProps = (state: IGlobalState) => ({
 });
 
 
-export default connect(mapStateToProps)(LeagueDetails);
+export default connect(mapStateToProps)(LeagueDetailsTennis);

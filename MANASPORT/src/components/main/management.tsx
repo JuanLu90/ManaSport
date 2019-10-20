@@ -5,6 +5,7 @@ import { Switch, Route } from "react-router-dom";
 import EditUserProfile from "./userEditProfile";
 import UserProfile from "./userProfile";
 import LeagueDetails from "./leagueDetails";
+import LeagueDetailsTennis from "./leagueDetailsTennis";
 import leagueList from "./leagueList";
 //Interfaces
 import { IUser } from "../../interfaces";
@@ -71,6 +72,7 @@ const Management: React.FC<IProps & IPropsGlobal> = props => {
               component={EditUserProfile}
             />
             <Route path="/management/leagueDetails" component={LeagueDetails} />
+            <Route path="/management/leagueDetailsTennis" component={LeagueDetailsTennis} />
           </Switch>
         </div>
       </div>
