@@ -1,8 +1,7 @@
 import React from "react";
 import { Tab, Nav } from "react-bootstrap";
 import LeagueDetailsGeneral from "./leagueDetailsGeneral";
-import LeagueDetailsTeams from "./leagueTeamsList";
-import LeagueDetailsPlayers from "./leaguePlayersList";
+import LeagueDetailsPlayersTennis from "./leaguePlayersTennisList";
 import { ITournament } from "../../interfaces";
 import { createBrowserHistory } from "history";
 import { IGlobalState } from "../../reducers/reducers";
@@ -69,7 +68,7 @@ const LeagueDetailsTennis: React.FC<IProps> = props => {
           <SpanNameLeague className="text-light">{currentLeague ? currentLeague.name : null}</SpanNameLeague>
           <div>
             <Nav.Item>
-              <Nav.Link eventKey="third" className="pt-0 pb-1 d-inline bg-secondary border border-dark">
+              <Nav.Link eventKey="second" className="pt-0 pb-1 d-inline bg-secondary border border-dark">
                 <Span className="text-light">Jugadores</Span>
               </Nav.Link>
             </Nav.Item>
@@ -80,10 +79,7 @@ const LeagueDetailsTennis: React.FC<IProps> = props => {
             <LeagueDetailsGeneral />
           </Tab.Pane>
           <Tab.Pane eventKey="second">
-            <LeagueDetailsTeams />
-          </Tab.Pane>
-          <Tab.Pane eventKey="third">
-            <LeagueDetailsPlayers />
+            <LeagueDetailsPlayersTennis />
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
