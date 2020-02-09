@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Modal, Carousel } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { registerAction } from "../../redux/actions/userActions";
 
 
 // ********* Styles - Styled Components - CSSINJS **********
@@ -139,10 +137,6 @@ const newUser = {
 //*************************
 
 const MainApp: React.FC = props => { // Function Component
-
-  // const { registerAction } = props;
-
-  const [user, setUser] = useState(newUser);
   
   const [modalVideo, setModalVideo] = useState(false);
   const handleCloseModalVideo = () => setModalVideo(false);
@@ -154,24 +148,10 @@ const MainApp: React.FC = props => { // Function Component
     setIndex(selectedIndex);
   };
 
-  const handleSubmit = (event: { preventDefault: () => void; }) => {     // SEND FORM
-    event.preventDefault();
-    registerAction(user);
-};
 
 
   return (
     <Wrapper>
-         
-      <div>
-      <form onSubmit={handleSubmit} className="row">
-
-        <button type="submit" className="btn btn-primary" id="submitButton"> Registrate </button>
-
-      </form>
-
-
-      </div>
       <BackgroundImage>
         <WrapperContainer className="container-fluid d-flex flex-column">
           <Row1 className="row w-75 text-center align-self-center">
@@ -350,8 +330,5 @@ const MainApp: React.FC = props => { // Function Component
   );
 };
 
-const mapDispatchToProps = {
-  registerAction
-};
 
-export default connect(null, mapDispatchToProps)(MainApp);
+export default MainApp;

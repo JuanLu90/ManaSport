@@ -7,6 +7,8 @@ import {
   FormControl,
   InputGroup
 } from "react-bootstrap";
+import { connect } from "react-redux";
+import { registerAction } from "../../redux/actions/userActions";
 // import LoginModal from "./loginModal";
 // import RegisterModal from "./registerModal";
 import jwt from "jsonwebtoken";
@@ -17,6 +19,7 @@ import { Link } from "react-router-dom";
 // import { IGlobalState } from "../../reducers/reducers";
 import styled from "styled-components";
 import { createBrowserHistory } from "history";
+import RegisterModal from "./registerModal";
 
 // ********* Styles - Styled Components - CSSINJS **********
 
@@ -72,7 +75,9 @@ const RowHover = styled.div`
 
 
 
-interface IProps { }
+interface IProps { 
+  registerAction: (user: {}) => void;
+}
 interface IPropsGLobal {
   // setToken: (token: string) => void;
   // users: IUser[];
@@ -80,6 +85,7 @@ interface IPropsGLobal {
 }
 
 const Header: React.FC<IProps & IPropsGLobal> = props => {
+
   const [navBackground, setNavBackground] = useState(false);
 
   const navRef: any = useRef();
@@ -139,6 +145,24 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
   //   ? props.users.find(u => u.UserId === decoded.UserId)
   //   : null;
   const history = createBrowserHistory({ forceRefresh: true });
+
+  // const { registerAction } = props;
+
+  const user = {
+    name: '',
+    surname: '',
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    age: ''
+  }
+
+  const handleSubmit = (event: { preventDefault: () => void; }) => {     // SEND FORM
+    event.preventDefault();
+    props.registerAction(user);
+  };
+
 
   return (
     <>
@@ -267,12 +291,12 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
           handleShowRegister={handleShowRegister}
         />
       </Modal> */}
-      {/* <Modal show={showRegister} onHide={handleCloseRegister}>
+      <Modal show={showRegister} onHide={handleCloseRegister}>
         <RegisterModal
           handleCloseRegister={handleCloseRegister}
           handleShowLogin={handleShowLogin}
         />
-      </Modal> */}
+      </Modal>
     </>
   );
 };
@@ -291,4 +315,9 @@ const Header: React.FC<IProps & IPropsGLobal> = props => {
 //   mapDispatchToProps
 // )(Header);
 
-export default Header;
+
+const mapDispatchToProps = {
+  registerAction
+};
+
+export default connect(null, mapDispatchToProps)(Header);
