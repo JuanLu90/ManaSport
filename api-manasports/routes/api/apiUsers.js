@@ -3,8 +3,14 @@ var router = express.Router();
 const dbConn = require("../../config/db");
 
 /* GET users listing. */
-router.get('/users', function(req, res, next) {
-  res.send('respond with a resource');
+router.get("/users", function(req, res, next) {
+  dbConn.query("SELECT * FROM users", (err, rows) => {
+    if (err) {
+      res.status(400).send({ e: err.errno });
+    } else {
+      res.send(rows);
+    }
+  });
 });
 
 // CREATE A NEW USER

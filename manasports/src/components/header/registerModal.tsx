@@ -32,37 +32,21 @@ interface IProps {
 }
 
 const RegisterModal: React.FC<IProps> = props => {
-  const [nameValue, setInputName] = React.useState("");
-  const [surnameValue, setInputSurname] = React.useState("");
-  const [usernameValue, setInputUsername] = React.useState("");
-  const [emailValue, setInputEmail] = React.useState("");
-  const [passwordValue, setInputPassword] = React.useState("");
-  const [createDateValue, setInputCreateDateValue] = React.useState(
-    new Date().toLocaleDateString()
-  );
 
-  const updateInputName = (event: any) =>
-    setInputName(event.currentTarget.value);
+  const initialState = {
+    name: '',
+    username: '',
+    email: '',
+    password: '',
+    createDate: new Date().toLocaleDateString()
+  }
 
-  const updateInputSurname = (event: any) =>
-    setInputSurname(event.currentTarget.value);
-
-  const updateInputUsername = (event: any) =>
-    setInputUsername(event.currentTarget.value);
-
-  const updateInputEmail = (event: any) =>
-    setInputEmail(event.currentTarget.value);
-
-  const updateInputPassword = (event: any) =>
-    setInputPassword(event.currentTarget.value);
-
+  const [userObj, setUserObj] = React.useState(initialState);
 
     const goToLogin = () => {
       props.handleCloseRegister();
       props.handleShowLogin();
     }
-
-
 
   const [alertUserExits, setAlertUserExits] = useState(false);
   const toggleUserExits = React.useCallback(() => setAlertUserExits(s => !s), []); //Open and close alert league name invalid
@@ -87,7 +71,7 @@ const RegisterModal: React.FC<IProps> = props => {
   const toggleCheckUserAdded = React.useCallback(() => setCheckdUserAdded(s => !s), []); //Check if credentials are valid
 
   const newUser = () => {
-    if (nameValue.length < 5) {
+    if (userObj.name.length < 5) {
       toggleCheckName();
       setTimeout(() => toggleCheckName(), 4000);
     } else if (!finalValidateEmail) {
@@ -100,14 +84,14 @@ const RegisterModal: React.FC<IProps> = props => {
           "Content-Type": "application/json"
           // Authorization: "Bearer " + token
         },
-        body: JSON.stringify({
-          name: nameValue,
-          surname: surnameValue,
-          username: usernameValue,
-          email: emailValue,
-          password: passwordValue,
-          createDate: createDateValue
-        })
+        // body: JSON.stringify({
+        //   name: nameValue,
+        //   surname: surnameValue,
+        //   username: usernameValue,
+        //   email: emailValue,
+        //   password: passwordValue,
+        //   createDate: createDateValue
+        // })
       }).then(response => {
         if (response.ok) {
           toggleCheckUserAdded();
