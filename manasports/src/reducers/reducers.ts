@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 // import { tokenReducer } from "./tokenReducer";
-// import { IUser, ITournament, ITeam, IMatch, IPlayer, IQualification } from '../interfaces';
-// import { UsersReducer } from "./usersReducer";
+import { IUser, ITournament, ITeam, IMatch, IPlayer, IQualification } from '../interfaces';
+import { UsersReducer } from "./usersReducer";
 // import { LeaguesReducer } from './leagueReducer';
 // import { SetTournamentsIdReducer } from "./setTournamentsIdReducer";
 // import { TournamentTeamsReducer } from "./tournamentTeamsReducer";
@@ -12,7 +12,7 @@ import { combineReducers } from "redux";
 
 export interface IGlobalState {
 //   token: string;
-//   users: IUser[];
+  users: IUser[];
 //   leagues: ITournament[];
 //   allleagues: ITournament[];
 //   teams: ITeam[];
@@ -27,7 +27,7 @@ export interface IGlobalState {
 
 export const reducers = combineReducers<IGlobalState>({
 //   token: tokenReducer,
-//   users: UsersReducer,
+  users: UsersReducer,
 //   leagues: LeaguesReducer,
 //   allleagues: AllLeaguesReducer,
 //   TournamentId: SetTournamentsIdReducer,

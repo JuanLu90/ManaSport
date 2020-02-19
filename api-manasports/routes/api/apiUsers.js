@@ -16,6 +16,7 @@ router.get("/users", function(req, res, next) {
 // CREATE A NEW USER
 router.post("/users/newUser", (req, res) => {
   const data = req.body;
+ console.log(data)
   dbConn.query("INSERT INTO users set ?", [data], (err, rows) => {
     if (err) {
       res.status(400).send({ e: err.errno });

@@ -37,8 +37,8 @@ const RegisterModal: React.FC<IProps> = props => {
     name: '',
     username: '',
     email: '',
-    password: '',
-    createDate: new Date().toLocaleDateString()
+    password: ''
+    // createDate: new Date().toLocaleDateString()
   }
 
   const [userObj, setUserObj] = React.useState(initialState);
@@ -47,6 +47,14 @@ const RegisterModal: React.FC<IProps> = props => {
       props.handleCloseRegister();
       props.handleShowLogin();
     }
+
+    const handleChange = (event: any) => {     // CHANGE PROPERTIES ABOUT THEM NAME
+      const { name, value } = event.target;
+        setUserObj(prevUser => ({
+              ...prevUser,
+              [name]: value
+          }));
+  };
 
   const [alertUserExits, setAlertUserExits] = useState(false);
   const toggleUserExits = React.useCallback(() => setAlertUserExits(s => !s), []); //Open and close alert league name invalid
@@ -61,7 +69,7 @@ const RegisterModal: React.FC<IProps> = props => {
   const validEmailRegex = RegExp(
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
   );
-  const finalValidateEmail = validEmailRegex.test(emailValue);
+  const finalValidateEmail = validEmailRegex.test(userObj.email);
 
 
   const [checkCredentials, setCheckdCredentials] = React.useState(true);
@@ -84,15 +92,15 @@ const RegisterModal: React.FC<IProps> = props => {
           "Content-Type": "application/json"
           // Authorization: "Bearer " + token
         },
-        // body: JSON.stringify({
-        //   name: nameValue,
-        //   surname: surnameValue,
-        //   username: usernameValue,
-        //   email: emailValue,
-        //   password: passwordValue,
-        //   createDate: createDateValue
-        // })
+        body: JSON.stringify({
+          name: userObj.name,
+          username: userObj.username,
+          email: userObj.email,
+          password: userObj.password
+          // createDate: userObj.createDate
+        })
       }).then(response => {
+        console.log(response)
         if (response.ok) {
           toggleCheckUserAdded();
           setTimeout(() => toggleCheckUserAdded(), 4000);
@@ -144,7 +152,7 @@ const RegisterModal: React.FC<IProps> = props => {
                     style={checkName ? { color: 'red' } : { color: 'black' }}
                     placeholder="Nombre"
                     name="name"
-                    onChange={updateInputName}
+                    onChange={handleChange}
                   />
                 </InputGroup>
               </div>
@@ -160,7 +168,7 @@ const RegisterModal: React.FC<IProps> = props => {
                     className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
                     placeholder="Apellidos"
                     name="surname"
-                    onChange={updateInputSurname}
+                    onChange={handleChange}
                   />
                 </InputGroup>
               </div>
@@ -177,7 +185,7 @@ const RegisterModal: React.FC<IProps> = props => {
                     style={alertUserExits ? { color: 'red' } : { color: 'black' }}
                     placeholder="Nombre de usuario"
                     name="username"
-                    onChange={updateInputUsername}
+                    onChange={handleChange}
                   />
                 </InputGroup>
               </div>
@@ -194,7 +202,7 @@ const RegisterModal: React.FC<IProps> = props => {
                     style={!checkEmail || alertUserExits ? { color: 'red' } : { color: 'black' }}
                     placeholder="Email"
                     name="email"
-                    onChange={updateInputEmail}
+                    onChange={handleChange}
                   />
                 </InputGroup>
               </div>
@@ -210,7 +218,7 @@ const RegisterModal: React.FC<IProps> = props => {
                     className="form-control pt-0 pb-0 pl-2 pr-2 mt-0 w-75"
                     placeholder="Contraseña"
                     name="password"
-                    onChange={updateInputPassword}
+                    onChange={handleChange}
                   />
                 </InputGroup>
               </div>
