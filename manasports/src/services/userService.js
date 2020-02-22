@@ -1,5 +1,4 @@
 import { handleResponse, handleError } from '../utils/apiUtils';
-import { authHeader, getAddressAPIToken } from '../utils/authToken';
 
 export const userService = {
     login,
@@ -26,12 +25,11 @@ async function logout() {
 
 // REGISTER
 async function register(user) {
-
     const requestOptions = {
         method: 'POST',
-        headers: authHeader(),
+        headers:  {"Content-Type": "application/json"},
         body: JSON.stringify(user)
     };
 
-    return await fetch('api/users/newUser', requestOptions).then(handleResponse, handleError);
+    return await fetch('http://localhost:8080/api/users/newUser', requestOptions).then(handleResponse, handleError);
 }

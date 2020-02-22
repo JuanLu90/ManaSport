@@ -40,34 +40,6 @@ export default function userReducer(state = initialState, action) {
       return { ...state, registering: false, registered: true };
     case types.REGISTER_FAILURE:
       return { ...state, registering: false, registered: false };
-    // FORGOT PASSWORD
-    case types.FORGOT_PASSWORD_REQUEST:
-      return { ...state, sending: true };
-    case types.FORGOT_PASSWORD_SUCCESS:
-      return { ...state, email: action.payload, sending: false }
-    case types.FORGOT_PASSWORD_FAILURE:
-      return { ...state };
-    // CHANGE PASSWORD
-    case types.CHANGE_PASSWORD_REQUEST:
-      return { ...state, changing: true };
-    case types.CHANGE_PASSWORD_SUCCESS:
-      return { ...state, changing: false };
-    case types.CHANGE_PASSWORD_FAILURE:
-      return { ...state, changing: false };
-    // RESET PASSWORD
-    case types.RESET_PASSWORD_REQUEST:
-      return { ...state, user: action.payload, sending: true }
-    case types.RESET_PASSWORD_SUCCESS:
-      return { ...state, user: action.payload, sending: false };
-    case types.RESET_PASSWORD_FAILURE:
-      return { ...state };
-    // CHECK EMAIL
-    case types.CHECK_EMAIL_REQUEST:
-      return { ...state };
-    case types.CHECK_EMAIL_SUCCESS:
-      return { ...state, usernameAvailable: true };
-    case types.CHECK_EMAIL_FAILURE:
-      return { ...state, usernameAvailable: false }
     default:
       return state
   }

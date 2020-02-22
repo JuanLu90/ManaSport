@@ -45,23 +45,34 @@ export function logOutAction() {
 };
 
 // REGISTER
+// export function registerAction(user) {
+//     debugger;
+//     return async dispatch => {
+//         dispatch(request());
+
+//         await userService.register(user)
+//             .then(response => {
+//                 console.log(response)
+//                 dispatch(success(user));
+//             })
+//             .catch(error => {
+//                 dispatch(failure(error));
+//             });
+//     };
+
+//     function request() { return { type: types.REGISTER_REQUEST } }
+//     function success(payload) { return { type: types.REGISTER_SUCCESS, payload } }
+//     function failure(error) { return { type: types.REGISTER_FAILURE, error } }
+// };
+
 export function registerAction(user) {
-    return async dispatch => {
-        dispatch(apiStatusActions.apiCallRequest());
-        dispatch(request());
+    fetch("http://localhost:8080/api/users/newUser", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+            // Authorization: "Bearer " + token
+        },
+        body: JSON.stringify(user)
+    });
+}
 
-        await userService.register(user)
-            .then(response => {
-                dispatch(success(user));
-                dispatch(apiStatusActions.apiCallSuccess());
-            })
-            .catch(error => {
-                dispatch(failure(error));
-                dispatch(apiStatusActions.apiCallError());
-            });
-    };
-
-    function request() { return { type: types.REGISTER_REQUEST } }
-    function success(payload) { return { type: types.REGISTER_SUCCESS, payload } }
-    function failure(error) { return { type: types.REGISTER_FAILURE, error } }
-};

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { InputGroup, FormControl, Alert, Form } from "react-bootstrap";
 import styled from "styled-components";
+import { connect } from "react-redux";
+import { registerAction } from "../../redux/actions/userActions";
+
 // var md5 = require('md5');
 
 // ********* Styles - Styled Components - CSSINJS **********
@@ -43,17 +46,23 @@ const RegisterModal: React.FC<IProps> = props => {
 
   const [userObj, setUserObj] = React.useState(initialState);
 
-    const goToLogin = () => {
-      props.handleCloseRegister();
-      props.handleShowLogin();
-    }
+  const goToLogin = () => {
+    props.handleCloseRegister();
+    props.handleShowLogin();
+  }
 
-    const handleChange = (event: any) => {     // CHANGE PROPERTIES ABOUT THEM NAME
-      const { name, value } = event.target;
-        setUserObj(prevUser => ({
-              ...prevUser,
-              [name]: value
-          }));
+  const handleChange = (event: any) => {     // CHANGE PROPERTIES ABOUT THEM NAME
+    const { name, value } = event.target;
+    setUserObj(prevUser => ({
+      ...prevUser,
+      [name]: value
+    }));
+  };
+
+  // SEND FORM
+  const handleSubmit = () => {
+    // event.preventDefault();
+    registerAction(userObj);
   };
 
   const [alertUserExits, setAlertUserExits] = useState(false);
@@ -77,50 +86,6 @@ const RegisterModal: React.FC<IProps> = props => {
 
   const [checkUserAdded, setCheckdUserAdded] = React.useState(false);
   const toggleCheckUserAdded = React.useCallback(() => setCheckdUserAdded(s => !s), []); //Check if credentials are valid
-
-  const newUser = () => {
-    if (userObj.name.length < 5) {
-      toggleCheckName();
-      setTimeout(() => toggleCheckName(), 4000);
-    } else if (!finalValidateEmail) {
-      toggleCheckEmail();
-      setTimeout(() => toggleCheckEmail(), 4000);
-    } else {
-      fetch("http://localhost:8080/api/users/newUser", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-          // Authorization: "Bearer " + token
-        },
-        body: JSON.stringify({
-          name: userObj.name,
-          username: userObj.username,
-          email: userObj.email,
-          password: userObj.password
-          // createDate: userObj.createDate
-        })
-      }).then(response => {
-        console.log(response)
-        if (response.ok) {
-          toggleCheckUserAdded();
-          setTimeout(() => toggleCheckUserAdded(), 4000);
-          setTimeout(() => props.handleCloseRegister(), 4000);
-          setTimeout(() => props.handleShowLogin(), 4000);
-        }
-        else {
-          response.json().then(({ e }) => {
-            if (e === 1062) {
-              toggleUserExits();
-              setTimeout(() => toggleUserExits(), 6000)
-            } else {
-              toggleCheckCredentials();
-              setTimeout(() => toggleCheckCredentials(), 4000);
-            }
-          });
-        }
-      });
-    }
-  };
 
 
   return (
@@ -157,7 +122,7 @@ const RegisterModal: React.FC<IProps> = props => {
                 </InputGroup>
               </div>
             </div>
-            <div className="row">
+            {/* <div className="row">
               <div className="col">
                 <InputGroup className="mb-3">
                   <InputGroup.Prepend>
@@ -172,7 +137,7 @@ const RegisterModal: React.FC<IProps> = props => {
                   />
                 </InputGroup>
               </div>
-            </div>
+            </div> */}
             <div className="row">
               <div className="col">
                 <InputGroup className="mb-3" style={alertUserExits ? { border: '2px solid red' } : { border: 'none' }}>
@@ -297,7 +262,7 @@ const RegisterModal: React.FC<IProps> = props => {
               <button
                 type="button"
                 className="btn btn-warning w-100 font-weight-bold text-uppercase"
-                onClick={newUser}
+                onClick={handleSubmit}
               >
                 Regístrate
             </button>
@@ -314,4 +279,8 @@ const RegisterModal: React.FC<IProps> = props => {
   );
 };
 
-export default RegisterModal;
+const mapDispatchToProps = {
+  registerAction
+};
+
+export default connect(null, mapDispatchToProps)(RegisterModal);
