@@ -7,6 +7,9 @@ import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
 import configureStore from './configureStore';
 
+// STYLES
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const history = createBrowserHistory({ basename: baseUrl });
 const initialState = window.initialReduxState;

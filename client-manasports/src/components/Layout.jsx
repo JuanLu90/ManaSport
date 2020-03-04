@@ -2,7 +2,7 @@
 import React from 'react';
 
 // COMPONENTS
-import Header from './Header';
+import Header from './Header/Header';
 import Footer from './Footer';
 
 const Layout = props => {
