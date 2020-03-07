@@ -2,39 +2,32 @@
 import React, { useState } from "react";
 import Modal from 'react-bootstrap/Modal';
 import { connect } from 'react-redux';
-import { registerAction } from "../../redux/actions/action";
+import { loginAction } from "../../redux/actions/action";
 import md5 from "md5";
 
-const ModalRegister = (props) => {
+const ModalLogin = (props) => {
 
-    const { registerAction } = props;
+    const { loginAction } = props;
 
     const initialState = {
-        username: "",
         email: "",
         password: ""
     };
 
-    const [newUser, setNewUser] = useState(initialState);
+    const [user, setUser] = useState(initialState);
+
+    const onLogin = () => {
+        loginAction(user)
+    }
 
     const handleChange = event => {     // CHANGE PROPERTIES ABOUT THEM NAME
         const { name, value } = event.target;
 
-        setNewUser(prevUser => ({
+        setUser(prevUser => ({
             ...prevUser,
             [name]: value
         }));
     };
-
-    const onSave = () => {
-
-        let newUserHash = {
-            ...newUser,
-            password: md5(newUser.password)
-        }
-
-        registerAction(newUserHash);
-    }
 
     return (
         <Modal
@@ -45,39 +38,33 @@ const ModalRegister = (props) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    REGISTER
+                    LOGIN
           </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div className="row">
                     <div className="col">
-                        Username
-                            <input type="text" name="username" value={newUser.username} onChange={handleChange} />
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col">
                         Email
-                            <input type="text" name="email" value={newUser.email} onChange={handleChange} />
+                            <input type="text" name="email" value={user.email} onChange={handleChange} />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col">
                         Password
-                            <input type="text" name="password" value={newUser.password} onChange={handleChange}></input>
+                            <input type="text" name="password" value={user.password} onChange={handleChange} />
                     </div>
                 </div>
-                <button onClick={onSave} type="submit">REGISTER</button>
+                <button onClick={onLogin} type="submit">LOGIN</button>
             </Modal.Body>
             <Modal.Footer>
-                <button onClick={props.onHide}>Close</button>
+                <button>Close</button>
             </Modal.Footer>
         </Modal>
     );
 }
 
 const mapDispatchToProps = {
-    registerAction
+    loginAction
 };
 
-export default connect(null, mapDispatchToProps)(ModalRegister);
+export default connect(null, mapDispatchToProps)(ModalLogin);
