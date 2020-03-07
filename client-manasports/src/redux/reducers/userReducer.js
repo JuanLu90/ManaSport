@@ -1,28 +1,29 @@
 import * as types from '../actions/types/actionTypes';
+import { addUserLocalStorage } from '../../utils/localStorageUtils';
 
 const initialState = {
-    dePrueba: false,
-    users: []
+    user: {}
 }
 
 export default function userReducer(state = initialState, action) {
-    console.log(action.type)
     switch (action.type) {
         //REGISTER
         case types.REGISTER_REQUEST:
-            return { ...state, dePrueba: true };
+            return { ...state};
         case types.REGISTER_SUCCESS:
-            return { ...state, users: action.user, dePrueba: false };
+            return { ...state, user: action.user };
         case types.REGISTER_FAILURE:
-            return { ...state, dePrueba: false };
+            return { ...state };
         //LOGIN
         case types.LOGIN_REQUEST:
-            return { ...state, dePrueba: true };
+            return { ...state, loggingIn: true };
         case types.LOGIN_SUCCESS:
-            console.log(action.user)
-            return { ...state, users: action.user, dePrueba: false };
+            return { ...state, 
+                user: addUserLocalStorage(action.user),
+                loggingIn: false, 
+                isLogged: true };
         case types.LOGIN_FAILURE:
-            return { ...state, dePrueba: false };
+            return { ...state, loggingIn: false, isLogged: false };
         default:
             return state;
     }

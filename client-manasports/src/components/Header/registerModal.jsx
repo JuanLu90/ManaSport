@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Modal from 'react-bootstrap/Modal';
 import { connect } from 'react-redux';
-import { registerAction } from "../../redux/actions/action";
+import { registerAction } from "../../redux/actions/userActions";
 import md5 from "md5";
 
 const ModalRegister = (props) => {

@@ -24,7 +24,7 @@ async function login(user) {
 
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
     };
 

@@ -1,8 +1,8 @@
 // REDUCERS
-import usersReducer from './reducers/usersReducer';
+import userReducer from './reducers/userReducer';
 
 const userSideReducers = {
-    usersReducer,
+    userReducer,
 };
 
 export default userSideReducers;
