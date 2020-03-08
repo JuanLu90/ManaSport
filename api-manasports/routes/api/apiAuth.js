@@ -9,15 +9,17 @@ router.post("/auth", (req, res) => {
   const data = req.body;
 
   dbConn.query(
-    `SELECT * FROM users WHERE email = 
+    `SELECT username, email, password FROM users WHERE email = 
     "${data.email}" AND password = MD5("${data.password}")`,
     (err, rows) => {
+      console.log(rows)
       if (err) throw err;
       if (rows.length > 0) {
         let token = jwt.sign(
           {
             Id: rows[0].UserId,
-            username: rows[0].username
+            username: rows[0].username,
+            email: rows[0].email
           },
           "mysecret",
           { expiresIn: 3600 }

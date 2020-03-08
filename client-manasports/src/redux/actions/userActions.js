@@ -16,7 +16,7 @@ export function registerAction(user) {
     }
 
     // function request() { return { type: types.REGISTER_REQUEST } }
-    function success(user) { return { type: types.REGISTER_SUCCESS, user } }
+    function success(payload) { return { type: types.REGISTER_SUCCESS, payload } }
     // function failure(error) { return { type: types.REGISTER_FAILURE, error } }
 };
 
@@ -25,13 +25,7 @@ export function loginAction(user) {
         dispatch(request());
         await userService.login(user)
             .then(response => {
-
-                let userWIthToken = {
-                    ...user,
-                    token: response
-                }
-
-                dispatch(success(userWIthToken));
+                dispatch(success(response));
             })
             .catch(error => {
                 dispatch(failure());
@@ -40,6 +34,10 @@ export function loginAction(user) {
     }
 
     function request() { return { type: types.LOGIN_REQUEST } }
-    function success(user) { return { type: types.LOGIN_SUCCESS, user } }
+    function success(payload) { return { type: types.LOGIN_SUCCESS, payload } }
     function failure() { return { type: types.LOGIN_FAILURE } }
+};
+
+export function setUserRedux() {
+   return { type: types.GET_USER_LOCALSTORAGE } 
 };

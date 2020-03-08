@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Modal from 'react-bootstrap/Modal';
 import { connect } from 'react-redux';
 import { loginAction } from "../../redux/actions/userActions";
-import md5 from "md5";
+// import md5 from "md5";
 
 const ModalLogin = (props) => {
 
