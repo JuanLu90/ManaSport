@@ -16,10 +16,6 @@ const Header = props => {
                 <Navbar.Brand href="#home">MANASPORT</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="mr-auto">
-                        <Nav.Link href="#features">Features</Nav.Link>
-                        <Nav.Link href="#pricing">Pricing</Nav.Link>
-                    </Nav>
                     <Nav className="text-white">{user && user.username}</Nav>
                     <Nav>
                         <button className="btn btn-info" onClick={() => setOpenModalLogin(!openModalLogin)}>Login</button>
