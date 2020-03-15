@@ -16,6 +16,7 @@ const Footer = () => {
   `
   const Li = styled.li`
   cursor: pointer;
+  font-size: 0.9rem;
     &:hover{
       color: white;
     }
@@ -30,16 +31,16 @@ const Footer = () => {
 
 
   return (
-    <Wrapper className="container-fluid text-light bg-dark pt-4">
+    <Wrapper className="container-fluid text-light bg-dark pt-2">
       <div className="row justify-content-center">
-        <div className="col-2 info-footer mt-3">
+        <div className="col-12 col-sm-12 col-md-12 col-lg-3 info-footer mt-1">
           <img src="/images/logotipo.png" width="230" alt="logo" />
           <ul className="list-unstyled">
             <li>info@manasport.com</li>
             <li>+34 627 11 23 91</li>
           </ul>
         </div>
-        <div className="col-2 info-footer">
+        <div className="col-6 col-sm-4 col-md-4 col-lg-2 info-footer">
           <TitlesFooter>Compañia</TitlesFooter>
           <ul className="list-group list-unstyled text-secondary mt-2">
             <Li>Sobre nosotros</Li>
@@ -48,7 +49,7 @@ const Footer = () => {
             <Li>Trabaja con nosotros</Li>
           </ul>
         </div>
-        <div className="col-2 info-footer">
+        <div className="col-6 col-sm-4 col-md-4 col-lg-2 info-footer">
           <TitlesFooter>Empezar</TitlesFooter>
           <ul className="list-group list-unstyled text-secondary mt-2">
             <Li>Participa</Li>
@@ -57,7 +58,7 @@ const Footer = () => {
             <Li>Blog</Li>
           </ul>
         </div>
-        <div className="col-2 info-footer">
+        <div className="col-6 col-sm-4 col-md-4 col-lg-2 info-footer">
           <TitlesFooter>Información</TitlesFooter>
           <ul className="list-group list-unstyled text-secondary mt-2">
             <Li>Información sobre competicion</Li>
@@ -66,7 +67,7 @@ const Footer = () => {
             <Li>Política de cookies</Li>
           </ul>
         </div>
-        <div className="col-2 info-footer">
+        <div className="col-6 col-sm-12 col-md-4 col-lg-2 info-footer">
           <TitlesFooter>REDES SOCIALES</TitlesFooter>
           <div className="rrss_footer mt-2">
               <ImgRRSS src="/images/rrss/facebook.png" width="22px" className="mt-1 mr-2" alt="facebook" />

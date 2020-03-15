@@ -15,14 +15,20 @@ const Col = styled.div`
 
 const ModalLogin = (props) => {
 
-    const { loginAction } = props;
+    const { loginAction, setOpenModalRegister, setOpenModalLogin } = props;
 
     const initialState = {
         email: "",
         password: ""
     };
 
+    const toogleLoginToRegister = () => {
+        setOpenModalLogin(false)
+        setOpenModalRegister(true);
+    }
+
     const [user, setUser] = useState(initialState);
+    const [showPassword, setShowPassword] = useState(false);
 
     const onLogin = () => {
         loginAction(user)
@@ -46,11 +52,11 @@ const ModalLogin = (props) => {
                 className="loginModalHeader"
                 centered
             >
-                <Modal.Header className="px-2" closeButton>
+                <Modal.Header className="p-2" closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
                         <h5 className="modal-title pl-2 text-white" id="exampleModalCenterTitle">
                             Iniciar en ManaSport
-                             </h5>
+                        </h5>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -77,24 +83,24 @@ const ModalLogin = (props) => {
                     </div>
                     <div className="row">
                         <div className="col">
-                            <InputGroup className="mb-3">
+                            <InputGroup>
                                 <InputGroup.Prepend>
                                     <InputGroup.Text id="basic-addon1" className="pt-0 pb-0">
                                         <img src="/images/form/lock.png" width="15" alt="" />
                                     </InputGroup.Text>
                                 </InputGroup.Prepend>
                                 <FormControl
-                                    type="password"
-                                    className="form-control pt-0 pb-0 pl-2 pr-2 mt-0"
+                                    type={showPassword ? "text" : "password"}
+                                    className="form-control pt-0 pb-0 pl-2 pr-2 mt-0 border-0"
                                     placeholder="Contraseña"
                                     name="password"
                                     id="myInput"
                                     value={user.password}
                                     onChange={handleChange}
                                 />
-                                <InputGroup.Append style={{ cursor: 'pointer' }}>
+                                <InputGroup.Append style={{ cursor: 'pointer' }} onClick={() => setShowPassword(!showPassword)}>
                                     <InputGroup.Text>
-                                        <img src="/images/form/eye.png" width="20" alt="" />
+                                        <img src={`/images/form/${showPassword ? 'noeye' : 'eye'}.png`} width="20" alt="" />
                                     </InputGroup.Text>
                                 </InputGroup.Append>
                             </InputGroup>
@@ -103,7 +109,7 @@ const ModalLogin = (props) => {
                 </Modal.Body>
                 <Modal.Footer className="p-0">
                     <div className="container-fluid">
-                        <div className="row">
+                        <div className="row mt-2">
                             <div className="col">
                                 <button
                                     type="button"
@@ -114,9 +120,14 @@ const ModalLogin = (props) => {
                                 </button>
                             </div>
                         </div>
-                        <div className="row mt-3 mb-3">
+                        <div className="row mt-2 mb-2">
                             <Col className="col text-center text-white">
-                                ¿La primera vez? <a href="/#" className="text-warning text-decoration-none" >Registrate </a>
+                                ¿La primera vez?
+                                <a href="/#"
+                                    className="text-warning text-decoration-none"
+                                    onClick={() => toogleLoginToRegister()}>
+                                    Registrate
+                                    </a>
                             </Col>
                         </div>
                     </div>

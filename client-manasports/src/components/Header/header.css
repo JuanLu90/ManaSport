@@ -1,5 +1,17 @@
-.loginModalHeader .modal-content {
+.loginModalHeader .modal-content, 
+.registerModalHeader .modal-content {
     width: 400px;
     background-color: #343a40;
     opacity: 0.95;
+}
+
+.loginModalHeader .modal-content .modal-header .close,
+.registerModalHeader .modal-content .modal-header .close
+ {
+    color: white;
+    padding: 10px 15px 5px 0px;
+}
+
+.loginModalHeader .modal-content .modal-body .close {
+    padding: 5px 10px;
 }
