@@ -4,11 +4,9 @@ import { connect } from "react-redux";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
 import {
-  Modal,
   Navbar,
   Nav,
   Form,
-  FormControl,
   InputGroup
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -35,7 +33,7 @@ const Header = props => {
       background-color: #bdc3c7;
     }
 `;
-const ButtonLogin = styled.button`
+  const ButtonLogin = styled.button`
   background-color: transparent;
   color: white;
   border: 0;
@@ -97,11 +95,11 @@ const ButtonLogin = styled.button`
           <Form inline style={{ width: "500px" }} className="ml-2">
             {user ? (
               <Link to={"/management"} className="border-0">
-                <ButtonHeader>Tus Ligas</ButtonHeader>{" "}
+                <ButtonHeader>Tus Ligas</ButtonHeader>
               </Link>
             ) : (
                 <Link to={"/leagues"} className="border-0">
-                  <ButtonHeader>Info Ligas</ButtonHeader>{" "}
+                  <ButtonHeader>Info Ligas</ButtonHeader>
                 </Link>
               )}
             {!user && (
@@ -181,6 +179,7 @@ const ButtonLogin = styled.button`
                     />
                   )}
                 </Link> */}
+              <span className="text-white">{user.username}</span>
               <a href="/#">
                 <img
                   src="/images/other/logout.png"

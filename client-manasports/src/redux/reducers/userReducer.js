@@ -23,11 +23,10 @@ export default function userReducer(state = initialState, action) {
             return {
                 ...state,
                 user: addUserLocalStorage(tokenDecoded),
-                loggingIn: false,
-                isLogged: true
+                loggingIn: false
             };
         case types.LOGIN_FAILURE:
-            return { ...state, loggingIn: false, isLogged: false };
+            return { ...state, loggingIn: false };
         case types.GET_USER_LOCALSTORAGE:
             return {
                 ...state,
