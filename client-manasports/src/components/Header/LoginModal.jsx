@@ -1,5 +1,5 @@
 // DEPENDENCES
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import Modal from 'react-bootstrap/Modal';
 import { InputGroup, FormControl, Modal } from "react-bootstrap";
 import { connect } from 'react-redux';
@@ -31,7 +31,7 @@ const ModalLogin = (props) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const onLogin = () => {
-        loginAction(user)
+        loginAction(user);
     }
 
     const handleChange = event => {     // CHANGE PROPERTIES ABOUT THEM NAME

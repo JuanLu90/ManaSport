@@ -20,6 +20,7 @@ export default function userReducer(state = initialState, action) {
             return { ...state, loggingIn: true };
         case types.LOGIN_SUCCESS:
             const tokenDecoded = jwt.decode(action.payload);
+            console.log(tokenDecoded)
             return {
                 ...state,
                 user: addUserLocalStorage(tokenDecoded),

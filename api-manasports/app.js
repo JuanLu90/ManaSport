@@ -7,6 +7,7 @@ var cors = require("cors");
 var indexRouter = require('./routes/index');
 var apiAuth = require('./routes/api/apiAuth');
 var apiUsers = require('./routes/api/apiUsers');
+var apiTournaments = require('./routes/api/apiTournaments');
 
 var app = express();
 
@@ -20,5 +21,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api', apiAuth);
 app.use('/api', apiUsers);
+app.use('/api', apiTournaments);
 
 module.exports = app;

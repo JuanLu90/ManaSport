@@ -1,12 +1,32 @@
 // DEPENDENCES
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { tournamentsByUserAction } from "../redux/actions/tournamentActions";
 
-const Management = () => {
+const Management = props => {
+
+  const { tournamentsByUserAction, user } = props;
+
+  useEffect(() => {
+    tournamentsByUserAction(user.id);
+  })
+
   return (
-      <div>
-          MANAGEMENT
-      </div>
+    <div>
+      MANAGEMENT
+    </div>
   );
 };
 
-export default Management;
+const mapStateToProps = state => {
+  const { userReducer } = state;
+  return {
+    user: userReducer.user
+  }
+}
+
+const mapDispatchToProps = {
+  tournamentsByUserAction
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Management);
