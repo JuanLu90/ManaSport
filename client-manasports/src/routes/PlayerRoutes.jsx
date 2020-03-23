@@ -7,7 +7,7 @@ import PlayerLayout from "../components/Layout";
 
 // PUBLIC ROUTES
 import Main from "../components/Main";
-import Management from "../components/Management"
+import Management from "../components/Management/Management"
 
 const PlayerRoutes = () => {
 
