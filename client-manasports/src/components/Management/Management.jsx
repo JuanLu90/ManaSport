@@ -1,39 +1,57 @@
 // DEPENDENCES
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { tournamentsByUserAction } from "../../redux/actions/tournamentActions";
 import styled from "styled-components";
 
 const Management = props => {
 
-  const ColTour = styled.div`
-  background-color: #343a40;
-  color: white;
-  margin: 5px;
-`
+  const RowTourList = styled.div`
+    background-color: #343a40;
+    color: white;
+    margin: 5px;
+  `
+  const TourInfo = styled.div`
+    background-color: #343a40;
+    color: white;
+  `
+
+
 
   const { tournamentsByUserAction, tournaments, user } = props;
+
+  const [tournamentSelected, setTournamentSelected] = useState({});
 
   useEffect(() => {
     tournamentsByUserAction(user.id);
   }, [user]);
-
-
-
 
   return (
     <div className="container">
       MANAGEMENT
       <div className="row">
         <div className="col-5">
-          {tournaments.map(tour =>
-            <div className="row">
-              <ColTour className="col">{tour.name}</ColTour>
-            </div>
+          {tournaments.map((tour, index) =>
+            <RowTourList className="row" key={index}>
+              <div className="col d-flex justify-content-between">
+                {tour.name}
+                <button onClick={(() => setTournamentSelected(tour))}>SELECT</button>
+              </div>
+            </RowTourList>
           )}
         </div>
         <div className="col-7">
-          INFO
+          <TourInfo>
+            <span>  INFO TOURNAMENT</span>
+            {tournamentSelected &&
+              <div>
+                <div> {tournamentSelected.name} </div>
+                <div> {tournamentSelected.sport} </div>
+                <div> {tournamentSelected.category} </div>
+                <div> {tournamentSelected.createDate} </div>
+              </div>
+            }
+          </TourInfo>
         </div>
       </div>
     </div>
