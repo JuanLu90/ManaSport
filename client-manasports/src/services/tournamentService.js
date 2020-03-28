@@ -2,7 +2,8 @@
 import { handleResponse, handleError } from "../utils/apiUtils";
 
 export const tournamentService = {
-    tournamentsByUser
+    tournamentsByUser,
+    qualificationTournament
 };
 
 async function tournamentsByUser(userId) {
@@ -12,4 +13,13 @@ async function tournamentsByUser(userId) {
     };
 
     return await fetch(`http://localhost:8080/api/tournaments/${userId}`, requestOptions).then(handleResponse, handleError);
+}
+
+async function qualificationTournament(tournamentId) {
+
+    const requestOptions = {
+        method: 'GET'
+    };
+
+    return await fetch(`http://localhost:8080/api/tournaments/qualification/${tournamentId}`, requestOptions).then(handleResponse, handleError);
 }
