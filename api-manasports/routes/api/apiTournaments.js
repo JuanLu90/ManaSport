@@ -5,9 +5,9 @@ const dbConn = require("../../config/db");
 // GET ALL TOURNAMENTS
 router.get("/tournaments", function (req, res) {
     dbConn.query("SELECT * FROM TOURNAMENTS", (err, rows) => {
-            if (err) throw err;
-            res.send(rows);
-        }
+        if (err) throw err;
+        res.send(rows);
+    }
     )
 });
 
@@ -28,7 +28,7 @@ router.get("/tournaments/:UserId", function (req, res) {
 router.get("/tournaments/qualification/:TournamentId", (req, res) => {
     const TournamentId = req.params.TournamentId;
     dbConn.query(
-      `SELECT a1.badge, a1.Id as "ID", a1.name as "TEAM", a1.ptswin + a2.ptsdraw AS 'PTS', a1.pg AS 'PG', a2.ptsdraw AS 'PE', a3.pp AS 'PP', a3.pp, a1.pg + a2.ptsdraw + a3.pp AS 'PJ'
+        `SELECT a1.badge, a1.Id as "ID", a1.name as "TEAM", a1.ptswin + a2.ptsdraw AS 'PTS', a1.pg AS 'PG', a2.ptsdraw AS 'PE', a3.pp AS 'PP', a3.pp, a1.pg + a2.ptsdraw + a3.pp AS 'PJ'
       FROM
           (SELECT  t.badge, t.Id, name, 3 * COUNT(m.Id) AS ptswin, COUNT(m.Id) AS pg, t.TournamentId
           FROM manasports.matches m
@@ -49,12 +49,32 @@ router.get("/tournaments/qualification/:TournamentId", (req, res) => {
           GROUP BY t.Id) AS a3 ON (a1.Id = a2.Id AND a1.Id = a3.Id)
       WHERE a1.TournamentId = ${TournamentId} AND a2.TournamentId = ${TournamentId} AND a3.TournamentId = ${TournamentId}
       ORDER BY PTS DESC`,
-      (err, rows) => {
-        if (err) throw err;
-        res.send(rows);
-      }
+        (err, rows) => {
+            if (err) throw err;
+            res.send(rows);
+        }
     );
-  });
+});
+
+//SHOW ALL MATCHS OF A TOURNAMENT
+router.get("/tournaments/matches/:TournamentId/:matchday", (req, res) => {
+    const TournamentId = req.params.TournamentId;
+    const matchday = req.params.matchday;
+    dbConn.query(
+        `SELECT M.Id, M.date, T.name AS 'localTeam', T2.name AS 'awayTeam', M.localteam_score, M.awayteam_score, M.matchday, T.badge AS 'localbadge', T2.badge AS 'awaybadge'
+          FROM manasports.matches AS M
+          LEFT JOIN teams AS T
+          ON M.localTeamId = T.Id
+          LEFT JOIN teams AS T2
+          ON M.awayTeamId = T2.Id
+          WHERE T.TournamentId = ${TournamentId} AND M.matchday = ${matchday};`,
+        (err, rows) => {
+            if (err) throw err;
+            res.send(rows);
+        }
+    );
+});
+
 
 
 module.exports = router;

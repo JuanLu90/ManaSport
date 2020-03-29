@@ -15,7 +15,7 @@ const Layout = props => {
   const path = history.location.pathname;
   let getRoute = path.split(["/"]).slice(-1)[0];
 
-  if (getRoute === 'management') backgroundMain = '';
+  if (getRoute === 'management') backgroundMain = 'background-image: linear-gradient(grey, black), url("/images/wallpaperTournamentInfo.jpg"); background-blend-mode: saturation;';
   else backgroundMain = 'background-image: url("/images/main-tennis.jpg")';
 
   const Wrapper = styled.div`
