@@ -2,14 +2,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { tournamentsByUserAction, qualificationTournamentAction, matchesTournamentAction } from "../../redux/actions/tournamentActions";
-import TournamentInfo from '../Management/TournamentInfo';
+import QualificationTournament from './TournamentInfo/QualificationTournament';
+import ResultsTournament from './TournamentInfo/ResultsTournament';
 import styled from "styled-components";
+import { Dropdown, } from "react-bootstrap";
 
-const RowTourList = styled.div`
-background-color: #343a40;
-color: white;
-margin: 5px;
-`
+const RowInfoTournament = styled.div`
+  font-size: 0.8rem;
+`;
 
 const Management = ({
   tournamentsByUserAction,
@@ -37,21 +37,28 @@ const Management = ({
 
   return (
     <div className="container">
-      MANAGEMENT
       <div className="row">
-        <div className="col-3">
-          {tournaments.map((tour, index) =>
-            <RowTourList className="row" key={index}>
-              <div className="col d-flex justify-content-between" onClick={(() => setTournamentSelected(tour))}>
-                {tour.name}
-              </div>
-            </RowTourList>
-          )}
-        </div>
-        <div className="col-9">
-          {tournamentSelected.Id && <TournamentInfo qualification={qualification} matches={matches} />}
+        <div className="col">
+          <Dropdown>
+            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+              Select a tournament
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {tournaments.map((tour, index) =>
+                <Dropdown.Item key={index} onClick={(() => setTournamentSelected(tour))}>{tour.name}</Dropdown.Item>
+              )}
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       </div>
+      <RowInfoTournament className="row">
+        <div className="col-5">
+          {tournamentSelected.Id && <QualificationTournament qualification={qualification} />}
+        </div>
+        <div className="col-7">
+          {tournamentSelected.Id && <ResultsTournament matches={matches} />}
+        </div>
+      </RowInfoTournament>
     </div>
   );
 };
