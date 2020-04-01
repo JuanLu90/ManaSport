@@ -1,11 +1,12 @@
 // DEPENDENCES
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { tournamentsByUserAction, qualificationTournamentAction, matchesTournamentAction } from "../../redux/actions/tournamentActions";
+import { tournamentsByUserAction, qualificationTournamentAction } from "../../redux/actions/tournamentActions";
 import QualificationTournament from './TournamentInfo/QualificationTournament';
 import ResultsTournament from './TournamentInfo/ResultsTournament';
 import styled from "styled-components";
 import { Dropdown, } from "react-bootstrap";
+import { getUserLocalStorage } from '../../utils/localStorageUtils';
 
 const RowInfoTournament = styled.div`
   font-size: 0.8rem;
@@ -14,24 +15,20 @@ const RowInfoTournament = styled.div`
 const Management = ({
   tournamentsByUserAction,
   qualificationTournamentAction,
-  matchesTournamentAction,
   tournaments,
   qualification,
-  matches,
-  user
+  matches
 }) => {
 
   const [tournamentSelected, setTournamentSelected] = useState({});
 
-  useEffect(() => {
-    tournamentsByUserAction(user.id);
-  }, [user]);
 
   useEffect(() => {
-    if (tournamentSelected.Id) {
-      qualificationTournamentAction(tournamentSelected.Id);
-      matchesTournamentAction(tournamentSelected.Id, 1);
-    }
+    tournamentsByUserAction(getUserLocalStorage().id);
+  }, []);
+
+  useEffect(() => {
+    if (tournamentSelected.Id) qualificationTournamentAction(tournamentSelected.Id);
   }, [tournamentSelected]);
 
 
@@ -56,7 +53,7 @@ const Management = ({
           {tournamentSelected.Id && <QualificationTournament qualification={qualification} />}
         </div>
         <div className="col-7">
-          {tournamentSelected.Id && <ResultsTournament matches={matches} />}
+          {tournamentSelected.Id && <ResultsTournament tournamentSelected={tournamentSelected} matches={matches} />}
         </div>
       </RowInfoTournament>
     </div>
@@ -75,8 +72,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   tournamentsByUserAction,
-  qualificationTournamentAction,
-  matchesTournamentAction
+  qualificationTournamentAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Management);

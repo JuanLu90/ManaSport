@@ -4,16 +4,12 @@
 //#region Functions
 
 export function addUserLocalStorage(user) {
-    if (user) {
-        localStorage.setItem('user', JSON.stringify(user));
-    }
+    if (user) localStorage.setItem('user', JSON.stringify(user));
     return user;
 };
 
 export function getUserLocalStorage() {
-
-       let userLocalStorage = JSON.parse(localStorage.getItem('user'));
-    
+    let userLocalStorage = JSON.parse(localStorage.getItem('user'));
     return userLocalStorage;
 };
 

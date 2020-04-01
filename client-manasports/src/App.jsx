@@ -3,16 +3,16 @@ import PlayerRoutes from './routes/PlayerRoutes';
 import { connect } from "react-redux";
 import { Router, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import { setUserRedux } from "../src/redux/actions/userActions";
+import { setUserAction } from "../src/redux/actions/userActions";
 
 const App = props => {
 
-  const { setUserRedux } = props;
+  const { setUserAction } = props;
   const history = createBrowserHistory();
 
   useEffect(() => {
-    setUserRedux();
-  }, [])
+    setUserAction();
+  }, []);
 
   return (
     <Router history={history}>
@@ -22,7 +22,7 @@ const App = props => {
 }
 
 const mapDispatchToProps = {
-  setUserRedux
+  setUserAction
 }
 
 export default connect(null, mapDispatchToProps)(App);

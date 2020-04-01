@@ -38,6 +38,6 @@ export function loginAction(user) {
     function failure() { return { type: types.LOGIN_FAILURE } }
 };
 
-export function setUserRedux() {
+export function setUserAction() {
    return { type: types.GET_USER_LOCALSTORAGE } 
 };

@@ -115,8 +115,8 @@ const ResultMatches = ({match}) => {
                 match.awayteam_score === null
                 ? match.date
                 : <>
-                  <div>{match.localteam_score + "-" + match.awayteam_score}</div>
-                  <div style={{ fontSize: '0.75em', color: '#bdc3c7' }}>{match.date}</div>
+                  <div className="text-center">{match.localteam_score + "-" + match.awayteam_score}</div>
+                  <div style={{ fontSize: '0.85em', color: '#bdc3c7' }}>{match.date}</div>
                 </>
 
               }

@@ -1,4 +1,7 @@
-import React, { useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { connect } from 'react-redux';
+import { matchesTournamentAction } from "../../../redux/actions/tournamentActions";
+
 
 import { Table } from "react-bootstrap";
 import styled from "styled-components";
@@ -27,7 +30,7 @@ const TrMatchday = styled.th`
   }
 `;
 
-const ResultsTournament = ({matches}) => {
+const ResultsTournament = ({tournamentSelected, matches, matchesTournamentAction}) => {
 
     const [count, setCount] = useState(1);
     const matchdayAdd = () => {
@@ -40,6 +43,12 @@ const ResultsTournament = ({matches}) => {
     };
     const [matchResult, setMatchResult] = useState(false);
     const updatedResults = useCallback(() => setMatchResult(s => !s), []);
+
+    useEffect(() => {
+        if (tournamentSelected.Id) {
+          matchesTournamentAction(tournamentSelected.Id, count);
+        }
+      }, [tournamentSelected, count]);
 
     return (
         <Table
@@ -63,7 +72,7 @@ const ResultsTournament = ({matches}) => {
                         )}
                     </TrMatchday>
                     <th />
-                    <th className="text-light h5">JORNADA {count}</th>
+                    <th className="text-light text-center h5">JORNADA {count}</th>
                     <th />
                     <TrMatchday className="text-white font-weight-light">
                         <DivCursor onClick={matchdayAdd}>
@@ -86,4 +95,8 @@ const ResultsTournament = ({matches}) => {
     )
 }
 
-export default ResultsTournament;
+const mapDispatchToProps = {
+    matchesTournamentAction
+  };
+
+export default connect(null, mapDispatchToProps)(ResultsTournament);
