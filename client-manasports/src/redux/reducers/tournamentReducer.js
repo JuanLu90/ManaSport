@@ -9,7 +9,7 @@ const initialState = {
 export default function tournamentReducer(state = initialState, action) {
 
     switch (action.type) {
-        //TOURNAMENTS BY USER
+        //TOURNAMENTS USER
         case types.TOURNAMENTS_BY_USER_REQUEST:
             return { ...state };
         case types.TOURNAMENTS_BY_USER_SUCCESS:
@@ -25,12 +25,20 @@ export default function tournamentReducer(state = initialState, action) {
         case types.QUALIFITATION_TOURNAMENT_FAILURE:
             return { ...state };
 
-        //MATCHES OF A TOURNAMENT
+        //MATCHES TOURNAMENT
         case types.MATCHES_TOURNAMENT_REQUEST:
             return { ...state };
         case types.MATCHES_TOURNAMENT_SUCCESS:
             return { ...state, matches: action.payload };
         case types.MATCHES_TOURNAMENT_FAILURE:
+            return { ...state };
+
+        //EDIT MATCH TOURNAMENT
+        case types.EDIT_MATCH_TOURNAMENT_REQUEST:
+            return { ...state };
+        case types.EDIT_MATCH_TOURNAMENT_SUCCESS:
+            return { ...state, matchUpdated: action.payload };
+        case types.EDIT_MATCH_TOURNAMENT_FAILURE:
             return { ...state };
         default:
             return state;

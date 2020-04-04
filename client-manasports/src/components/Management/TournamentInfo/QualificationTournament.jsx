@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Table } from "react-bootstrap";
+import { qualificationTournamentAction } from "../../../redux/actions/tournamentActions";
+import { connect } from 'react-redux';
 
 const WrapperTable = styled.div`
   background-color: #343a40;
@@ -14,7 +16,12 @@ const Tbody = styled.tbody`
   font-family: "Source Sans Pro", sans-serif;
 `;
 
-const QualificationTournament = ({qualification}) => {
+const QualificationTournament = ({ tournamentSelected, qualification, qualificationTournamentAction }) => {
+    
+    useEffect(() => {
+        qualificationTournamentAction(tournamentSelected.Id);
+    }, [tournamentSelected]);
+
     return (
         <WrapperTable>
             <Table
@@ -71,4 +78,11 @@ const QualificationTournament = ({qualification}) => {
 }
 
 
-export default QualificationTournament;
+
+const mapDispatchToProps = {
+    qualificationTournamentAction
+};
+
+export default connect(null, mapDispatchToProps)(QualificationTournament);
+
+

@@ -75,6 +75,24 @@ router.get("/tournaments/matches/:TournamentId/:matchday", (req, res) => {
     );
 });
 
+//EDIT A MATCH RESULT
+router.put("/tournaments/matches/editMatch", (req, res) => {
+    const data = req.body;
+    // console.log(req);
+    dbConn.query(
+      `UPDATE manasports.matches set 
+        date = '${data.date}',
+        localteam_score = ${data.localteam_score}, 
+        awayteam_score = ${data.awayteam_score} 
+        WHERE Id = '${data.Id}';`,
+      (err, rows) => {
+        if (err) throw err;
+        res.send(data);
+      }
+    );
+  });
+  
+
 
 
 module.exports = router;

@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
+import { connect } from 'react-redux';
+import { matchTournamentEditAction } from "../../redux/actions/tournamentActions";
 
 
 const ImgBadge = styled.img`
@@ -19,16 +21,10 @@ const ImgArrow = styled.img`
   height: 16px;
 `;
 
-const ResultMatches = ({match}) => {
-  const [inputLocalScore, setInputLocalScore] = useState(
-    match.localteam_score
-  );
-  const [inputAwayScore, setInputAwayScore] = useState(
-    match.awayteam_score
-  );
-  const [inputDate, setInputDate] = useState(
-    match.date
-  );
+const ResultMatches = ({ match, matchTournamentEditAction }) => {
+  const [inputLocalScore, setInputLocalScore] = useState(match.localteam_score);
+  const [inputAwayScore, setInputAwayScore] = useState(match.awayteam_score);
+  const [inputDate, setInputDate] = useState(match.date);
 
   const [editMode, setEditMode] = useState(false);
   const toggleEditMode = useCallback(() => setEditMode(s => !s), []);
@@ -46,50 +42,22 @@ const ResultMatches = ({match}) => {
     []
   );
 
+  let matchData = {
+    Id: match.Id,
+    date: inputDate,
+    localteam_score: inputLocalScore === -1 ? null : +inputLocalScore,
+    awayteam_score: inputAwayScore === -1 ? null : +inputAwayScore
+  }
+
 
   const deleteResult = () => {
-    setInputLocalScore(-1)
-    setInputAwayScore(-1)
-    sendMatchResult()
-    toggleEditMode();
+    // setInputLocalScore(-1)
+    // setInputAwayScore(-1)
+    // sendMatchResult()
+    // toggleEditMode();
   }
-  const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
+  // const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
 
-
-  const sendMatchResult = () => {
-    fetch("http://localhost:8080/api/tournaments/editMatch", {
-      method: "PUT",
-      headers: {
-        "Content-type": "application/json",
-        Accept: "application/json"
-        // Authorization: "Bearer " + props.token
-      },
-      body: JSON.stringify({
-        MatchId: match.MatchId,
-        date: inputDate,
-        localteam_score: inputLocalScore === -1 ? null : +inputLocalScore,
-        awayteam_score: inputAwayScore === -1 ? null : +inputAwayScore
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          const u = {
-            MatchId: match.MatchId,
-            date: inputDate,
-            localteam_score: match.localteam_score,
-            awayteam_score: match.awayteam_score
-          };
-          response.json().then(m => {
-            // props.putMatchById(match.MatchId, m);
-            toggleEditMode();
-            // props.updatedResults(+1)
-          });
-        }
-      })
-      .catch(err => {
-        console.log("Error, " + err);
-      });
-  };
 
   return (
     <tr>
@@ -100,16 +68,16 @@ const ResultMatches = ({match}) => {
       <TdMatchdayResult className="p-1 border-0 d-flex justify-content-around m-auto">
         {!editMode && (
           <>
-            {token &&
-              <img
-                src="/images/other/cancel.png"
-                className="mr-3 align-self-center"
-                alt=""
-                title="Eliminar resultado"
-                onClick={() => deleteResult()}
-                style={{ width: '17px', height: '17px', cursor: 'pointer' }}
-              />
-            }
+            {/* {token && */}
+            <img
+              src="/images/other/cancel.png"
+              className="mr-3 align-self-center"
+              alt=""
+              title="Eliminar resultado"
+              onClick={() => deleteResult()}
+              style={{ width: '17px', height: '17px', cursor: 'pointer' }}
+            />
+            {/* } */}
             <div>
               {match.localteam_score === null &&
                 match.awayteam_score === null
@@ -121,16 +89,16 @@ const ResultMatches = ({match}) => {
 
               }
             </div>
-            {token &&
-              <img
-                src="/images/other/edit.png"
-                className="ml-3 align-self-center"
-                alt=""
-                title="Editar resultado"
-                onClick={toggleEditMode}
-                style={{ width: '17px', height: '17px', cursor: 'pointer' }}
-              />
-            }
+            {/* {token && */}
+            <img
+              src="/images/other/edit.png"
+              className="ml-3 align-self-center"
+              alt=""
+              title="Editar resultado"
+              onClick={toggleEditMode}
+              style={{ width: '17px', height: '17px', cursor: 'pointer' }}
+            />
+            {/* } */}
 
           </>
         )}
@@ -164,7 +132,7 @@ const ResultMatches = ({match}) => {
               value={inputDate}
               onChange={updateDate}
             />
-            <ImgArrow src="/images/other/send.png" className="ml-2 align-self-center" onClick={sendMatchResult} title="Enviar" />
+            <ImgArrow src="/images/other/send.png" className="ml-2 align-self-center" onClick={() => matchTournamentEditAction(matchData)} title="Enviar" />
           </>
         )}
       </TdMatchdayResult>
@@ -176,4 +144,8 @@ const ResultMatches = ({match}) => {
   );
 };
 
-export default ResultMatches;
+const mapDispatchToProps = {
+  matchTournamentEditAction
+};
+
+export default connect(null, mapDispatchToProps)(ResultMatches);

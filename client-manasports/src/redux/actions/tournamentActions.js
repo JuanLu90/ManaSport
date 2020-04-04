@@ -58,3 +58,22 @@ export const matchesTournamentAction = (tournamentId, matchday) => {
     function success(payload) { return { type: types.MATCHES_TOURNAMENT_SUCCESS, payload } }
     function failure(error) { return { type: types.MATCHES_TOURNAMENT_FAILURE, error } }
 };
+
+
+export const matchTournamentEditAction = (data) => {
+    return async dispatch => {
+        dispatch(request());
+        await tournamentService.matchTournamentEdit(data)
+            .then(response => {
+                dispatch(success(data));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(failure(error));
+            });
+    }
+
+    function request() { return { type: types.EDIT_MATCH_TOURNAMENT_REQUEST } }
+    function success(payload) { return { type: types.EDIT_MATCH_TOURNAMENT_SUCCESS, payload } }
+    function failure(error) { return { type: types.EDIT_MATCH_TOURNAMENT_FAILURE, error } }
+};

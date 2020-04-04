@@ -17,19 +17,17 @@ const Management = ({
   qualificationTournamentAction,
   tournaments,
   qualification,
-  matches
+  matches,
+  matchUpdated
 }) => {
 
   const [tournamentSelected, setTournamentSelected] = useState({});
 
+    let matchtToUpdated = matches.filter(match => matchUpdated && match.Id === matchUpdated.Id);
 
   useEffect(() => {
     tournamentsByUserAction(getUserLocalStorage().id);
   }, []);
-
-  useEffect(() => {
-    if (tournamentSelected.Id) qualificationTournamentAction(tournamentSelected.Id);
-  }, [tournamentSelected]);
 
 
   return (
@@ -50,10 +48,21 @@ const Management = ({
       </div>
       <RowInfoTournament className="row">
         <div className="col-5">
-          {tournamentSelected.Id && <QualificationTournament qualification={qualification} />}
+          {tournamentSelected.Id &&
+            <QualificationTournament
+              matchtToUpdated={matchtToUpdated}
+              tournamentSelected={tournamentSelected}
+              qualification={qualification}
+            />
+          }
         </div>
         <div className="col-7">
-          {tournamentSelected.Id && <ResultsTournament tournamentSelected={tournamentSelected} matches={matches} />}
+          {tournamentSelected.Id &&
+            <ResultsTournament
+              tournamentSelected={tournamentSelected}
+              matches={matches}
+            />
+          }
         </div>
       </RowInfoTournament>
     </div>
@@ -66,7 +75,8 @@ const mapStateToProps = state => {
     user: userReducer.user,
     tournaments: tournamentReducer.tournaments,
     qualification: tournamentReducer.qualification,
-    matches: tournamentReducer.matches
+    matches: tournamentReducer.matches,
+    matchUpdated: tournamentReducer.matchUpdated
   }
 }
 

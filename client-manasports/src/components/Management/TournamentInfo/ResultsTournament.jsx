@@ -25,78 +25,79 @@ const DivCursor = styled.div`
 `;
 
 const TrMatchday = styled.th`
+color: white;
+font-weight: 300;
+text-align: center;
   &:hover {
     filter: opacity(50%);
   }
 `;
 
-const ResultsTournament = ({tournamentSelected, matches, matchesTournamentAction}) => {
+const ResultsTournament = ({ tournamentSelected, matches, matchesTournamentAction }) => {
 
-    const [count, setCount] = useState(1);
-    const matchdayAdd = () => {
-        //Set +1 to matchday
-        setCount(count + 1);
-    };
-    const matchdaySub = () => {
-        //set -1 to matchday
-        setCount(count > 1 ? count - 1 : count); // matchday cant be less than 1
-    };
-    const [matchResult, setMatchResult] = useState(false);
-    const updatedResults = useCallback(() => setMatchResult(s => !s), []);
+  const [count, setCount] = useState(1);
+  const matchdayAdd = () => {
+    //Set +1 to matchday
+    setCount(count + 1);
+  };
+  const matchdaySub = () => {
+    //set -1 to matchday
+    setCount(count > 1 ? count - 1 : count); // matchday cant be less than 1
+  };
+  const [matchResult, setMatchResult] = useState(false);
+  const updatedResults = useCallback(() => setMatchResult(s => !s), []);
 
-    useEffect(() => {
-        if (tournamentSelected.Id) {
-          matchesTournamentAction(tournamentSelected.Id, count);
-        }
-      }, [tournamentSelected, count]);
+  useEffect(() => {
+      matchesTournamentAction(tournamentSelected.Id, count);
+  }, [tournamentSelected, count]);
 
-    return (
-        <Table
-            responsive
-            striped
-            hover
-            variant="dark"
-            className="border border-secondary"
-        >
-            <TableHead>
-                <tr>
-                    <TrMatchday className="text-white font-weight-light">
-                        {count !== 1 && (
-                            <DivCursor onClick={matchdaySub}>
-                                <img
-                                    src="/images/other/arrow-left.png"
-                                    width="17"
-                                />
-                                <SpanMatchday>jornada {count - 1}</SpanMatchday>
-                            </DivCursor>
-                        )}
-                    </TrMatchday>
-                    <th />
-                    <th className="text-light text-center h5">JORNADA {count}</th>
-                    <th />
-                    <TrMatchday className="text-white font-weight-light">
-                        <DivCursor onClick={matchdayAdd}>
-                            <SpanMatchday>jornada {count + 1}</SpanMatchday>{" "}
-                            <img src="/images/other/arrow-right.png" width="17" />
-                        </DivCursor>
-                    </TrMatchday>
-                </tr>
-            </TableHead>
-            <Tbody>
-                {matches.map((match, index) => (
-                    <ResultMatches
-                        key={index}
-                        match={match}
-                        updatedResults={updatedResults}
-                    />
-                ))}
-            </Tbody>
-        </Table>
-    )
+  return (
+    <Table
+      responsive
+      striped
+      hover
+      variant="dark"
+      className="border border-secondary"
+    >
+      <TableHead>
+        <tr>
+          <TrMatchday>
+            {count !== 1 && (
+              <DivCursor onClick={matchdaySub}>
+                <img
+                  src="/images/other/arrow-left.png"
+                  width="17"
+                />
+                <SpanMatchday>jornada {count - 1}</SpanMatchday>
+              </DivCursor>
+            )}
+          </TrMatchday>
+          <th />
+          <th className="text-light text-center h5">JORNADA {count}</th>
+          <th />
+          <TrMatchday>
+            <DivCursor onClick={matchdayAdd}>
+              <SpanMatchday>jornada {count + 1}</SpanMatchday>
+              <img src="/images/other/arrow-right.png" width="17" />
+            </DivCursor>
+          </TrMatchday>
+        </tr>
+      </TableHead>
+      <Tbody>
+        {matches.map((match, index) => (
+          <ResultMatches
+            key={index}
+            match={match}
+            updatedResults={updatedResults}
+          />
+        ))}
+      </Tbody>
+    </Table>
+  )
 }
 
 const mapDispatchToProps = {
-    matchesTournamentAction
-  };
+  matchesTournamentAction
+};
 
 export default connect(null, mapDispatchToProps)(ResultsTournament);
