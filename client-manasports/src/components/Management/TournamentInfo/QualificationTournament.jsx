@@ -16,11 +16,11 @@ const Tbody = styled.tbody`
   font-family: "Source Sans Pro", sans-serif;
 `;
 
-const QualificationTournament = ({ tournamentSelected, qualification, qualificationTournamentAction }) => {
+const QualificationTournament = ({ tournamentSelected, qualification, qualificationTournamentAction, matchUpdated }) => {
     
     useEffect(() => {
         qualificationTournamentAction(tournamentSelected.Id);
-    }, [tournamentSelected]);
+    }, [tournamentSelected, matchUpdated]);
 
     return (
         <WrapperTable>

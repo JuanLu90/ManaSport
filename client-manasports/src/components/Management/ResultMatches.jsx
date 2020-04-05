@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { connect } from 'react-redux';
 import { matchTournamentEditAction } from "../../redux/actions/tournamentActions";
+import { useEffect } from "react";
 
 
 const ImgBadge = styled.img`
@@ -22,39 +23,38 @@ const ImgArrow = styled.img`
 `;
 
 const ResultMatches = ({ match, matchTournamentEditAction }) => {
-  const [inputLocalScore, setInputLocalScore] = useState(match.localteam_score);
-  const [inputAwayScore, setInputAwayScore] = useState(match.awayteam_score);
-  const [inputDate, setInputDate] = useState(match.date);
 
+  const initialState = {
+    Id: match.Id,
+    date: match.date,
+    localteam_score: match.localteam_score,
+    awayteam_score: match.awayteam_score
+  };
+
+  const [infoMatch, setInfoMatch] = useState(initialState);
   const [editMode, setEditMode] = useState(false);
   const toggleEditMode = useCallback(() => setEditMode(s => !s), []);
 
-  const updateLocalScore = useCallback(
-    v => setInputLocalScore(v.target.value),
-    []
-  );
-  const updateAwayScore = useCallback(
-    v => setInputAwayScore(v.target.value),
-    []
-  );
-  const updateDate = useCallback(
-    v => setInputDate(v.target.value),
-    []
-  );
 
-  let matchData = {
-    Id: match.Id,
-    date: inputDate,
-    localteam_score: inputLocalScore === -1 ? null : +inputLocalScore,
-    awayteam_score: inputAwayScore === -1 ? null : +inputAwayScore
-  }
+  const sendInfoMatchEdit = () => {
+    matchTournamentEditAction(infoMatch);
+    toggleEditMode();
+  };
 
+  const onChangeMatch = e => {
+    const { name, value } = e.target;
+    setInfoMatch(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  useEffect(() => {
+    setInfoMatch(initialState);
+  }, [match])
 
   const deleteResult = () => {
-    // setInputLocalScore(-1)
-    // setInputAwayScore(-1)
-    // sendMatchResult()
-    // toggleEditMode();
+    matchTournamentEditAction({ ...infoMatch, localteam_score: null, awayteam_score: null });
   }
   // const token = localStorage.getItem("token"); //Token - Get the token stored from local storage
 
@@ -107,32 +107,30 @@ const ResultMatches = ({ match, matchTournamentEditAction }) => {
             <ImgArrow src="/images/other/back.png" className="mr-2 align-self-center" onClick={toggleEditMode} title="Atrás" />
             <input
               type="text"
-              name=""
+              name="localteam_score"
               id=""
               className="text-center"
               style={{ width: '40px' }}
-              value={inputLocalScore === -1 ? "" : inputLocalScore}
-              onChange={updateLocalScore}
+              value={infoMatch.localteam_score}
+              onChange={onChangeMatch}
             />
             <input
               type="text"
-              name=""
-              id=""
+              name="awayteam_score"
               className="text-center"
               style={{ width: '40px' }}
-              value={inputAwayScore === -1 ? "" : inputAwayScore}
-              onChange={updateAwayScore}
+              value={infoMatch.awayteam_score}
+              onChange={onChangeMatch}
             />
             <input
               type="text"
-              name=""
-              id=""
+              name="date"
               className="text-center"
               style={{ width: '100px' }}
-              value={inputDate}
-              onChange={updateDate}
+              value={infoMatch.date}
+              onChange={onChangeMatch}
             />
-            <ImgArrow src="/images/other/send.png" className="ml-2 align-self-center" onClick={() => matchTournamentEditAction(matchData)} title="Enviar" />
+            <ImgArrow src="/images/other/send.png" className="ml-2 align-self-center" onClick={() => sendInfoMatchEdit()} title="Enviar" />
           </>
         )}
       </TdMatchdayResult>

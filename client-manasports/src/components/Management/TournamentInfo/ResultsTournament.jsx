@@ -33,7 +33,7 @@ text-align: center;
   }
 `;
 
-const ResultsTournament = ({ tournamentSelected, matches, matchesTournamentAction }) => {
+const ResultsTournament = ({ tournamentSelected, matches, matchesTournamentAction, matchUpdated }) => {
 
   const [count, setCount] = useState(1);
   const matchdayAdd = () => {
@@ -49,7 +49,7 @@ const ResultsTournament = ({ tournamentSelected, matches, matchesTournamentActio
 
   useEffect(() => {
       matchesTournamentAction(tournamentSelected.Id, count);
-  }, [tournamentSelected, count]);
+  }, [tournamentSelected, count, matchUpdated]);
 
   return (
     <Table
@@ -89,6 +89,7 @@ const ResultsTournament = ({ tournamentSelected, matches, matchesTournamentActio
             key={index}
             match={match}
             updatedResults={updatedResults}
+            matchUpdated={matchUpdated}
           />
         ))}
       </Tbody>

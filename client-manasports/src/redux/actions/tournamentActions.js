@@ -65,7 +65,7 @@ export const matchTournamentEditAction = (data) => {
         dispatch(request());
         await tournamentService.matchTournamentEdit(data)
             .then(response => {
-                dispatch(success(data));
+                dispatch(success(JSON.parse(response)));
             })
             .catch(error => {
                 console.log(error);

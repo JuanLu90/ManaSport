@@ -23,7 +23,7 @@ const Management = ({
 
   const [tournamentSelected, setTournamentSelected] = useState({});
 
-    let matchtToUpdated = matches.filter(match => matchUpdated && match.Id === matchUpdated.Id);
+  let matchtToUpdated = matches.filter(match => matchUpdated && match.Id === matchUpdated.Id);
 
   useEffect(() => {
     tournamentsByUserAction(getUserLocalStorage().id);
@@ -33,7 +33,7 @@ const Management = ({
   return (
     <div className="container">
       <div className="row">
-        <div className="col">
+        <div className="col my-3">
           <Dropdown>
             <Dropdown.Toggle variant="secondary" id="dropdown-basic">
               Select a tournament
@@ -45,6 +45,9 @@ const Management = ({
             </Dropdown.Menu>
           </Dropdown>
         </div>
+        <div className="col d-flex align-items-center">
+          <span className="text-white">{tournamentSelected.name}</span>
+        </div>
       </div>
       <RowInfoTournament className="row">
         <div className="col-5">
@@ -53,6 +56,7 @@ const Management = ({
               matchtToUpdated={matchtToUpdated}
               tournamentSelected={tournamentSelected}
               qualification={qualification}
+              matchUpdated={matchUpdated}
             />
           }
         </div>
@@ -61,6 +65,7 @@ const Management = ({
             <ResultsTournament
               tournamentSelected={tournamentSelected}
               matches={matches}
+              matchUpdated={matchUpdated}
             />
           }
         </div>
