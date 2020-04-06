@@ -7,7 +7,8 @@ import PlayerLayout from "../components/Layout";
 
 // PUBLIC ROUTES
 import Main from "../components/Main";
-import Management from "../components/Management/Management"
+import Management from "../components/Management/Management";
+import TournamentInfo from "../components/Management/TournamentInfo/TournamentInfo";
 
 const PlayerRoutes = () => {
 
@@ -17,6 +18,7 @@ const PlayerRoutes = () => {
                 {/* PUBLIC ROUTES */}
                 <Route exact path="/" component={Main} />
                 <Route exact path="/management" component={Management} />
+                <Route exact path="/management/TournamentInfo" component={TournamentInfo} />
                 <Redirect to="/" />
             </Switch>
         </PlayerLayout>

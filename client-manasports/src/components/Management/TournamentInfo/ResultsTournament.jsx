@@ -5,7 +5,7 @@ import { matchesTournamentAction } from "../../../redux/actions/tournamentAction
 
 import { Table } from "react-bootstrap";
 import styled from "styled-components";
-import ResultMatches from '../ResultMatches';
+import ResultMatches from './ResultMatches';
 
 const TableHead = styled.thead`
   font-family: "Roboto", sans-serif;

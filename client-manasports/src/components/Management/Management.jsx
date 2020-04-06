@@ -1,93 +1,215 @@
-// DEPENDENCES
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { tournamentsByUserAction, qualificationTournamentAction } from "../../redux/actions/tournamentActions";
-import QualificationTournament from './TournamentInfo/QualificationTournament';
-import ResultsTournament from './TournamentInfo/ResultsTournament';
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Dropdown, } from "react-bootstrap";
+import { connect } from 'react-redux';
+import { Button, InputGroup, Form, Table, Modal, Alert } from "react-bootstrap";
 import { getUserLocalStorage } from '../../utils/localStorageUtils';
+import { tournamentsByUserAction } from "../../redux/actions/tournamentActions";
 
-const RowInfoTournament = styled.div`
-  font-size: 0.8rem;
+// ********* Styles - Styled Components - CSSINJS **********
+const TableHead = styled.thead`
+  font-family: "Roboto", sans-serif;
+`;
+const Title = styled.span`
+  font-size: 2.3em;
+  font-family: "Source Sans Pro", sans-serif;
+  color: #bdbdbd;
+  text-transform: uppercase;
 `;
 
-const Management = ({
-  tournamentsByUserAction,
-  qualificationTournamentAction,
-  tournaments,
-  qualification,
-  matches,
-  matchUpdated
-}) => {
 
-  const [tournamentSelected, setTournamentSelected] = useState({});
+const Management = ({ tournaments, tournamentsByUserAction }) => {
 
-  let matchtToUpdated = matches.filter(match => matchUpdated && match.Id === matchUpdated.Id);
+    useEffect(() => {
+        tournamentsByUserAction(getUserLocalStorage().id);
+    }, []);
 
-  useEffect(() => {
-    tournamentsByUserAction(getUserLocalStorage().id);
-  }, []);
+    return (
+        // <div className="container-fluid" style={token ? { marginBottom: '100px', fontFamily: "'Source Sans Pro', sans-serif" } : { margin: '120px 0', fontFamily: "'Source Sans Pro', sans-serif" }}>
+        <div className="container-fluid">
+            <div className="row justify-content-center">
+                <div className="col-10">
+                    <Title>Tus ligas:</Title>
+                </div>
+            </div>
+            <div className="row mt-1 justify-content-center">
+                <div className="col-10 p-3 text-center">
+                    <Table
+                        responsive="md"
+                        variant="dark"
+                        striped
+                        hover
+                        className=" border border-secondary"
+                    >
+                        <TableHead>
+                            <tr>
+                                <th />
+                                <th>
+                                    NOMBRE
+                                    <img
+                                        src="/images/other/sort.png"
+                                        className="ml-2 mb-1"
+                                        width="15"
+                                        // onClick={() => toggleSortByName()}
+                                        alt=""
+                                    />
+                                </th>
+                                {/* {token && <th>Administrador</th>} */}
+                                <th>DEPORTE</th>
+                                <th>MODALIDAD</th>
+                                {/* <th>Nº EQUIPOS</th> */}
+                                <th>FECHA CREACIÓN</th>
+                                {/* {!token && <>
+                    <th />
+                    <th />
+                  </>
+                  } */}
+                            </tr>
+                        </TableHead>
+                        <tbody>
+                            {tournaments.map((tournament, index) => (
+                                <tr key={index}>
+                                    <td className="p-1 align-middle">{tournament.Id}</td>
+                                    <td className="text-warning p-0 align-middle"
+                                    // onClick={() => (
+                                    //     setTimeout(() => props.history.push("/management/leagueDetails/" + l.TournamentId), 1000)
+                                    // )}
+                                    >
+                                        {tournament.name}
+                                    </td>
+                                    {/* {!token && <td className="p-1 align-middle">{l.NameAdmin}</td>} */}
+                                    <td className="p-1 align-middle">{tournament.sport}</td>
+                                    <td className="p-1 align-middle">{tournament.category}</td>
+                                    {/* <td className="p-1 align-middle">
+                                        <div className="row">
+                                            <div className="col text-center">{l.NTeams}</div>
+                                        </div>
+                                    </td> */}
+                                    <td className="p-1 align-middle">{tournament.createdate}</td>
+                                    {/* {token &&  */}
+                                    <>
+                                        <td className="p-1 align-middle">
+                                            <img
+                                                src="/images/other/edit.png"
+                                                width="15"
+                                                alt=""
+                                            // onClick={() => funcionEditLeague(l.TournamentId)}
+                                            />
+                                        </td>
 
+                                        <td className="p-1 cursor-pointer  align-middle">
+                                            <Button
+                                                variant="danger"
+                                                className="pt-0 pb-0 pl-3 pr-3"
+                                                size="sm"
+                                            // onClick={() => funcionDeleteLeague(l.TournamentId)}
+                                            >
+                                                Eliminar
+                                            </Button>
+                                        </td>
+                                    </>
+                                    {/* } */}
 
-  return (
-    <div className="container">
-      <div className="row">
-        <div className="col my-3">
-          <Dropdown>
-            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-              Select a tournament
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              {tournaments.map((tour, index) =>
-                <Dropdown.Item key={index} onClick={(() => setTournamentSelected(tour))}>{tour.name}</Dropdown.Item>
-              )}
-            </Dropdown.Menu>
-          </Dropdown>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </div>
+            </div>
+            {/* {token &&  */}
+            <>
+                <div className="row justify-content-center">
+                    <div className="col-4">
+                        <InputGroup size="sm">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text
+                                    id="inputGroup-sizing-sm"
+                                    className="bg-secondary border border-secondary text-light"
+                                >
+                                    Nombre de la liga*
+                                </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <input
+                                type="text"
+                                className="form-control form-control-sm bg-dark border border-secondary text-light"
+                            // value={inputLeagueName}
+                            // onChange={updateLeagueName}
+                            // autoFocus
+                            />
+                        </InputGroup>
+                    </div>
+                    <div className="col-2">
+                        <InputGroup size="sm">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text
+                                    id="inputGroup-sizing-sm"
+                                    className="bg-secondary border border-secondary text-light"
+                                >
+                                    Deporte*
+                            </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <Form.Control
+                                as="select"
+                                // onChange={updateLeagueSport}
+                                className="bg-dark border border-secondary text-light"
+                            >
+                                <option>Fútbol</option>
+                            </Form.Control>
+                        </InputGroup>
+                    </div>
+                    <div className="col-2">
+                        <InputGroup size="sm">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text
+                                    id="inputGroup-sizing-sm"
+                                    className="bg-secondary border border-secondary text-light"
+                                >
+                                    Categoría*
+                        </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <Form.Control
+                                as="select"
+                                // onChange={updateLeagueCategory}
+                                className="bg-dark border border-secondary text-light"
+                            >
+                                <option>Fútbol 11</option>
+                                <option>Fútbol 7</option>
+                                <option>Fútbol Sala</option>
+                                <option>Fútbol(otros)</option>
+                            </Form.Control>
+                        </InputGroup>
+                    </div>
+                    <div className="col-2 text-center align-self-center">
+                        <Button
+                            variant="warning"
+                            // onClick={sendLeague}
+                            className="font-weight-bold text-dark pl-3 pr-3 btn-sm"
+                        >
+                            <img
+                                src="/images/other/plus.png"
+                                className="mr-2 align-middle"
+                                width="17"
+                                alt=""
+                            />
+                            <span className="align-middle">CREAR LIGA</span>
+                        </Button>
+                    </div>
+                </div>
+            </>
+            {/* } */}
         </div>
-        <div className="col d-flex align-items-center">
-          <span className="text-white">{tournamentSelected.name}</span>
-        </div>
-      </div>
-      <RowInfoTournament className="row">
-        <div className="col-5">
-          {tournamentSelected.Id &&
-            <QualificationTournament
-              matchtToUpdated={matchtToUpdated}
-              tournamentSelected={tournamentSelected}
-              qualification={qualification}
-              matchUpdated={matchUpdated}
-            />
-          }
-        </div>
-        <div className="col-7">
-          {tournamentSelected.Id &&
-            <ResultsTournament
-              tournamentSelected={tournamentSelected}
-              matches={matches}
-              matchUpdated={matchUpdated}
-            />
-          }
-        </div>
-      </RowInfoTournament>
-    </div>
-  );
-};
-
-const mapStateToProps = state => {
-  const { userReducer, tournamentReducer } = state;
-  return {
-    user: userReducer.user,
-    tournaments: tournamentReducer.tournaments,
-    qualification: tournamentReducer.qualification,
-    matches: tournamentReducer.matches,
-    matchUpdated: tournamentReducer.matchUpdated
-  }
+    )
 }
 
-const mapDispatchToProps = {
-  tournamentsByUserAction,
-  qualificationTournamentAction
+const mapStateToProps = state => {
+    const { tournamentReducer } = state;
+    return {
+        tournaments: tournamentReducer.tournaments
+    }
 };
+
+const mapDispatchToProps = {
+    tournamentsByUserAction
+};
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Management);

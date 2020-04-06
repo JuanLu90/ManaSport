@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { connect } from 'react-redux';
-import { matchTournamentEditAction } from "../../redux/actions/tournamentActions";
+import { matchTournamentEditAction } from "../../../redux/actions/tournamentActions";
 import { useEffect } from "react";
 
 
