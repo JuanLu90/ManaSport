@@ -11,16 +11,10 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { IGlobalState } from "../../redux/reducers/reducers";
 
-const Header = props => {
-  const { user } = props;
-
-  const [openModalRegister, setOpenModalRegister] = useState(false);
-  const [openModalLogin, setOpenModalLogin] = useState(false);
-
-  // ********* Styles - Styled Components - CSSINJS **********
-
-  const HeaderDiv = styled.header`
+// ********* Styles - Styled Components - CSSINJS **********
+const HeaderDiv = styled.header`
       background-color: rgba(0, 0, 0, 0.2);
       border-bottom: 1px solid #343a40;
       z-index: 1000;
@@ -78,6 +72,16 @@ const Header = props => {
       color: yellow;
     }
 `;
+
+
+interface IProps {
+  user: any;
+}
+
+const Header: React.FC<IProps> = ({user}) => {
+
+  const [openModalRegister, setOpenModalRegister] = useState(false);
+  const [openModalLogin, setOpenModalLogin] = useState(false);
 
   return (
     <> <HeaderDiv className="w-100">
@@ -194,7 +198,6 @@ const Header = props => {
           )}
         </Navbar.Collapse>
       </Navbar>
-
       <RegisterModal
         show={openModalRegister}
         setOpenModalLogin={setOpenModalLogin}
@@ -212,7 +215,7 @@ const Header = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: IGlobalState) => {
   const { userReducer } = state;
   return {
     user: userReducer.user

@@ -6,7 +6,10 @@ const initialState = {
     user: {}
 }
 
-export default function userReducer(state = initialState, action) {
+export default function userReducer(
+    state: any = initialState,
+    action: any
+): any {
     switch (action.type) {
         //REGISTER
         case types.REGISTER_REQUEST:

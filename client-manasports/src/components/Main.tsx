@@ -1,7 +1,9 @@
 // DEPENDENCES
 import React from "react";
 
-const Main = () => {
+interface IProps { }
+
+const Main: React.FC<IProps> = () => {
 
     return (
         <div>MAIN</div>

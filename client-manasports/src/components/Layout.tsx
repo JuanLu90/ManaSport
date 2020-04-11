@@ -7,12 +7,14 @@ import styled from 'styled-components';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
 
-const Layout = props => {
+interface IProps {}
+
+const Layout: React.FC<IProps> = props => {
 
   let backgroundMain = '';
 
   const history = createBrowserHistory({});
-  const path = history.location.pathname;
+  const path: any = history.location.pathname;
   let getRoute = path.split(["/"]).slice(-1)[0];
 
   if (getRoute === 'management') backgroundMain = 'background-image: linear-gradient(grey, black), url("/images/wallpaperTournamentInfo.jpg"); background-blend-mode: saturation;';
