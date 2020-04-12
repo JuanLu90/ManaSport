@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Button, InputGroup, Form, Table, Modal, Alert } from "react-bootstrap";
 import { getUserLocalStorage } from '../../utils/localStorageUtils';
 import { tournamentsByUserAction } from "../../redux/actions/tournamentActions";
+import { IGlobalState } from "../../redux/reducers/reducers";
 
 // ********* Styles - Styled Components - CSSINJS **********
 const TableHead = styled.thead`
@@ -16,8 +17,12 @@ const Title = styled.span`
   text-transform: uppercase;
 `;
 
+interface IProps {
+    tournaments: any;
+    tournamentsByUserAction: any;
+}
 
-const Management = ({ tournaments, tournamentsByUserAction }) => {
+const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction }) => {
 
     useEffect(() => {
         tournamentsByUserAction(getUserLocalStorage().id);
@@ -66,7 +71,7 @@ const Management = ({ tournaments, tournamentsByUserAction }) => {
                             </tr>
                         </TableHead>
                         <tbody>
-                            {tournaments.map((tournament, index) => (
+                            {tournaments.map((tournament: any, index: any) => (
                                 <tr key={index}>
                                     <td className="p-1 align-middle">{tournament.Id}</td>
                                     <td className="text-warning p-0 align-middle"
@@ -200,7 +205,7 @@ const Management = ({ tournaments, tournamentsByUserAction }) => {
     )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: IGlobalState) => {
     const { tournamentReducer } = state;
     return {
         tournaments: tournamentReducer.tournaments

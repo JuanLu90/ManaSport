@@ -4,16 +4,22 @@ import { InputGroup, FormControl, Modal } from "react-bootstrap";
 import { connect } from 'react-redux';
 import { registerAction } from "../../redux/actions/userActions";
 import styled from "styled-components";
-import md5 from "md5";
+var md5 = require('md5');
 
 // ********* Styles - Styled Components - CSSINJS **********
 const Col = styled.div`
   font-size: 0.85em;
 `
 
-const ModalRegister = (props) => {
+interface IProps {
+    registerAction: any;
+    setOpenModalRegister: any;
+    setOpenModalLogin: any;
+    show: any;
+    onHide: any;
+}
 
-    const { registerAction, setOpenModalRegister, setOpenModalLogin } = props;
+const ModalRegister: React.FC<IProps> = ({registerAction, setOpenModalRegister, setOpenModalLogin}) => {
 
     const initialState = {
         username: "",
@@ -30,7 +36,7 @@ const ModalRegister = (props) => {
     const [newUser, setNewUser] = useState(initialState);
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleChange = event => {     // CHANGE PROPERTIES ABOUT THEM NAME
+    const handleChange = (event: any) => {     // CHANGE PROPERTIES ABOUT THEM NAME
         const { name, value } = event.target;
 
         setNewUser(prevUser => ({
@@ -51,8 +57,7 @@ const ModalRegister = (props) => {
 
     return (
         <Modal
-            {...props}
-            size="md"
+            size="sm"
             aria-labelledby="contained-modal-title-vcenter"
             className="registerModalHeader"
             centered

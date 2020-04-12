@@ -16,7 +16,14 @@ const Tbody = styled.tbody`
   font-family: "Source Sans Pro", sans-serif;
 `;
 
-const QualificationTournament = ({ tournamentSelected, qualification, qualificationTournamentAction, matchUpdated }) => {
+interface IProps {
+    tournamentSelected: any;
+    qualification: any;
+    qualificationTournamentAction: any;
+    matchUpdated: any;
+}
+
+const QualificationTournament: React.FC<IProps> = ({ tournamentSelected, qualification, qualificationTournamentAction, matchUpdated }) => {
     
     useEffect(() => {
         qualificationTournamentAction(tournamentSelected.Id);
@@ -42,7 +49,7 @@ const QualificationTournament = ({ tournamentSelected, qualification, qualificat
                     </tr>
                 </thead>
                 <Tbody>
-                    {qualification.map((team, index) => (
+                    {qualification.map((team: any, index: any) => (
                         <tr key={index}>
                             {index === 0 ? (
                                 <td className="p-1 text-center bg-success rounded-right">

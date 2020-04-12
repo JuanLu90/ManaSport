@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-const Footer = () => {
-
 
   //******** STYLES *********
   const Wrapper = styled.div`
@@ -27,8 +25,8 @@ const Footer = () => {
       filter: opacity(75%)
     }
   `
-  //*************************
 
+const Footer = () => {
 
   return (
     <Wrapper className="container-fluid text-light bg-dark pt-2">

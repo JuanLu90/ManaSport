@@ -33,7 +33,14 @@ text-align: center;
   }
 `;
 
-const ResultsTournament = ({ tournamentSelected, matches, matchesTournamentAction, matchUpdated }) => {
+interface IProps {
+  tournamentSelected: any;
+  matches: any;
+  matchesTournamentAction: any;
+  matchUpdated: any;
+}
+
+const ResultsTournament: React.FC<IProps> = ({ tournamentSelected, matches, matchesTournamentAction, matchUpdated }) => {
 
   const [count, setCount] = useState(1);
   const matchdayAdd = () => {
@@ -48,7 +55,7 @@ const ResultsTournament = ({ tournamentSelected, matches, matchesTournamentActio
   const updatedResults = useCallback(() => setMatchResult(s => !s), []);
 
   useEffect(() => {
-      matchesTournamentAction(tournamentSelected.Id, count);
+    matchesTournamentAction(tournamentSelected.Id, count);
   }, [tournamentSelected, count, matchUpdated]);
 
   return (
@@ -84,12 +91,10 @@ const ResultsTournament = ({ tournamentSelected, matches, matchesTournamentActio
         </tr>
       </TableHead>
       <Tbody>
-        {matches.map((match, index) => (
+        {matches.map((match: any, index: any) => (
           <ResultMatches
             key={index}
             match={match}
-            updatedResults={updatedResults}
-            matchUpdated={matchUpdated}
           />
         ))}
       </Tbody>

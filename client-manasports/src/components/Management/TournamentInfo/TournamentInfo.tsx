@@ -7,12 +7,23 @@ import ResultsTournament from './ResultsTournament';
 import styled from "styled-components";
 import { Dropdown, } from "react-bootstrap";
 import { getUserLocalStorage } from '../../../utils/localStorageUtils';
+import { IGlobalState } from '../../../redux/reducers/reducers';
 
 const RowInfoTournament = styled.div`
   font-size: 0.8rem;
 `;
 
-const TournamentInfo = ({
+interface IProps {
+  tournamentsByUserAction: any;
+  qualificationTournamentAction: any;
+  tournaments: any;
+  qualification: any;
+  matches: any;
+  matchUpdated: any;
+  matchtToUpdated: any;
+}
+
+const TournamentInfo: React.FC<IProps> = ({
   tournamentsByUserAction,
   qualificationTournamentAction,
   tournaments,
@@ -21,9 +32,9 @@ const TournamentInfo = ({
   matchUpdated
 }) => {
 
-  const [tournamentSelected, setTournamentSelected] = useState({});
+  const [tournamentSelected, setTournamentSelected] = useState({Id: '', name: ''});
 
-  let matchtToUpdated = matches.filter(match => matchUpdated && match.Id === matchUpdated.Id);
+  let matchtToUpdated = matches.filter((match: any) => matchUpdated && match.Id === matchUpdated.Id);
 
   useEffect(() => {
     tournamentsByUserAction(getUserLocalStorage().id);
@@ -39,7 +50,7 @@ const TournamentInfo = ({
               Select a tournament
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              {tournaments.map((tour, index) =>
+              {tournaments.map((tour: any, index: any) =>
                 <Dropdown.Item key={index} onClick={(() => setTournamentSelected(tour))}>{tour.name}</Dropdown.Item>
               )}
             </Dropdown.Menu>
@@ -53,7 +64,6 @@ const TournamentInfo = ({
         <div className="col-5">
           {tournamentSelected.Id &&
             <QualificationTournament
-              matchtToUpdated={matchtToUpdated}
               tournamentSelected={tournamentSelected}
               qualification={qualification}
               matchUpdated={matchUpdated}
@@ -74,7 +84,7 @@ const TournamentInfo = ({
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: IGlobalState) => {
   const { userReducer, tournamentReducer } = state;
   return {
     user: userReducer.user,

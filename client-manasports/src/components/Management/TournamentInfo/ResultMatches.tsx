@@ -22,7 +22,12 @@ const ImgArrow = styled.img`
   height: 16px;
 `;
 
-const ResultMatches = ({ match, matchTournamentEditAction }) => {
+interface IProps {
+  match: any;
+  matchTournamentEditAction: any;
+}
+
+const ResultMatches: React.FC<IProps> = ({ match, matchTournamentEditAction }) => {
 
   const initialState = {
     Id: match.Id,
@@ -41,7 +46,7 @@ const ResultMatches = ({ match, matchTournamentEditAction }) => {
     toggleEditMode();
   };
 
-  const onChangeMatch = e => {
+  const onChangeMatch = (e: any) => {
     const { name, value } = e.target;
     setInfoMatch(prevState => ({
       ...prevState,

@@ -6,10 +6,12 @@ export interface IGlobalState {
   users: any;
   tournaments: any;
   userReducer: any;
+  tournamentReducer: any
 };
 
 export const reducers = combineReducers<IGlobalState>({
   users: userReducer,
   tournaments: tournamentReducer,
-  userReducer: userReducer
+  userReducer: userReducer,
+  tournamentReducer: tournamentReducer
 });

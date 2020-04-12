@@ -6,8 +6,10 @@ const initialState = {
     matches: []
 }
 
-export default function tournamentReducer(state = initialState, action) {
-
+export default function tournamentReducer(
+    state: any = initialState,
+    action: any
+): any {
     switch (action.type) {
         //TOURNAMENTS USER
         case types.TOURNAMENTS_BY_USER_REQUEST:

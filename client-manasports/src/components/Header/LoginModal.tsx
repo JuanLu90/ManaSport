@@ -13,9 +13,15 @@ const Col = styled.div`
   font-size: 0.85em;
 `
 
-const ModalLogin = (props) => {
+interface IProps {
+    loginAction: any;
+    setOpenModalRegister: any;
+    setOpenModalLogin: any;
+    show: any;
+    onHide: any;
+}
 
-    const { loginAction, setOpenModalRegister, setOpenModalLogin } = props;
+const ModalLogin: React.FC<IProps> = ({ loginAction, setOpenModalRegister, setOpenModalLogin }) => {
 
     const initialState = {
         email: "",
@@ -34,7 +40,7 @@ const ModalLogin = (props) => {
         loginAction(user);
     }
 
-    const handleChange = event => {     // CHANGE PROPERTIES ABOUT THEM NAME
+    const handleChange = (event: any) => {     // CHANGE PROPERTIES ABOUT THEM NAME
         const { name, value } = event.target;
 
         setUser(prevUser => ({
@@ -46,8 +52,7 @@ const ModalLogin = (props) => {
     return (
         <>
             <Modal
-                {...props}
-                size="md"
+                size="sm"
                 aria-labelledby="contained-modal-title-vcenter"
                 className="loginModalHeader"
                 centered

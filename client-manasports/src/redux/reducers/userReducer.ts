@@ -22,7 +22,7 @@ export default function userReducer(
         case types.LOGIN_REQUEST:
             return { ...state, loggingIn: true };
         case types.LOGIN_SUCCESS:
-            const tokenDecoded = jwt.decode(action.payload);
+            const tokenDecoded: any = jwt.decode(action.payload);
             console.log(tokenDecoded)
             return {
                 ...state,
