@@ -11,15 +11,23 @@ export default function tournamentReducer(
     action: any
 ): any {
     switch (action.type) {
-        //TOURNAMENTS USER
+        // Tournament`s user
         case types.TOURNAMENTS_BY_USER_REQUEST:
             return { ...state };
         case types.TOURNAMENTS_BY_USER_SUCCESS:
             return { ...state, tournaments: action.payload };
         case types.TOURNAMENTS_BY_USER_FAILURE:
             return { ...state };
+    
+        // New tournament
+        case types.NEW_TOURNAMENT_REQUEST:
+            return { ...state };
+        case types.NEW_TOURNAMENT_SUCCESS:
+            return { ...state };
+        case types.NEW_TOURNAMENT_FAILURE:
+            return { ...state };
 
-        //QUALIFITATION TOURNAMENT
+        // Tournament`s qualification
         case types.QUALIFITATION_TOURNAMENT_REQUEST:
             return { ...state };
         case types.QUALIFITATION_TOURNAMENT_SUCCESS:
@@ -27,7 +35,7 @@ export default function tournamentReducer(
         case types.QUALIFITATION_TOURNAMENT_FAILURE:
             return { ...state };
 
-        //MATCHES TOURNAMENT
+        // Tournament´s matches
         case types.MATCHES_TOURNAMENT_REQUEST:
             return { ...state };
         case types.MATCHES_TOURNAMENT_SUCCESS:
@@ -35,7 +43,7 @@ export default function tournamentReducer(
         case types.MATCHES_TOURNAMENT_FAILURE:
             return { ...state };
 
-        //EDIT MATCH TOURNAMENT
+        // Update a match of the tournament
         case types.EDIT_MATCH_TOURNAMENT_REQUEST:
             return { ...state };
         case types.EDIT_MATCH_TOURNAMENT_SUCCESS:

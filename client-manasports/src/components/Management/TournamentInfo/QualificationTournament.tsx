@@ -17,17 +17,17 @@ const Tbody = styled.tbody`
 `;
 
 interface IProps {
-    tournamentSelected: any;
+    tournamentId: any;
     qualification: any;
     qualificationTournamentAction: any;
     matchUpdated: any;
 }
 
-const QualificationTournament: React.FC<IProps> = ({ tournamentSelected, qualification, qualificationTournamentAction, matchUpdated }) => {
+const QualificationTournament: React.FC<IProps> = ({ tournamentId, qualification, qualificationTournamentAction, matchUpdated }) => {
     
     useEffect(() => {
-        qualificationTournamentAction(tournamentSelected.Id);
-    }, [tournamentSelected, matchUpdated]);
+        qualificationTournamentAction(tournamentId);
+    }, [tournamentId, matchUpdated]);
 
     return (
         <WrapperTable>

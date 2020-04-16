@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { connect } from 'react-redux';
-import { Button, InputGroup, Form, Table, Modal, Alert } from "react-bootstrap";
+import { Button, InputGroup, Form, Table } from "react-bootstrap";
 import { getUserLocalStorage } from '../../utils/localStorageUtils';
-import { tournamentsByUserAction } from "../../redux/actions/tournamentActions";
+import { tournamentsByUserAction, newTournamentAction } from "../../redux/actions/tournamentActions";
 import { IGlobalState } from "../../redux/reducers/reducers";
+import { useHistory } from "react-router-dom";
 
 // ********* Styles - Styled Components - CSSINJS **********
 const TableHead = styled.thead`
@@ -20,16 +21,38 @@ const Title = styled.span`
 interface IProps {
     tournaments: any;
     tournamentsByUserAction: any;
+    newTournamentAction: any;
 }
 
-const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction }) => {
+const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, newTournamentAction }) => {
+
+    let history = useHistory();
+
+    const initialState = {
+        name: '',
+        sport: 'Fútbol',
+        category: 'Fútbol',
+        createdate: new Date().toLocaleDateString(),
+        UserId: getUserLocalStorage().id
+    }
+
+    const [newTournament, setNewTournament] = useState(initialState);
+
+    const onChange = (e: any) => {
+        let { name, value } = e.target;
+        setNewTournament(prevState => ({ ...prevState, [name]: value }))
+    }
+
+    const sendInfoNewTournament = () => {
+        newTournamentAction(newTournament);
+        tournamentsByUserAction(getUserLocalStorage().id);
+    }
 
     useEffect(() => {
         tournamentsByUserAction(getUserLocalStorage().id);
     }, []);
 
     return (
-        // <div className="container-fluid" style={token ? { marginBottom: '100px', fontFamily: "'Source Sans Pro', sans-serif" } : { margin: '120px 0', fontFamily: "'Source Sans Pro', sans-serif" }}>
         <div className="container-fluid">
             <div className="row justify-content-center">
                 <div className="col-10">
@@ -74,11 +97,7 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction }) 
                             {tournaments.map((tournament: any, index: any) => (
                                 <tr key={index}>
                                     <td className="p-1 align-middle">{tournament.Id}</td>
-                                    <td className="text-warning p-0 align-middle"
-                                    // onClick={() => (
-                                    //     setTimeout(() => props.history.push("/management/leagueDetails/" + l.TournamentId), 1000)
-                                    // )}
-                                    >
+                                    <td className="text-warning p-0 align-middle" onClick={() => history.push(`/management/TournamentInfo/${getUserLocalStorage().id}/${tournament.Id}`)} >
                                         {tournament.name}
                                     </td>
                                     {/* {!token && <td className="p-1 align-middle">{l.NameAdmin}</td>} */}
@@ -135,10 +154,10 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction }) 
                             </InputGroup.Prepend>
                             <input
                                 type="text"
+                                name="name"
                                 className="form-control form-control-sm bg-dark border border-secondary text-light"
-                            // value={inputLeagueName}
-                            // onChange={updateLeagueName}
-                            // autoFocus
+                                value={newTournament.name}
+                                onChange={onChange}
                             />
                         </InputGroup>
                     </div>
@@ -154,10 +173,12 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction }) 
                             </InputGroup.Prepend>
                             <Form.Control
                                 as="select"
-                                // onChange={updateLeagueSport}
+                                name="sport"
+                                onChange={onChange}
                                 className="bg-dark border border-secondary text-light"
                             >
                                 <option>Fútbol</option>
+                                <option>Tenis</option>
                             </Form.Control>
                         </InputGroup>
                     </div>
@@ -173,7 +194,8 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction }) 
                             </InputGroup.Prepend>
                             <Form.Control
                                 as="select"
-                                // onChange={updateLeagueCategory}
+                                name="category"
+                                onChange={onChange}
                                 className="bg-dark border border-secondary text-light"
                             >
                                 <option>Fútbol 11</option>
@@ -186,7 +208,7 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction }) 
                     <div className="col-2 text-center align-self-center">
                         <Button
                             variant="warning"
-                            // onClick={sendLeague}
+                            onClick={sendInfoNewTournament}
                             className="font-weight-bold text-dark pl-3 pr-3 btn-sm"
                         >
                             <img
@@ -213,7 +235,8 @@ const mapStateToProps = (state: IGlobalState) => {
 };
 
 const mapDispatchToProps = {
-    tournamentsByUserAction
+    tournamentsByUserAction,
+    newTournamentAction
 };
 
 

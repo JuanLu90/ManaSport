@@ -34,13 +34,13 @@ text-align: center;
 `;
 
 interface IProps {
-  tournamentSelected: any;
+  tournamentId: any;
   matches: any;
   matchesTournamentAction: any;
   matchUpdated: any;
 }
 
-const ResultsTournament: React.FC<IProps> = ({ tournamentSelected, matches, matchesTournamentAction, matchUpdated }) => {
+const ResultsTournament: React.FC<IProps> = ({ tournamentId, matches, matchesTournamentAction, matchUpdated }) => {
 
   const [count, setCount] = useState(1);
   const matchdayAdd = () => {
@@ -55,8 +55,8 @@ const ResultsTournament: React.FC<IProps> = ({ tournamentSelected, matches, matc
   const updatedResults = useCallback(() => setMatchResult(s => !s), []);
 
   useEffect(() => {
-    matchesTournamentAction(tournamentSelected.Id, count);
-  }, [tournamentSelected, count, matchUpdated]);
+    matchesTournamentAction(tournamentId, count);
+  }, [tournamentId, count, matchUpdated]);
 
   return (
     <Table

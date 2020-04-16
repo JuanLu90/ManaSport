@@ -18,7 +18,7 @@ const PlayerRoutes = () => {
                 {/* PUBLIC ROUTES */}
                 <Route exact path="/" component={Main} />
                 <Route exact path="/management" component={Management} />
-                <Route exact path="/management/TournamentInfo" component={TournamentInfo} />
+                <Route exact path="/management/TournamentInfo/:userId/:tournamentId" component={TournamentInfo} />
                 <Redirect to="/" />
             </Switch>
         </PlayerLayout>

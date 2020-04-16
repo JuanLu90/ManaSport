@@ -24,6 +24,16 @@ router.get("/tournaments/:UserId", function (req, res) {
     )
 });
 
+// CREATE A NEW TOURNAMENT
+router.post("/tournaments/newTournament", (req, res) => {
+    const data = req.body;
+    dbConn.query("INSERT INTO tournaments set ?", [data], (err, rows) => {
+        if (err) throw err;
+        res.send(data);
+    });
+});
+
+
 //SHOW QUALIFICATION OF A TOURNAMENT
 router.get("/tournaments/qualification/:TournamentId", (req, res) => {
     const TournamentId = req.params.TournamentId;
@@ -80,18 +90,18 @@ router.put("/tournaments/matches/editMatch", (req, res) => {
     const data = req.body;
     // console.log(req);
     dbConn.query(
-      `UPDATE manasports.matches set 
+        `UPDATE manasports.matches set 
         date = '${data.date}',
         localteam_score = ${data.localteam_score}, 
         awayteam_score = ${data.awayteam_score} 
         WHERE Id = '${data.Id}';`,
-      (err, rows) => {
-        if (err) throw err;
-        res.send(data);
-      }
+        (err, rows) => {
+            if (err) throw err;
+            res.send(data);
+        }
     );
-  });
-  
+});
+
 
 
 
