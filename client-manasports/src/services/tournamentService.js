@@ -6,6 +6,7 @@ export const tournamentService = {
     qualificationTournament,
     matchesTournament,
     newTournament,
+    deleteTournament,
     matchTournamentEdit, 
 };
 
@@ -25,6 +26,14 @@ async function newTournament(data) {
         body: JSON.stringify(data)
     }
     return await fetch("http://localhost:8080/api/tournaments/newTournament", requestOptions).then(handleResponse, handleError);
+}
+
+// Delete a tournament
+async function deleteTournament(tournamentId) {
+    const requestOptions = {
+        method: 'DELETE'
+    }
+    return await fetch(`http://localhost:8080/api/tournaments/deleteTournament${tournamentId}`, requestOptions).then(handleResponse, handleError);
 }
 
 // Get qualification of tournament selected

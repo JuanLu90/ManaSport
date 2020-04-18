@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const dbConn = require("../../config/db");
 
-// GET ALL TOURNAMENTS
+// Get all tournaments
 router.get("/tournaments", function (req, res) {
     dbConn.query("SELECT * FROM TOURNAMENTS", (err, rows) => {
         if (err) throw err;
@@ -11,7 +11,7 @@ router.get("/tournaments", function (req, res) {
     )
 });
 
-// GET TOURNAMENTS OF CURRENT USER
+// Get current user´s tournaments
 router.get("/tournaments/:UserId", function (req, res) {
     const UserId = req.params.UserId;
     dbConn.query(
@@ -24,7 +24,7 @@ router.get("/tournaments/:UserId", function (req, res) {
     )
 });
 
-// CREATE A NEW TOURNAMENT
+// Create a new tournament
 router.post("/tournaments/newTournament", (req, res) => {
     const data = req.body;
     dbConn.query("INSERT INTO tournaments set ?", [data], (err, rows) => {
@@ -33,8 +33,20 @@ router.post("/tournaments/newTournament", (req, res) => {
     });
 });
 
+// Delete a tournament
+router.delete("/tournaments/deleteTournament/:tournamentId", (req, res) => {
+    const tournamentId = req.params.tournamentId;
+    dbConn.query(
+        "DELETE FROM tournaments WHERE Id = ?",
+        [tournamentId],
+        (err, result) => {
+            if (err) throw err;
+            res.send("tournament deleted");
+        }
+    );
+});
 
-//SHOW QUALIFICATION OF A TOURNAMENT
+// Get tournament´s qualification
 router.get("/tournaments/qualification/:TournamentId", (req, res) => {
     const TournamentId = req.params.TournamentId;
     dbConn.query(
@@ -66,7 +78,7 @@ router.get("/tournaments/qualification/:TournamentId", (req, res) => {
     );
 });
 
-//SHOW ALL MATCHS OF A TOURNAMENT
+// Get all tournament´s matches
 router.get("/tournaments/matches/:TournamentId/:matchday", (req, res) => {
     const TournamentId = req.params.TournamentId;
     const matchday = req.params.matchday;
@@ -85,10 +97,9 @@ router.get("/tournaments/matches/:TournamentId/:matchday", (req, res) => {
     );
 });
 
-//EDIT A MATCH RESULT
+// Edit a match result
 router.put("/tournaments/matches/editMatch", (req, res) => {
     const data = req.body;
-    // console.log(req);
     dbConn.query(
         `UPDATE manasports.matches set 
         date = '${data.date}',

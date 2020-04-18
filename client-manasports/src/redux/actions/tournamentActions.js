@@ -39,6 +39,23 @@ export const newTournamentAction = (data) => {
     function failure(error) { return { type: types.NEW_TOURNAMENT_FAILURE, error } }
 };
 
+// Delete a tournament
+export const deleteTournamentAction = (tournamentId) => {
+    return async dispatch => {
+        dispatch(request());
+        await tournamentService.deleteTournament(tournamentId)
+            .then(response => {
+                dispatch(success());
+            })
+            .catch(error => {
+                dispatch(failure(error));
+            });
+    }
+    function request() { return { type: types.DELETE_TOURNAMENT_REQUEST } }
+    function success(payload) { return { type: types.DELETE_TOURNAMENT_SUCCESS, payload } }
+    function failure(error) { return { type: types.DELETE_TOURNAMENT_FAILURE, error } }
+};
+
 // Get qualification of tournament selected
 export const qualificationTournamentAction = (tournamentId) => {
     return async dispatch => {

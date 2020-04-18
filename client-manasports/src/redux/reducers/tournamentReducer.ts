@@ -18,13 +18,21 @@ export default function tournamentReducer(
             return { ...state, tournaments: action.payload };
         case types.TOURNAMENTS_BY_USER_FAILURE:
             return { ...state };
-    
+
         // New tournament
         case types.NEW_TOURNAMENT_REQUEST:
             return { ...state };
         case types.NEW_TOURNAMENT_SUCCESS:
             return { ...state };
         case types.NEW_TOURNAMENT_FAILURE:
+            return { ...state };
+
+        // Delete a tournament
+        case types.DELETE_TOURNAMENT_REQUEST:
+            return { ...state };
+        case types.DELETE_TOURNAMENT_SUCCESS:
+            return { ...state };
+        case types.DELETE_TOURNAMENT_FAILURE:
             return { ...state };
 
         // Tournament`s qualification
