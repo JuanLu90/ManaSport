@@ -39,7 +39,7 @@ router.delete("/tournaments/deleteTournament/:tournamentId", (req, res) => {
     dbConn.query(
         "DELETE FROM tournaments WHERE Id = ?",
         [tournamentId],
-        (err, result) => {
+        (err, rows) => {
             if (err) throw err;
             res.send("tournament deleted");
         }

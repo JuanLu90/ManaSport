@@ -31,7 +31,8 @@ export default function tournamentReducer(
         case types.DELETE_TOURNAMENT_REQUEST:
             return { ...state };
         case types.DELETE_TOURNAMENT_SUCCESS:
-            return { ...state };
+            const tournamentsUpdated = state.tournaments.filter((tournament: any) => tournament.Id !== action.payload);
+            return { ...state, tournaments: tournamentsUpdated };
         case types.DELETE_TOURNAMENT_FAILURE:
             return { ...state };
 

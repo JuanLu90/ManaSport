@@ -45,7 +45,7 @@ export const deleteTournamentAction = (tournamentId) => {
         dispatch(request());
         await tournamentService.deleteTournament(tournamentId)
             .then(response => {
-                dispatch(success());
+                dispatch(success(tournamentId));
             })
             .catch(error => {
                 dispatch(failure(error));
