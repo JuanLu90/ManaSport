@@ -7,6 +7,7 @@ import { tournamentsByUserAction, newTournamentAction, deleteTournamentAction } 
 import { IGlobalState } from "../../redux/reducers/reducers";
 import { useHistory } from "react-router-dom";
 import DeleteTournamentModal from '../Generic/Modals/DeleteTournamentModal';
+import { SportsObject } from '../../utils/sportsUtils';
 
 // ********* Styles - Styled Components - CSSINJS **********
 const TableHead = styled.thead`
@@ -28,15 +29,15 @@ interface IProps {
 
 const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, newTournamentAction, deleteTournamentAction }) => {
 
-    let history = useHistory();
-
     const initialState = {
         name: '',
-        sport: 'Fútbol',
-        category: 'Fútbol',
+        sport: SportsObject[0].sport,
+        category: SportsObject[0].category[0],
         createdate: new Date().toLocaleDateString(),
         UserId: getUserLocalStorage().id
     }
+
+    let history = useHistory();
 
     const [newTournament, setNewTournament] = useState(initialState);
     const [showDeleteTournamentModal, setShowDeleteTournamentModal] = useState(false);
@@ -57,6 +58,13 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
         setShowDeleteTournamentModal(true);
     }
 
+    let sportSelected = SportsObject.filter(sportList => sportList.sport === newTournament.sport);
+
+    useEffect(() => {
+        console.log(sportSelected[0].category[0])
+        setNewTournament(prevState => ({ ...prevState, category: sportSelected[0].category[0] }))
+    }, [newTournament.sport])
+
     useEffect(() => {
         tournamentsByUserAction(getUserLocalStorage().id);
     }, []);
@@ -66,7 +74,7 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
             <div className="container-fluid">
                 <div className="row justify-content-center">
                     <div className="col-10">
-                        <Title>Tus ligas:</Title>
+                        <Title>Your tournaments: </Title>
                     </div>
                 </div>
                 <div className="row mt-1 justify-content-center">
@@ -82,7 +90,7 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
                                 <tr>
                                     <th />
                                     <th>
-                                        NOMBRE
+                                        NAME
                                     <img
                                             src="/images/other/sort.png"
                                             className="ml-2 mb-1"
@@ -92,10 +100,10 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
                                         />
                                     </th>
                                     {/* {token && <th>Administrador</th>} */}
-                                    <th>DEPORTE</th>
-                                    <th>MODALIDAD</th>
+                                    <th>SPORT</th>
+                                    <th>CATEGORY</th>
                                     {/* <th>Nº EQUIPOS</th> */}
-                                    <th>FECHA CREACIÓN</th>
+                                    <th>CREATE DATE</th>
                                     {/* {!token && <>
                     <th />
                     <th />
@@ -137,7 +145,7 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
                                                     size="sm"
                                                     onClick={() => sendInfoDeleteTournament(tournament.Id, tournament.name)}
                                                 >
-                                                    Eliminar
+                                                    Delete
                                             </Button>
                                             </td>
                                         </>
@@ -159,8 +167,8 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
                                         id="inputGroup-sizing-sm"
                                         className="bg-secondary border border-secondary text-light"
                                     >
-                                        Nombre de la liga*
-                                </InputGroup.Text>
+                                        Tournament´s name*
+                                    </InputGroup.Text>
                                 </InputGroup.Prepend>
                                 <input
                                     type="text"
@@ -178,8 +186,8 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
                                         id="inputGroup-sizing-sm"
                                         className="bg-secondary border border-secondary text-light"
                                     >
-                                        Deporte*
-                            </InputGroup.Text>
+                                        Sport*
+                                    </InputGroup.Text>
                                 </InputGroup.Prepend>
                                 <Form.Control
                                     as="select"
@@ -187,8 +195,9 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
                                     onChange={onChange}
                                     className="bg-dark border border-secondary text-light"
                                 >
-                                    <option>Fútbol</option>
-                                    <option>Tenis</option>
+                                    {SportsObject.map((sportList, i) =>
+                                        <option key={i}>{sportList.sport} </option>
+                                    )};
                                 </Form.Control>
                             </InputGroup>
                         </div>
@@ -199,8 +208,8 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
                                         id="inputGroup-sizing-sm"
                                         className="bg-secondary border border-secondary text-light"
                                     >
-                                        Categoría*
-                        </InputGroup.Text>
+                                        Category*
+                                    </InputGroup.Text>
                                 </InputGroup.Prepend>
                                 <Form.Control
                                     as="select"
@@ -208,10 +217,9 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
                                     onChange={onChange}
                                     className="bg-dark border border-secondary text-light"
                                 >
-                                    <option>Fútbol 11</option>
-                                    <option>Fútbol 7</option>
-                                    <option>Fútbol Sala</option>
-                                    <option>Fútbol(otros)</option>
+                                    {sportSelected[0].category.map((categoryList, i) =>
+                                        <option key={i}>{categoryList} </option>
+                                    )}
                                 </Form.Control>
                             </InputGroup>
                         </div>
@@ -227,7 +235,7 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
                                     width="17"
                                     alt=""
                                 />
-                                <span className="align-middle">CREAR LIGA</span>
+                                <span className="align-middle">CREATE TOURNAMENT</span>
                             </Button>
                         </div>
                     </div>

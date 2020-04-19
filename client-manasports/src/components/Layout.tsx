@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
 
-interface IProps {}
+interface IProps { }
 
 const Layout: React.FC<IProps> = props => {
 
@@ -17,12 +17,10 @@ const Layout: React.FC<IProps> = props => {
   const path: any = history.location.pathname;
   let getRoute = path.split(["/"]).slice(-1)[0];
 
-  if (getRoute === 'management') backgroundMain = 'background-image: linear-gradient(grey, black), url("/images/wallpaperTournamentInfo.jpg"); background-blend-mode: saturation;';
-  else backgroundMain = 'background-image: url("/images/main-tennis.jpg")';
-
   const Wrapper = styled.div`
-    ${backgroundMain};
-    min-height: 92vh;
+  background-image: linear-gradient(grey, black), url("/images/wallpaperTournamentInfo.jpg"); 
+  background-blend-mode: saturation;
+  min-height: 92vh;
   `;
 
   return (

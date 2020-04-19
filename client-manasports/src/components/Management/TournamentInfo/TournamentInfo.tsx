@@ -14,6 +14,7 @@ const RowInfoTournament = styled.div`
 
 interface IProps {
   tournamentsByUserAction: any;
+  tournaments: any;
   qualification: any;
   matches: any;
   matchUpdated: any;
@@ -21,6 +22,7 @@ interface IProps {
 
 const TournamentInfo: React.FC<IProps> = ({
   tournamentsByUserAction,
+  tournaments,
   qualification,
   matches,
   matchUpdated
@@ -30,35 +32,39 @@ const TournamentInfo: React.FC<IProps> = ({
 
   const history = createBrowserHistory({});
   const path: any = history.location.pathname;
-  let tournamentId = path.split(["/"]).slice(-1)[0];
+  let tournamentId = Number(path.split(["/"]).slice(-1)[0]);
   let userId = path.split(["/"]).slice(-2)[0];
 
   useEffect(() => {
     tournamentsByUserAction(userId);
   }, []);
 
+  const currentTournament = tournaments.filter((tournament: any) => tournaments.length > 0 && tournament.Id === tournamentId);
+
   return (
     <div className="container">
-      <RowInfoTournament className="row">
-        <div className="col-5">
-          {tournamentId &&
+      <div className="row ">
+        <div className="col m-3 text-center text-white h3">{currentTournament[0].name}</div>
+      </div>
+      {currentTournament[0] && currentTournament[0].isStarted ?
+        <RowInfoTournament className="row">
+          <div className="col-5">
             <QualificationTournament
               tournamentId={tournamentId}
               qualification={qualification}
               matchUpdated={matchUpdated}
             />
-          }
-        </div>
-        <div className="col-7">
-          {tournamentId &&
+          </div>
+          <div className="col-7">
             <ResultsTournament
               tournamentId={tournamentId}
               matches={matches}
               matchUpdated={matchUpdated}
             />
-          }
-        </div>
-      </RowInfoTournament>
+          </div>
+        </RowInfoTournament>
+        : 'Crea una liga'
+      }
     </div>
   );
 };
@@ -66,6 +72,7 @@ const TournamentInfo: React.FC<IProps> = ({
 const mapStateToProps = (state: IGlobalState) => {
   const { tournamentReducer } = state;
   return {
+    tournaments: tournamentReducer.tournaments,
     qualification: tournamentReducer.qualification,
     matches: tournamentReducer.matches,
     matchUpdated: tournamentReducer.matchUpdated
