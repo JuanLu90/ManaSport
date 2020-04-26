@@ -1,5 +1,5 @@
 // UTILS
-import { handleResponse, handleError } from '../utils/apiUtils';
+import { handleResponse, handleError } from '../utils/apiUtil';
 
 // EXPORTED OBJECT, you could access to with the class descriptor like userService.<FunctionName>.
 // For example: userService.logout()

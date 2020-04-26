@@ -51,8 +51,6 @@ const ResultsTournament: React.FC<IProps> = ({ tournamentId, matches, matchesTou
     //set -1 to matchday
     setCount(count > 1 ? count - 1 : count); // matchday cant be less than 1
   };
-  const [matchResult, setMatchResult] = useState(false);
-  const updatedResults = useCallback(() => setMatchResult(s => !s), []);
 
   useEffect(() => {
     matchesTournamentAction(tournamentId, count);

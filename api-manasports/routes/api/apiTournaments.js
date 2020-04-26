@@ -12,11 +12,11 @@ router.get("/tournaments", function (req, res) {
 });
 
 // Get current user´s tournaments
-router.get("/tournaments/:UserId", function (req, res) {
-    const UserId = req.params.UserId;
+router.get("/tournaments/:userId", function (req, res) {
+    const userId = req.params.userId;
     dbConn.query(
         "SELECT * FROM TOURNAMENTS WHERE UserId = ?",
-        [UserId],
+        [userId],
         (err, rows) => {
             if (err) throw err;
             res.send(rows);
@@ -24,10 +24,33 @@ router.get("/tournaments/:UserId", function (req, res) {
     )
 });
 
+// Get all tournament´s teams
+router.get("/tournaments/teams/:tournamentId", function (req, res) {
+    const tournamentId = req.params.tournamentId;
+    dbConn.query(
+        "SELECT * FROM teams WHERE TournamentId = ?",
+        [tournamentId],
+        (err, rows) => {
+            if (err) throw err;
+            res.send(rows);
+        }
+    );
+});
+
 // Create a new tournament
 router.post("/tournaments/newTournament", (req, res) => {
     const data = req.body;
     dbConn.query("INSERT INTO tournaments set ?", [data], (err, rows) => {
+        if (err) throw err;
+        res.send(data);
+    });
+});
+
+// Create a new team
+router.post("/tournaments/newTeam", (req, res) => {
+    const data = req.body;
+    console.log(data)
+    dbConn.query("INSERT INTO teams set ?", [data], (err, rows) => {
         if (err) throw err;
         res.send(data);
     });
@@ -47,8 +70,8 @@ router.delete("/tournaments/deleteTournament/:tournamentId", (req, res) => {
 });
 
 // Get tournament´s qualification
-router.get("/tournaments/qualification/:TournamentId", (req, res) => {
-    const TournamentId = req.params.TournamentId;
+router.get("/tournaments/qualification/:tournamentId", (req, res) => {
+    const tournamentId = req.params.tournamentId;
     dbConn.query(
         `SELECT a1.badge, a1.Id as "ID", a1.name as "TEAM", a1.ptswin + a2.ptsdraw AS 'PTS', a1.pg AS 'PG', a2.ptsdraw AS 'PE', a3.pp AS 'PP', a3.pp, a1.pg + a2.ptsdraw + a3.pp AS 'PJ'
       FROM
@@ -69,7 +92,7 @@ router.get("/tournaments/qualification/:TournamentId", (req, res) => {
           JOIN manasports.teams t
           WHERE (m.localTeamId = t.Id AND m.localteam_score < m.awayteam_score) OR (m.awayTeamId = t.Id AND m.awayteam_score < m.localteam_score)
           GROUP BY t.Id) AS a3 ON (a1.Id = a2.Id AND a1.Id = a3.Id)
-      WHERE a1.TournamentId = ${TournamentId} AND a2.TournamentId = ${TournamentId} AND a3.TournamentId = ${TournamentId}
+      WHERE a1.TournamentId = ${tournamentId} AND a2.TournamentId = ${tournamentId} AND a3.TournamentId = ${tournamentId}
       ORDER BY PTS DESC`,
         (err, rows) => {
             if (err) throw err;
@@ -79,8 +102,8 @@ router.get("/tournaments/qualification/:TournamentId", (req, res) => {
 });
 
 // Get all tournament´s matches
-router.get("/tournaments/matches/:TournamentId/:matchday", (req, res) => {
-    const TournamentId = req.params.TournamentId;
+router.get("/tournaments/matches/:tournamentId/:matchday", (req, res) => {
+    const tournamentId = req.params.tournamentId;
     const matchday = req.params.matchday;
     dbConn.query(
         `SELECT M.Id, M.date, T.name AS 'localTeam', T2.name AS 'awayTeam', M.localteam_score, M.awayteam_score, M.matchday, T.badge AS 'localbadge', T2.badge AS 'awaybadge'
@@ -89,7 +112,7 @@ router.get("/tournaments/matches/:TournamentId/:matchday", (req, res) => {
           ON M.localTeamId = T.Id
           LEFT JOIN teams AS T2
           ON M.awayTeamId = T2.Id
-          WHERE T.TournamentId = ${TournamentId} AND M.matchday = ${matchday};`,
+          WHERE T.TournamentId = ${tournamentId} AND M.matchday = ${matchday};`,
         (err, rows) => {
             if (err) throw err;
             res.send(rows);

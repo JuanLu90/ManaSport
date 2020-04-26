@@ -1,5 +1,5 @@
 import * as types from '../actions/types/actionTypes';
-import { addUserLocalStorage, getUserLocalStorage } from '../../utils/localStorageUtils';
+import { addUserLocalStorage, getUserLocalStorage } from '../../utils/localStorageUtil';
 import jwt from "jsonwebtoken";
 
 const initialState = {

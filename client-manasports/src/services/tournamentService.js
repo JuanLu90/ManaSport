@@ -1,5 +1,5 @@
 // UTILS
-import { handleResponse, handleError } from "../utils/apiUtils";
+import { handleResponse, handleError } from "../utils/apiUtil";
 
 export const tournamentService = {
     tournamentsByUser,
@@ -7,7 +7,9 @@ export const tournamentService = {
     matchesTournament,
     newTournament,
     deleteTournament,
-    matchTournamentEdit, 
+    matchTournamentEdit,
+    teamsTournament,
+    newTeam
 };
 
 // Get all tournaments of current user 
@@ -36,7 +38,25 @@ async function deleteTournament(tournamentId) {
     return await fetch(`http://localhost:8080/api/tournaments/deleteTournament/${tournamentId}`, requestOptions).then(handleResponse, handleError);
 }
 
-// Get qualification of tournament selected
+// Get tournament´s teams
+async function teamsTournament(tournamentId) {
+    const requestOptions = {
+        method: 'GET'
+    };
+    return await fetch(`http://localhost:8080/api/tournaments/teams/${tournamentId}`, requestOptions).then(handleResponse, handleError);
+}
+
+// Create a new team
+async function newTeam(data) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(data)
+    }
+    return await fetch("http://localhost:8080/api/tournaments/newTeam", requestOptions).then(handleResponse, handleError);
+}
+
+// Get tournament´s qualification
 async function qualificationTournament(tournamentId) {
     const requestOptions = {
         method: 'GET'
@@ -44,7 +64,7 @@ async function qualificationTournament(tournamentId) {
     return await fetch(`http://localhost:8080/api/tournaments/qualification/${tournamentId}`, requestOptions).then(handleResponse, handleError);
 }
 
-// Get matches of tournament selected
+// Get tournament´s matches
 async function matchesTournament(tournamentId, matchday) {
     const requestOptions = {
         method: 'GET'
@@ -52,7 +72,7 @@ async function matchesTournament(tournamentId, matchday) {
     return await fetch(`http://localhost:8080/api/tournaments/matches/${tournamentId}/${matchday}`, requestOptions).then(handleResponse, handleError);
 }
 
-// Update a match of the tournament selected
+// Update a tournament´s match
 async function matchTournamentEdit(data) {
     const requestOptions = {
         method: 'PUT',

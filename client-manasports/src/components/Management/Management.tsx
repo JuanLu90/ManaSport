@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { connect } from 'react-redux';
 import { Button, InputGroup, Form, Table } from "react-bootstrap";
-import { getUserLocalStorage } from '../../utils/localStorageUtils';
+import { getUserLocalStorage } from '../../utils/localStorageUtil';
 import { tournamentsByUserAction, newTournamentAction, deleteTournamentAction } from "../../redux/actions/tournamentActions";
 import { IGlobalState } from "../../redux/reducers/reducers";
 import { useHistory } from "react-router-dom";
 import DeleteTournamentModal from '../Generic/Modals/DeleteTournamentModal';
-import { SportsObject } from '../../utils/sportsUtils';
+import { sportsObject } from '../../utils/sportsUtil';
 
 // ********* Styles - Styled Components - CSSINJS **********
 const TableHead = styled.thead`
@@ -31,8 +31,8 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
 
     const initialState = {
         name: '',
-        sport: SportsObject[0].sport,
-        category: SportsObject[0].category[0],
+        sport: sportsObject[0].sport,
+        category: sportsObject[0].category[0],
         createdate: new Date().toLocaleDateString(),
         UserId: getUserLocalStorage().id
     }
@@ -58,7 +58,7 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
         setShowDeleteTournamentModal(true);
     }
 
-    let sportSelected = SportsObject.filter(sportList => sportList.sport === newTournament.sport);
+    let sportSelected = sportsObject.filter(sportList => sportList.sport === newTournament.sport);
 
     useEffect(() => {
         console.log(sportSelected[0].category[0])
@@ -195,7 +195,7 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
                                     onChange={onChange}
                                     className="bg-dark border border-secondary text-light"
                                 >
-                                    {SportsObject.map((sportList, i) =>
+                                    {sportsObject.map((sportList, i) =>
                                         <option key={i}>{sportList.sport} </option>
                                     )};
                                 </Form.Control>

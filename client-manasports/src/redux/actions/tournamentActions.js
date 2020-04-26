@@ -39,6 +39,40 @@ export const newTournamentAction = (data) => {
     function failure(error) { return { type: types.NEW_TOURNAMENT_FAILURE, error } }
 };
 
+// Create a new team
+export const newTeamAction = (data) => {
+    return async dispatch => {
+        dispatch(request());
+        await tournamentService.newTeam(data)
+            .then(response => {
+                dispatch(success(JSON.parse(response)));
+            })
+            .catch(error => {
+                dispatch(failure(error));
+            });
+    }
+    function request() { return { type: types.NEW_TEAM_REQUEST } }
+    function success(payload) { return { type: types.NEW_TEAM_SUCCESS, payload } }
+    function failure(error) { return { type: types.NEW_TEAM_FAILURE, error } }
+};
+
+// Get tournament´s matches
+export const teamsTournamentAction = (tournamentId) => {
+    return async dispatch => {
+        dispatch(request());
+        await tournamentService.teamsTournament(tournamentId)
+            .then(response => {
+                dispatch(success(JSON.parse(response)));
+            })
+            .catch(error => {
+                dispatch(failure(error));
+            });
+    }
+    function request() { return { type: types.TEAMS_TOURNAMENT_REQUEST } }
+    function success(payload) { return { type: types.TEAMS_TOURNAMENT_SUCCESS, payload } }
+    function failure(error) { return { type: types.TEAMS_TOURNAMENT_FAILURE, error } }
+};
+
 // Delete a tournament
 export const deleteTournamentAction = (tournamentId) => {
     return async dispatch => {
@@ -56,7 +90,7 @@ export const deleteTournamentAction = (tournamentId) => {
     function failure(error) { return { type: types.DELETE_TOURNAMENT_FAILURE, error } }
 };
 
-// Get qualification of tournament selected
+// Get tournament´s qualification
 export const qualificationTournamentAction = (tournamentId) => {
     return async dispatch => {
         dispatch(request());
@@ -73,7 +107,7 @@ export const qualificationTournamentAction = (tournamentId) => {
     function failure(error) { return { type: types.QUALIFITATION_TOURNAMENT_FAILURE, error } }
 };
 
-// Get matches of tournament selected
+// Get tournament´s matches
 export const matchesTournamentAction = (tournamentId, matchday) => {
     return async dispatch => {
         dispatch(request());

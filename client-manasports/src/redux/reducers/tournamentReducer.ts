@@ -3,7 +3,8 @@ import * as types from '../actions/types/actionTypes';
 const initialState = {
     tournaments: [],
     qualification: [],
-    matches: []
+    matches: [],
+    teams: []
 }
 
 export default function tournamentReducer(
@@ -27,6 +28,14 @@ export default function tournamentReducer(
         case types.NEW_TOURNAMENT_FAILURE:
             return { ...state };
 
+        // New team
+        case types.NEW_TEAM_REQUEST:
+            return { ...state };
+        case types.NEW_TEAM_SUCCESS:
+            return { ...state };
+        case types.NEW_TEAM_FAILURE:
+            return { ...state };
+
         // Delete a tournament
         case types.DELETE_TOURNAMENT_REQUEST:
             return { ...state };
@@ -34,6 +43,14 @@ export default function tournamentReducer(
             const tournamentsUpdated = state.tournaments.filter((tournament: any) => tournament.Id !== action.payload);
             return { ...state, tournaments: tournamentsUpdated };
         case types.DELETE_TOURNAMENT_FAILURE:
+            return { ...state };
+
+        // Tournament`s teams
+        case types.TEAMS_TOURNAMENT_REQUEST:
+            return { ...state };
+        case types.TEAMS_TOURNAMENT_SUCCESS:
+            return { ...state, teams: action.payload };
+        case types.TEAMS_TOURNAMENT_FAILURE:
             return { ...state };
 
         // Tournament`s qualification
