@@ -41,7 +41,6 @@ const HeaderDiv = styled.header`
     font-size: 0.8em;
   `;
   const SpanUsername = styled.span`
-    font-family: "Source Sans Pro", sans-serif;
     font-size: 0.95em;
     &:hover {
       text-decoration: underline;

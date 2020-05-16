@@ -27,9 +27,6 @@ const RowInfoTournament = styled.div`
 `;
 
 // ****** Styles *******
-const Wrapper = styled.div`
-  font-family: "Source Sans Pro", sans-serif;
-`;
 const WrapperCardBody = styled.div`
   background: rgba(35, 41, 128, 0.5);
 `;
@@ -48,15 +45,8 @@ const ImgBadge = styled.img`
 const ImgBadgeCard = styled.img`
   height: 80px;
 `;
-const Tbody = styled.tbody`
-  font-family: "Source Sans Pro", sans-serif;
-`;
-const SpanFieldTeam = styled.span`
-  font-family: "Source Sans Pro", sans-serif;
-`;
 const SpanFieldRequired = styled.span`
   font-size: 0.8em;
-  font-family: "Source Sans Pro", sans-serif;
 `;
 const DivDegraded = styled.div`
   background: linear-gradient(
@@ -127,7 +117,7 @@ const TournamentInfo: React.FC<IProps> = ({
   }
 
   return (
-    <div className="container-fluid">
+    <div className="container">
       <div className="row">
         <div className="col m-3 text-center text-white h3">{currentTournament[0] && currentTournament[0].name}</div>
       </div>
@@ -153,7 +143,7 @@ const TournamentInfo: React.FC<IProps> = ({
           <div className="text-white">
             Antes de nada debes crear los equipos que van a formar parte de la competición.
         </div>
-          <Wrapper className="container-fluid text-dark">
+          <div className="container text-dark">
             <div className="row mt-1">
               <div className="col p-3 m-1 text-center">
                 <Tab.Container id="left-tabs-example" defaultActiveKey="first">
@@ -222,7 +212,7 @@ const TournamentInfo: React.FC<IProps> = ({
                             } */}
                               </tr>
                             </thead>
-                            <Tbody>
+                            <tbody>
                               {teams.map((team: any, index: any) => (
                                 <tr key={index}>
                                   <td className="p-0 align-middle">
@@ -242,7 +232,7 @@ const TournamentInfo: React.FC<IProps> = ({
                                     {!team.coach ? "-" : team.coach}
                                   </td>
                                   <td className="p-2 align-middle">
-                                    {!team.coach2  ? "-" : team.coach2}
+                                    {!team.coach2 ? "-" : team.coach2}
                                   </td>
                                   <td className="p-2 align-middle">
                                     {!team.NPlayers ? "-" : team.NPlayers}
@@ -274,7 +264,7 @@ const TournamentInfo: React.FC<IProps> = ({
                                   </td>
                                 </tr>
                               ))}
-                            </Tbody>
+                            </tbody>
                           </Table>
                         </div>
                       </div>
@@ -314,7 +304,7 @@ const TournamentInfo: React.FC<IProps> = ({
                             </div>
                             <Accordion.Collapse eventKey="1">
                               <Card.Body className="p-0">
-                                <Wrapper className="container text-light p-3 mb-4">
+                                <div className="container text-light p-3 mb-4">
                                   <div className="row justify-content-center">
                                     <WrapperFormAddTeam className="col-5 pt-1 pl-4 pr-4 pb-1 rounded">
                                       <div className="row mt-4 mb-4">
@@ -326,17 +316,13 @@ const TournamentInfo: React.FC<IProps> = ({
                                           />
                                         </div>
                                         <div className="col-9 text-left align-self-center">
-                                          <SpanFieldTeam className="h4">
-                                            Formulario añadir equipo:
-                                    </SpanFieldTeam>
+                                          <span className="h4"> Formulario añadir equipo: </span>
                                         </div>
                                       </div>
                                       <hr className="bg-light" />
                                       <div className="row mt-4">
                                         <div className="col text-left">
-                                          <SpanFieldTeam>
-                                            *Nombre del equipo:
-                                    </SpanFieldTeam>
+                                          <span> *Nombre del equipo: </span>
                                         </div>
                                       </div>
                                       <div className="row">
@@ -451,7 +437,7 @@ const TournamentInfo: React.FC<IProps> = ({
                                       </div>
                                     </WrapperFormAddTeam>
                                   </div>
-                                </Wrapper>
+                                </div>
                               </Card.Body>
                             </Accordion.Collapse>
                           </Card>
@@ -521,7 +507,7 @@ const TournamentInfo: React.FC<IProps> = ({
                 </Tab.Container>
               </div>
             </div>
-          </Wrapper>
+          </div>
         </div>
 
       }

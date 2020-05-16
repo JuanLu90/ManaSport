@@ -4,7 +4,6 @@ import styled from "styled-components";
 
   //******** STYLES *********
   const Wrapper = styled.div`
-    font-family: "Source Sans Pro", sans-serif;
     z-index: 1000;
   `
   const TitlesFooter = styled.span`

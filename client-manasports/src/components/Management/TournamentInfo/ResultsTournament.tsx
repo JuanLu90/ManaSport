@@ -8,12 +8,7 @@ import styled from "styled-components";
 import ResultMatches from './ResultMatches';
 
 const TableHead = styled.thead`
-  font-family: "Roboto", sans-serif;
   color: #5e5e5e;
-`;
-
-const Tbody = styled.tbody`
-  font-family: "Source Sans Pro", sans-serif;
 `;
 
 const SpanMatchday = styled.span`
@@ -88,14 +83,14 @@ const ResultsTournament: React.FC<IProps> = ({ tournamentId, matches, matchesTou
           </TrMatchday>
         </tr>
       </TableHead>
-      <Tbody>
+      <tbody>
         {matches.map((match: any, index: any) => (
           <ResultMatches
             key={index}
             match={match}
           />
         ))}
-      </Tbody>
+      </tbody>
     </Table>
   )
 }

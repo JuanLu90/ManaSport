@@ -12,10 +12,6 @@ const ImgBadge = styled.img`
   height: 25px;
 `;
 
-const Tbody = styled.tbody`
-  font-family: "Source Sans Pro", sans-serif;
-`;
-
 interface IProps {
     tournamentId: any;
     qualification: any;
@@ -48,7 +44,7 @@ const QualificationTournament: React.FC<IProps> = ({ tournamentId, qualification
                         <th className="p-2 text-center text-light font-weight-light">PP</th>
                     </tr>
                 </thead>
-                <Tbody>
+                <tbody>
                     {qualification.map((team: any, index: any) => (
                         <tr key={index}>
                             {index === 0 ? (
@@ -78,7 +74,7 @@ const QualificationTournament: React.FC<IProps> = ({ tournamentId, qualification
                             <td className="p-1 text-center">{team.PP}</td>
                         </tr>
                     ))}
-                </Tbody>
+                </tbody>
             </Table>
         </WrapperTable>
     )
