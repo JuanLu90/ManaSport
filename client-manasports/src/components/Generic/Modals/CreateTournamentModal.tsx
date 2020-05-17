@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Modal from 'react-bootstrap/Modal';
 import { sportsObject, competitionFormatsList, ageGroupsList, KnockoutRoundsList } from '../../../utils/competitionUtil';
 import { getUserLocalStorage } from '../../../utils/localStorageUtil';
 import styled from "styled-components";
+import { Popover, Modal, OverlayTrigger } from "react-bootstrap";
 
 const Input = styled.input`
   width: 100%;
@@ -42,8 +42,17 @@ const Select = styled.select`
 `;
 
 const Span = styled.span`
-  font-weight: 500;
-  color: #D9D9DC;
+color: #D9D9DC;
+font-weight: 500;
+`;
+
+const I = styled.i`
+color: #ffc107;
+opacity: 0.4;
+
+&:hover {
+  opacity: 1;
+}
 `;
 
 //----------------------------------------------------
@@ -73,7 +82,6 @@ const CreateTournamentModal: React.FC<IProps & IPropsGLobal> = ({ showModal, set
 
   const [newTournament, setNewTournament] = useState(initialState);
 
-
   const sendInfoNewTournament = () => {
     newTournamentAction(newTournament);
     tournamentsByUserAction(getUserLocalStorage().id);
@@ -90,6 +98,16 @@ const CreateTournamentModal: React.FC<IProps & IPropsGLobal> = ({ showModal, set
   useEffect(() => {
     setNewTournament(prevState => ({ ...prevState, category: sportSelected[0].category[0] }))
   }, [newTournament.sport]);
+
+  const popover = (
+    <Popover id="popover-basic">
+      <Popover.Title as="h3">Popover right</Popover.Title>
+      <Popover.Content>
+        And here's some <strong>amazing</strong> content. It's very engaging.
+        right?
+      </Popover.Content>
+    </Popover>
+  );
 
   return (
     <Modal
@@ -113,18 +131,24 @@ const CreateTournamentModal: React.FC<IProps & IPropsGLobal> = ({ showModal, set
       </Modal.Header>
       <Modal.Body className="bg-dark py-1 pr-4">
         <div className="row my-3">
-          <div className="col-3 d-flex align-items-center">
+          <div className="col-3 pr-0 d-flex justify-content-between align-items-center">
             <Span>Name:</Span>
+            <OverlayTrigger placement="top" overlay={popover}>
+              <I className="fas fa-sm fa-question-circle"></I>
+            </OverlayTrigger>
           </div>
-          <div className="col">
+          <div className="col pl-0">
             <Input type="text" name="name" value={newTournament.name} onChange={onChange} />
           </div>
         </div>
         <div className="row my-3">
-          <div className="col-3 d-flex align-items-center">
+          <div className="col-3 pr-0 d-flex justify-content-between align-items-center">
             <Span>Sport:</Span>
+            <OverlayTrigger placement="right" overlay={popover}>
+              <I className="fas fa-sm fa-question-circle"></I>
+            </OverlayTrigger>
           </div>
-          <div className="col">
+          <div className="col pl-0">
             <Select name="sport" onChange={onChange}>
               {sportsObject.map((sportList, i) =>
                 <option key={i}>{sportList.sport} </option>
@@ -133,10 +157,13 @@ const CreateTournamentModal: React.FC<IProps & IPropsGLobal> = ({ showModal, set
           </div>
         </div>
         <div className="row my-3">
-          <div className="col-3 d-flex align-items-center">
+          <div className="col-3 pr-0 d-flex justify-content-between align-items-center">
             <Span>Category:</Span>
+            <OverlayTrigger placement="right" overlay={popover}>
+              <I className="fas fa-sm fa-question-circle"></I>
+            </OverlayTrigger>
           </div>
-          <div className="col">
+          <div className="col pl-0">
             <Select name="category" onChange={onChange}>
               {sportSelected[0].category.map((categoryList, i) =>
                 <option key={i}>{categoryList} </option>
@@ -145,10 +172,13 @@ const CreateTournamentModal: React.FC<IProps & IPropsGLobal> = ({ showModal, set
           </div>
         </div>
         <div className="row my-3">
-          <div className="col-3 d-flex align-items-center">
+          <div className="col-3 pr-0 d-flex justify-content-between align-items-center">
             <Span>Age Group:</Span>
+            <OverlayTrigger placement="right" overlay={popover}>
+              <I className="fas fa-sm fa-question-circle"></I>
+            </OverlayTrigger>
           </div>
-          <div className="col">
+          <div className="col pl-0">
             <Select name="ageGroup" onChange={onChange}>
               {ageGroupsList.map((age, i) =>
                 <option key={i}>{age} </option>
@@ -157,10 +187,13 @@ const CreateTournamentModal: React.FC<IProps & IPropsGLobal> = ({ showModal, set
           </div>
         </div>
         <div className="row my-3">
-          <div className="col-3 d-flex align-items-center">
+          <div className="col-3 pr-0 d-flex justify-content-between align-items-center">
             <Span>Format:</Span>
+            <OverlayTrigger placement="right" overlay={popover}>
+              <I className="fas fa-sm fa-question-circle"></I>
+            </OverlayTrigger>
           </div>
-          <div className="col">
+          <div className="col pl-0">
             <Select name="format" onChange={onChange}>
               {competitionFormatsList.map((format, i) =>
                 <option key={i}>{format} </option>
@@ -169,10 +202,13 @@ const CreateTournamentModal: React.FC<IProps & IPropsGLobal> = ({ showModal, set
           </div>
         </div>
         <div className="row my-3">
-          <div className="col-3 d-flex align-items-center">
+          <div className="col-3 pr-0 d-flex justify-content-between align-items-center">
             <Span>Knockout:</Span>
+            <OverlayTrigger placement="right" overlay={popover}>
+              <I className="fas fa-sm fa-question-circle"></I>
+            </OverlayTrigger>
           </div>
-          <div className="col">
+          <div className="col pl-0">
             <Select name="knockout" onChange={onChange}>
               {KnockoutRoundsList.map((knockout, i) =>
                 <option key={i}>{knockout} </option>
@@ -181,8 +217,11 @@ const CreateTournamentModal: React.FC<IProps & IPropsGLobal> = ({ showModal, set
           </div>
         </div>
         <div className="row my-3">
-          <div className="col-3 d-flex align-items-center">
+          <div className="col-3 pr-0 d-flex justify-content-between align-items-center">
             <Span>Consolation:</Span>
+            <OverlayTrigger placement="right" overlay={popover}>
+              <I className="fas fa-sm fa-question-circle"></I>
+            </OverlayTrigger>
           </div>
           {/* <div className="col">
             <Select name="format" onChange={onChange}>
@@ -201,7 +240,7 @@ const CreateTournamentModal: React.FC<IProps & IPropsGLobal> = ({ showModal, set
           </div>
           <div className="col pr-0">
             <button className="btn btn-warning"
-            onClick={sendInfoNewTournament}
+              onClick={sendInfoNewTournament}
             >
               Create
             </button>
