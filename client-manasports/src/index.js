@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
@@ -9,6 +8,9 @@ import configureStore from './configureStore';
 
 // STYLES
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+// RESET CSS
+import './reset.css';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const history = createBrowserHistory({ basename: baseUrl });

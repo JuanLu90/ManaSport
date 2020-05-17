@@ -11,16 +11,14 @@ interface IProps { }
 
 const Layout: React.FC<IProps> = props => {
 
-  let backgroundMain = '';
-
   const history = createBrowserHistory({});
   const path: any = history.location.pathname;
   let getRoute = path.split(["/"]).slice(-1)[0];
 
   const Wrapper = styled.div`
-  background-image: linear-gradient(grey, black), url("/images/wallpaperTournamentInfo.jpg"); 
-  background-blend-mode: saturation;
   min-height: 92vh;
+  background-image: url("/images/wallpaper.png"); 
+  background-size: cover;
   `;
 
   return (

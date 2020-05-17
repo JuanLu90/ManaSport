@@ -14,12 +14,7 @@ import styled from "styled-components";
 import { IGlobalState } from "../../redux/reducers/reducers";
 
 // ********* Styles - Styled Components - CSSINJS **********
-const HeaderDiv = styled.header`
-      background-color: rgba(0, 0, 0, 0.2);
-      border-bottom: 1px solid #343a40;
-      z-index: 1000;
-    `;
-  const ButtonRegister = styled.button`
+const ButtonRegister = styled.button`
     background-color: #ecf0f1;
     font-size: 0.85em;
     font-weight: bolder;
@@ -27,26 +22,21 @@ const HeaderDiv = styled.header`
       background-color: #bdc3c7;
     }
 `;
-  const ButtonLogin = styled.button`
+
+const ButtonLogin = styled.button`
   background-color: transparent;
   color: white;
   border: 0;
 `;
-  const SearchResult = styled.div`
-    position: absolute;
-    width: 93%;
-    left: 25px;
-    top: 35px;
-    background-color: rgba(108, 117, 125, 1);
-    font-size: 0.8em;
-  `;
-  const SpanUsername = styled.span`
+
+const SpanUsername = styled.span`
     font-size: 0.95em;
     &:hover {
       text-decoration: underline;
     }
   `;
-  const ButtonHeader = styled.button`
+
+const ButtonHeader = styled.button`
     background-color: transparent;
     border: none;
     box-shadow: inset 0 -4px rgba(255, 193, 7, 0.2);
@@ -62,14 +52,9 @@ const HeaderDiv = styled.header`
       outline: none;
     }
     `;
-  const ImgSearch = styled.img`
+  
+const ImgSearch = styled.img`
     cursor: pointer;
-`;
-
-  const RowHover = styled.div`
-    &:hover {
-      color: yellow;
-    }
 `;
 
 
@@ -77,17 +62,17 @@ interface IProps {
   user: any;
 }
 
-const Header: React.FC<IProps> = ({user}) => {
+const Header: React.FC<IProps> = ({ user }) => {
 
   const [openModalRegister, setOpenModalRegister] = useState(false);
   const [openModalLogin, setOpenModalLogin] = useState(false);
 
   return (
-    <> <HeaderDiv className="w-100">
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <> 
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="py-0">
         <Navbar.Brand>
           <a href="/">
-            <img src="/images/logotipo.png" alt="logo" width="230px" />
+            <img src="/images/logotipo.png" alt="logo" width="220px" />
           </a>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -98,7 +83,7 @@ const Header: React.FC<IProps> = ({user}) => {
           <Form inline style={{ width: "500px" }} className="ml-2">
             {user ? (
               <Link to={"/management"} className="border-0">
-                <ButtonHeader>Tus Ligas</ButtonHeader>
+                <ButtonHeader>Tournaments</ButtonHeader>
               </Link>
             ) : (
                 <Link to={"/leagues"} className="border-0">
@@ -182,16 +167,9 @@ const Header: React.FC<IProps> = ({user}) => {
                     />
                   )}
                 </Link> */}
-              <span className="text-white">{user.username}</span>
+              <span className="text-white mr-3">{user.username}</span>
               <a href="/#">
-                <img
-                  src="/images/other/logout.png"
-                  // onClick={logout}
-                  width="20"
-                  alt=""
-                  title="Cerrar sesión"
-                  className="ml-3"
-                />
+                <i className="fas text-warning fa-sign-out-alt" title="Log out"></i>
               </a>
             </Nav>
           )}
@@ -209,7 +187,6 @@ const Header: React.FC<IProps> = ({user}) => {
         setOpenModalRegister={setOpenModalRegister}
         onHide={() => setOpenModalLogin(false)}
       />
-    </HeaderDiv>
     </>
   );
 };
