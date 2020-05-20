@@ -174,6 +174,7 @@ const CreateTournamentModal: React.FC<IProps & IPropsGLobal> = ({ showModal, set
       centered
     >
       <Modal.Header className="bg-warning d-flex align-items-center py-1 border-0">
+      <i className="fas fa-lg fa-plus-circle"></i>
         <Modal.Title>
           CREATE TOURNAMENT
         </Modal.Title>

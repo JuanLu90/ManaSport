@@ -3,20 +3,21 @@ var router = express.Router();
 const dbConn = require("../../config/db");
 
 // Get all tournaments
-router.get("/tournaments", function (req, res) {
-    dbConn.query("SELECT * FROM TOURNAMENTS", (err, rows) => {
-        if (err) throw err;
-        res.send(rows);
-    }
-    )
-});
+// router.get("/tournaments", function (req, res) {
+//     dbConn.query("SELECT * FROM TOURNAMENTS", (err, rows) => {
+//         if (err) throw err;
+//         res.send(rows);
+//     }
+//     )
+// });
 
 // Get current user´s tournaments
-router.get("/tournaments/:userId", function (req, res) {
-    const userId = req.params.userId;
+router.post("/tournaments", function (req, res) {
+    const filters = req.body;
+    let sportFilter = filters.sport ? `AND sport = '${filters.sport}'` : '';
     dbConn.query(
-        "SELECT * FROM TOURNAMENTS WHERE UserId = ?",
-        [userId],
+        `SELECT * FROM TOURNAMENTS WHERE UserId = ${filters.UserId} ${sportFilter}`,
+        [filters],
         (err, rows) => {
             if (err) throw err;
             res.send(rows);
@@ -40,10 +41,12 @@ router.get("/tournaments/teams/:tournamentId", function (req, res) {
 // Create a new tournament
 router.post("/tournaments/newTournament", (req, res) => {
     const data = req.body;
-    dbConn.query("INSERT INTO tournaments set ?", [data], (err, rows) => {
-        if (err) throw err;
-        res.send(data);
-    });
+    dbConn.query("INSERT INTO tournaments set ?",
+        [data],
+        (err, rows) => {
+            if (err) throw err;
+            res.send(data);
+        });
 });
 
 // Create a new team

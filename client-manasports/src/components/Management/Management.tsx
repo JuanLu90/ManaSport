@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { connect } from 'react-redux';
-import { Table } from "react-bootstrap";
 import { getUserLocalStorage } from '../../utils/localStorageUtil';
 import { tournamentsByUserAction, newTournamentAction, deleteTournamentAction } from "../../redux/actions/tournamentActions";
 import { IGlobalState } from "../../redux/reducers/reducers";
 import { useHistory } from "react-router-dom";
 import CreateTournamentModal from '../Generic/Modals/CreateTournamentModal';
 import DeleteTournamentModal from '../Generic/Modals/DeleteTournamentModal';
+import { sportsObject, competitionFormatsList, ageGroupsList, KnockoutRoundsList } from '../../utils/competitionUtil';
 
 // ********* Styles - Styled Components - CSSINJS **********
 
@@ -45,6 +45,18 @@ const ITrash = styled.i`
         transition: 0.2s;
     }
 `;
+
+const DivTournament = styled.div`
+    &:hover {
+        background-color: #434D5F !important;
+        cursor: pointer;
+    }
+`;
+
+const ColFilters = styled.div`
+    height: 300px;
+`;
+
 const SearchInput = styled.input`
     width: 100%;
     height: 30px;
@@ -56,6 +68,30 @@ const SearchInput = styled.input`
     margin-bottom: 5px;
 `;
 
+const Select = styled.select`
+  width: 100%;
+  height: 30px;
+  color: #D9D9DC;
+  background-color: #2D2F37;
+  border: 1px solid gray;
+  border-radius: 3px;
+  padding-left: 5px;
+  margin-left: 10px;
+
+  &:focus {
+    outline: 0;
+  }
+
+  option {
+    color: black;
+    background: white;
+    display: flex;
+    white-space: pre;
+    min-height: 20px;
+    padding: 0px 2px 1px;
+  }
+`;
+
 interface IProps {
     tournaments: any;
     tournamentsByUserAction: any;
@@ -64,6 +100,13 @@ interface IProps {
 }
 
 const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, newTournamentAction, deleteTournamentAction }) => {
+
+    const initialFilters = {
+        UserId: getUserLocalStorage().id,
+        sport: '',
+    }
+
+    const [filtersTournaments, setFiltersTournaments] = useState(initialFilters);
 
     let history = useHistory();
 
@@ -77,8 +120,18 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
     }
 
     useEffect(() => {
-        tournamentsByUserAction(getUserLocalStorage().id);
-    }, []);
+        tournamentsByUserAction(filtersTournaments);
+    }, [filtersTournaments]);
+
+    const onChange = (e: any) => {
+        let { name, value, type } = e.target;
+        if (type === "checkbox") value = e.target.checked
+        setFiltersTournaments(prevState => ({ ...prevState, [name]: value }))
+      }
+
+    const goToTournament = (id: number) => {
+        return history.push(`/management/TournamentInfo/${getUserLocalStorage().id}/${id}`);
+    }
 
     return (
         <>
@@ -96,9 +149,14 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
                     </div>
                 </div>
                 <div className="row text-white">
-                    <div className="col-3 bg-dark mr-2">
-                        FILTERS FILTERS
-                    </div>
+                    <ColFilters className="col-3 bg-dark mr-2">
+                        <Select name="sport" onChange={onChange}>
+                        <option value=""> - Select a sport - </option>
+                            {sportsObject.map((sportList, i) =>
+                                <option key={i}>{sportList.sport} </option>
+                            )};
+                        </Select>
+                    </ColFilters>
                     <div className="col">
                         <div className="row">
                             <div className="col p-0">
@@ -106,32 +164,33 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
                             </div>
                         </div>
                         {tournaments.map((tournament: any, index: any) => (
-                            <div className="row bg-dark py-3 border-bottom border-secondary" key={index}>
-                                <div className="col-1 d-flex justify-content-center align-items-center">
-                                    <i className="far fa-lg fa-futbol"></i>
+                            <DivTournament className="row py-3 bg-dark border-bottom border-secondary" key={index}>
+                                <div className="col-1 d-flex justify-content-center align-items-center" onClick={() => goToTournament(tournament.Id)}>
+                                    <img
+                                        src={`/images/other/${tournament.sport === "Football" ? 'football.png' : 'tennis.png'}`}
+                                        width="25"
+                                        alt={tournament.sport === "Football" ? "Football Image" : "Tennis Image"}
+                                        title={tournament.sport === "Football" ? "Football" : "Tennis"}
+                                    />
                                 </div>
-                                <div className="col-5">
+                                <div className="col-5" onClick={() => goToTournament(tournament.Id)}>
                                     <div className="row">
                                         <div className="col">
-                                            <span
-                                                className="text-warning"
-                                                onClick={() => history.push(`/management/TournamentInfo/${getUserLocalStorage().id}/${tournament.Id}`)}
-                                                title="Name"
-                                            >
+                                            <span className="text-warning" title="Name">
                                                 {tournament.name}
                                             </span>
                                         </div>
                                     </div>
                                     <div className="row">
                                         <div className="col">
-                                            <SpanFormat title="Format">{tournament.format}</SpanFormat>
+                                            <SpanFormat title="Format">{tournament.category}</SpanFormat>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-2 d-flex align-items-center">
-                                    <SpanCategoryt title="Category">{tournament.category}</SpanCategoryt>
+                                <div className="col-2 d-flex align-items-center" onClick={() => goToTournament(tournament.Id)}>
+                                    <SpanCategoryt title="Category">{tournament.format}</SpanCategoryt>
                                 </div>
-                                <div className="col-3 d-flex justify-content-end">
+                                <div className="col-3 d-flex justify-content-end" onClick={() => goToTournament(tournament.Id)}>
                                     <SpanCreateDate title="Create Date">{tournament.createdate}</SpanCreateDate>
                                 </div>
                                 <div className="col-1 d-flex justify-content-center align-items-center">
@@ -141,7 +200,7 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
                                         title="Delete Tournament"
                                     />
                                 </div>
-                            </div>
+                            </DivTournament>
                         ))}
                     </div>
                 </div>

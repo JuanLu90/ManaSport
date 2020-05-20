@@ -6,10 +6,10 @@ import * as types from './types/actionTypes';
 
 
 // Get all tournaments of current user 
-export const tournamentsByUserAction = (userId) => {
+export const tournamentsByUserAction = (filters) => {
     return async dispatch => {
         dispatch(request());
-        await tournamentService.tournamentsByUser(userId)
+        await tournamentService.tournamentsByUser(filters)
             .then(response => {
                 dispatch(success(JSON.parse(response)));
             })

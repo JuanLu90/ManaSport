@@ -16,9 +16,12 @@ const Layout: React.FC<IProps> = props => {
   let getRoute = path.split(["/"]).slice(-1)[0];
 
   const Wrapper = styled.div`
-  min-height: 92vh;
-  background-image: url("/images/wallpaper.png"); 
-  background-size: cover;
+    min-height: 92vh;
+    background-image: url("/images/wallpaper.png"); 
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
   `;
 
   return (
