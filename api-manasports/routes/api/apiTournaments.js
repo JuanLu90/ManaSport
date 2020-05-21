@@ -15,8 +15,10 @@ const dbConn = require("../../config/db");
 router.post("/tournaments", function (req, res) {
     const filters = req.body;
     let sportFilter = filters.sport ? `AND sport = '${filters.sport}'` : '';
+    let isStartedFilter = filters.isStarted ? `AND isStarted = ${filters.isStarted}` : '';
+    let nameFilter = filters.name ? `AND name LIKE '%${filters.name}%'` : '';
     dbConn.query(
-        `SELECT * FROM TOURNAMENTS WHERE UserId = ${filters.UserId} ${sportFilter}`,
+        `SELECT * FROM TOURNAMENTS WHERE UserId = ${filters.UserId} ${sportFilter} ${isStartedFilter} ${nameFilter}`,
         [filters],
         (err, rows) => {
             if (err) throw err;

@@ -13,18 +13,7 @@ export const tournamentService = {
 };
 
 // Get all tournaments of current user 
-
-
-
-
-
-
-
-
-
-
 async function tournamentsByUser(filters) {
-    console.log(filters)
     const requestOptions = {
         method: 'POST',
         headers: { "Content-type": "application/json" },
@@ -32,22 +21,6 @@ async function tournamentsByUser(filters) {
     };
     return await fetch(`http://localhost:8080/api/tournaments`, requestOptions).then(handleResponse, handleError);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Create a new tournament
 async function newTournament(data) {
