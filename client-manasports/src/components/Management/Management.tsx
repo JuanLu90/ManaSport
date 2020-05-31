@@ -7,7 +7,7 @@ import { IGlobalState } from "../../redux/reducers/reducers";
 import { useHistory } from "react-router-dom";
 import CreateTournamentModal from '../Generic/Modals/CreateTournamentModal';
 import DeleteTournamentModal from '../Generic/Modals/DeleteTournamentModal';
-import { sportsObject, competitionFormatsList, ageGroupsList, KnockoutRoundsList } from '../../utils/competitionUtil';
+import { sportsObject } from '../../utils/competitionUtil';
 
 // ********* Styles - Styled Components - CSSINJS **********
 
@@ -197,7 +197,7 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
     }
 
     const [filtersTournaments, setFiltersTournaments] = useState(initialFilters);
-    console.log(filtersTournaments)
+
     let history = useHistory();
 
     const [showCreateTournamentModal, setShowCreateTournamentModal] = useState(false);
@@ -324,20 +324,20 @@ const Management: React.FC<IProps> = ({ tournaments, tournamentsByUserAction, ne
                     </div>
                 </div>
             </div>
-            {showDeleteTournamentModal &&
-                <DeleteTournamentModal
-                    showModal={showDeleteTournamentModal}
-                    setShowModal={setShowDeleteTournamentModal}
-                    infoDeleteTournament={infoDeleteTournament}
-                    deleteTournamentAction={deleteTournamentAction}
-                />
-            }
             {showCreateTournamentModal &&
                 <CreateTournamentModal
                     showModal={showCreateTournamentModal}
                     setShowModal={setShowCreateTournamentModal}
                     newTournamentAction={newTournamentAction}
                     tournamentsByUserAction={tournamentsByUserAction}
+                />
+            }
+            {showDeleteTournamentModal &&
+                <DeleteTournamentModal
+                    showModal={showDeleteTournamentModal}
+                    setShowModal={setShowDeleteTournamentModal}
+                    infoDeleteTournament={infoDeleteTournament}
+                    deleteTournamentAction={deleteTournamentAction}
                 />
             }
         </>

@@ -9,7 +9,8 @@ export const tournamentService = {
     deleteTournament,
     matchTournamentEdit,
     teamsTournament,
-    newTeam
+    newTeam,
+    deleteTeam
 };
 
 // Get all tournaments of current user 
@@ -55,7 +56,15 @@ async function newTeam(data) {
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(data)
     }
-    return await fetch("http://localhost:8080/api/tournaments/newTeam", requestOptions).then(handleResponse, handleError);
+    return await fetch("http://localhost:8080/api/tournaments/teams/newTeam", requestOptions).then(handleResponse, handleError);
+}
+
+// Delete a team
+async function deleteTeam(teamId) {
+    const requestOptions = {
+        method: 'DELETE'
+    }
+    return await fetch(`http://localhost:8080/api/tournaments/teams/deleteTeam/${teamId}`, requestOptions).then(handleResponse, handleError);
 }
 
 // Get tournament´s qualification

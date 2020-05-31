@@ -52,13 +52,30 @@ router.post("/tournaments/newTournament", (req, res) => {
 });
 
 // Create a new team
-router.post("/tournaments/newTeam", (req, res) => {
+router.post("/tournaments/teams/newTeam", (req, res) => {
     const data = req.body;
-    console.log(data)
-    dbConn.query("INSERT INTO teams set ?", [data], (err, rows) => {
-        if (err) throw err;
-        res.send(data);
-    });
+    const dataObj = {data: data, id: undefined}
+    dbConn.query("INSERT INTO teams set ?",
+        [data],
+        (err, rows) => {
+            console.log(rows.insertId)
+            if (err) throw err;
+            data.Id = rows.insertId;
+            res.send(data);
+        });
+});
+
+// Delete a team
+router.delete("/tournaments/teams/deleteTeam/:teamId", (req, res) => {
+    const teamId = req.params.teamId;
+    dbConn.query(
+        "DELETE FROM teams WHERE Id = ?",
+        [teamId],
+        (err, rows) => {
+            if (err) throw err;
+            res.send("team deleted");
+        }
+    );
 });
 
 // Delete a tournament

@@ -56,6 +56,23 @@ export const newTeamAction = (data) => {
     function failure(error) { return { type: types.NEW_TEAM_FAILURE, error } }
 };
 
+// Delete a team
+export const deleteTeamAction = (teamId) => {
+    return async dispatch => {
+        dispatch(request());
+        await tournamentService.deleteTeam(teamId)
+            .then(response => {
+                dispatch(success(teamId));
+            })
+            .catch(error => {
+                dispatch(failure(error));
+            });
+    }
+    function request() { return { type: types.DELETE_TEAM_REQUEST } }
+    function success(payload) { return { type: types.DELETE_TEAM_SUCCESS, payload } }
+    function failure(error) { return { type: types.DELETE_TEAM_FAILURE, error } }
+};
+
 // Get tournament´s matches
 export const teamsTournamentAction = (tournamentId) => {
     return async dispatch => {

@@ -32,7 +32,7 @@ export default function tournamentReducer(
         case types.NEW_TEAM_REQUEST:
             return { ...state };
         case types.NEW_TEAM_SUCCESS:
-            return { ...state };
+            return { ...state, teams: [...state.teams, action.payload] };
         case types.NEW_TEAM_FAILURE:
             return { ...state };
 
@@ -51,6 +51,15 @@ export default function tournamentReducer(
         case types.TEAMS_TOURNAMENT_SUCCESS:
             return { ...state, teams: action.payload };
         case types.TEAMS_TOURNAMENT_FAILURE:
+            return { ...state };
+
+        // Delete a team
+        case types.DELETE_TEAM_REQUEST:
+            return { ...state };
+        case types.DELETE_TEAM_SUCCESS:
+            const teamsUpdated = state.teams.filter((team: any) => team.Id !== action.payload);
+            return { ...state, teams: teamsUpdated };
+        case types.DELETE_TEAM_FAILURE:
             return { ...state };
 
         // Tournament`s qualification
