@@ -159,8 +159,16 @@ const TournamentInfo: React.FC<IProps> = ({
                     </Nav>
                     <Tab.Content>
                       <div className="row justify-content-center pl-3 pr-3">
-                        <DivDegraded className="col p-2 h2 font-weight-bold text-left">
-                          Equipos
+                        <DivDegraded className="col d-flex justify-content-between p-2 h2 font-weight-bold text-left">
+                          <span>Equipos</span>
+                          <Button
+                          variant="warning"
+                          onClick={() => setShowCreateTeamModal(true)}
+                          className="font-weight-bold text-dark pl-3 pr-3 btn-sm"
+                        >
+                          <i className="fas fa-lg fa-plus-circle mr-2"></i>
+                          NEW TEAM
+                        </Button>
                         </DivDegraded>
                       </div>
                       <Tab.Pane eventKey="first">
@@ -251,19 +259,6 @@ const TournamentInfo: React.FC<IProps> = ({
                             </Table>
                           </div>
                         </div>
-                        <Button
-                          variant="warning"
-                          onClick={() => setShowCreateTeamModal(true)}
-                          className="font-weight-bold text-dark pl-3 pr-3 btn-sm"
-                        >
-                          <img
-                            src="/images/other/plus.png"
-                            className="mr-2 align-middle"
-                            width="17"
-                            alt=""
-                          />
-                          <span className="align-middle">NEW TEAM</span>
-                        </Button>
                       </Tab.Pane>
                       {/* <Tab.Pane eventKey="second">
                   <div
